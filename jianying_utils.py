@@ -10,8 +10,6 @@ from collections import defaultdict
 import datetime
 import shutil
 import logging # 导入日志模块
-import subprocess # 用于调用 ffmpeg
-import json # 用于解析 ffprobe 输出
 
 # 获取该模块的 logger 实例
 logger = logging.getLogger(__name__)
@@ -29,9 +27,6 @@ UI_WAIT_TIMES = {
     "window_search": 0.1,
 }
 CUSTOMIZE_EXPORT = False # 是否自定义导出（可以考虑做成参数）
-EXPECTED_SEGMENTS = 3 # 期望的视频片段数量
-USE_GPU_ACCEL = True # 是否尝试启用 GPU 加速 (解码和编码)
-GPU_TYPE = 'nvidia' # GPU 厂商: 'nvidia', 'intel', 'amd' (用于选择 hwaccel 和编码器)
 
 class Fast_Jianying_Controller(draft.Jianying_controller):
     """速度优化的剪映控制器，完全重写导出功能，增加日志回调"""
@@ -408,212 +403,7 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
 
 # --- Video Preparation Helper (Splitting) ---
 
-def prepare_video_paths_for_batch(original_video_paths, output_folder_for_splits):
-    """
-    准备用于批次处理的视频路径列表。
-    如果原始列表只有一个视频，则尝试将其切割成 EXPECTED_SEGMENTS 段。
-    切割后的文件将放在 output_folder_for_splits 目录下。
-
-    Args:
-        original_video_paths (list): 批次原始的视频文件绝对路径列表。
-        output_folder_for_splits (str): 用于存放切割后视频片段的文件夹路径。
-
-    Returns:
-        list or None: 成功则返回最终使用的视频路径列表 (可能是原始列表或切割后的列表)，
-                      如果需要切割但切割失败或缺少输出目录，则返回 None。
-    """
-    if len(original_video_paths) == 1:
-        single_video_path = original_video_paths[0]
-        logger.info(f"检测到批次中只有一个视频文件: {os.path.basename(single_video_path)}，将尝试切割成 {EXPECTED_SEGMENTS} 段。")
-
-        if not output_folder_for_splits:
-            logger.error("需要切割视频，但未提供有效的输出文件夹路径来存放切割片段。")
-            return None # 错误：缺少输出目录
-        if not os.path.exists(single_video_path):
-             logger.error(f"要切割的源视频文件不存在: {single_video_path}")
-             return None # 错误：源文件不存在
-
-        try:
-            # 调用核心切割函数
-            split_paths = split_video_ffmpeg(
-                single_video_path,
-                output_folder_for_splits,
-                EXPECTED_SEGMENTS,
-                USE_GPU_ACCEL # 传递 GPU 加速设置
-            )
-
-            if split_paths:
-                logger.info(f"视频成功切割成 {len(split_paths)} 段。")
-                return split_paths # 返回切割后的路径列表
-            else:
-                logger.error("视频切割过程失败。")
-                return None # 错误：切割函数返回失败
-        except Exception as split_err:
-            logger.error(f"执行视频切割时发生意外错误: {split_err}", exc_info=True)
-            return None # 错误：切割过程中抛出异常
-    else:
-        logger.info(f"批次包含 {len(original_video_paths)} 个视频文件，无需切割。")
-        # 验证所有原始文件是否存在
-        for video_path in original_video_paths:
-            if not os.path.exists(video_path):
-                logger.error(f"批次中的原始视频文件不存在: {video_path}")
-                return None # 错误：原始文件缺失
-        return original_video_paths # 返回原始路径列表
-
 # --- FFmpeg Helper Function ---
-
-def get_video_duration(video_path):
-    """使用 ffprobe 获取视频时长 (秒)"""
-    command = [
-        'ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_format', video_path
-    ]
-    try:
-        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8')
-        data = json.loads(result.stdout)
-        duration = float(data['format']['duration'])
-        logger.debug(f"获取 '{os.path.basename(video_path)}' 时长: {duration:.2f} 秒")
-        return duration
-    except FileNotFoundError:
-        logger.error("ffprobe 命令未找到。请确保 FFmpeg 已安装并添加到系统 PATH。")
-        raise
-    except subprocess.CalledProcessError as e:
-        logger.error(f"ffprobe 执行失败: {e}")
-        logger.error(f"ffprobe 输出: {e.stderr}")
-        raise RuntimeError(f"无法获取视频时长: {e.stderr}")
-    except (KeyError, ValueError) as e:
-        logger.error(f"解析 ffprobe 输出失败: {e}")
-        raise RuntimeError(f"解析视频时长失败")
-    except Exception as e:
-        logger.exception(f"获取视频时长时发生未知错误: {video_path}")
-        raise
-
-def split_video_ffmpeg(input_path, output_folder, num_segments, use_copy=True):
-    """使用 ffmpeg 将视频平均切割成指定数量的片段"""
-    output_paths = []
-    base_name, ext = os.path.splitext(os.path.basename(input_path))
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
-        logger.info(f"为切割文件创建输出文件夹: {output_folder}")
-
-    try:
-        duration = get_video_duration(input_path)
-    except Exception as e:
-        logger.error(f"无法获取视频时长，跳过切割: {e}")
-        return None # 返回 None 表示切割失败
-
-    segment_duration = duration / num_segments
-    logger.info(f"准备将 '{base_name}{ext}' ({duration:.2f}s) 切割成 {num_segments} 段，每段约 {segment_duration:.2f}s")
-
-    for i in range(num_segments):
-        start_time = i * segment_duration
-        output_filename = f"{base_name}_part{i+1}{ext}"
-        output_path = os.path.join(output_folder, output_filename)
-
-        command = ['ffmpeg'] # 初始化命令列表
-
-        # --- 添加 -y 覆盖选项 ---
-        command.append('-y')
-
-        # --- 添加硬件加速解码选项 --- (在 -i 之前)
-        hwaccel_added = False
-        if USE_GPU_ACCEL:
-            hwaccel_option_list = []
-            if GPU_TYPE == 'nvidia':
-                hwaccel_option_list = ['-hwaccel', 'cuda']
-            elif GPU_TYPE == 'intel':
-                hwaccel_option_list = ['-hwaccel', 'qsv']
-            elif GPU_TYPE == 'amd':
-                hwaccel_option_list = ['-hwaccel', 'dxva2']
-
-            if hwaccel_option_list:
-                command.extend(hwaccel_option_list)
-                logger.info(f"  尝试使用 GPU 加速解码: {' '.join(hwaccel_option_list)}")
-                hwaccel_added = True
-            else:
-                logger.warning(f"  配置了 USE_GPU_ACCEL=True 但 GPU_TYPE '{GPU_TYPE}' 不支持或未配置正确的 hwaccel 选项。")
-
-        # --- 添加输入和时间参数 ---
-        command.extend(['-i', input_path])
-        command.extend(['-ss', str(start_time)])
-        command.extend(['-t', str(segment_duration)])
-
-        # --- 添加视频和音频编码参数 (替换 -c copy) ---
-        codec_params_list = []
-        if USE_GPU_ACCEL and GPU_TYPE == 'nvidia':
-            logger.debug(f"使用 NVIDIA NVENC 编码 (第 {i+1} 段)")
-            codec_params_list = [
-                '-c:v', 'h264_nvenc',
-                '-preset', 'p2',       # 用户指定的预设
-                '-tune', 'hq',         # 用户指定的调整
-                '-rc', 'vbr',          # 可变比特率
-                '-cq', '23',           # 恒定质量级别
-                '-b:v', '6M',           # 平均比特率
-                '-maxrate', '10M',      # 最大比特率
-                '-bufsize', '10M',      # 缓冲区大小
-                '-spatial-aq', '1',    # 空间 AQ
-                '-temporal-aq', '1',   # 时间 AQ
-                '-profile:v', 'high'    # H.264 Profile
-            ]
-        else:
-            if USE_GPU_ACCEL and GPU_TYPE != 'nvidia':
-                 logger.warning(f"配置了 USE_GPU_ACCEL=True 但 GPU 类型为 '{GPU_TYPE}'，不支持 h264_nvenc，将回退到 libx264 软件编码。")
-            logger.debug(f"使用 libx264 软件编码 (第 {i+1} 段)")
-            codec_params_list = [
-                '-c:v', 'libx264',
-                '-preset', 'medium',   # CPU 编码预设
-                '-crf', '23',           # 恒定速率因子 (质量)
-                '-b:v', '6M',           # 平均比特率
-                '-maxrate', '10M',      # 最大比特率
-                '-bufsize', '10M',      # 缓冲区大小
-                '-profile:v', 'high'    # H.264 Profile
-            ]
-
-        command.extend(codec_params_list)
-
-        # --- 添加音频编码参数 ---
-        command.extend(['-c:a', 'aac', '-b:a', '128k'])
-
-        # --- 添加线程和优化参数 ---
-        command.extend(['-threads', '10'])
-        command.extend(['-movflags', '+faststart'])
-
-        # --- 添加输出路径 ---
-        command.append(output_path)
-
-        logger.info(f"  执行切割命令 (第 {i+1}/{num_segments} 段): {' '.join(command)}")
-        try:
-            # 运行 ffmpeg 命令并捕获输出
-            process_result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8')
-            # 记录 ffmpeg 的输出 (stdout 和 stderr)，使用 DEBUG 级别避免刷屏
-            if process_result.stdout:
-                logger.debug(f"    ffmpeg stdout (第 {i+1} 段):\n{process_result.stdout.strip()}")
-            if process_result.stderr:
-                logger.debug(f"    ffmpeg stderr (第 {i+1} 段):\n{process_result.stderr.strip()}")
-
-            if os.path.exists(output_path):
-                output_paths.append(output_path)
-                logger.info(f"    成功生成切割片段: {output_filename}")
-            else:
-                logger.error(f"    ffmpeg 命令执行成功但未找到输出文件: {output_filename}")
-                raise RuntimeError(f"切割后文件未生成: {output_filename}")
-        except FileNotFoundError:
-            logger.error("ffmpeg 命令未找到。请确保 FFmpeg 已安装并添加到系统 PATH。")
-            raise
-        except subprocess.CalledProcessError as e:
-            logger.error(f"ffmpeg 切割第 {i+1} 段失败: {e}")
-            logger.error(f"ffmpeg 输出: {e.stderr}")
-            # 如果一段失败，可能后续也无意义，可以选择直接返回失败
-            raise RuntimeError(f"ffmpeg 切割失败: {e.stderr}")
-        except Exception as e:
-            logger.exception(f"切割第 {i+1} 段时发生未知错误")
-            raise
-
-    if len(output_paths) == num_segments:
-        logger.info(f"视频成功切割成 {num_segments} 段。")
-        return output_paths
-    else:
-        logger.error(f"切割过程未生成所有期望的片段 ({len(output_paths)}/{num_segments})。")
-        return None # 返回 None 表示切割不完整
 
 # --- Core Processing Function ---
 
@@ -625,9 +415,10 @@ def process_videos(video_paths,
                    export_filename=None):
     """
     处理单个视频批次（假设视频路径已准备好）：加载模板，替换片段，保存，导出。
+    Now expects video_paths to be the final list (likely split segments).
 
     Args:
-        video_paths (list): 最终用于替换的视频文件绝对路径列表 (可能已被切割)。
+        video_paths (list): 最终用于替换的视频文件绝对路径列表 (通常是切割后的片段)。
         draft_name (str): 要使用的模板草稿的名称。
         draft_folder_path (str): 剪映草稿库的路径。
         export_video (bool): 是否导出视频。
@@ -637,15 +428,13 @@ def process_videos(video_paths,
     Returns:
         dict: 包含处理结果的字典，格式为 {"success": bool, "error": str|None}
     """
-    logger.info(f"--- 开始处理批次，使用模板: {draft_name} ---")
-    logger.info(f"  最终使用的视频文件 ({len(video_paths)}): {', '.join(os.path.basename(p) for p in video_paths)}")
+    logger.info(f"--- 开始处理剪映模板: {draft_name} ---") # Adjusted log message
+    logger.info(f"  使用视频片段 ({len(video_paths)}): {', '.join(os.path.basename(p) for p in video_paths)}")
     logger.info(f"  草稿库路径: {draft_folder_path}")
     if export_video:
         logger.info(f"  导出设置: 启用")
         if not export_path or not export_filename:
             logger.error("需要导出视频，但未提供 export_path 或 export_filename。")
-            # 这里需要小心，如果是因为切割而没有 export_path，上面已经返回错误了
-            # 但如果是因为正常流程缺少，这里需要再次检查
             return {"success": False, "error": "导出路径或文件名缺失"}
         export_file_path = os.path.join(export_path, export_filename)
         logger.info(f"    导出目标: {export_file_path}")
@@ -659,7 +448,6 @@ def process_videos(video_paths,
         # 1. 初始化 Draft_folder
         logger.debug("初始化草稿文件夹管理器...")
         draft_folder = draft.Draft_folder(draft_folder_path)
-        # 可选：检查模板是否存在于列表中，提前失败
         available_drafts = draft_folder.list_drafts()
         if draft_name not in available_drafts:
              logger.error(f"指定的模板草稿 '{draft_name}' 在草稿库 '{draft_folder_path}' 中未找到。可用草稿: {available_drafts}")
@@ -672,24 +460,20 @@ def process_videos(video_paths,
         script = draft_folder.load_template(draft_name)
         logger.info(f"模板加载成功，耗时: {time.time() - load_start:.2f}秒")
 
-        # 3. 创建视频素材对象 (使用可能已被切割替换的 video_paths)
+        # 3. 创建视频素材对象 (使用传入的 video_paths)
         logger.info("创建视频素材对象...")
         mat_start = time.time()
         video_materials = []
         for video_path in video_paths:
             if not os.path.exists(video_path):
-                # 如果是切割后的文件找不到，可能是切割或移动环节出问题
-                if "_part" in os.path.basename(video_path):
-                     logger.error(f"切割后的视频文件不存在: {video_path}")
-                     raise FileNotFoundError(f"切割生成的视频文件未找到: {video_path}")
-                else:
-                     logger.error(f"输入视频文件不存在: {video_path}")
-                     raise FileNotFoundError(f"视频文件不存在: {video_path}")
+                 logger.error(f"用于替换的视频文件不存在: {video_path}")
+                 # Raise error as this indicates a problem from the previous stage
+                 raise FileNotFoundError(f"预期存在的视频片段未找到: {video_path}")
             logger.debug(f"  创建素材对象: {os.path.basename(video_path)}")
             video_materials.append(draft.Video_material(video_path))
-        logger.info(f"成功为 {len(video_materials)} 个视频创建素材对象，耗时: {time.time() - mat_start:.2f}秒")
+        logger.info(f"成功为 {len(video_materials)} 个视频片段创建素材对象，耗时: {time.time() - mat_start:.2f}秒")
 
-        # 4. 获取视频轨道 (假设是第一个视频轨道)
+        # 4. 获取视频轨道
         logger.info("获取第一个视频轨道...")
         track_start = time.time()
         try:
@@ -702,20 +486,22 @@ def process_videos(video_paths,
         # 5. 替换视频片段
         num_segments_to_replace = len(video_materials)
         try:
-            actual_segments = len(video_track.segments)
-            logger.info(f"模板轨道现有 {actual_segments} 个片段，需要替换 {num_segments_to_replace} 个。")
-            if actual_segments < num_segments_to_replace:
-                 logger.warning(f"警告：模板轨道片段数 ({actual_segments}) 少于处理后视频数 ({num_segments_to_replace})！将只替换前 {actual_segments} 个片段。")
-                 num_segments_to_replace = actual_segments
-            elif actual_segments > num_segments_to_replace:
-                 logger.warning(f"警告：模板轨道片段数 ({actual_segments}) 多于处理后视频数 ({num_segments_to_replace})。将只替换前 {num_segments_to_replace} 个片段，后续片段将保留原样。")
+            actual_segments_in_template = len(video_track.segments)
+            logger.info(f"模板轨道现有 {actual_segments_in_template} 个片段，需要用 {num_segments_to_replace} 个新片段替换。")
+            # Logic to handle mismatch between template segments and input segments
+            segments_to_iterate = min(actual_segments_in_template, num_segments_to_replace)
+            if actual_segments_in_template < num_segments_to_replace:
+                 logger.warning(f"警告：模板轨道片段数 ({actual_segments_in_template}) 少于提供的视频片段数 ({num_segments_to_replace})！将只替换前 {segments_to_iterate} 个片段。")
+            elif actual_segments_in_template > num_segments_to_replace:
+                 logger.warning(f"警告：模板轨道片段数 ({actual_segments_in_template}) 多于提供的视频片段数 ({num_segments_to_replace})。将只替换前 {segments_to_iterate} 个片段，后续片段将保留原样。")
         except Exception as e:
-             logger.warning(f"无法准确获取轨道片段数 ({e})，将假设数量足够并尝试替换 {num_segments_to_replace} 个。")
+             logger.warning(f"无法准确获取模板轨道片段数 ({e})，将尝试替换前 {num_segments_to_replace} 个片段。")
+             segments_to_iterate = num_segments_to_replace # Fallback
 
-        logger.info(f"准备替换模板中的 {num_segments_to_replace} 个视频片段...")
+        logger.info(f"准备替换模板中的 {segments_to_iterate} 个视频片段...")
         replace_start_time = time.time()
-        for i in range(num_segments_to_replace):
-            segment_log_name = f"第 {i+1}/{num_segments_to_replace} 个片段"
+        for i in range(segments_to_iterate):
+            segment_log_name = f"模板片段索引 {i}"
             video_file_basename = os.path.basename(video_paths[i])
             logger.info(f"  替换 {segment_log_name} -> {video_file_basename}")
             try:
@@ -723,8 +509,7 @@ def process_videos(video_paths,
                 script.replace_material_by_seg(video_track, i, video_materials[i])
                 logger.debug(f"    替换耗时: {time.time() - replace_seg_start:.2f}秒")
             except IndexError:
-                 # 使用更新后的 video_paths 列表长度
-                 error_msg = f"尝试替换索引为 {i} 的片段时出错。模板草稿 '{draft_name}' 的视频轨道可能没有足够的片段来匹配处理后的视频数量 ({len(video_paths)})。"
+                 error_msg = f"尝试替换索引为 {i} 的片段时出错。模板草稿 '{draft_name}' 的视频轨道可能没有足够的片段 ({actual_segments_in_template})。"
                  logger.error(error_msg)
                  raise IndexError(error_msg)
             except Exception as replace_err:
@@ -745,7 +530,6 @@ def process_videos(video_paths,
         # 7. 导出视频 (如果需要)
         if export_video:
             logger.info(f"准备导出视频到: {export_file_path}")
-            # 确保导出目录存在
             try:
                 os.makedirs(export_path, exist_ok=True)
                 logger.debug(f"确认导出目录存在或已创建: {export_path}")
@@ -753,7 +537,7 @@ def process_videos(video_paths,
                  logger.error(f"无法创建导出目录 '{export_path}': {e}", exc_info=True)
                  raise IOError(f"创建导出目录失败: {export_path}") from e
 
-            ctrl = Fast_Jianying_Controller() # 使用本文件定义的优化控制器
+            ctrl = Fast_Jianying_Controller() # Use optimized controller
             logger.info("使用速度优化的剪映控制器进行导出...")
 
             export_start = time.time()
@@ -772,41 +556,42 @@ def process_videos(video_paths,
             else:
                 error_msg = f"视频导出失败 (模板: {draft_name})。请检查剪映状态和详细日志。"
                 logger.error(error_msg)
+                # Consider raising a more specific error or just setting success=False
                 raise RuntimeError(error_msg)
         else:
              logger.info("跳过视频导出步骤。")
-             result["success"] = True
+             result["success"] = True # Mark as success if export is skipped
 
     except draft.exceptions.DraftNotFound as e:
-        error_msg = f"处理失败：找不到模板草稿 '{draft_name}' 或其在列表中不存在。错误: {e}"
+        error_msg = f"剪映处理失败：找不到模板草稿 '{draft_name}'。错误: {e}"
         logger.error(error_msg)
         result["error"] = error_msg
     except FileNotFoundError as e:
-         error_msg = f"处理失败：找不到视频文件。错误: {e}"
+         error_msg = f"剪映处理失败：找不到预期的视频片段文件。错误: {e}"
          logger.error(error_msg)
          result["error"] = str(e)
     except IndexError as e:
-        error_msg = f"处理失败：{e}" # 错误信息已包含细节
+        error_msg = f"剪映处理失败：模板轨道和输入片段数量不匹配或索引错误。错误: {e}"
         logger.error(error_msg)
         result["error"] = error_msg
     except draft.exceptions.AutomationError as e:
-        error_msg = f"处理失败：剪映 UI 自动化错误。错误: {e}"
+        error_msg = f"剪映处理失败：剪映 UI 自动化错误。错误: {e}"
         logger.error(error_msg, exc_info=True)
         result["error"] = f"剪映 UI 自动化错误: {e}"
     except IOError as e:
-         error_msg = f"处理失败：文件系统错误。错误: {e}"
+         error_msg = f"剪映处理失败：文件系统错误（如创建导出目录失败）。错误: {e}"
          logger.error(error_msg)
          result["error"] = error_msg
     except RuntimeError as e:
-         error_msg = f"处理失败：导出或切割步骤失败。错误: {e}" # 调整了RuntimeError的消息
+         error_msg = f"剪映处理失败：导出步骤出错。错误: {e}"
          logger.error(error_msg)
          result["error"] = error_msg
     except Exception as e:
-        error_msg = f"处理批次时发生未知错误"
+        error_msg = f"剪映处理过程中发生未知错误"
         logger.exception(error_msg)
         result["error"] = f"未知错误: {str(e)}"
     finally:
         status_msg = "成功" if result["success"] else f"失败 ({result['error']})"
-        logger.info(f"--- 批次处理结束: {draft_name} | 结果: {status_msg} ---")
+        logger.info(f"--- 剪映模板处理结束: {draft_name} | 结果: {status_msg} ---") # Adjusted log message
 
     return result 

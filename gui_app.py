@@ -3,7 +3,7 @@
 
 import tkinter as tk
 from tkinter import filedialog, scrolledtext, messagebox
-import threading
+# import threading # No longer needed directly here
 import os
 import queue
 import logging
@@ -15,14 +15,17 @@ import multiprocessing # 导入 multiprocessing
 CONFIG_FILE = 'batch_tool_config.ini'
 LOG_FILENAME = 'batch_tool.log'
 
-# --- 后台处理逻辑导入 (保持不变) ---
+# --- 后台处理逻辑导入 (修改为新的 orchestrator) ---
 try:
-    from batch_processor import run_batch_processing
+    # Import the main function from the new orchestrator module
+    from jianying_orchestrator import run_individual_video_processing
 except ImportError:
     logging.basicConfig(level=logging.ERROR)
-    logging.exception("严重错误：无法导入 batch_processor.py。")
-    messagebox.showerror("依赖错误", "无法导入 batch_processor.py。\n请确保该文件与 gui_app.py 在同一目录下。")
-    run_batch_processing = None
+    # Update error message
+    logging.exception("严重错误：无法导入 jianying_orchestrator.py。")
+    messagebox.showerror("依赖错误", "无法导入 jianying_orchestrator.py。\n请确保该文件与 gui_app.py 在同一目录下。")
+    # Rename the variable for clarity
+    run_individual_video_processing = None
 
 # --- 日志配置 (保持不变) ---
 log_queue = queue.Queue(-1)
@@ -55,13 +58,14 @@ DEFAULT_DRAFT_FOLDER_PATH = "D:\\DJianYingDrafts\\JianyingPro Drafts"
 class BatchToolApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("剪映批量处理工具 v1.1 (带配置保存)")
+        self.root.title("剪映批量处理工具 v1.2 (逐个处理)")
         self.root.geometry("700x550")
         self.config = configparser.ConfigParser()
         self.input_folder_var = tk.StringVar()
         self.output_folder_var = tk.StringVar()
         self.draft_folder_var = tk.StringVar()
         self.draft_name_var = tk.StringVar()
+        self.delete_source_var = tk.BooleanVar(value=True)
         self.load_config()
         self.setup_ui()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -98,9 +102,17 @@ class BatchToolApp:
         self.draft_name_entry = tk.Entry(self.config_frame, textvariable=self.draft_name_var, width=60)
         self.draft_name_entry.grid(row=3, column=1, sticky="ew", padx=5)
 
-        self.start_button = tk.Button(self.config_frame, text="开始批量处理", command=self.start_processing, width=15, height=2, bg="lightblue")
-        self.start_button.grid(row=4, column=1, pady=10)
-        if run_batch_processing is None:
+        # 新增：删除源文件勾选框
+        self.delete_source_check = tk.Checkbutton(
+            self.config_frame, 
+            text="处理成功后删除源视频 (切割片段或原始视频)", 
+            variable=self.delete_source_var
+        )
+        self.delete_source_check.grid(row=4, column=0, columnspan=1, sticky="w", pady=5, padx=5)
+
+        self.start_button = tk.Button(self.config_frame, text="开始逐个处理视频任务", command=self.start_processing, width=15, height=2, bg="lightblue")
+        self.start_button.grid(row=4, column=1, pady=10, sticky="e")
+        if run_individual_video_processing is None:
             self.start_button.config(state=tk.DISABLED, text="依赖错误")
         self.config_frame.grid_columnconfigure(1, weight=1)
 
@@ -201,18 +213,19 @@ class BatchToolApp:
          # 清理进程引用
          self.process = None
          self.start_button.config(state=tk.NORMAL)
-         messagebox.showinfo("完成", "批量处理已完成！请查看UI日志和 batch_tool.log 获取详细信息。")
+         messagebox.showinfo("完成", "逐个处理已完成！请查看UI日志和 batch_tool.log 获取详细信息。")
 
     def start_processing(self):
         # --- 检查是否已有进程在运行 ---
         if self.process and self.process.is_alive():
-             messagebox.showwarning("运行中", "一个批量处理任务已经在后台运行，请等待其完成。")
+             messagebox.showwarning("运行中", "一个处理任务已经在后台运行，请等待其完成。")
              return
 
         input_folder = self.input_folder_var.get()
         output_folder = self.output_folder_var.get()
         draft_folder_path = self.draft_folder_var.get()
         draft_name = self.draft_name_var.get()
+        delete_source = self.delete_source_var.get()
 
         # --- Validation --- 
         if not input_folder or not os.path.isdir(input_folder):
@@ -241,41 +254,40 @@ class BatchToolApp:
         if not draft_name:
             messagebox.showerror("错误", "请输入目标草稿名称！")
             return
-        if run_batch_processing is None:
+        if run_individual_video_processing is None:
             messagebox.showerror("依赖错误", "后台处理模块未能加载，无法启动处理。")
             return
 
         # --- Start Processing --- 
         self.log_text.config(state=tk.NORMAL)
         self.log_text.delete(1.0, tk.END)
-        self.log_text.insert(tk.END, "开始处理...\n")
+        self.log_text.insert(tk.END, "开始逐个处理视频任务...\n")
         self.log_text.config(state=tk.DISABLED)
         self.start_button.config(state=tk.DISABLED)
 
-        logging.info("准备启动后台批量处理...")
+        logging.info("准备启动后台逐个视频处理...")
         logging.info(f"  输入文件夹: {input_folder}")
         logging.info(f"  输出文件夹: {output_folder}")
         logging.info(f"  草稿库路径: {draft_folder_path}")
         logging.info(f"  目标草稿名: {draft_name}")
+        logging.info(f"  处理后删除源文件: {'是' if delete_source else '否'}")
 
         # --- 使用 multiprocessing 启动后台进程 ---
         try:
-             # 注意：传递给新进程的参数必须是可序列化的
-             # 这里的字符串参数通常没问题
              self.process = multiprocessing.Process(
-                 target=run_batch_processing, # 直接使用导入的函数
-                 args=(input_folder, output_folder, draft_name, draft_folder_path),
-                 daemon=True # 子进程将随主进程退出
+                 target=run_individual_video_processing,
+                 args=(input_folder, output_folder, draft_name, draft_folder_path,
+                       delete_source),
+                 daemon=True
              )
              self.process.start()
-             logging.info(f"后台处理进程已启动 (PID: {self.process.pid})")
-             # 开始轮询检查进程状态
+             logging.info(f"后台处理进程已启动 (PID: {self.process.pid}) - 正在逐个处理视频")
              self.check_process_status()
 
         except Exception as e:
             logging.exception("启动后台处理进程时发生错误")
             messagebox.showerror("启动错误", f"无法启动后台进程: {e}")
-            self.start_button.config(state=tk.NORMAL) # 恢复按钮状态
+            self.start_button.config(state=tk.NORMAL)
 
     def check_process_status(self):
         """定期检查后台进程是否仍在运行"""
