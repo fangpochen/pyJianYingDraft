@@ -146,10 +146,38 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                 logger.info(f"  {task_identifier} 剪映处理成功。")
                 successful_tasks += 1
 
-                # --- Step 2c: Delete source and splits if requested ---
+                # --- Step 2c: Delete source based on checkbox, and ALWAYS delete splits --- 
+                # Always delete split files after successful processing
+                logger.info("  步骤 2c(i): 准备删除切割片段...")
+                if split_video_paths:
+                    deleted_split_count = 0
+                    logger.info(f"    准备删除 {len(split_video_paths)} 个切割片段...")
+                    for split_file in split_video_paths:
+                         # Only delete if it's not the original file itself (in case num_segments=1)
+                        if split_file != original_video_path:
+                            try:
+                                if os.path.exists(split_file):
+                                    os.remove(split_file)
+                                    logger.info(f"      已删除切割片段: {split_file}")
+                                    deleted_split_count += 1
+                                else:
+                                     logger.warning(f"      切割片段已不存在，跳过删除: {split_file}")
+                            except OSError as remove_split_error:
+                                logger.error(f"      删除切割片段失败: {split_file} - {remove_split_error}", exc_info=True)
+                    logger.info(f"    切割片段删除完成: 成功删除 {deleted_split_count} 个。")
+                    # Optional: Try to remove the split directory if empty
+                    try:
+                        if os.path.exists(split_output_dir) and not os.listdir(split_output_dir):
+                            os.rmdir(split_output_dir)
+                            logger.info(f"    已删除空的切割片段目录: {split_output_dir}")
+                    except OSError as rmdir_error:
+                        logger.warning(f"    删除切割片段目录失败（可能非空或权限问题）: {split_output_dir} - {rmdir_error}")
+                else:
+                    logger.info("    未找到切割片段信息，跳过删除切割片段。")
+                
+                # Delete original video file ONLY if the checkbox is checked
                 if delete_source:
-                    logger.info("  步骤 2c: 选项已启用，准备删除源文件和切割片段...")
-                    # Delete the original video file
+                    logger.info("  步骤 2c(ii): 选项已启用，准备删除原始视频文件...")
                     try:
                         if os.path.exists(original_video_path):
                             os.remove(original_video_path)
@@ -158,34 +186,8 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                             logger.warning(f"    原始视频文件已不存在，跳过删除: {original_video_path}")
                     except OSError as remove_error:
                         logger.error(f"    删除原始视频文件失败: {original_video_path} - {remove_error}", exc_info=True)
-
-                    # Delete the split video files
-                    if split_video_paths:
-                        deleted_split_count = 0
-                        logger.info(f"    准备删除切割片段 ({len(split_video_paths)} 个)...")
-                        for split_file in split_video_paths:
-                             # Only delete if it's not the original file itself (in case num_segments=1)
-                            if split_file != original_video_path:
-                                try:
-                                    if os.path.exists(split_file):
-                                        os.remove(split_file)
-                                        logger.info(f"      已删除切割片段: {split_file}")
-                                        deleted_split_count += 1
-                                    else:
-                                         logger.warning(f"      切割片段已不存在，跳过删除: {split_file}")
-                                except OSError as remove_split_error:
-                                    logger.error(f"      删除切割片段失败: {split_file} - {remove_split_error}", exc_info=True)
-                        logger.info(f"    切割片段删除完成: 成功删除 {deleted_split_count} 个。")
-                         # Optional: Try to remove the split directory if empty
-                        try:
-                            if os.path.exists(split_output_dir) and not os.listdir(split_output_dir):
-                                os.rmdir(split_output_dir)
-                                logger.info(f"    已删除空的切割片段目录: {split_output_dir}")
-                        except OSError as rmdir_error:
-                            logger.warning(f"    删除切割片段目录失败（可能非空或权限问题）: {split_output_dir} - {rmdir_error}")
-
                 else:
-                    logger.info("  步骤 2c: 选项未启用，跳过删除源文件和切割片段。")
+                    logger.info("  步骤 2c(ii): 选项未启用，跳过删除原始视频文件。")
 
             else: # Jianying processing failed
                 logger.error(f"  {task_identifier} 剪映处理失败: {processing_result.get('error', '未知错误')}")

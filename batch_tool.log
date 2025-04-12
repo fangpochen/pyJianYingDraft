@@ -3377,3 +3377,821 @@ pyJianYingDraft.exceptions.AutomationError: 未找到导出路径框
 2025-04-13 07:07:46,852 - INFO - root - 后台处理进程 (PID: 56072) 已结束。退出码: 0
 2025-04-13 07:08:51,126 - INFO - root - 应用程序正在关闭，保存配置...
 2025-04-13 07:08:51,127 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 07:15:58,011 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 07:15:58,022 - INFO - root - 应用程序界面初始化完成
+2025-04-13 07:16:23,820 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-13 07:16:23,821 - INFO - root -   输入文件夹: E:/1
+2025-04-13 07:16:23,821 - INFO - root -   输出文件夹: D:/111
+2025-04-13 07:16:23,821 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:16:23,821 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 07:16:23,821 - INFO - root -   处理后删除源文件: 否
+2025-04-13 07:16:23,901 - INFO - root - 后台处理进程已启动 (PID: 50772) - 正在逐个处理视频
+2025-04-13 07:16:24,229 - INFO - jianying_orchestrator - ========= 开始逐个视频处理 =========
+2025-04-13 07:16:24,230 - INFO - jianying_orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-13 07:16:24,230 - INFO - video_processor - 开始扫描输入文件夹以查找独立的视频任务: E:/1
+2025-04-13 07:16:24,230 - INFO - video_processor - 扫描子文件夹: 2
+2025-04-13 07:16:24,231 - INFO - video_processor - 扫描子文件夹: 3
+2025-04-13 07:16:24,231 - INFO - video_processor -   找到任务: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (属于子文件夹: 3)
+2025-04-13 07:16:24,231 - INFO - video_processor -   找到任务: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (属于子文件夹: 3)
+2025-04-13 07:16:24,232 - INFO - video_processor -   找到任务: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 (属于子文件夹: 3)
+2025-04-13 07:16:24,232 - INFO - video_processor -   找到任务: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (属于子文件夹: 3)
+2025-04-13 07:16:24,232 - INFO - video_processor - 扫描子文件夹: 5
+2025-04-13 07:16:24,232 - INFO - video_processor - 扫描完成，共找到 4 个独立的视频处理任务。
+2025-04-13 07:16:24,232 - INFO - jianying_orchestrator - 共找到 4 个视频任务，准备开始逐个处理...
+2025-04-13 07:16:24,232 - INFO - jianying_orchestrator - 
+--- 阶段 2: 逐个处理视频任务 ---
+2025-04-13 07:16:24,232 - WARNING - jianying_orchestrator - 请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！
+2025-04-13 07:16:24,232 - INFO - jianying_orchestrator - 
+--- 开始处理 任务 1/4: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 3) ---
+2025-04-13 07:16:24,232 - INFO - jianying_orchestrator -   原始视频: E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:16:24,233 - INFO - jianying_orchestrator -   切割片段输出目录: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits
+2025-04-13 07:16:24,233 - INFO - jianying_orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:16:24,233 - INFO - jianying_orchestrator -   最终导出文件名: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:16:24,233 - INFO - jianying_orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:16:24,437 - INFO - jianying_orchestrator -     原始视频时长: 76.81 秒
+2025-04-13 07:16:24,437 - INFO - jianying_orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:16:24,438 - INFO - video_processor - 为切割文件创建输出文件夹: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits
+2025-04-13 07:16:24,480 - INFO - video_processor - 准备将 '椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4' (76.81s) 切割成 3 段，每段约 25.60s
+2025-04-13 07:16:24,480 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:16:24,480 - INFO - video_processor -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 0.0 -t 25.603333333333335 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-13 07:16:26,043 - INFO - video_processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-13 07:16:26,044 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:16:26,044 - INFO - video_processor -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 25.603333333333335 -t 25.603333333333335 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-13 07:16:27,797 - INFO - video_processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-13 07:16:27,797 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:16:27,797 - INFO - video_processor -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 51.20666666666667 -t 25.603333333333335 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:16:30,064 - INFO - video_processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:16:30,064 - INFO - video_processor - 视频 '椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4' 成功切割成 3 段。
+2025-04-13 07:16:30,064 - INFO - jianying_orchestrator -   视频准备/切割完成，耗时: 5.63秒
+2025-04-13 07:16:30,065 - INFO - jianying_orchestrator -   最终用于处理的片段 (3): 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:16:30,065 - INFO - jianying_orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:16:30,065 - INFO - jianying_utils - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:16:30,065 - INFO - jianying_utils -   使用视频片段 (3): 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:16:30,066 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:16:30,066 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 07:16:30,066 - INFO - jianying_utils -     导出目标: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:16:30,067 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 07:16:30,069 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:16:30,069 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 07:16:30,183 - INFO - jianying_utils - 成功为 3 个视频片段创建素材对象，耗时: 0.11秒
+2025-04-13 07:16:30,183 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 07:16:30,183 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:16:30,183 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:16:30,184 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:16:30,184 - INFO - jianying_utils -   替换 模板片段索引 0 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-13 07:16:30,184 - INFO - jianying_utils -   替换 模板片段索引 1 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-13 07:16:30,184 - INFO - jianying_utils -   替换 模板片段索引 2 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:16:30,184 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:16:30,184 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:16:30,184 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:16:30,187 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:16:30,187 - INFO - jianying_utils - 准备导出视频到: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:16:31,420 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:16:31,420 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:16:31,420 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:16:31,421 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:31,426 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:16:32,564 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.14秒
+2025-04-13 07:16:32,564 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:16:33,669 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:33,842 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:35,024 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.46秒
+2025-04-13 07:16:35,024 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:16:36,118 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:36,319 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:36,323 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:16:37,441 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.42秒
+2025-04-13 07:16:37,441 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:16:37,450 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:16:37,450 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:16:37,451 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:16:38,550 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:16:38,550 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:16:38,551 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:38,553 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:38,554 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:16:39,782 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:39,785 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:39,786 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:16:40,915 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 2 次
+2025-04-13 07:16:41,709 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.16秒
+2025-04-13 07:16:41,709 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:16:41,709 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:41,711 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:42,992 - WARNING - jianying_utils.Fast_Jianying_Controller - 未能快速找到 QMainWindowTitleBar, 尝试备用方法...
+2025-04-13 07:16:43,762 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:43,767 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:16:44,951 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:16:45,151 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.44秒
+2025-04-13 07:16:45,151 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4...
+2025-04-13 07:16:45,240 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.09秒
+2025-04-13 07:16:45,241 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 完成
+2025-04-13 07:16:45,241 - INFO - jianying_utils - 导出函数调用耗时: 13.82秒
+2025-04-13 07:16:45,241 - INFO - jianying_utils - 视频导出成功: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:16:45,241 - INFO - jianying_utils - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:16:45,242 - INFO - jianying_orchestrator -   剪映处理完成，耗时: 15.18秒
+2025-04-13 07:16:45,242 - INFO - jianying_orchestrator -   任务 1/4: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:16:45,242 - INFO - jianying_orchestrator -   步骤 2c: 选项未启用，跳过删除源文件和切割片段。
+2025-04-13 07:16:45,242 - INFO - jianying_orchestrator - --- 任务 1/4: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 3) 处理结束 | 耗时: 21.01秒 ---
+2025-04-13 07:16:45,243 - INFO - jianying_orchestrator - 
+--- 开始处理 任务 2/4: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 3) ---
+2025-04-13 07:16:45,243 - INFO - jianying_orchestrator -   原始视频: E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:16:45,243 - INFO - jianying_orchestrator -   切割片段输出目录: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits
+2025-04-13 07:16:45,243 - INFO - jianying_orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:16:45,243 - INFO - jianying_orchestrator -   最终导出文件名: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:16:45,243 - INFO - jianying_orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:16:45,285 - INFO - jianying_orchestrator -     原始视频时长: 45.70 秒
+2025-04-13 07:16:45,286 - INFO - jianying_orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:16:45,286 - INFO - video_processor - 为切割文件创建输出文件夹: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits
+2025-04-13 07:16:45,329 - INFO - video_processor - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 07:16:45,330 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:16:45,330 - INFO - video_processor -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 07:16:46,016 - INFO - video_processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 07:16:46,017 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:16:46,017 - INFO - video_processor -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 07:16:46,870 - INFO - video_processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 07:16:46,871 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:16:46,871 - INFO - video_processor -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:16:47,937 - INFO - video_processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:16:47,938 - INFO - video_processor - 视频 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' 成功切割成 3 段。
+2025-04-13 07:16:47,938 - INFO - jianying_orchestrator -   视频准备/切割完成，耗时: 2.65秒
+2025-04-13 07:16:47,938 - INFO - jianying_orchestrator -   最终用于处理的片段 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:16:47,938 - INFO - jianying_orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:16:47,938 - INFO - jianying_utils - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:16:47,939 - INFO - jianying_utils -   使用视频片段 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:16:47,939 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:16:47,939 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 07:16:47,939 - INFO - jianying_utils -     导出目标: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:16:47,940 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 07:16:47,942 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:16:47,942 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 07:16:47,975 - INFO - jianying_utils - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 07:16:47,975 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 07:16:47,975 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:16:47,975 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:16:47,976 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:16:47,976 - INFO - jianying_utils -   替换 模板片段索引 0 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 07:16:47,976 - INFO - jianying_utils -   替换 模板片段索引 1 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 07:16:47,976 - INFO - jianying_utils -   替换 模板片段索引 2 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:16:47,976 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:16:47,976 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:16:47,976 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:16:47,979 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:16:47,979 - INFO - jianying_utils - 准备导出视频到: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:16:49,088 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:16:49,088 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:16:49,088 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:16:49,089 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:49,091 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:16:50,244 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.16秒
+2025-04-13 07:16:50,244 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:16:51,357 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:51,842 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:53,030 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.79秒
+2025-04-13 07:16:53,030 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:16:54,137 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:54,335 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:54,338 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:16:55,458 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.43秒
+2025-04-13 07:16:55,458 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:16:55,467 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:16:55,467 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:16:55,468 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:16:56,565 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:16:56,565 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:16:56,565 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:56,574 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:56,576 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:16:57,717 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:16:58,503 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.94秒
+2025-04-13 07:16:58,503 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:16:58,503 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:16:58,505 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:16:59,763 - WARNING - jianying_utils.Fast_Jianying_Controller - 未能快速找到 QMainWindowTitleBar, 尝试备用方法...
+2025-04-13 07:17:00,533 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:00,535 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:17:01,676 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:17:01,879 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.38秒
+2025-04-13 07:17:01,879 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4...
+2025-04-13 07:17:01,920 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.04秒
+2025-04-13 07:17:01,921 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 完成
+2025-04-13 07:17:01,921 - INFO - jianying_utils - 导出函数调用耗时: 12.83秒
+2025-04-13 07:17:01,921 - INFO - jianying_utils - 视频导出成功: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:17:01,921 - INFO - jianying_utils - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:17:01,922 - INFO - jianying_orchestrator -   剪映处理完成，耗时: 13.98秒
+2025-04-13 07:17:01,922 - INFO - jianying_orchestrator -   任务 2/4: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:17:01,922 - INFO - jianying_orchestrator -   步骤 2c: 选项未启用，跳过删除源文件和切割片段。
+2025-04-13 07:17:01,923 - INFO - jianying_orchestrator - --- 任务 2/4: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 3) 处理结束 | 耗时: 16.68秒 ---
+2025-04-13 07:17:01,923 - INFO - jianying_orchestrator - 
+--- 开始处理 任务 3/4: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 (来自: 3) ---
+2025-04-13 07:17:01,923 - INFO - jianying_orchestrator -   原始视频: E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:17:01,923 - INFO - jianying_orchestrator -   切割片段输出目录: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits
+2025-04-13 07:17:01,923 - INFO - jianying_orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:17:01,923 - INFO - jianying_orchestrator -   最终导出文件名: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:17:01,923 - INFO - jianying_orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:17:01,966 - INFO - jianying_orchestrator -     原始视频时长: 30.63 秒
+2025-04-13 07:17:01,966 - INFO - jianying_orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:17:01,967 - INFO - video_processor - 为切割文件创建输出文件夹: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits
+2025-04-13 07:17:02,008 - INFO - video_processor - 准备将 '白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4' (30.63s) 切割成 3 段，每段约 10.21s
+2025-04-13 07:17:02,008 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:17:02,009 - INFO - video_processor -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 -ss 0.0 -t 10.211111 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4
+2025-04-13 07:17:02,647 - INFO - video_processor -     成功生成切割片段: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4
+2025-04-13 07:17:02,647 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:17:02,647 - INFO - video_processor -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 -ss 10.211111 -t 10.211111 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4
+2025-04-13 07:17:03,353 - INFO - video_processor -     成功生成切割片段: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4
+2025-04-13 07:17:03,353 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:17:03,354 - INFO - video_processor -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 -ss 20.422222 -t 10.211111 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:17:04,209 - INFO - video_processor -     成功生成切割片段: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:17:04,209 - INFO - video_processor - 视频 '白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4' 成功切割成 3 段。
+2025-04-13 07:17:04,209 - INFO - jianying_orchestrator -   视频准备/切割完成，耗时: 2.24秒
+2025-04-13 07:17:04,209 - INFO - jianying_orchestrator -   最终用于处理的片段 (3): 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:17:04,209 - INFO - jianying_orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:17:04,209 - INFO - jianying_utils - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:17:04,209 - INFO - jianying_utils -   使用视频片段 (3): 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:17:04,210 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:17:04,210 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 07:17:04,210 - INFO - jianying_utils -     导出目标: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:17:04,210 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 07:17:04,213 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:17:04,213 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 07:17:04,241 - INFO - jianying_utils - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 07:17:04,241 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 07:17:04,241 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:17:04,242 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:17:04,242 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:17:04,242 - INFO - jianying_utils -   替换 模板片段索引 0 -> 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4
+2025-04-13 07:17:04,242 - INFO - jianying_utils -   替换 模板片段索引 1 -> 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4
+2025-04-13 07:17:04,242 - INFO - jianying_utils -   替换 模板片段索引 2 -> 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:17:04,243 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:17:04,243 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:17:04,243 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:17:04,246 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:17:04,247 - INFO - jianying_utils - 准备导出视频到: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:17:05,280 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:17:05,280 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:17:05,281 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:17:05,281 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:05,283 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:17:06,420 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.14秒
+2025-04-13 07:17:06,420 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:17:07,546 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:07,938 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:17:09,180 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.76秒
+2025-04-13 07:17:09,180 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:17:10,289 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:10,517 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:17:10,521 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:17:11,643 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.46秒
+2025-04-13 07:17:11,643 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:17:11,650 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:17:11,651 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:17:11,651 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:17:12,748 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:17:12,748 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:17:12,749 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:12,751 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:17:12,753 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:17:13,882 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:17:14,679 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.93秒
+2025-04-13 07:17:14,679 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:17:14,679 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:14,681 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:17:15,953 - WARNING - jianying_utils.Fast_Jianying_Controller - 未能快速找到 QMainWindowTitleBar, 尝试备用方法...
+2025-04-13 07:17:16,747 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:16,752 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:17:17,906 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:17:18,120 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.44秒
+2025-04-13 07:17:18,121 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4...
+2025-04-13 07:17:18,156 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.04秒
+2025-04-13 07:17:18,156 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 完成
+2025-04-13 07:17:18,157 - INFO - jianying_utils - 导出函数调用耗时: 12.88秒
+2025-04-13 07:17:18,157 - INFO - jianying_utils - 视频导出成功: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:17:18,157 - INFO - jianying_utils - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:17:18,158 - INFO - jianying_orchestrator -   剪映处理完成，耗时: 13.95秒
+2025-04-13 07:17:18,158 - INFO - jianying_orchestrator -   任务 3/4: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:17:18,158 - INFO - jianying_orchestrator -   步骤 2c: 选项未启用，跳过删除源文件和切割片段。
+2025-04-13 07:17:18,158 - INFO - jianying_orchestrator - --- 任务 3/4: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 (来自: 3) 处理结束 | 耗时: 16.23秒 ---
+2025-04-13 07:17:18,158 - INFO - jianying_orchestrator - 
+--- 开始处理 任务 4/4: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 3) ---
+2025-04-13 07:17:18,158 - INFO - jianying_orchestrator -   原始视频: E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:17:18,159 - INFO - jianying_orchestrator -   切割片段输出目录: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits
+2025-04-13 07:17:18,159 - INFO - jianying_orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:17:18,159 - INFO - jianying_orchestrator -   最终导出文件名: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:17:18,159 - INFO - jianying_orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:17:18,203 - INFO - jianying_orchestrator -     原始视频时长: 43.00 秒
+2025-04-13 07:17:18,203 - INFO - jianying_orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:17:18,204 - INFO - video_processor - 为切割文件创建输出文件夹: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits
+2025-04-13 07:17:18,246 - INFO - video_processor - 准备将 '都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4' (43.00s) 切割成 3 段，每段约 14.33s
+2025-04-13 07:17:18,246 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:17:18,247 - INFO - video_processor -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 0.0 -t 14.333968333333333 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-13 07:17:18,960 - INFO - video_processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-13 07:17:18,960 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:17:18,960 - INFO - video_processor -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 14.333968333333333 -t 14.333968333333333 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-13 07:17:19,856 - INFO - video_processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-13 07:17:19,856 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:17:19,857 - INFO - video_processor -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 28.667936666666666 -t 14.333968333333333 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:17:20,960 - INFO - video_processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:17:20,960 - INFO - video_processor - 视频 '都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4' 成功切割成 3 段。
+2025-04-13 07:17:20,961 - INFO - jianying_orchestrator -   视频准备/切割完成，耗时: 2.76秒
+2025-04-13 07:17:20,961 - INFO - jianying_orchestrator -   最终用于处理的片段 (3): 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:17:20,961 - INFO - jianying_orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:17:20,961 - INFO - jianying_utils - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:17:20,961 - INFO - jianying_utils -   使用视频片段 (3): 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:17:20,961 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:17:20,962 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 07:17:20,962 - INFO - jianying_utils -     导出目标: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:17:20,962 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 07:17:20,965 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:17:20,965 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 07:17:20,999 - INFO - jianying_utils - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 07:17:20,999 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 07:17:20,999 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:17:20,999 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:17:21,000 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:17:21,000 - INFO - jianying_utils -   替换 模板片段索引 0 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-13 07:17:21,000 - INFO - jianying_utils -   替换 模板片段索引 1 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-13 07:17:21,000 - INFO - jianying_utils -   替换 模板片段索引 2 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:17:21,000 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:17:21,001 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:17:21,001 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:17:21,004 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:17:21,004 - INFO - jianying_utils - 准备导出视频到: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:17:22,128 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:17:22,128 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:17:22,128 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:17:22,128 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:22,130 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:17:23,264 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.14秒
+2025-04-13 07:17:23,264 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:17:24,374 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:29,469 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:17:30,632 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 7.37秒
+2025-04-13 07:17:30,632 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:17:31,747 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:31,888 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:17:31,892 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:17:33,025 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.39秒
+2025-04-13 07:17:33,025 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:17:33,034 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:17:33,035 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:17:33,035 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:17:34,133 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:17:34,133 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:17:34,133 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:34,137 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:17:34,137 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:17:35,267 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:17:36,028 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.89秒
+2025-04-13 07:17:36,028 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:17:36,029 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:36,031 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:17:37,295 - WARNING - jianying_utils.Fast_Jianying_Controller - 未能快速找到 QMainWindowTitleBar, 尝试备用方法...
+2025-04-13 07:17:38,065 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:17:38,067 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:17:39,253 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:17:39,453 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.43秒
+2025-04-13 07:17:39,454 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4...
+2025-04-13 07:17:39,502 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.05秒
+2025-04-13 07:17:39,503 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 完成
+2025-04-13 07:17:39,503 - INFO - jianying_utils - 导出函数调用耗时: 17.37秒
+2025-04-13 07:17:39,503 - INFO - jianying_utils - 视频导出成功: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:17:39,503 - INFO - jianying_utils - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:17:39,504 - INFO - jianying_orchestrator -   剪映处理完成，耗时: 18.54秒
+2025-04-13 07:17:39,504 - INFO - jianying_orchestrator -   任务 4/4: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:17:39,504 - INFO - jianying_orchestrator -   步骤 2c: 选项未启用，跳过删除源文件和切割片段。
+2025-04-13 07:17:39,505 - INFO - jianying_orchestrator - --- 任务 4/4: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 3) 处理结束 | 耗时: 21.35秒 ---
+2025-04-13 07:17:39,505 - INFO - jianying_orchestrator - 
+========= 逐个视频处理完成 =========
+2025-04-13 07:17:39,505 - INFO - jianying_orchestrator - 总任务数 (扫描到): 4
+2025-04-13 07:17:39,505 - INFO - jianying_orchestrator - 成功处理任务数: 4
+2025-04-13 07:17:39,505 - INFO - jianying_orchestrator - 失败处理任务数: 0
+2025-04-13 07:17:39,505 - INFO - jianying_orchestrator -   - 因切割失败: 0
+2025-04-13 07:17:39,505 - INFO - jianying_orchestrator -   - 因剪映处理失败: 0
+2025-04-13 07:17:39,506 - INFO - jianying_orchestrator - 总耗时: 75.28 秒
+2025-04-13 07:17:39,506 - INFO - jianying_orchestrator - 平均任务耗时: 18.82 秒/任务
+2025-04-13 07:17:39,506 - INFO - jianying_orchestrator - ====================================
+2025-04-13 07:17:40,150 - INFO - root - 后台处理进程 (PID: 50772) 已结束。退出码: 0
+2025-04-13 07:22:54,866 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 07:22:54,867 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 07:22:56,980 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 07:22:56,990 - INFO - root - 应用程序界面初始化完成
+2025-04-13 07:23:05,944 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-13 07:23:05,944 - INFO - root -   输入文件夹: E:/1
+2025-04-13 07:23:05,944 - INFO - root -   输出文件夹: D:/111
+2025-04-13 07:23:05,944 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:23:05,944 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 07:23:05,944 - INFO - root -   处理后删除源文件: 是
+2025-04-13 07:23:06,024 - INFO - root - 后台处理进程已启动 (PID: 54768) - 正在逐个处理视频
+2025-04-13 07:23:06,331 - INFO - jianying_orchestrator - ========= 开始逐个视频处理 =========
+2025-04-13 07:23:06,331 - INFO - jianying_orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-13 07:23:06,331 - INFO - video_processor - 开始扫描输入文件夹以查找独立的视频任务: E:/1
+2025-04-13 07:23:06,332 - INFO - video_processor - 扫描子文件夹: 2
+2025-04-13 07:23:06,332 - INFO - video_processor - 扫描子文件夹: 3
+2025-04-13 07:23:06,333 - INFO - video_processor -   找到任务: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (属于子文件夹: 3)
+2025-04-13 07:23:06,333 - INFO - video_processor -   找到任务: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (属于子文件夹: 3)
+2025-04-13 07:23:06,333 - INFO - video_processor -   找到任务: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 (属于子文件夹: 3)
+2025-04-13 07:23:06,333 - INFO - video_processor -   找到任务: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (属于子文件夹: 3)
+2025-04-13 07:23:06,334 - INFO - video_processor - 扫描子文件夹: 5
+2025-04-13 07:23:06,334 - INFO - video_processor - 扫描完成，共找到 4 个独立的视频处理任务。
+2025-04-13 07:23:06,334 - INFO - jianying_orchestrator - 共找到 4 个视频任务，准备开始逐个处理...
+2025-04-13 07:23:06,334 - INFO - jianying_orchestrator - 
+--- 阶段 2: 逐个处理视频任务 ---
+2025-04-13 07:23:06,334 - WARNING - jianying_orchestrator - 请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！
+2025-04-13 07:23:06,334 - INFO - jianying_orchestrator - 
+--- 开始处理 任务 1/4: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 3) ---
+2025-04-13 07:23:06,334 - INFO - jianying_orchestrator -   原始视频: E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:23:06,334 - INFO - jianying_orchestrator -   切割片段输出目录: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits
+2025-04-13 07:23:06,334 - INFO - jianying_orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:23:06,334 - INFO - jianying_orchestrator -   最终导出文件名: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:23:06,335 - INFO - jianying_orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:23:06,393 - INFO - jianying_orchestrator -     原始视频时长: 76.81 秒
+2025-04-13 07:23:06,393 - INFO - jianying_orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:23:06,394 - INFO - video_processor - 为切割文件创建输出文件夹: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits
+2025-04-13 07:23:06,439 - INFO - video_processor - 准备将 '椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4' (76.81s) 切割成 3 段，每段约 25.60s
+2025-04-13 07:23:06,439 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:06,439 - INFO - video_processor -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 0.0 -t 25.603333333333335 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-13 07:23:07,683 - INFO - video_processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-13 07:23:07,683 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:07,684 - INFO - video_processor -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 25.603333333333335 -t 25.603333333333335 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-13 07:23:09,457 - INFO - video_processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-13 07:23:09,457 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:09,457 - INFO - video_processor -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 51.20666666666667 -t 25.603333333333335 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:23:11,776 - INFO - video_processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:23:11,777 - INFO - video_processor - 视频 '椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4' 成功切割成 3 段。
+2025-04-13 07:23:11,777 - INFO - jianying_orchestrator -   视频准备/切割完成，耗时: 5.38秒
+2025-04-13 07:23:11,777 - INFO - jianying_orchestrator -   最终用于处理的片段 (3): 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:23:11,777 - INFO - jianying_orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:23:11,777 - INFO - jianying_utils - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:23:11,777 - INFO - jianying_utils -   使用视频片段 (3): 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:23:11,778 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:23:11,778 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 07:23:11,778 - INFO - jianying_utils -     导出目标: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:23:11,778 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 07:23:11,780 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:23:11,780 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 07:23:11,825 - INFO - jianying_utils - 成功为 3 个视频片段创建素材对象，耗时: 0.05秒
+2025-04-13 07:23:11,825 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 07:23:11,826 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:23:11,826 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:23:11,826 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:23:11,826 - INFO - jianying_utils -   替换 模板片段索引 0 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-13 07:23:11,826 - INFO - jianying_utils -   替换 模板片段索引 1 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-13 07:23:11,826 - INFO - jianying_utils -   替换 模板片段索引 2 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:23:11,827 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:23:11,827 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:23:11,827 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:23:11,830 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:23:11,830 - INFO - jianying_utils - 准备导出视频到: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:23:12,964 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:23:12,964 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:23:12,964 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:23:12,964 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:12,967 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:23:14,118 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.15秒
+2025-04-13 07:23:14,118 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:23:15,227 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:15,494 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:16,861 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.74秒
+2025-04-13 07:23:16,861 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:23:17,957 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:18,071 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:18,075 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:23:19,197 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.34秒
+2025-04-13 07:23:19,197 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:23:19,204 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:23:19,204 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:23:19,204 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:23:20,304 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:23:20,304 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:23:20,304 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:20,307 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:20,309 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:23:21,552 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:21,554 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:21,556 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:23:22,687 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 2 次
+2025-04-13 07:23:23,469 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.17秒
+2025-04-13 07:23:23,470 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:23:23,470 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:23,474 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:25,378 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:25,384 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:23:26,560 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:23:26,775 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.31秒
+2025-04-13 07:23:26,775 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4...
+2025-04-13 07:23:26,871 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.10秒
+2025-04-13 07:23:26,871 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 完成
+2025-04-13 07:23:26,872 - INFO - jianying_utils - 导出函数调用耗时: 13.91秒
+2025-04-13 07:23:26,872 - INFO - jianying_utils - 视频导出成功: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:23:26,872 - INFO - jianying_utils - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:23:26,873 - INFO - jianying_orchestrator -   剪映处理完成，耗时: 15.10秒
+2025-04-13 07:23:26,873 - INFO - jianying_orchestrator -   任务 1/4: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:23:26,873 - INFO - jianying_orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 07:23:26,873 - INFO - jianying_orchestrator -     准备删除 3 个切割片段...
+2025-04-13 07:23:26,875 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-13 07:23:26,877 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-13 07:23:26,880 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-13 07:23:26,880 - INFO - jianying_orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 07:23:26,880 - INFO - jianying_orchestrator -     已删除空的切割片段目录: D:/111\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits
+2025-04-13 07:23:26,881 - INFO - jianying_orchestrator -   步骤 2c(ii): 选项已启用，准备删除原始视频文件...
+2025-04-13 07:23:26,882 - INFO - jianying_orchestrator -     已删除原始视频文件: E:/1\3\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 07:23:26,882 - INFO - jianying_orchestrator - --- 任务 1/4: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 3) 处理结束 | 耗时: 20.55秒 ---
+2025-04-13 07:23:26,882 - INFO - jianying_orchestrator - 
+--- 开始处理 任务 2/4: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 3) ---
+2025-04-13 07:23:26,883 - INFO - jianying_orchestrator -   原始视频: E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:23:26,883 - INFO - jianying_orchestrator -   切割片段输出目录: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits
+2025-04-13 07:23:26,883 - INFO - jianying_orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:23:26,883 - INFO - jianying_orchestrator -   最终导出文件名: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:23:26,883 - INFO - jianying_orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:23:26,942 - INFO - jianying_orchestrator -     原始视频时长: 45.70 秒
+2025-04-13 07:23:26,942 - INFO - jianying_orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:23:26,943 - INFO - video_processor - 为切割文件创建输出文件夹: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits
+2025-04-13 07:23:26,985 - INFO - video_processor - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 07:23:26,986 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:26,986 - INFO - video_processor -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 07:23:27,729 - INFO - video_processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 07:23:27,730 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:27,730 - INFO - video_processor -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 07:23:28,586 - INFO - video_processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 07:23:28,586 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:28,587 - INFO - video_processor -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:23:29,833 - INFO - video_processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:23:29,834 - INFO - video_processor - 视频 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' 成功切割成 3 段。
+2025-04-13 07:23:29,834 - INFO - jianying_orchestrator -   视频准备/切割完成，耗时: 2.89秒
+2025-04-13 07:23:29,834 - INFO - jianying_orchestrator -   最终用于处理的片段 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:23:29,834 - INFO - jianying_orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:23:29,834 - INFO - jianying_utils - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:23:29,834 - INFO - jianying_utils -   使用视频片段 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:23:29,835 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:23:29,835 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 07:23:29,835 - INFO - jianying_utils -     导出目标: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:23:29,835 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 07:23:29,838 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:23:29,838 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 07:23:29,869 - INFO - jianying_utils - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 07:23:29,869 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 07:23:29,869 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:23:29,869 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:23:29,870 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:23:29,870 - INFO - jianying_utils -   替换 模板片段索引 0 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 07:23:29,870 - INFO - jianying_utils -   替换 模板片段索引 1 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 07:23:29,870 - INFO - jianying_utils -   替换 模板片段索引 2 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:23:29,870 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:23:29,870 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:23:29,870 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:23:29,873 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:23:29,874 - INFO - jianying_utils - 准备导出视频到: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:23:30,996 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:23:30,996 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:23:30,996 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:23:30,996 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:30,998 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:23:32,152 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.16秒
+2025-04-13 07:23:32,152 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:23:33,260 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:33,731 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:34,968 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.82秒
+2025-04-13 07:23:34,968 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:23:36,063 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:36,189 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:36,193 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:23:37,317 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.35秒
+2025-04-13 07:23:37,317 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:23:37,324 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:23:37,324 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:23:37,324 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:23:38,429 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:23:38,429 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:23:38,429 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:38,434 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:38,435 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:23:39,563 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:23:40,328 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.90秒
+2025-04-13 07:23:40,328 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:23:40,329 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:40,331 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:42,243 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:42,245 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:23:43,390 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:23:43,591 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.26秒
+2025-04-13 07:23:43,591 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4...
+2025-04-13 07:23:43,632 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.04秒
+2025-04-13 07:23:43,632 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 完成
+2025-04-13 07:23:43,633 - INFO - jianying_utils - 导出函数调用耗时: 12.64秒
+2025-04-13 07:23:43,633 - INFO - jianying_utils - 视频导出成功: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:23:43,633 - INFO - jianying_utils - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:23:43,634 - INFO - jianying_orchestrator -   剪映处理完成，耗时: 13.80秒
+2025-04-13 07:23:43,634 - INFO - jianying_orchestrator -   任务 2/4: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:23:43,634 - INFO - jianying_orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 07:23:43,634 - INFO - jianying_orchestrator -     准备删除 3 个切割片段...
+2025-04-13 07:23:43,636 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 07:23:43,637 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 07:23:43,639 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 07:23:43,639 - INFO - jianying_orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 07:23:43,639 - INFO - jianying_orchestrator -     已删除空的切割片段目录: D:/111\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits
+2025-04-13 07:23:43,639 - INFO - jianying_orchestrator -   步骤 2c(ii): 选项已启用，准备删除原始视频文件...
+2025-04-13 07:23:43,640 - INFO - jianying_orchestrator -     已删除原始视频文件: E:/1\3\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 07:23:43,640 - INFO - jianying_orchestrator - --- 任务 2/4: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 3) 处理结束 | 耗时: 16.76秒 ---
+2025-04-13 07:23:43,640 - INFO - jianying_orchestrator - 
+--- 开始处理 任务 3/4: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 (来自: 3) ---
+2025-04-13 07:23:43,641 - INFO - jianying_orchestrator -   原始视频: E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:23:43,641 - INFO - jianying_orchestrator -   切割片段输出目录: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits
+2025-04-13 07:23:43,641 - INFO - jianying_orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:23:43,641 - INFO - jianying_orchestrator -   最终导出文件名: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:23:43,641 - INFO - jianying_orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:23:43,771 - INFO - jianying_orchestrator -     原始视频时长: 30.63 秒
+2025-04-13 07:23:43,771 - INFO - jianying_orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:23:43,772 - INFO - video_processor - 为切割文件创建输出文件夹: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits
+2025-04-13 07:23:43,811 - INFO - video_processor - 准备将 '白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4' (30.63s) 切割成 3 段，每段约 10.21s
+2025-04-13 07:23:43,811 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:43,811 - INFO - video_processor -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 -ss 0.0 -t 10.211111 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4
+2025-04-13 07:23:44,377 - INFO - video_processor -     成功生成切割片段: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4
+2025-04-13 07:23:44,377 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:44,377 - INFO - video_processor -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 -ss 10.211111 -t 10.211111 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4
+2025-04-13 07:23:45,073 - INFO - video_processor -     成功生成切割片段: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4
+2025-04-13 07:23:45,075 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:45,075 - INFO - video_processor -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 -ss 20.422222 -t 10.211111 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:23:45,936 - INFO - video_processor -     成功生成切割片段: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:23:45,936 - INFO - video_processor - 视频 '白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4' 成功切割成 3 段。
+2025-04-13 07:23:45,937 - INFO - jianying_orchestrator -   视频准备/切割完成，耗时: 2.17秒
+2025-04-13 07:23:45,937 - INFO - jianying_orchestrator -   最终用于处理的片段 (3): 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:23:45,937 - INFO - jianying_orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:23:45,937 - INFO - jianying_utils - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:23:45,937 - INFO - jianying_utils -   使用视频片段 (3): 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:23:45,937 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:23:45,937 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 07:23:45,937 - INFO - jianying_utils -     导出目标: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:23:45,938 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 07:23:45,941 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:23:45,941 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 07:23:45,969 - INFO - jianying_utils - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 07:23:45,969 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 07:23:45,969 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:23:45,969 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:23:45,970 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:23:45,970 - INFO - jianying_utils -   替换 模板片段索引 0 -> 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4
+2025-04-13 07:23:45,970 - INFO - jianying_utils -   替换 模板片段索引 1 -> 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4
+2025-04-13 07:23:45,970 - INFO - jianying_utils -   替换 模板片段索引 2 -> 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:23:45,970 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:23:45,970 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:23:45,970 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:23:45,974 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:23:45,974 - INFO - jianying_utils - 准备导出视频到: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:23:47,019 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:23:47,019 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:23:47,019 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:23:47,019 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:47,022 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:23:48,161 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.14秒
+2025-04-13 07:23:48,161 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:23:49,276 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:49,608 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:50,904 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.74秒
+2025-04-13 07:23:50,904 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:23:52,014 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:52,076 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:52,084 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:23:53,200 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.30秒
+2025-04-13 07:23:53,200 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:23:53,209 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:23:53,209 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:23:53,209 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:23:54,308 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:23:54,309 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:23:54,309 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:54,314 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:54,317 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:23:55,455 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:23:56,234 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.92秒
+2025-04-13 07:23:56,234 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:23:56,234 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:56,237 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:23:58,172 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:23:58,184 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:23:59,343 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:23:59,558 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.32秒
+2025-04-13 07:23:59,558 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4...
+2025-04-13 07:23:59,598 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.04秒
+2025-04-13 07:23:59,598 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 完成
+2025-04-13 07:23:59,599 - INFO - jianying_utils - 导出函数调用耗时: 12.58秒
+2025-04-13 07:23:59,600 - INFO - jianying_utils - 视频导出成功: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:23:59,600 - INFO - jianying_utils - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:23:59,600 - INFO - jianying_orchestrator -   剪映处理完成，耗时: 13.66秒
+2025-04-13 07:23:59,601 - INFO - jianying_orchestrator -   任务 3/4: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:23:59,601 - INFO - jianying_orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 07:23:59,601 - INFO - jianying_orchestrator -     准备删除 3 个切割片段...
+2025-04-13 07:23:59,602 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part1.mp4
+2025-04-13 07:23:59,604 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part2.mp4
+2025-04-13 07:23:59,605 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_part3.mp4
+2025-04-13 07:23:59,605 - INFO - jianying_orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 07:23:59,606 - INFO - jianying_orchestrator -     已删除空的切割片段目录: D:/111\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪_splits
+2025-04-13 07:23:59,606 - INFO - jianying_orchestrator -   步骤 2c(ii): 选项已启用，准备删除原始视频文件...
+2025-04-13 07:23:59,607 - INFO - jianying_orchestrator -     已删除原始视频文件: E:/1\3\白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 07:23:59,607 - INFO - jianying_orchestrator - --- 任务 3/4: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4 (来自: 3) 处理结束 | 耗时: 15.97秒 ---
+2025-04-13 07:23:59,607 - INFO - jianying_orchestrator - 
+--- 开始处理 任务 4/4: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 3) ---
+2025-04-13 07:23:59,607 - INFO - jianying_orchestrator -   原始视频: E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:23:59,608 - INFO - jianying_orchestrator -   切割片段输出目录: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits
+2025-04-13 07:23:59,608 - INFO - jianying_orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:23:59,608 - INFO - jianying_orchestrator -   最终导出文件名: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:23:59,608 - INFO - jianying_orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:23:59,668 - INFO - jianying_orchestrator -     原始视频时长: 43.00 秒
+2025-04-13 07:23:59,669 - INFO - jianying_orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:23:59,669 - INFO - video_processor - 为切割文件创建输出文件夹: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits
+2025-04-13 07:23:59,715 - INFO - video_processor - 准备将 '都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4' (43.00s) 切割成 3 段，每段约 14.33s
+2025-04-13 07:23:59,715 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:23:59,716 - INFO - video_processor -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 0.0 -t 14.333968333333333 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-13 07:24:00,433 - INFO - video_processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-13 07:24:00,434 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:24:00,434 - INFO - video_processor -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 14.333968333333333 -t 14.333968333333333 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-13 07:24:01,321 - INFO - video_processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-13 07:24:01,321 - INFO - video_processor -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 07:24:01,322 - INFO - video_processor -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 28.667936666666666 -t 14.333968333333333 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:24:02,421 - INFO - video_processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:24:02,421 - INFO - video_processor - 视频 '都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4' 成功切割成 3 段。
+2025-04-13 07:24:02,421 - INFO - jianying_orchestrator -   视频准备/切割完成，耗时: 2.75秒
+2025-04-13 07:24:02,422 - INFO - jianying_orchestrator -   最终用于处理的片段 (3): 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:24:02,422 - INFO - jianying_orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:24:02,422 - INFO - jianying_utils - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:24:02,422 - INFO - jianying_utils -   使用视频片段 (3): 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:24:02,422 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:24:02,423 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 07:24:02,423 - INFO - jianying_utils -     导出目标: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:24:02,423 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 07:24:02,426 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:24:02,426 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 07:24:02,456 - INFO - jianying_utils - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 07:24:02,457 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 07:24:02,457 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:24:02,457 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:24:02,457 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:24:02,457 - INFO - jianying_utils -   替换 模板片段索引 0 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-13 07:24:02,457 - INFO - jianying_utils -   替换 模板片段索引 1 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-13 07:24:02,457 - INFO - jianying_utils -   替换 模板片段索引 2 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:24:02,457 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:24:02,459 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:24:02,459 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:24:02,462 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:24:02,462 - INFO - jianying_utils - 准备导出视频到: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:24:03,495 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:24:03,495 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:24:03,495 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:24:03,495 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:24:03,498 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:24:04,641 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.15秒
+2025-04-13 07:24:04,641 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:24:05,766 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:24:06,192 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:24:07,430 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.79秒
+2025-04-13 07:24:07,430 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:24:08,525 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:24:08,573 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:24:08,584 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:24:09,721 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.29秒
+2025-04-13 07:24:09,721 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:24:09,729 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:24:09,729 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:24:09,729 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:24:10,847 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.12秒
+2025-04-13 07:24:10,847 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:24:10,847 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:24:10,851 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:24:10,852 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 07:24:11,981 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:24:12,760 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.91秒
+2025-04-13 07:24:12,760 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:24:12,760 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:24:12,763 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 07:24:14,689 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 07:24:14,701 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 07:24:15,866 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:24:16,068 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.31秒
+2025-04-13 07:24:16,068 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4...
+2025-04-13 07:24:16,106 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.04秒
+2025-04-13 07:24:16,106 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 完成
+2025-04-13 07:24:16,107 - INFO - jianying_utils - 导出函数调用耗时: 12.61秒
+2025-04-13 07:24:16,107 - INFO - jianying_utils - 视频导出成功: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:24:16,107 - INFO - jianying_utils - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:24:16,108 - INFO - jianying_orchestrator -   剪映处理完成，耗时: 13.69秒
+2025-04-13 07:24:16,109 - INFO - jianying_orchestrator -   任务 4/4: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:24:16,109 - INFO - jianying_orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 07:24:16,109 - INFO - jianying_orchestrator -     准备删除 3 个切割片段...
+2025-04-13 07:24:16,110 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-13 07:24:16,111 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-13 07:24:16,113 - INFO - jianying_orchestrator -       已删除切割片段: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-13 07:24:16,113 - INFO - jianying_orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 07:24:16,113 - INFO - jianying_orchestrator -     已删除空的切割片段目录: D:/111\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits
+2025-04-13 07:24:16,113 - INFO - jianying_orchestrator -   步骤 2c(ii): 选项已启用，准备删除原始视频文件...
+2025-04-13 07:24:16,115 - INFO - jianying_orchestrator -     已删除原始视频文件: E:/1\3\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 07:24:16,115 - INFO - jianying_orchestrator - --- 任务 4/4: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 3) 处理结束 | 耗时: 16.51秒 ---
+2025-04-13 07:24:16,115 - INFO - jianying_orchestrator - 
+========= 逐个视频处理完成 =========
+2025-04-13 07:24:16,115 - INFO - jianying_orchestrator - 总任务数 (扫描到): 4
+2025-04-13 07:24:16,115 - INFO - jianying_orchestrator - 成功处理任务数: 4
+2025-04-13 07:24:16,115 - INFO - jianying_orchestrator - 失败处理任务数: 0
+2025-04-13 07:24:16,115 - INFO - jianying_orchestrator -   - 因切割失败: 0
+2025-04-13 07:24:16,116 - INFO - jianying_orchestrator -   - 因剪映处理失败: 0
+2025-04-13 07:24:16,116 - INFO - jianying_orchestrator - 总耗时: 69.78 秒
+2025-04-13 07:24:16,116 - INFO - jianying_orchestrator - 平均任务耗时: 17.45 秒/任务
+2025-04-13 07:24:16,116 - INFO - jianying_orchestrator - ====================================
+2025-04-13 07:24:16,748 - INFO - root - 后台处理进程 (PID: 54768) 已结束。退出码: 0

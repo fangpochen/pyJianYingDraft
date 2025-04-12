@@ -4,7 +4,7 @@
 import os
 import time
 import pyJianYingDraft as draft
-from pyJianYingDraft import Export_resolution, Export_framerate
+from pyJianYingDraft import Export_resolution, Export_framerate, Extend_mode, Shrink_mode
 import uiautomation as uia
 from collections import defaultdict
 import datetime
@@ -371,19 +371,9 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
                  self.logger.info("重新获取窗口后确认在编辑模式，继续切换。")
 
         try:
-            # 定位关闭按钮更精确，避免依赖索引
-            title_bar = self.app.GroupControl(searchDepth=1, ClassName="QMainWindowTitleBar")
-            if not title_bar.Exists(0.1):
-                 self.logger.warning("未能快速找到 QMainWindowTitleBar, 尝试备用方法...")
-                 # 备用方法：尝试按索引查找，兼容旧逻辑，但发出警告
-                 close_btn = self.app.GroupControl(searchDepth=1, ClassName="TitleBarButton", foundIndex=3)
-            else:
-                 # 在 TitleBar 内查找关闭按钮，描述符可能更稳定
-                 # 注意：desc_matcher 可能需要根据实际情况调整
-                 close_btn = title_bar.ButtonControl(searchDepth=1, Compare=draft.jianying_controller.ControlFinder.desc_matcher("TitleBarButtonType:CLOSE"))
-                 if not close_btn.Exists(0.1):
-                      self.logger.warning("在 TitleBar 中未找到描述符匹配的关闭按钮，尝试按 ClassName...")
-                      close_btn = title_bar.ButtonControl(searchDepth=1, ClassName="TitleBarButton", foundIndex=3) # 假设关闭仍在第3个
+            # 直接使用日志中提示有效的备用方法
+            self.logger.debug("直接使用备用方法定位关闭/返回主页按钮 (ClassName='TitleBarButton', foundIndex=3)...")
+            close_btn = self.app.GroupControl(searchDepth=1, ClassName="TitleBarButton", foundIndex=3)
 
             if not close_btn or not close_btn.Exists(0):
                 self.logger.error("无法定位到编辑窗口的关闭/返回主页按钮。")
@@ -511,7 +501,13 @@ def process_videos(video_paths,
             logger.info(f"  替换 {segment_log_name} -> {video_file_basename}")
             try:
                 replace_seg_start = time.time()
-                script.replace_material_by_seg(video_track, i, video_materials[i])
+                script.replace_material_by_seg(
+                    video_track, 
+                    i, 
+                    video_materials[i],
+                    handle_shrink=Shrink_mode.cut_tail, # 片段缩短时，提前结束点
+                    handle_extend=Extend_mode.push_tail # 片段延长时，推后结束点及后续片段
+                )
                 logger.debug(f"    替换耗时: {time.time() - replace_seg_start:.2f}秒")
             except IndexError:
                  error_msg = f"尝试替换索引为 {i} 的片段时出错。模板草稿 '{draft_name}' 的视频轨道可能没有足够的片段 ({actual_segments_in_template})。"
@@ -525,30 +521,31 @@ def process_videos(video_paths,
         logger.info(f"视频片段替换完成，耗时: {replace_time:.2f}秒.")
 
         # --- 6. (NEW) Adjust draft duration --- 
-        if original_duration_seconds is not None and original_duration_seconds > 0:
-            try:
-                original_duration_microseconds = int(original_duration_seconds * 1_000_000)
-                logger.info(f"尝试将草稿 '{draft_name}' 的总时长调整为原始视频时长: {original_duration_seconds:.2f} 秒 ({original_duration_microseconds} 微秒)")
-                # Access the draft content dictionary
-                if hasattr(script, 'content') and isinstance(script.content, dict):
-                    current_draft_duration = script.content.get('duration')
-                    if current_draft_duration is not None:
-                         logger.info(f"  当前草稿时长: {current_draft_duration} 微秒")
-                    else:
-                         logger.warning("  未在草稿内容中找到 'duration' 键。")
-
-                    script.content['duration'] = original_duration_microseconds
-                    logger.info(f"  草稿总时长已更新为: {script.content['duration']} 微秒")
-                else:
-                    logger.warning("无法访问草稿内容字典 (script.content) 或其不是字典，无法调整时长。")
-            except Exception as e:
-                logger.warning(f"调整草稿总时长时出错: {e}", exc_info=True)
-                # Continue even if duration adjustment fails
-        else:
-             logger.info("未提供有效的原始视频时长，跳过调整草稿时长步骤。")
+        # 注释掉整个时长调整块，让库自行处理或保持替换后的时长
+        # if original_duration_seconds is not None and original_duration_seconds > 0:
+        #     try:
+        #         original_duration_microseconds = int(original_duration_seconds * 1_000_000)
+        #         logger.info(f"尝试将草稿 '{draft_name}' 的总时长调整为原始视频时长: {original_duration_seconds:.2f} 秒 ({original_duration_microseconds} 微秒)")
+        #         # Access the draft content dictionary
+        #         if hasattr(script, 'content') and isinstance(script.content, dict):
+        #             current_draft_duration = script.content.get('duration')
+        #             if current_draft_duration is not None:
+        #                  logger.info(f"  当前草稿时长: {current_draft_duration} 微秒")
+        #             else:
+        #                  logger.warning("  未在草稿内容中找到 'duration' 键。")
+        #
+        #             script.content['duration'] = original_duration_microseconds
+        #             logger.info(f"  草稿总时长已更新为: {script.content['duration']} 微秒")
+        #         else:
+        #             logger.warning("无法访问草稿内容字典 (script.content) 或其不是字典，无法调整时长。")
+        #     except Exception as e:
+        #         logger.warning(f"调整草稿总时长时出错: {e}", exc_info=True)
+        #         # Continue even if duration adjustment fails
+        # else:
+        #      logger.info("未提供有效的原始视频时长，跳过调整草稿时长步骤。")
 
         # --- 7. Save draft changes (Original step 6) ---
-        logger.warning(f"注意：即将保存修改（包括可能调整过的时长），这将覆盖原始模板草稿 '{draft_name}'！")
+        logger.warning(f"注意：即将保存修改，这将覆盖原始模板草稿 '{draft_name}'！")
         logger.info(f"保存修改到草稿: {draft_name}")
         save_start_time = time.time()
         script.save()
