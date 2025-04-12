@@ -1,0 +1,1400 @@
+2025-04-13 01:00:54,540 - INFO - root - 配置文件 batch_tool_config.ini 不存在，将使用默认值或空值。
+2025-04-13 01:00:54,548 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:01:10,310 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:01:10,310 - INFO - root -   输入文件夹: E:/测试
+2025-04-13 01:01:10,310 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:01:10,311 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:01:10,311 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:01:10,311 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:01:10,312 - INFO - batch_processor - 开始扫描输入文件夹: E:/测试
+2025-04-13 01:01:10,313 - DEBUG - batch_processor - 跳过非目录项目 'test_video2.mp4'
+2025-04-13 01:01:10,313 - INFO - batch_processor - 发现批次文件夹: 新建文件夹
+2025-04-13 01:01:10,313 - INFO - batch_processor -   批次 '新建文件夹' 找到 1 个视频文件:
+2025-04-13 01:01:10,313 - INFO - batch_processor -     - 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4
+2025-04-13 01:01:10,314 - INFO - batch_processor - 发现批次文件夹: 菜心
+2025-04-13 01:01:10,314 - INFO - batch_processor -   批次 '菜心' 找到 16 个视频文件:
+2025-04-13 01:01:10,314 - INFO - batch_processor -     - 明天结个婚吧吉他弹唱 炙热计划 无声卡清唱 唱歌 小宇.mp4
+2025-04-13 01:01:10,314 - INFO - batch_processor -     - 来啦来啦炙热计划 无声卡清唱 吉他 唱歌 沈以诚.mp4
+2025-04-13 01:01:10,314 - INFO - batch_processor -     - 来晚喽吉他弹唱 185 张杰 emo.mp4
+2025-04-13 01:01:10,315 - INFO - batch_processor -     - 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 01:01:10,315 - INFO - batch_processor -     - 每次看到头发都有一种说不出来的后悔吉他弹唱 炙热计划 吉他初学者  翻唱歌曲 氛围感.mp4
+2025-04-13 01:01:10,315 - INFO - batch_processor -     - ... (还有 11 个)
+2025-04-13 01:01:10,315 - INFO - batch_processor - 共找到 2 个视频批次，准备开始处理...
+2025-04-13 01:01:10,315 - INFO - batch_processor - 
+--- 处理批次 1/2: 新建文件夹 ---
+2025-04-13 01:01:10,316 - INFO - batch_processor - 导出文件名将为: 新建文件夹.mp4
+2025-04-13 01:01:10,316 - INFO - jianying_utils - --- 开始处理批次: 简单测试_4940 | 视频数: 1 ---
+2025-04-13 01:01:10,316 - INFO - jianying_utils - 使用草稿文件夹: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:01:10,316 - INFO - jianying_utils - 找到草稿: 简单测试_4940
+2025-04-13 01:01:10,323 - INFO - jianying_utils - 加载草稿耗时: 0.00秒
+2025-04-13 01:01:10,323 - INFO - jianying_utils - 当前草稿中的素材元数据:
+2025-04-13 01:01:10,323 - INFO - jianying_utils - 获取轨道耗时: 0.00秒
+2025-04-13 01:01:10,323 - INFO - jianying_utils - 加载视频素材 1/1: 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4
+2025-04-13 01:01:10,445 - INFO - jianying_utils - 加载 1 个视频素材耗时: 0.12秒
+2025-04-13 01:01:10,445 - INFO - jianying_utils - 替换第 1 个视频片段...
+2025-04-13 01:01:10,446 - INFO - jianying_utils -   - 耗时: 0.00秒
+2025-04-13 01:01:10,446 - INFO - jianying_utils - 替换 1 个视频片段总耗时: 0.00秒
+2025-04-13 01:01:10,449 - INFO - jianying_utils - 保存草稿耗时: 0.00秒
+2025-04-13 01:01:10,449 - INFO - jianying_utils - 草稿已成功修改: 简单测试_4940
+2025-04-13 01:01:10,449 - INFO - jianying_utils - 开始导出视频到: D:/111\新建文件夹.mp4
+2025-04-13 01:01:10,450 - DEBUG - comtypes.client._generate - GetModule(UIAutomationCore.dll), resolved: False
+2025-04-13 01:01:10,453 - DEBUG - comtypes.client._generate - GetModule(TLIBATTR(GUID={944DE083-8FB8-45CF-BCB7-C477ACB2F897}, Version=1.0, LCID=0, FLags=0x8))
+2025-04-13 01:01:10,473 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(ITypeLib) ptr=0x293f7b01f10 at 293f40cb540>
+2025-04-13 01:01:10,473 - DEBUG - comtypes.client._create - {ff48dba4-60ef-4201-aa87-54103eef594e} -> {FF48DBA4-60EF-4201-AA87-54103EEF594E}
+2025-04-13 01:01:10,474 - DEBUG - comtypes.client._create - CoCreateInstance({FF48DBA4-60EF-4201-AA87-54103EEF594E}, clsctx=None, interface=<class 'comtypes.gen._944DE083_8FB8_45CF_BCB7_C477ACB2F897_0_1_0.IUIAutomation'>)
+2025-04-13 01:01:10,493 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafcb0 at 293f4160ec0>
+2025-04-13 01:01:10,497 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf200 at 293f41619c0>
+2025-04-13 01:01:10,529 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf5f0 at 293f4160ec0>
+2025-04-13 01:01:10,531 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf710 at 293f41619c0>
+2025-04-13 01:01:10,532 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf9e0 at 293f41613c0>
+2025-04-13 01:01:10,536 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf3b0 at 293f41613c0>
+2025-04-13 01:01:10,538 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab06d0 at 293f41619c0>
+2025-04-13 01:01:10,539 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaefc0 at 293f41613c0>
+2025-04-13 01:01:10,540 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaed80 at 293f41619c0>
+2025-04-13 01:01:10,540 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0130 at 293f41613c0>
+2025-04-13 01:01:10,541 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafef0 at 293f41619c0>
+2025-04-13 01:01:10,542 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafcb0 at 293f41613c0>
+2025-04-13 01:01:10,542 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf170 at 293f41619c0>
+2025-04-13 01:01:10,543 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf4d0 at 293f41613c0>
+2025-04-13 01:01:10,544 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf3b0 at 293f41619c0>
+2025-04-13 01:01:10,545 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab06d0 at 293f41613c0>
+2025-04-13 01:01:10,546 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf170 at 293f41619c0>
+2025-04-13 01:01:10,546 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab06d0 at 293f41613c0>
+2025-04-13 01:01:10,546 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf710 at 293f41619c0>
+2025-04-13 01:01:10,548 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafcb0 at 293f41613c0>
+2025-04-13 01:01:10,549 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafa70 at 293f41619c0>
+2025-04-13 01:01:10,550 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab02e0 at 293f41613c0>
+2025-04-13 01:01:10,550 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafe60 at 293f41619c0>
+2025-04-13 01:01:10,551 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaef30 at 293f41613c0>
+2025-04-13 01:01:10,551 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf440 at 293f41619c0>
+2025-04-13 01:01:10,552 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab06d0 at 293f41613c0>
+2025-04-13 01:01:10,553 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaef30 at 293f41619c0>
+2025-04-13 01:01:10,553 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab02e0 at 293f41613c0>
+2025-04-13 01:01:10,554 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0370 at 293f41619c0>
+2025-04-13 01:01:10,555 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaee10 at 293f41613c0>
+2025-04-13 01:01:10,558 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0130 at 293f41619c0>
+2025-04-13 01:01:11,588 - INFO - jianying_utils - 初始化控制器耗时: 1.14秒
+2025-04-13 01:01:11,588 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\新建文件夹.mp4
+2025-04-13 01:01:11,588 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:01:11,589 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab07f0 at 293f4160ec0>
+2025-04-13 01:01:11,594 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafb00 at 293f4160ec0>
+2025-04-13 01:01:11,594 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaee10 at 293f41619c0>
+2025-04-13 01:01:11,601 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0130 at 293f4160ec0>
+2025-04-13 01:01:11,608 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafd40 at 293f41613c0>
+2025-04-13 01:01:11,611 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf5f0 at 293f4160ec0>
+2025-04-13 01:01:11,618 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf0e0 at 293f41613c0>
+2025-04-13 01:01:11,623 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0520 at 293f4160ec0>
+2025-04-13 01:01:11,626 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab07f0 at 293f41613c0>
+2025-04-13 01:01:11,630 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0010 at 293f4160ec0>
+2025-04-13 01:01:11,634 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafdd0 at 293f41613c0>
+2025-04-13 01:01:11,638 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0130 at 293f4160ec0>
+2025-04-13 01:01:11,642 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafdd0 at 293f41613c0>
+2025-04-13 01:01:11,648 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab05b0 at 293f4160ec0>
+2025-04-13 01:01:11,652 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf560 at 293f41613c0>
+2025-04-13 01:01:11,658 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0010 at 293f4160ec0>
+2025-04-13 01:01:11,662 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab07f0 at 293f41613c0>
+2025-04-13 01:01:11,671 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf0e0 at 293f4160ec0>
+2025-04-13 01:01:11,675 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab0760 at 293f41613c0>
+2025-04-13 01:01:11,681 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafa70 at 293f4160ec0>
+2025-04-13 01:01:11,687 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf290 at 293f41613c0>
+2025-04-13 01:01:11,691 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf7a0 at 293f4160ec0>
+2025-04-13 01:01:11,697 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafdd0 at 293f41613c0>
+2025-04-13 01:01:11,703 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf8c0 at 293f4160ec0>
+2025-04-13 01:01:11,708 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab02e0 at 293f41613c0>
+2025-04-13 01:01:11,714 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf200 at 293f4160ec0>
+2025-04-13 01:01:11,719 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aaf290 at 293f41613c0>
+2025-04-13 01:01:11,721 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab05b0 at 293f4160ec0>
+2025-04-13 01:01:11,727 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafdd0 at 293f41613c0>
+2025-04-13 01:01:13,832 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7aafb90 at 293f41619c0>
+2025-04-13 01:01:13,833 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7ab07f0 at 293f4160ec0>
+2025-04-13 01:01:13,833 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 79, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 317, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:01:13,834 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:01:13,834 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 导出操作耗时统计 ------
+2025-04-13 01:01:13,835 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总耗时: 3.38秒
+2025-04-13 01:01:13,835 - DEBUG - jianying_utils.Fast_Jianying_Controller - 导出函数耗时: 2.25秒
+2025-04-13 01:01:13,835 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总等待时间: 0.00秒 (0.0%)
+2025-04-13 01:01:13,835 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+各操作等待时间:
+2025-04-13 01:01:13,835 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 统计结束 ------
+2025-04-13 01:01:13,835 - INFO - jianying_utils - 视频导出任务总耗时: 3.39秒
+2025-04-13 01:01:13,835 - ERROR - jianying_utils - !!! 处理批次时出错: RuntimeError: 导出视频时出错: 视频导出失败，请查看上方日志了解详情 !!!
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 550, in process_videos
+    raise RuntimeError("视频导出失败，请查看上方日志了解详情")
+RuntimeError: 视频导出失败，请查看上方日志了解详情
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 553, in process_videos
+    raise RuntimeError(f"导出视频时出错: {str(ex)}") from ex
+RuntimeError: 导出视频时出错: 视频导出失败，请查看上方日志了解详情
+2025-04-13 01:01:13,836 - INFO - jianying_utils - --- 批次处理结束 | 耗时: 3.52秒 | 结果: 失败 ---
+2025-04-13 01:01:13,836 - INFO - batch_processor - 
+--- 处理批次 2/2: 菜心 ---
+2025-04-13 01:01:13,837 - INFO - batch_processor - 导出文件名将为: 菜心.mp4
+2025-04-13 01:01:13,837 - INFO - jianying_utils - --- 开始处理批次: 简单测试_4940 | 视频数: 16 ---
+2025-04-13 01:01:13,837 - INFO - jianying_utils - 使用草稿文件夹: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:01:13,837 - INFO - jianying_utils - 找到草稿: 简单测试_4940
+2025-04-13 01:01:13,840 - INFO - jianying_utils - 加载草稿耗时: 0.00秒
+2025-04-13 01:01:13,840 - INFO - jianying_utils - 当前草稿中的素材元数据:
+2025-04-13 01:01:13,840 - INFO - jianying_utils - 获取轨道耗时: 0.00秒
+2025-04-13 01:01:13,840 - INFO - jianying_utils - 加载视频素材 1/16: 明天结个婚吧吉他弹唱 炙热计划 无声卡清唱 唱歌 小宇.mp4
+2025-04-13 01:01:13,881 - INFO - jianying_utils - 加载视频素材 2/16: 来啦来啦炙热计划 无声卡清唱 吉他 唱歌 沈以诚.mp4
+2025-04-13 01:01:13,917 - INFO - jianying_utils - 加载视频素材 3/16: 来晚喽吉他弹唱 185 张杰 emo.mp4
+2025-04-13 01:01:13,956 - INFO - jianying_utils - 加载视频素材 4/16: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 01:01:13,986 - INFO - jianying_utils - 加载视频素材 5/16: 每次看到头发都有一种说不出来的后悔吉他弹唱 炙热计划 吉他初学者  翻唱歌曲 氛围感.mp4
+2025-04-13 01:01:14,027 - INFO - jianying_utils - 加载视频素材 6/16: 永远相信自己创业 提升自己.mp4
+2025-04-13 01:01:14,058 - INFO - jianying_utils - 加载视频素材 7/16: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:01:14,083 - INFO - jianying_utils - 加载视频素材 8/16: 珍惜一切自媒体 珍惜.mp4
+2025-04-13 01:01:14,111 - INFO - jianying_utils - 加载视频素材 9/16: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 01:01:14,138 - INFO - jianying_utils - 加载视频素材 10/16: 看见你说胃疼，我立马拿出一片止痛药自己吃了，我怕我会心疼炙热计划 氛围感 emo 无声卡清唱 吉他.mp4
+2025-04-13 01:01:14,170 - INFO - jianying_utils - 加载视频素材 11/16: 老龄化社会全面来临老龄化.mp4
+2025-04-13 01:01:14,189 - INFO - jianying_utils - 加载视频素材 12/16: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 01:01:14,216 - INFO - jianying_utils - 加载视频素材 13/16: 谁的损失大 就是谁的错 底层逻辑底层逻辑 思维 认知.mp4
+2025-04-13 01:01:14,239 - INFO - jianying_utils - 加载视频素材 14/16: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-13 01:01:14,252 - INFO - jianying_utils - 加载视频素材 15/16: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 01:01:14,281 - INFO - jianying_utils - 加载视频素材 16/16: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 01:01:14,313 - INFO - jianying_utils - 加载 16 个视频素材耗时: 0.47秒
+2025-04-13 01:01:14,313 - WARNING - jianying_utils - 视频素材数量(16)多于轨道片段数(3)，只替换前 3 个。
+2025-04-13 01:01:14,314 - INFO - jianying_utils - 替换第 1 个视频片段...
+2025-04-13 01:01:14,314 - INFO - jianying_utils -   - 耗时: 0.00秒
+2025-04-13 01:01:14,314 - INFO - jianying_utils - 替换第 2 个视频片段...
+2025-04-13 01:01:14,314 - INFO - jianying_utils -   - 耗时: 0.00秒
+2025-04-13 01:01:14,314 - INFO - jianying_utils - 替换第 3 个视频片段...
+2025-04-13 01:01:14,314 - INFO - jianying_utils -   - 耗时: 0.00秒
+2025-04-13 01:01:14,314 - INFO - jianying_utils - 替换 3 个视频片段总耗时: 0.00秒
+2025-04-13 01:01:14,317 - INFO - jianying_utils - 保存草稿耗时: 0.00秒
+2025-04-13 01:01:14,317 - INFO - jianying_utils - 草稿已成功修改: 简单测试_4940
+2025-04-13 01:01:14,317 - INFO - jianying_utils - 开始导出视频到: D:/111\菜心.mp4
+2025-04-13 01:01:14,321 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93640 at 293f41611c0>
+2025-04-13 01:01:14,326 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c931c0 at 293f41611c0>
+2025-04-13 01:01:14,328 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93250 at 293fc1ad3c0>
+2025-04-13 01:01:14,329 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93910 at 293f41611c0>
+2025-04-13 01:01:14,329 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93be0 at 293fc1ad3c0>
+2025-04-13 01:01:14,330 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94690 at 293f41611c0>
+2025-04-13 01:01:14,330 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93be0 at 293fc1ad3c0>
+2025-04-13 01:01:14,331 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c948d0 at 293f41611c0>
+2025-04-13 01:01:14,331 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93d90 at 293fc1ad3c0>
+2025-04-13 01:01:14,332 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94450 at 293f41611c0>
+2025-04-13 01:01:14,333 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c92830 at 293fc1ad3c0>
+2025-04-13 01:01:14,333 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94720 at 293f41611c0>
+2025-04-13 01:01:14,334 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94690 at 293fc1ad3c0>
+2025-04-13 01:01:14,335 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c929e0 at 293f41611c0>
+2025-04-13 01:01:14,336 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c92a70 at 293fc1ad3c0>
+2025-04-13 01:01:14,337 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c92cb0 at 293f41611c0>
+2025-04-13 01:01:14,337 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93910 at 293fc1ad3c0>
+2025-04-13 01:01:14,338 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93be0 at 293f41611c0>
+2025-04-13 01:01:14,339 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93910 at 293fc1ad3c0>
+2025-04-13 01:01:14,339 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93640 at 293f41611c0>
+2025-04-13 01:01:14,340 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93be0 at 293fc1ad3c0>
+2025-04-13 01:01:14,341 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c925f0 at 293f41611c0>
+2025-04-13 01:01:14,342 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94330 at 293fc1ad3c0>
+2025-04-13 01:01:14,343 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93be0 at 293f41611c0>
+2025-04-13 01:01:14,343 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93520 at 293fc1ad3c0>
+2025-04-13 01:01:14,344 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94840 at 293f41611c0>
+2025-04-13 01:01:14,344 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c928c0 at 293fc1ad3c0>
+2025-04-13 01:01:14,346 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93be0 at 293f41611c0>
+2025-04-13 01:01:15,370 - INFO - jianying_utils - 初始化控制器耗时: 1.05秒
+2025-04-13 01:01:15,370 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\菜心.mp4
+2025-04-13 01:01:15,370 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:01:15,370 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c927a0 at 293fc1ad340>
+2025-04-13 01:01:15,373 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c931c0 at 293f41611c0>
+2025-04-13 01:01:15,373 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94450 at 293fc1ad340>
+2025-04-13 01:01:15,376 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93250 at 293fc1ad340>
+2025-04-13 01:01:15,378 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93370 at 293fc1ad3c0>
+2025-04-13 01:01:15,379 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94720 at 293fc1ad340>
+2025-04-13 01:01:15,383 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c944e0 at 293fc1ad3c0>
+2025-04-13 01:01:15,385 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94330 at 293fc1ad340>
+2025-04-13 01:01:15,388 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93250 at 293fc1ad3c0>
+2025-04-13 01:01:15,390 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93e20 at 293fc1ad440>
+2025-04-13 01:01:15,391 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94690 at 293fc1ad3c0>
+2025-04-13 01:01:15,393 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93be0 at 293fc1ad440>
+2025-04-13 01:01:15,395 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93640 at 293fc1ad3c0>
+2025-04-13 01:01:15,401 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c92680 at 293fc1ad440>
+2025-04-13 01:01:15,403 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94720 at 293fc1ad3c0>
+2025-04-13 01:01:15,406 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c929e0 at 293fc1ad440>
+2025-04-13 01:01:15,408 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94180 at 293fc1ad3c0>
+2025-04-13 01:01:15,411 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c92dd0 at 293fc1ad440>
+2025-04-13 01:01:15,413 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93250 at 293fc1ad3c0>
+2025-04-13 01:01:15,414 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c942a0 at 293fc1ad440>
+2025-04-13 01:01:15,420 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c944e0 at 293fc1ad3c0>
+2025-04-13 01:01:15,422 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93910 at 293fc1ad440>
+2025-04-13 01:01:15,424 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94330 at 293fc1ad3c0>
+2025-04-13 01:01:15,427 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c925f0 at 293fc1ad440>
+2025-04-13 01:01:15,428 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94330 at 293fc1ad3c0>
+2025-04-13 01:01:15,430 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c929e0 at 293fc1ad440>
+2025-04-13 01:01:15,432 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c939a0 at 293fc1ad3c0>
+2025-04-13 01:01:15,435 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c944e0 at 293fc1ad440>
+2025-04-13 01:01:15,436 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c94840 at 293fc1ad3c0>
+2025-04-13 01:01:17,514 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c931c0 at 293f41611c0>
+2025-04-13 01:01:17,514 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x293f7c93d00 at 293fc1ad440>
+2025-04-13 01:01:17,515 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 79, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 317, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:01:17,515 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:01:17,515 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 导出操作耗时统计 ------
+2025-04-13 01:01:17,516 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总耗时: 3.20秒
+2025-04-13 01:01:17,516 - DEBUG - jianying_utils.Fast_Jianying_Controller - 导出函数耗时: 2.14秒
+2025-04-13 01:01:17,516 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总等待时间: 0.00秒 (0.0%)
+2025-04-13 01:01:17,516 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+各操作等待时间:
+2025-04-13 01:01:17,516 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 统计结束 ------
+2025-04-13 01:01:17,517 - INFO - jianying_utils - 视频导出任务总耗时: 3.20秒
+2025-04-13 01:01:17,517 - ERROR - jianying_utils - !!! 处理批次时出错: RuntimeError: 导出视频时出错: 视频导出失败，请查看上方日志了解详情 !!!
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 550, in process_videos
+    raise RuntimeError("视频导出失败，请查看上方日志了解详情")
+RuntimeError: 视频导出失败，请查看上方日志了解详情
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 553, in process_videos
+    raise RuntimeError(f"导出视频时出错: {str(ex)}") from ex
+RuntimeError: 导出视频时出错: 视频导出失败，请查看上方日志了解详情
+2025-04-13 01:01:17,517 - INFO - jianying_utils - --- 批次处理结束 | 耗时: 3.68秒 | 结果: 失败 ---
+2025-04-13 01:01:17,518 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:01:17,518 - INFO - batch_processor - 总批次数: 2
+2025-04-13 01:01:17,518 - INFO - batch_processor - 成功批次数: 0
+2025-04-13 01:01:17,518 - INFO - batch_processor - 失败批次数: 2
+2025-04-13 01:01:17,518 - INFO - batch_processor - 总耗时: 7.21 秒
+2025-04-13 01:01:17,518 - INFO - batch_processor - ===================================
+2025-04-13 01:11:37,145 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:11:37,146 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:11:37,170 - DEBUG - comtypes._post_coinit.unknwn - Calling CoUninitialize()
+2025-04-13 01:11:37,171 - DEBUG - comtypes._post_coinit.unknwn - CoUninitialize() done.
+2025-04-13 01:12:35,670 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:12:35,681 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:18:45,641 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:18:45,642 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:18:45,667 - DEBUG - comtypes._post_coinit.unknwn - Calling CoUninitialize()
+2025-04-13 01:18:45,667 - DEBUG - comtypes._post_coinit.unknwn - CoUninitialize() done.
+2025-04-13 01:18:48,632 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:18:48,640 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:18:51,703 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:18:51,703 - INFO - root -   输入文件夹: E:/测试
+2025-04-13 01:18:51,703 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:18:51,703 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:18:51,704 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:18:51,704 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:18:51,704 - INFO - batch_processor - 开始扫描输入文件夹: E:/测试
+2025-04-13 01:18:51,704 - DEBUG - batch_processor - 跳过非目录项目 'test_video2.mp4'
+2025-04-13 01:18:51,704 - INFO - batch_processor - 发现批次文件夹: 新建文件夹
+2025-04-13 01:18:51,704 - INFO - batch_processor -   批次 '新建文件夹' 找到 1 个视频文件:
+2025-04-13 01:18:51,704 - INFO - batch_processor -     - 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4
+2025-04-13 01:18:51,705 - INFO - batch_processor - 发现批次文件夹: 菜心
+2025-04-13 01:18:51,705 - INFO - batch_processor -   批次 '菜心' 找到 16 个视频文件:
+2025-04-13 01:18:51,706 - INFO - batch_processor -     - 明天结个婚吧吉他弹唱 炙热计划 无声卡清唱 唱歌 小宇.mp4
+2025-04-13 01:18:51,706 - INFO - batch_processor -     - 来啦来啦炙热计划 无声卡清唱 吉他 唱歌 沈以诚.mp4
+2025-04-13 01:18:51,706 - INFO - batch_processor -     - 来晚喽吉他弹唱 185 张杰 emo.mp4
+2025-04-13 01:18:51,706 - INFO - batch_processor -     - 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 01:18:51,706 - INFO - batch_processor -     - 每次看到头发都有一种说不出来的后悔吉他弹唱 炙热计划 吉他初学者  翻唱歌曲 氛围感.mp4
+2025-04-13 01:18:51,706 - INFO - batch_processor -     - ... (还有 11 个)
+2025-04-13 01:18:51,706 - INFO - batch_processor - 共找到 2 个视频批次，准备开始处理...
+2025-04-13 01:18:51,706 - INFO - batch_processor - 
+--- 处理批次 1/2: 新建文件夹 ---
+2025-04-13 01:18:51,706 - INFO - batch_processor - 导出文件名将为: 新建文件夹.mp4
+2025-04-13 01:18:51,706 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:18:51,706 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4，将尝试切割成 3 段。
+2025-04-13 01:18:51,902 - DEBUG - jianying_utils - 获取 '办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4' 时长: 71.38 秒
+2025-04-13 01:18:51,902 - INFO - jianying_utils - 准备将 '办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4' (71.38s) 切割成 3 段，每段约 23.79s
+2025-04-13 01:18:51,902 - DEBUG - jianying_utils - 使用 -c copy 模式进行快速切割 (第 1 段)
+2025-04-13 01:18:51,902 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -i E:/测试\新建文件夹\办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4 -ss 0.0 -t 23.792668333333335 -c copy -avoid_negative_ts make_zero D:/111\办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part1.mp4
+2025-04-13 01:18:52,131 - INFO - jianying_utils -     成功生成切割片段: 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part1.mp4
+2025-04-13 01:18:52,131 - DEBUG - jianying_utils - 使用 -c copy 模式进行快速切割 (第 2 段)
+2025-04-13 01:18:52,131 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -i E:/测试\新建文件夹\办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4 -ss 23.792668333333335 -t 23.792668333333335 -c copy -avoid_negative_ts make_zero D:/111\办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part2.mp4
+2025-04-13 01:18:52,184 - INFO - jianying_utils -     成功生成切割片段: 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part2.mp4
+2025-04-13 01:18:52,184 - DEBUG - jianying_utils - 使用 -c copy 模式进行快速切割 (第 3 段)
+2025-04-13 01:18:52,184 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -i E:/测试\新建文件夹\办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑.mp4 -ss 47.58533666666667 -t 23.792668333333335 -c copy -avoid_negative_ts make_zero D:/111\办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part3.mp4
+2025-04-13 01:18:52,256 - INFO - jianying_utils -     成功生成切割片段: 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part3.mp4
+2025-04-13 01:18:52,256 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:18:52,256 - INFO - jianying_utils - 视频成功切割成 3 段，将使用这些片段进行后续处理。
+2025-04-13 01:18:52,256 - INFO - jianying_utils -   最终使用的视频文件 (3): 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part1.mp4, 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part2.mp4, 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part3.mp4
+2025-04-13 01:18:52,257 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:18:52,257 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:18:52,257 - INFO - jianying_utils -     导出目标: D:/111\新建文件夹.mp4
+2025-04-13 01:18:52,257 - DEBUG - jianying_utils - 初始化草稿文件夹管理器...
+2025-04-13 01:18:52,257 - DEBUG - jianying_utils - 可用草稿: ['.recycle_bin', '1', '4月12日', '4月12日 (1)', '4月12日 (2)', '基础测试_2191', '简单测试_4940']
+2025-04-13 01:18:52,258 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:18:52,259 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:18:52,259 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:18:52,260 - DEBUG - jianying_utils -   创建素材对象: 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part1.mp4
+2025-04-13 01:18:52,274 - DEBUG - jianying_utils -   创建素材对象: 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part2.mp4
+2025-04-13 01:18:52,282 - DEBUG - jianying_utils -   创建素材对象: 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part3.mp4
+2025-04-13 01:18:52,292 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.03秒
+2025-04-13 01:18:52,293 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:18:52,293 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:18:52,293 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 01:18:52,293 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:18:52,293 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part1.mp4
+2025-04-13 01:18:52,294 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:18:52,294 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part2.mp4
+2025-04-13 01:18:52,294 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:18:52,294 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 办公室女生都是变脸大师 内容过于真实 内容启发搜索 搞笑_part3.mp4
+2025-04-13 01:18:52,294 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:18:52,294 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:18:52,294 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:18:52,294 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:18:52,297 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:18:52,297 - INFO - jianying_utils - 准备导出视频到: D:/111\新建文件夹.mp4
+2025-04-13 01:18:52,297 - DEBUG - jianying_utils - 确认导出目录存在或已创建: D:/111
+2025-04-13 01:18:52,298 - DEBUG - comtypes.client._generate - GetModule(UIAutomationCore.dll), resolved: False
+2025-04-13 01:18:52,299 - DEBUG - comtypes.client._generate - GetModule(TLIBATTR(GUID={944DE083-8FB8-45CF-BCB7-C477ACB2F897}, Version=1.0, LCID=0, FLags=0x8))
+2025-04-13 01:18:52,313 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(ITypeLib) ptr=0x19ce907db60 at 19ce9819440>
+2025-04-13 01:18:52,314 - DEBUG - comtypes.client._create - {ff48dba4-60ef-4201-aa87-54103eef594e} -> {FF48DBA4-60EF-4201-AA87-54103EEF594E}
+2025-04-13 01:18:52,314 - DEBUG - comtypes.client._create - CoCreateInstance({FF48DBA4-60EF-4201-AA87-54103EEF594E}, clsctx=None, interface=<class 'comtypes.gen._944DE083_8FB8_45CF_BCB7_C477ACB2F897_0_1_0.IUIAutomation'>)
+2025-04-13 01:18:52,327 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9e50 at 19ce97730c0>
+2025-04-13 01:18:52,328 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9700 at 19ce98193c0>
+2025-04-13 01:18:52,336 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aad80 at 19ce98193c0>
+2025-04-13 01:18:52,337 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9af0 at 19ce97730c0>
+2025-04-13 01:18:52,338 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9b80 at 19ce98193c0>
+2025-04-13 01:18:52,338 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9af0 at 19ce97730c0>
+2025-04-13 01:18:52,339 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aaea0 at 19ce98193c0>
+2025-04-13 01:18:52,339 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa7e0 at 19ce97730c0>
+2025-04-13 01:18:52,340 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9e50 at 19ce98193c0>
+2025-04-13 01:18:52,340 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa090 at 19ce97730c0>
+2025-04-13 01:18:52,341 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa480 at 19ce98193c0>
+2025-04-13 01:18:52,342 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9700 at 19ce97730c0>
+2025-04-13 01:18:52,342 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aabd0 at 19ce98193c0>
+2025-04-13 01:18:52,343 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aaf30 at 19ce97730c0>
+2025-04-13 01:18:52,343 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9e50 at 19ce98193c0>
+2025-04-13 01:18:52,344 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a91f0 at 19ce97730c0>
+2025-04-13 01:18:52,344 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9d30 at 19ce98193c0>
+2025-04-13 01:18:52,345 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9550 at 19ce97730c0>
+2025-04-13 01:18:52,346 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9700 at 19ce98193c0>
+2025-04-13 01:18:52,346 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aafc0 at 19ce97730c0>
+2025-04-13 01:18:52,347 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9ca0 at 19ce98193c0>
+2025-04-13 01:18:52,348 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa480 at 19ce97730c0>
+2025-04-13 01:18:52,350 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aabd0 at 19ce98193c0>
+2025-04-13 01:18:52,350 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9af0 at 19ce97730c0>
+2025-04-13 01:18:52,351 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa240 at 19ce98193c0>
+2025-04-13 01:18:52,352 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa630 at 19ce97730c0>
+2025-04-13 01:18:52,352 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9820 at 19ce98193c0>
+2025-04-13 01:18:52,352 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9af0 at 19ce97730c0>
+2025-04-13 01:18:52,353 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aaea0 at 19ce98193c0>
+2025-04-13 01:18:52,353 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa120 at 19ce97730c0>
+2025-04-13 01:18:52,354 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa090 at 19ce98193c0>
+2025-04-13 01:18:52,354 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9820 at 19ce97730c0>
+2025-04-13 01:18:52,357 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa480 at 19ce98193c0>
+2025-04-13 01:18:53,381 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:18:53,381 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\新建文件夹.mp4
+2025-04-13 01:18:53,381 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:18:53,382 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa6c0 at 19ce9bcf0c0>
+2025-04-13 01:18:53,386 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9b80 at 19ce98193c0>
+2025-04-13 01:18:53,386 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa480 at 19ce97730c0>
+2025-04-13 01:18:53,391 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a99d0 at 19ce98193c0>
+2025-04-13 01:18:53,394 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9c10 at 19ce9bcf0c0>
+2025-04-13 01:18:53,424 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aaf30 at 19ce98193c0>
+2025-04-13 01:18:53,429 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa510 at 19ce9bcf0c0>
+2025-04-13 01:18:53,434 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a98b0 at 19ce98193c0>
+2025-04-13 01:18:53,438 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9550 at 19ce9bcf1c0>
+2025-04-13 01:18:53,443 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aabd0 at 19ce98193c0>
+2025-04-13 01:18:53,448 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9550 at 19ce9bcf1c0>
+2025-04-13 01:18:53,453 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa510 at 19ce98193c0>
+2025-04-13 01:18:53,462 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9550 at 19ce9bcf1c0>
+2025-04-13 01:18:53,468 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9820 at 19ce98193c0>
+2025-04-13 01:18:53,483 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aac60 at 19ce9bcf1c0>
+2025-04-13 01:18:53,490 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9ca0 at 19ce98193c0>
+2025-04-13 01:18:53,500 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa240 at 19ce9bcf1c0>
+2025-04-13 01:18:53,509 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aac60 at 19ce98193c0>
+2025-04-13 01:18:53,518 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa120 at 19ce9bcf1c0>
+2025-04-13 01:18:53,530 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa240 at 19ce98193c0>
+2025-04-13 01:18:53,541 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa630 at 19ce9bcf1c0>
+2025-04-13 01:18:53,549 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa510 at 19ce98193c0>
+2025-04-13 01:18:53,558 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9af0 at 19ce9bcf1c0>
+2025-04-13 01:18:53,562 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9e50 at 19ce98193c0>
+2025-04-13 01:18:53,568 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aa510 at 19ce9bcf1c0>
+2025-04-13 01:18:53,575 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a9af0 at 19ce98193c0>
+2025-04-13 01:18:53,578 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aaa20 at 19ce9bcf1c0>
+2025-04-13 01:18:53,580 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0a98b0 at 19ce98193c0>
+2025-04-13 01:18:55,706 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aafc0 at 19ce97730c0>
+2025-04-13 01:18:55,706 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced0aaf30 at 19ce9bcf1c0>
+2025-04-13 01:18:55,706 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 83, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 321, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:18:55,707 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:18:55,707 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 导出操作耗时统计 ------
+2025-04-13 01:18:55,707 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总耗时: 3.41秒
+2025-04-13 01:18:55,708 - DEBUG - jianying_utils.Fast_Jianying_Controller - 导出函数耗时: 2.33秒
+2025-04-13 01:18:55,708 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总等待时间: 0.00秒 (0.0%)
+2025-04-13 01:18:55,708 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+各操作等待时间:
+2025-04-13 01:18:55,708 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 统计结束 ------
+2025-04-13 01:18:55,708 - INFO - jianying_utils - 导出函数调用耗时: 2.33秒
+2025-04-13 01:18:55,708 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:18:55,708 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:18:55,708 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:18:55,708 - INFO - batch_processor - 
+--- 处理批次 2/2: 菜心 ---
+2025-04-13 01:18:55,709 - INFO - batch_processor - 导出文件名将为: 菜心.mp4
+2025-04-13 01:18:55,709 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:18:55,709 - INFO - jianying_utils - 批次包含 16 个视频文件，无需切割。
+2025-04-13 01:18:55,709 - INFO - jianying_utils -   最终使用的视频文件 (16): 明天结个婚吧吉他弹唱 炙热计划 无声卡清唱 唱歌 小宇.mp4, 来啦来啦炙热计划 无声卡清唱 吉他 唱歌 沈以诚.mp4, 来晚喽吉他弹唱 185 张杰 emo.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4, 每次看到头发都有一种说不出来的后悔吉他弹唱 炙热计划 吉他初学者  翻唱歌曲 氛围感.mp4, 永远相信自己创业 提升自己.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4, 珍惜一切自媒体 珍惜.mp4, 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4, 看见你说胃疼，我立马拿出一片止痛药自己吃了，我怕我会心疼炙热计划 氛围感 emo 无声卡清唱 吉他.mp4, 老龄化社会全面来临老龄化.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4, 谁的损失大 就是谁的错 底层逻辑底层逻辑 思维 认知.mp4, 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 01:18:55,709 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:18:55,709 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:18:55,709 - INFO - jianying_utils -     导出目标: D:/111\菜心.mp4
+2025-04-13 01:18:55,709 - DEBUG - jianying_utils - 初始化草稿文件夹管理器...
+2025-04-13 01:18:55,710 - DEBUG - jianying_utils - 可用草稿: ['.recycle_bin', '1', '4月12日', '4月12日 (1)', '4月12日 (2)', '基础测试_2191', '简单测试_4940']
+2025-04-13 01:18:55,710 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:18:55,712 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:18:55,712 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:18:55,712 - DEBUG - jianying_utils -   创建素材对象: 明天结个婚吧吉他弹唱 炙热计划 无声卡清唱 唱歌 小宇.mp4
+2025-04-13 01:18:55,723 - DEBUG - jianying_utils -   创建素材对象: 来啦来啦炙热计划 无声卡清唱 吉他 唱歌 沈以诚.mp4
+2025-04-13 01:18:55,732 - DEBUG - jianying_utils -   创建素材对象: 来晚喽吉他弹唱 185 张杰 emo.mp4
+2025-04-13 01:18:55,742 - DEBUG - jianying_utils -   创建素材对象: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-13 01:18:55,756 - DEBUG - jianying_utils -   创建素材对象: 每次看到头发都有一种说不出来的后悔吉他弹唱 炙热计划 吉他初学者  翻唱歌曲 氛围感.mp4
+2025-04-13 01:18:55,769 - DEBUG - jianying_utils -   创建素材对象: 永远相信自己创业 提升自己.mp4
+2025-04-13 01:18:55,780 - DEBUG - jianying_utils -   创建素材对象: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:18:55,791 - DEBUG - jianying_utils -   创建素材对象: 珍惜一切自媒体 珍惜.mp4
+2025-04-13 01:18:55,802 - DEBUG - jianying_utils -   创建素材对象: 白嫖的习惯不好。时间都很宝贵的，我都知道拿时间 技术去换别人资源，很多人上来就问带，带了就想免费。哪.mp4
+2025-04-13 01:18:55,816 - DEBUG - jianying_utils -   创建素材对象: 看见你说胃疼，我立马拿出一片止痛药自己吃了，我怕我会心疼炙热计划 氛围感 emo 无声卡清唱 吉他.mp4
+2025-04-13 01:18:55,829 - DEBUG - jianying_utils -   创建素材对象: 老龄化社会全面来临老龄化.mp4
+2025-04-13 01:18:55,841 - DEBUG - jianying_utils -   创建素材对象: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 01:18:55,852 - DEBUG - jianying_utils -   创建素材对象: 谁的损失大 就是谁的错 底层逻辑底层逻辑 思维 认知.mp4
+2025-04-13 01:18:55,862 - DEBUG - jianying_utils -   创建素材对象: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-13 01:18:55,874 - DEBUG - jianying_utils -   创建素材对象: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-13 01:18:55,885 - DEBUG - jianying_utils -   创建素材对象: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 01:18:55,894 - INFO - jianying_utils - 成功为 16 个视频创建素材对象，耗时: 0.18秒
+2025-04-13 01:18:55,895 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:18:55,895 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:18:55,895 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 16 个。
+2025-04-13 01:18:55,895 - WARNING - jianying_utils - 警告：模板轨道片段数 (3) 少于处理后视频数 (16)！将只替换前 3 个片段。
+2025-04-13 01:18:55,895 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:18:55,895 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 明天结个婚吧吉他弹唱 炙热计划 无声卡清唱 唱歌 小宇.mp4
+2025-04-13 01:18:55,895 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:18:55,896 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 来啦来啦炙热计划 无声卡清唱 吉他 唱歌 沈以诚.mp4
+2025-04-13 01:18:55,896 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:18:55,896 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 来晚喽吉他弹唱 185 张杰 emo.mp4
+2025-04-13 01:18:55,896 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:18:55,896 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:18:55,896 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:18:55,896 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:18:55,899 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:18:55,900 - INFO - jianying_utils - 准备导出视频到: D:/111\菜心.mp4
+2025-04-13 01:18:55,900 - DEBUG - jianying_utils - 确认导出目录存在或已创建: D:/111
+2025-04-13 01:18:55,902 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f6b0 at 19cef36e240>
+2025-04-13 01:18:55,911 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f080 at 19cef36e240>
+2025-04-13 01:18:55,912 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e660 at 19cef36e3c0>
+2025-04-13 01:18:55,912 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35eae0 at 19cef36e240>
+2025-04-13 01:18:55,912 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35da90 at 19cef36e3c0>
+2025-04-13 01:18:55,914 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35dfa0 at 19cef36e240>
+2025-04-13 01:18:55,915 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35edb0 at 19cef36e3c0>
+2025-04-13 01:18:55,916 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f7d0 at 19cef36e240>
+2025-04-13 01:18:55,917 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e4b0 at 19cef36e3c0>
+2025-04-13 01:18:55,917 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ddf0 at 19cef36e240>
+2025-04-13 01:18:55,918 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35de80 at 19cef36e3c0>
+2025-04-13 01:18:55,918 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ec00 at 19cef36e240>
+2025-04-13 01:18:55,919 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35dfa0 at 19cef36e3c0>
+2025-04-13 01:18:55,919 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ddf0 at 19cef36e240>
+2025-04-13 01:18:55,920 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f3e0 at 19cef36e3c0>
+2025-04-13 01:18:55,920 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ee40 at 19cef36e240>
+2025-04-13 01:18:55,921 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e540 at 19cef36e3c0>
+2025-04-13 01:18:55,921 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35de80 at 19cef36e240>
+2025-04-13 01:18:55,922 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ddf0 at 19cef36e3c0>
+2025-04-13 01:18:55,922 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35df10 at 19cef36e240>
+2025-04-13 01:18:55,923 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f3e0 at 19cef36e3c0>
+2025-04-13 01:18:55,923 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e930 at 19cef36e240>
+2025-04-13 01:18:55,924 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35eae0 at 19cef36e3c0>
+2025-04-13 01:18:55,924 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f620 at 19cef36e240>
+2025-04-13 01:18:55,925 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35eff0 at 19cef36e3c0>
+2025-04-13 01:18:55,925 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e660 at 19cef36e240>
+2025-04-13 01:18:55,925 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ddf0 at 19cef36e3c0>
+2025-04-13 01:18:55,926 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35eae0 at 19cef36e240>
+2025-04-13 01:18:55,926 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f6b0 at 19cef36e3c0>
+2025-04-13 01:18:55,927 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f7d0 at 19cef36e240>
+2025-04-13 01:18:55,928 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ddf0 at 19cef36e3c0>
+2025-04-13 01:18:55,932 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ec00 at 19cef36e240>
+2025-04-13 01:18:56,959 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:18:56,959 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\菜心.mp4
+2025-04-13 01:18:56,959 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:18:56,959 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ea50 at 19cef36e340>
+2025-04-13 01:18:56,962 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e5d0 at 19cef36e340>
+2025-04-13 01:18:56,962 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f080 at 19cef36e240>
+2025-04-13 01:18:56,965 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e420 at 19cef36e340>
+2025-04-13 01:18:56,967 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35dd60 at 19cef36e3c0>
+2025-04-13 01:18:56,971 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e420 at 19cef36e340>
+2025-04-13 01:18:56,972 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e540 at 19cef36e3c0>
+2025-04-13 01:18:56,977 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35dcd0 at 19cef36e340>
+2025-04-13 01:18:56,978 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35dbb0 at 19cef36e440>
+2025-04-13 01:18:56,981 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ddf0 at 19cef36e340>
+2025-04-13 01:18:56,985 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ea50 at 19cef36e440>
+2025-04-13 01:18:56,987 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f1a0 at 19cef36e340>
+2025-04-13 01:18:56,992 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e270 at 19cef36e440>
+2025-04-13 01:18:56,996 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f080 at 19cef36e340>
+2025-04-13 01:18:56,999 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ec00 at 19cef36e440>
+2025-04-13 01:18:57,000 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35eae0 at 19cef36e340>
+2025-04-13 01:18:57,003 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35eed0 at 19cef36e440>
+2025-04-13 01:18:57,007 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35dc40 at 19cef36e340>
+2025-04-13 01:18:57,010 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e420 at 19cef36e440>
+2025-04-13 01:18:57,016 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f7d0 at 19cef36e340>
+2025-04-13 01:18:57,019 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f740 at 19cef36e440>
+2025-04-13 01:18:57,022 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f1a0 at 19cef36e340>
+2025-04-13 01:18:57,024 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35ea50 at 19cef36e440>
+2025-04-13 01:18:57,027 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35da90 at 19cef36e340>
+2025-04-13 01:18:57,029 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35de80 at 19cef36e440>
+2025-04-13 01:18:57,032 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f500 at 19cef36e340>
+2025-04-13 01:18:57,034 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e540 at 19cef36e440>
+2025-04-13 01:18:57,038 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f620 at 19cef36e340>
+2025-04-13 01:18:59,184 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35f3e0 at 19cef36e240>
+2025-04-13 01:18:59,185 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x19ced35e150 at 19cef36e440>
+2025-04-13 01:18:59,186 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 83, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 321, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:18:59,186 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:18:59,186 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 导出操作耗时统计 ------
+2025-04-13 01:18:59,187 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总耗时: 3.28秒
+2025-04-13 01:18:59,187 - DEBUG - jianying_utils.Fast_Jianying_Controller - 导出函数耗时: 2.23秒
+2025-04-13 01:18:59,187 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总等待时间: 0.00秒 (0.0%)
+2025-04-13 01:18:59,187 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+各操作等待时间:
+2025-04-13 01:18:59,187 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 统计结束 ------
+2025-04-13 01:18:59,187 - INFO - jianying_utils - 导出函数调用耗时: 2.23秒
+2025-04-13 01:18:59,187 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:18:59,187 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:18:59,187 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:18:59,187 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:18:59,188 - INFO - batch_processor - 总批次数: 2
+2025-04-13 01:18:59,188 - INFO - batch_processor - 成功批次数: 0
+2025-04-13 01:18:59,188 - INFO - batch_processor - 失败批次数: 2
+2025-04-13 01:18:59,188 - INFO - batch_processor - 总耗时: 7.48 秒
+2025-04-13 01:18:59,188 - INFO - batch_processor - ===================================
+2025-04-13 01:19:03,165 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:19:03,166 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:19:03,197 - DEBUG - comtypes._post_coinit.unknwn - Calling CoUninitialize()
+2025-04-13 01:19:03,198 - DEBUG - comtypes._post_coinit.unknwn - CoUninitialize() done.
+2025-04-13 01:19:52,361 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:19:52,369 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:19:58,885 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:19:58,885 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:19:58,885 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:19:58,886 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:19:58,886 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:19:58,886 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:19:58,886 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:19:58,888 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:19:58,888 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:19:58,888 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:19:58,888 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:19:58,888 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:19:58,888 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:19:58,888 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:19:58,888 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:19:58,915 - DEBUG - jianying_utils - 获取 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' 时长: 45.70 秒
+2025-04-13 01:19:58,915 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:19:58,916 - DEBUG - jianying_utils - 使用 -c copy 模式进行快速切割 (第 1 段)
+2025-04-13 01:19:58,916 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c copy -avoid_negative_ts make_zero D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:19:58,949 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:19:58,949 - DEBUG - jianying_utils - 使用 -c copy 模式进行快速切割 (第 2 段)
+2025-04-13 01:19:58,949 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c copy -avoid_negative_ts make_zero D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:19:58,979 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:19:58,979 - DEBUG - jianying_utils - 使用 -c copy 模式进行快速切割 (第 3 段)
+2025-04-13 01:19:58,979 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c copy -avoid_negative_ts make_zero D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:19:59,012 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:19:59,012 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:19:59,012 - INFO - jianying_utils - 视频成功切割成 3 段，将使用这些片段进行后续处理。
+2025-04-13 01:19:59,012 - INFO - jianying_utils -   最终使用的视频文件 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:19:59,013 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:19:59,013 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:19:59,013 - INFO - jianying_utils -     导出目标: D:/111\2.mp4
+2025-04-13 01:19:59,013 - DEBUG - jianying_utils - 初始化草稿文件夹管理器...
+2025-04-13 01:19:59,014 - DEBUG - jianying_utils - 可用草稿: ['.recycle_bin', '1', '4月12日', '4月12日 (1)', '4月12日 (2)', '基础测试_2191', '简单测试_4940']
+2025-04-13 01:19:59,014 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:19:59,016 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:19:59,016 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:19:59,016 - DEBUG - jianying_utils -   创建素材对象: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:19:59,029 - DEBUG - jianying_utils -   创建素材对象: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:19:59,038 - DEBUG - jianying_utils -   创建素材对象: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:19:59,046 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.03秒
+2025-04-13 01:19:59,046 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:19:59,046 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:19:59,046 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 01:19:59,046 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:19:59,046 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:19:59,046 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:19:59,046 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:19:59,047 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:19:59,047 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:19:59,047 - DEBUG - jianying_utils -     替换耗时: 0.00秒
+2025-04-13 01:19:59,047 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:19:59,047 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:19:59,047 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:19:59,050 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:19:59,050 - INFO - jianying_utils - 准备导出视频到: D:/111\2.mp4
+2025-04-13 01:19:59,050 - DEBUG - jianying_utils - 确认导出目录存在或已创建: D:/111
+2025-04-13 01:19:59,051 - DEBUG - comtypes.client._generate - GetModule(UIAutomationCore.dll), resolved: False
+2025-04-13 01:19:59,051 - DEBUG - comtypes.client._generate - GetModule(TLIBATTR(GUID={944DE083-8FB8-45CF-BCB7-C477ACB2F897}, Version=1.0, LCID=0, FLags=0x8))
+2025-04-13 01:19:59,065 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(ITypeLib) ptr=0x20f094a8b20 at 20f058f12c0>
+2025-04-13 01:19:59,066 - DEBUG - comtypes.client._create - {ff48dba4-60ef-4201-aa87-54103eef594e} -> {FF48DBA4-60EF-4201-AA87-54103EEF594E}
+2025-04-13 01:19:59,066 - DEBUG - comtypes.client._create - CoCreateInstance({FF48DBA4-60EF-4201-AA87-54103EEF594E}, clsctx=None, interface=<class 'comtypes.gen._944DE083_8FB8_45CF_BCB7_C477ACB2F897_0_1_0.IUIAutomation'>)
+2025-04-13 01:19:59,078 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4090 at 20f05cead40>
+2025-04-13 01:19:59,078 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3e50 at 20f058f15c0>
+2025-04-13 01:19:59,087 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3e50 at 20f058f15c0>
+2025-04-13 01:19:59,087 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4ab0 at 20f05cead40>
+2025-04-13 01:19:59,088 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3e50 at 20f058f15c0>
+2025-04-13 01:19:59,088 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4630 at 20f05cead40>
+2025-04-13 01:19:59,089 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4360 at 20f058f15c0>
+2025-04-13 01:19:59,089 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4630 at 20f05cead40>
+2025-04-13 01:19:59,090 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4ab0 at 20f058f15c0>
+2025-04-13 01:19:59,090 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f05cead40>
+2025-04-13 01:19:59,091 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3f70 at 20f058f15c0>
+2025-04-13 01:19:59,092 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4ab0 at 20f05cead40>
+2025-04-13 01:19:59,092 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f058f15c0>
+2025-04-13 01:19:59,093 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4630 at 20f05cead40>
+2025-04-13 01:19:59,093 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4ab0 at 20f058f15c0>
+2025-04-13 01:19:59,094 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4630 at 20f05cead40>
+2025-04-13 01:19:59,094 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3f70 at 20f058f15c0>
+2025-04-13 01:19:59,095 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4ab0 at 20f05cead40>
+2025-04-13 01:19:59,095 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3e50 at 20f058f15c0>
+2025-04-13 01:19:59,096 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f05cead40>
+2025-04-13 01:19:59,096 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3e50 at 20f058f15c0>
+2025-04-13 01:19:59,097 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4360 at 20f05cead40>
+2025-04-13 01:19:59,097 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4000 at 20f058f15c0>
+2025-04-13 01:19:59,098 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4360 at 20f05cead40>
+2025-04-13 01:19:59,099 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f058f15c0>
+2025-04-13 01:19:59,100 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4000 at 20f05cead40>
+2025-04-13 01:19:59,101 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4ab0 at 20f058f15c0>
+2025-04-13 01:19:59,101 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3e50 at 20f05cead40>
+2025-04-13 01:19:59,102 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4ab0 at 20f058f15c0>
+2025-04-13 01:19:59,103 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f05cead40>
+2025-04-13 01:19:59,103 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3e50 at 20f058f15c0>
+2025-04-13 01:19:59,103 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4630 at 20f05cead40>
+2025-04-13 01:19:59,105 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3e50 at 20f058f15c0>
+2025-04-13 01:20:00,116 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:20:00,116 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2.mp4
+2025-04-13 01:20:00,116 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:20:00,116 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f09385aa0 at 20f05ceb340>
+2025-04-13 01:20:00,120 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a41b0 at 20f058f15c0>
+2025-04-13 01:20:00,120 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4000 at 20f05ceb340>
+2025-04-13 01:20:00,125 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f05ceb340>
+2025-04-13 01:20:00,128 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f09385aa0 at 20f05cead40>
+2025-04-13 01:20:00,155 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3f70 at 20f05ceb340>
+2025-04-13 01:20:00,186 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4090 at 20f05cead40>
+2025-04-13 01:20:00,190 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f09385aa0 at 20f05ceb340>
+2025-04-13 01:20:00,194 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4000 at 20f05ceb440>
+2025-04-13 01:20:00,198 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a41b0 at 20f05ceb340>
+2025-04-13 01:20:00,202 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f09385aa0 at 20f05ceb440>
+2025-04-13 01:20:00,204 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a3f70 at 20f05ceb340>
+2025-04-13 01:20:00,214 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f05ceb440>
+2025-04-13 01:20:00,219 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f09385aa0 at 20f05ceb340>
+2025-04-13 01:20:00,230 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4630 at 20f05ceb440>
+2025-04-13 01:20:00,234 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f05ceb340>
+2025-04-13 01:20:00,243 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a45a0 at 20f05ceb440>
+2025-04-13 01:20:00,248 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f05ceb340>
+2025-04-13 01:20:00,252 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a41b0 at 20f05ceb440>
+2025-04-13 01:20:00,262 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4630 at 20f05ceb340>
+2025-04-13 01:20:00,268 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a45a0 at 20f05ceb440>
+2025-04-13 01:20:00,273 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4630 at 20f05ceb340>
+2025-04-13 01:20:00,279 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a45a0 at 20f05ceb440>
+2025-04-13 01:20:00,284 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4000 at 20f05ceb340>
+2025-04-13 01:20:00,292 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a45a0 at 20f05ceb440>
+2025-04-13 01:20:00,298 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4000 at 20f05ceb340>
+2025-04-13 01:20:00,303 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a45a0 at 20f05ceb440>
+2025-04-13 01:20:00,307 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a42d0 at 20f05ceb340>
+2025-04-13 01:20:02,528 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a4360 at 20f058f15c0>
+2025-04-13 01:20:02,528 - DEBUG - comtypes._post_coinit.unknwn - Release <POINTER(IUIAutomationElement) ptr=0x20f095a41b0 at 20f05ceb440>
+2025-04-13 01:20:02,529 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 83, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 321, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:20:02,530 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:20:02,530 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 导出操作耗时统计 ------
+2025-04-13 01:20:02,530 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总耗时: 3.48秒
+2025-04-13 01:20:02,530 - DEBUG - jianying_utils.Fast_Jianying_Controller - 导出函数耗时: 2.41秒
+2025-04-13 01:20:02,530 - DEBUG - jianying_utils.Fast_Jianying_Controller - 总等待时间: 0.00秒 (0.0%)
+2025-04-13 01:20:02,530 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+各操作等待时间:
+2025-04-13 01:20:02,531 - DEBUG - jianying_utils.Fast_Jianying_Controller - 
+------ 统计结束 ------
+2025-04-13 01:20:02,531 - INFO - jianying_utils - 导出函数调用耗时: 2.41秒
+2025-04-13 01:20:02,531 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:20:02,531 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:20:02,531 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:20:02,531 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:20:02,531 - INFO - batch_processor - 总批次数: 1
+2025-04-13 01:20:02,532 - INFO - batch_processor - 成功批次数: 0
+2025-04-13 01:20:02,532 - INFO - batch_processor - 失败批次数: 1
+2025-04-13 01:20:02,532 - INFO - batch_processor - 总耗时: 3.64 秒
+2025-04-13 01:20:02,532 - INFO - batch_processor - ===================================
+2025-04-13 01:21:05,963 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:21:05,964 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:21:05,993 - DEBUG - comtypes._post_coinit.unknwn - Calling CoUninitialize()
+2025-04-13 01:21:05,994 - DEBUG - comtypes._post_coinit.unknwn - CoUninitialize() done.
+2025-04-13 01:21:08,273 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:21:08,281 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:21:09,710 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:21:09,711 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:21:09,711 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:21:09,711 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:21:09,711 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:21:09,711 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:21:09,711 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:21:09,711 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:21:09,713 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:21:09,713 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:21:09,713 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:21:09,713 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:21:09,713 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:21:09,714 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:21:09,714 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:21:09,741 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:21:09,741 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c copy -avoid_negative_ts make_zero D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:23:36,611 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:23:36,612 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:25:54,917 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:25:54,927 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:25:56,656 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:25:56,656 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:25:56,656 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:25:56,657 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:25:56,657 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:25:56,657 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:25:56,657 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:25:56,657 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:25:56,657 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:25:56,657 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:25:56,658 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:25:56,658 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:25:56,658 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:25:56,658 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:25:56,658 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:25:56,685 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:25:56,685 - INFO - jianying_utils -   尝试使用 GPU 加速: -hwaccel cuda
+2025-04-13 01:25:56,685 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c copy -avoid_negative_ts make_zero D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:26:26,854 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:26:26,855 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:28:13,198 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:28:13,206 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:28:14,639 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:28:14,639 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:28:14,639 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:28:14,639 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:28:14,640 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:28:14,640 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:28:14,640 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:28:14,640 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:28:14,640 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:28:14,641 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:28:14,641 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:28:14,641 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:28:14,641 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:28:14,641 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:28:14,641 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:28:14,668 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:28:14,669 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:28:14,669 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:28:15,420 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:28:15,420 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:28:15,421 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:28:16,289 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:28:16,289 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:28:16,290 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:28:17,425 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:28:17,425 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:28:17,425 - INFO - jianying_utils - 视频成功切割成 3 段，将使用这些片段进行后续处理。
+2025-04-13 01:28:17,425 - INFO - jianying_utils -   最终使用的视频文件 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:28:17,426 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:28:17,426 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:28:17,426 - INFO - jianying_utils -     导出目标: D:/111\2.mp4
+2025-04-13 01:28:17,427 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:28:17,429 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:28:17,429 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:28:17,467 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.04秒
+2025-04-13 01:28:17,468 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:28:17,468 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:28:17,468 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 01:28:17,468 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:28:17,468 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:28:17,468 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:28:17,469 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:28:17,469 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:28:17,469 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:28:17,469 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:28:17,472 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:28:17,472 - INFO - jianying_utils - 准备导出视频到: D:/111\2.mp4
+2025-04-13 01:28:18,530 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:28:18,530 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2.mp4
+2025-04-13 01:28:18,531 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:28:20,723 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 84, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 322, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:28:20,724 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:28:20,724 - INFO - jianying_utils - 导出函数调用耗时: 2.19秒
+2025-04-13 01:28:20,724 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:28:20,724 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:28:20,725 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:28:20,725 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:28:20,725 - INFO - batch_processor - 总批次数: 1
+2025-04-13 01:28:20,725 - INFO - batch_processor - 成功批次数: 0
+2025-04-13 01:28:20,725 - INFO - batch_processor - 失败批次数: 1
+2025-04-13 01:28:20,725 - INFO - batch_processor - 总耗时: 6.09 秒
+2025-04-13 01:28:20,725 - INFO - batch_processor - ===================================
+2025-04-13 01:32:08,573 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:32:08,573 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:33:39,731 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:33:39,742 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:33:41,228 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:33:41,228 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:33:41,228 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:33:41,228 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:33:41,228 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:33:41,229 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:33:41,229 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:33:41,229 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:33:41,229 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:33:41,229 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:33:41,230 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:33:41,230 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:33:41,230 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:33:41,230 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:33:41,230 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:33:41,256 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:33:41,257 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:33:41,257 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:33:41,896 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:33:41,896 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:33:41,896 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:33:42,750 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:33:42,750 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:33:42,751 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:33:43,830 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:33:43,830 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:33:43,830 - INFO - jianying_utils - 视频成功切割成 3 段，将使用这些片段进行后续处理。
+2025-04-13 01:33:43,830 - INFO - jianying_utils -   最终使用的视频文件 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:33:43,830 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:33:43,830 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:33:43,830 - INFO - jianying_utils -     导出目标: D:/111\2.mp4
+2025-04-13 01:33:43,831 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:33:43,833 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:33:43,833 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:33:43,868 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.04秒
+2025-04-13 01:33:43,869 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:33:43,869 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:33:43,869 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 01:33:43,869 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:33:43,869 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:33:43,869 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:33:43,869 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:33:43,869 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:33:43,870 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:33:43,870 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:33:43,872 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:33:43,872 - INFO - jianying_utils - 准备导出视频到: D:/111\2.mp4
+2025-04-13 01:33:44,960 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:33:44,960 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2.mp4
+2025-04-13 01:33:44,960 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:33:47,142 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 84, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 322, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:33:47,143 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:33:47,143 - INFO - jianying_utils - 导出函数调用耗时: 2.18秒
+2025-04-13 01:33:47,143 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:33:47,143 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:33:47,143 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:33:47,143 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:33:47,144 - INFO - batch_processor - 总批次数: 1
+2025-04-13 01:33:47,144 - INFO - batch_processor - 成功批次数: 0
+2025-04-13 01:33:47,144 - INFO - batch_processor - 失败批次数: 1
+2025-04-13 01:33:47,144 - INFO - batch_processor - 总耗时: 5.91 秒
+2025-04-13 01:33:47,144 - INFO - batch_processor - ===================================
+2025-04-13 01:37:43,651 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:37:43,651 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:37:43,651 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:37:43,651 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:37:43,651 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:37:43,652 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:37:43,652 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:37:43,652 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:37:43,652 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:37:43,652 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:37:43,652 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:37:43,652 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:37:43,652 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:37:43,653 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:37:43,653 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:37:43,677 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:37:43,677 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:37:43,677 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:37:44,297 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:37:44,298 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:37:44,298 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:37:45,097 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:37:45,097 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:37:45,097 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:37:46,133 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:37:46,133 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:37:46,133 - INFO - jianying_utils - 视频成功切割成 3 段，将使用这些片段进行后续处理。
+2025-04-13 01:37:46,134 - INFO - jianying_utils -   最终使用的视频文件 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:37:46,134 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:37:46,134 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:37:46,134 - INFO - jianying_utils -     导出目标: D:/111\2.mp4
+2025-04-13 01:37:46,134 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:37:46,136 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:37:46,136 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:37:46,168 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.03秒
+2025-04-13 01:37:46,168 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:37:46,168 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:37:46,169 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 01:37:46,169 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:37:46,169 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:37:46,169 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:37:46,169 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:37:46,169 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:37:46,169 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:37:46,169 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:37:46,171 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:37:46,172 - INFO - jianying_utils - 准备导出视频到: D:/111\2.mp4
+2025-04-13 01:37:47,246 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:37:47,246 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2.mp4
+2025-04-13 01:37:47,246 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:37:49,460 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 84, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 322, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:37:49,461 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:37:49,461 - INFO - jianying_utils - 导出函数调用耗时: 2.21秒
+2025-04-13 01:37:49,461 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:37:49,461 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:37:49,462 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:37:49,462 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:37:49,462 - INFO - batch_processor - 总批次数: 1
+2025-04-13 01:37:49,462 - INFO - batch_processor - 成功批次数: 0
+2025-04-13 01:37:49,462 - INFO - batch_processor - 失败批次数: 1
+2025-04-13 01:37:49,462 - INFO - batch_processor - 总耗时: 5.81 秒
+2025-04-13 01:37:49,462 - INFO - batch_processor - ===================================
+2025-04-13 01:38:51,694 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:38:51,695 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:40:53,152 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:40:53,161 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:40:54,462 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:40:54,463 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:40:54,463 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:40:54,463 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:40:54,463 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:40:54,464 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:40:54,464 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:40:54,464 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:40:54,464 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:40:54,464 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:40:54,464 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:40:54,465 - INFO - batch_processor - 
+--- 阶段 1: 准备视频路径 (执行必要的切割) ---
+2025-04-13 01:40:54,465 - INFO - batch_processor - 准备批次 1/1: 2
+2025-04-13 01:40:54,465 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:40:54,492 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:40:54,492 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:40:54,492 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:40:55,108 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:40:55,108 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:40:55,108 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:40:55,928 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:40:55,928 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:40:55,928 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:40:56,994 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:40:56,995 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:40:56,995 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:40:56,995 - INFO - batch_processor - 批次 '2' 准备完成，最终使用 3 个视频文件。
+2025-04-13 01:40:56,995 - INFO - batch_processor - --- 阶段 1 完成 | 耗时: 2.53秒 | 成功准备 1 个批次 | 失败 0 个批次 ---
+2025-04-13 01:40:56,995 - INFO - batch_processor - 
+--- 阶段 2: 处理并导出准备好的批次 (需要剪映运行并处于主界面) ---
+2025-04-13 01:40:56,995 - WARNING - batch_processor - 请确保剪映专业版已打开并处于主界面，否则导出可能会失败！
+2025-04-13 01:41:06,924 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:41:06,924 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:41:06,924 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:41:06,925 - INFO - jianying_utils -   最终使用的视频文件 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:41:06,925 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:41:06,925 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:41:06,925 - INFO - jianying_utils -     导出目标: D:/111\2.mp4
+2025-04-13 01:41:06,925 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:41:06,928 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:41:06,928 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:41:06,966 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.04秒
+2025-04-13 01:41:06,967 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:41:06,967 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:41:06,967 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 01:41:06,967 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:41:06,967 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:41:06,967 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:41:06,968 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:41:06,968 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:41:06,968 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:41:06,968 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:41:06,971 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:41:06,971 - INFO - jianying_utils - 准备导出视频到: D:/111\2.mp4
+2025-04-13 01:41:08,033 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:41:08,033 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2.mp4
+2025-04-13 01:41:08,033 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:41:10,253 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 84, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 322, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:41:10,254 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:41:10,254 - INFO - jianying_utils - 导出函数调用耗时: 2.22秒
+2025-04-13 01:41:10,254 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:41:10,254 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:41:10,255 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:41:10,255 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:41:10,255 - INFO - batch_processor - 总批次数 (扫描到): 1
+2025-04-13 01:41:10,255 - INFO - batch_processor - 准备失败批次数: 0
+2025-04-13 01:41:10,255 - INFO - batch_processor - 实际处理批次数: 1
+2025-04-13 01:41:10,255 - INFO - batch_processor - 成功处理批次数: 0
+2025-04-13 01:41:10,255 - INFO - batch_processor - 失败处理批次数: 1
+2025-04-13 01:41:10,255 - INFO - batch_processor - 总耗时: 15.79 秒
+2025-04-13 01:41:10,255 - INFO - batch_processor -   - 阶段1 (准备/切割) 耗时: 2.53 秒
+2025-04-13 01:41:10,255 - INFO - batch_processor -   - 阶段2 (处理/导出) 耗时: 3.33 秒
+2025-04-13 01:41:10,255 - INFO - batch_processor - ===================================
+2025-04-13 01:41:16,466 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:41:16,467 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:49:06,751 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:49:06,811 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:49:08,364 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:49:08,364 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:49:08,364 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:49:08,364 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:49:08,365 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:49:08,372 - INFO - root - 后台处理进程已启动 (PID: 52572)
+2025-04-13 01:49:08,648 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:49:08,649 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:49:08,649 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:49:08,649 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:49:08,649 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:49:08,649 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:49:08,649 - INFO - batch_processor - 
+--- 阶段 1: 准备视频路径 (执行必要的切割) ---
+2025-04-13 01:49:08,649 - INFO - batch_processor - 准备批次 1/1: 2
+2025-04-13 01:49:08,650 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:49:08,674 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:49:08,675 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:49:08,675 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:49:09,337 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:49:09,337 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:49:09,337 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:49:10,215 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:49:10,215 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:49:10,216 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:49:11,295 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:49:11,295 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:49:11,295 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:49:11,295 - INFO - batch_processor - 批次 '2' 准备完成，最终使用 3 个视频文件。
+2025-04-13 01:49:11,296 - INFO - batch_processor - --- 阶段 1 完成 | 耗时: 2.65秒 | 成功准备 1 个批次 | 失败 0 个批次 ---
+2025-04-13 01:49:11,296 - INFO - batch_processor - 
+--- 阶段 2: 处理并导出准备好的批次 (需要剪映运行并处于主界面) ---
+2025-04-13 01:49:11,296 - WARNING - batch_processor - 请确保剪映专业版已打开并处于主界面，否则导出可能会失败！
+2025-04-13 01:49:11,296 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:49:11,296 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:49:11,296 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:49:11,296 - INFO - jianying_utils -   最终使用的视频文件 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:49:11,296 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:49:11,297 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:49:11,297 - INFO - jianying_utils -     导出目标: D:/111\2.mp4
+2025-04-13 01:49:11,297 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:49:11,299 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:49:11,299 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:49:11,335 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.04秒
+2025-04-13 01:49:11,336 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:49:11,336 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:49:11,336 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 01:49:11,336 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:49:11,336 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:49:11,336 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:49:11,337 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:49:11,337 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:49:11,337 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:49:11,337 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:49:11,341 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:49:11,341 - INFO - jianying_utils - 准备导出视频到: D:/111\2.mp4
+2025-04-13 01:49:12,419 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:49:12,419 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2.mp4
+2025-04-13 01:49:12,419 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:49:24,764 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 剪映窗口未找到
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 84, in export_draft
+    self.get_window_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 322, in get_window_fast
+    raise draft.exceptions.AutomationError("剪映窗口未找到")
+pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
+2025-04-13 01:49:24,765 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:49:24,766 - INFO - jianying_utils - 导出函数调用耗时: 12.35秒
+2025-04-13 01:49:24,766 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:49:24,766 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:49:24,766 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:49:24,766 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:49:24,766 - INFO - batch_processor - 总批次数 (扫描到): 1
+2025-04-13 01:49:24,767 - INFO - batch_processor - 准备失败批次数: 0
+2025-04-13 01:49:24,767 - INFO - batch_processor - 实际处理批次数: 1
+2025-04-13 01:49:24,767 - INFO - batch_processor - 成功处理批次数: 0
+2025-04-13 01:49:24,767 - INFO - batch_processor - 失败处理批次数: 1
+2025-04-13 01:49:24,767 - INFO - batch_processor - 总耗时: 16.12 秒
+2025-04-13 01:49:24,767 - INFO - batch_processor -   - 阶段1 (准备/切割) 耗时: 2.65 秒
+2025-04-13 01:49:24,767 - INFO - batch_processor -   - 阶段2 (处理/导出) 耗时: 13.47 秒
+2025-04-13 01:49:24,767 - INFO - batch_processor - ===================================
+2025-04-13 01:49:25,178 - INFO - root - 后台处理进程 (PID: 52572) 已结束。退出码: 0
+2025-04-13 01:49:31,706 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:49:31,707 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 01:51:52,168 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 01:51:52,177 - INFO - root - 应用程序界面初始化完成
+2025-04-13 01:51:54,029 - INFO - root - 准备启动后台批量处理...
+2025-04-13 01:51:54,029 - INFO - root -   输入文件夹: E:/1
+2025-04-13 01:51:54,029 - INFO - root -   输出文件夹: D:/111
+2025-04-13 01:51:54,029 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:51:54,029 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 01:51:54,033 - INFO - root - 后台处理进程已启动 (PID: 51892)
+2025-04-13 01:51:54,306 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 01:51:54,306 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 01:51:54,306 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 01:51:54,307 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 01:51:54,307 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 01:51:54,307 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 01:51:54,307 - INFO - batch_processor - 
+--- 阶段 1: 准备视频路径 (执行必要的切割) ---
+2025-04-13 01:51:54,307 - INFO - batch_processor - 准备批次 1/1: 2
+2025-04-13 01:51:54,307 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 01:51:54,333 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 01:51:54,333 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:51:54,333 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:51:54,963 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:51:54,963 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:51:54,963 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:51:55,788 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:51:55,789 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 01:51:55,789 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:51:56,883 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:51:56,883 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:51:56,883 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 01:51:56,883 - INFO - batch_processor - 批次 '2' 准备完成，最终使用 3 个视频文件。
+2025-04-13 01:51:56,884 - INFO - batch_processor - --- 阶段 1 完成 | 耗时: 2.58秒 | 成功准备 1 个批次 | 失败 0 个批次 ---
+2025-04-13 01:51:56,884 - INFO - batch_processor - 
+--- 阶段 2: 处理并导出准备好的批次 (需要剪映运行并处于主界面) ---
+2025-04-13 01:51:56,884 - WARNING - batch_processor - 请确保剪映专业版已打开并处于主界面，否则导出可能会失败！
+2025-04-13 01:51:56,885 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 01:51:56,885 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 01:51:56,885 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 01:51:56,885 - INFO - jianying_utils -   最终使用的视频文件 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:51:56,885 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 01:51:56,885 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 01:51:56,885 - INFO - jianying_utils -     导出目标: D:/111\2.mp4
+2025-04-13 01:51:56,885 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 01:51:56,887 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 01:51:56,887 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 01:51:56,923 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.04秒
+2025-04-13 01:51:56,924 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 01:51:56,924 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 01:51:56,924 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 01:51:56,924 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 01:51:56,924 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 01:51:56,925 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 01:51:56,926 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 01:51:56,926 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 01:51:56,926 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 01:51:56,926 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 01:51:56,929 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 01:51:56,929 - INFO - jianying_utils - 准备导出视频到: D:/111\2.mp4
+2025-04-13 01:51:58,002 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 01:51:58,002 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2.mp4
+2025-04-13 01:51:58,002 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 01:51:58,003 - INFO - jianying_utils.Fast_Jianying_Controller - 执行极简 get_window_fast，仅按名称查找...
+2025-04-13 01:51:58,005 - INFO - jianying_utils.Fast_Jianying_Controller - 极简查找成功找到窗口！Name='剪映专业版', ClassName='HomePage_QMLTYPE_111'
+2025-04-13 01:51:59,020 - INFO - jianying_utils.Fast_Jianying_Controller - 尝试激活并置顶窗口。
+2025-04-13 01:51:59,020 - WARNING - jianying_utils.Fast_Jianying_Controller - 尝试从非编辑模式切换到主页，当前状态: unknown
+2025-04-13 01:51:59,020 - INFO - jianying_utils.Fast_Jianying_Controller - 执行极简 get_window_fast，仅按名称查找...
+2025-04-13 01:51:59,023 - INFO - jianying_utils.Fast_Jianying_Controller - 极简查找成功找到窗口！Name='剪映专业版', ClassName='HomePage_QMLTYPE_111'
+2025-04-13 01:52:00,038 - INFO - jianying_utils.Fast_Jianying_Controller - 尝试激活并置顶窗口。
+2025-04-13 01:52:00,038 - ERROR - jianying_utils.Fast_Jianying_Controller - 无法从当前状态 (unknown) 切换到主页。
+2025-04-13 01:52:00,039 - ERROR - jianying_utils.Fast_Jianying_Controller - 导出过程中出错: 仅支持从编辑模式切换到主页, 当前状态: unknown
+Traceback (most recent call last):
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 85, in export_draft
+    self.switch_to_home_fast()
+  File "f:\py\pyJianYingDraft\jianying_utils.py", line 360, in switch_to_home_fast
+    raise draft.exceptions.AutomationError(f"仅支持从编辑模式切换到主页, 当前状态: {self.app_status}")
+pyJianYingDraft.exceptions.AutomationError: 仅支持从编辑模式切换到主页, 当前状态: unknown
+2025-04-13 01:52:00,040 - INFO - jianying_utils.Fast_Jianying_Controller - 错误发生时的操作状态:
+2025-04-13 01:52:00,040 - INFO - jianying_utils - 导出函数调用耗时: 2.04秒
+2025-04-13 01:52:00,040 - ERROR - jianying_utils - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:52:00,040 - ERROR - jianying_utils - 处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 01:52:00,040 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 失败 (处理失败：导出或切割步骤失败。错误: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 01:52:00,040 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 01:52:00,041 - INFO - batch_processor - 总批次数 (扫描到): 1
+2025-04-13 01:52:00,041 - INFO - batch_processor - 准备失败批次数: 0
+2025-04-13 01:52:00,041 - INFO - batch_processor - 实际处理批次数: 1
+2025-04-13 01:52:00,041 - INFO - batch_processor - 成功处理批次数: 0
+2025-04-13 01:52:00,041 - INFO - batch_processor - 失败处理批次数: 1
+2025-04-13 01:52:00,041 - INFO - batch_processor - 总耗时: 5.73 秒
+2025-04-13 01:52:00,041 - INFO - batch_processor -   - 阶段1 (准备/切割) 耗时: 2.58 秒
+2025-04-13 01:52:00,041 - INFO - batch_processor -   - 阶段2 (处理/导出) 耗时: 3.16 秒
+2025-04-13 01:52:00,041 - INFO - batch_processor - ===================================
+2025-04-13 01:52:00,642 - INFO - root - 后台处理进程 (PID: 51892) 已结束。退出码: 0
+2025-04-13 01:52:26,328 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 01:52:26,328 - INFO - root - 配置已保存到: batch_tool_config.ini
+2025-04-13 06:12:38,055 - INFO - root - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 06:12:38,067 - INFO - root - 应用程序界面初始化完成
+2025-04-13 06:12:41,869 - INFO - root - 准备启动后台批量处理...
+2025-04-13 06:12:41,869 - INFO - root -   输入文件夹: E:/1
+2025-04-13 06:12:41,869 - INFO - root -   输出文件夹: D:/111
+2025-04-13 06:12:41,869 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 06:12:41,869 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 06:12:41,972 - INFO - root - 后台处理进程已启动 (PID: 55252)
+2025-04-13 06:12:42,287 - INFO - batch_processor - ========= 开始批量处理 =========
+2025-04-13 06:12:42,288 - INFO - batch_processor - 开始扫描输入文件夹: E:/1
+2025-04-13 06:12:42,288 - INFO - batch_processor - 发现批次文件夹: 2
+2025-04-13 06:12:42,288 - INFO - batch_processor -   批次 '2' 找到 1 个视频文件:
+2025-04-13 06:12:42,288 - INFO - batch_processor -     - 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-13 06:12:42,288 - INFO - batch_processor - 共找到 1 个视频批次，准备开始处理...
+2025-04-13 06:12:42,289 - INFO - batch_processor - 
+--- 阶段 1: 准备视频路径 (执行必要的切割) ---
+2025-04-13 06:12:42,289 - INFO - batch_processor - 准备批次 1/1: 2
+2025-04-13 06:12:42,289 - INFO - jianying_utils - 检测到批次中只有一个视频文件: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4，将尝试切割成 3 段。
+2025-04-13 06:12:42,664 - INFO - jianying_utils - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 3 段，每段约 15.23s
+2025-04-13 06:12:42,664 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 06:12:42,664 - INFO - jianying_utils -   执行切割命令 (第 1/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 06:12:43,941 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 06:12:43,941 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 06:12:43,941 - INFO - jianying_utils -   执行切割命令 (第 2/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 15.233333333333334 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 06:12:45,163 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 06:12:45,163 - INFO - jianying_utils -   尝试使用 GPU 加速解码: -hwaccel cuda
+2025-04-13 06:12:45,165 - INFO - jianying_utils -   执行切割命令 (第 3/3 段): ffmpeg -y -hwaccel cuda -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 30.46666666666667 -t 15.233333333333334 -c:v h264_nvenc -preset p2 -tune hq -rc vbr -cq 23 -b:v 6M -maxrate 10M -bufsize 10M -spatial-aq 1 -temporal-aq 1 -profile:v high -c:a aac -b:a 128k -threads 10 -movflags +faststart D:/111\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 06:12:46,311 - INFO - jianying_utils -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 06:12:46,312 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 06:12:46,312 - INFO - jianying_utils - 视频成功切割成 3 段。
+2025-04-13 06:12:46,312 - INFO - batch_processor - 批次 '2' 准备完成，最终使用 3 个视频文件。
+2025-04-13 06:12:46,312 - INFO - batch_processor - --- 阶段 1 完成 | 耗时: 4.02秒 | 成功准备 1 个批次 | 失败 0 个批次 ---
+2025-04-13 06:12:46,312 - INFO - batch_processor - 
+--- 阶段 2: 处理并导出准备好的批次 (需要剪映运行并处于主界面) ---
+2025-04-13 06:12:46,312 - WARNING - batch_processor - 请确保剪映专业版已打开并处于主界面，否则导出可能会失败！
+2025-04-13 06:12:46,313 - INFO - batch_processor - 
+--- 处理批次 1/1: 2 ---
+2025-04-13 06:12:46,313 - INFO - batch_processor - 导出文件名将为: 2.mp4
+2025-04-13 06:12:46,313 - INFO - jianying_utils - --- 开始处理批次，使用模板: 简单测试_4940 ---
+2025-04-13 06:12:46,313 - INFO - jianying_utils -   最终使用的视频文件 (3): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 06:12:46,313 - INFO - jianying_utils -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 06:12:46,313 - INFO - jianying_utils -   导出设置: 启用
+2025-04-13 06:12:46,313 - INFO - jianying_utils -     导出目标: D:/111\2.mp4
+2025-04-13 06:12:46,314 - INFO - jianying_utils - 加载模板草稿: 简单测试_4940
+2025-04-13 06:12:46,317 - INFO - jianying_utils - 模板加载成功，耗时: 0.00秒
+2025-04-13 06:12:46,317 - INFO - jianying_utils - 创建视频素材对象...
+2025-04-13 06:12:46,432 - INFO - jianying_utils - 成功为 3 个视频创建素材对象，耗时: 0.11秒
+2025-04-13 06:12:46,432 - INFO - jianying_utils - 获取第一个视频轨道...
+2025-04-13 06:12:46,434 - INFO - jianying_utils - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 06:12:46,434 - INFO - jianying_utils - 模板轨道现有 3 个片段，需要替换 3 个。
+2025-04-13 06:12:46,434 - INFO - jianying_utils - 准备替换模板中的 3 个视频片段...
+2025-04-13 06:12:46,434 - INFO - jianying_utils -   替换 第 1/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-13 06:12:46,434 - INFO - jianying_utils -   替换 第 2/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-13 06:12:46,434 - INFO - jianying_utils -   替换 第 3/3 个片段 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-13 06:12:46,435 - INFO - jianying_utils - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 06:12:46,435 - WARNING - jianying_utils - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 06:12:46,435 - INFO - jianying_utils - 保存修改到草稿: 简单测试_4940
+2025-04-13 06:12:46,438 - INFO - jianying_utils - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 06:12:46,438 - INFO - jianying_utils - 准备导出视频到: D:/111\2.mp4
+2025-04-13 06:12:47,630 - INFO - jianying_utils - 使用速度优化的剪映控制器进行导出...
+2025-04-13 06:12:47,630 - INFO - jianying_utils.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2.mp4
+2025-04-13 06:12:47,631 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 06:12:47,631 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 06:12:47,637 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 06:12:48,789 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.16秒
+2025-04-13 06:12:48,789 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 06:12:49,895 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 06:12:50,283 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 06:12:51,488 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.70秒
+2025-04-13 06:12:51,488 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 06:12:52,620 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 06:12:52,674 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 06:12:52,686 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 06:12:53,807 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 2.32秒
+2025-04-13 06:12:53,807 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 06:12:53,814 - INFO - jianying_utils.Fast_Jianying_Controller -   导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 06:12:53,814 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 06:12:53,815 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 06:12:54,929 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.11秒
+2025-04-13 06:12:54,929 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 06:12:54,930 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 06:12:54,932 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 06:12:54,934 - INFO - jianying_utils.Fast_Jianying_Controller - 检测到 '导出' 子窗口，更新状态为 pre_export
+2025-04-13 06:12:56,073 - INFO - jianying_utils.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 06:12:56,855 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 1.93秒
+2025-04-13 06:12:56,855 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 06:12:56,856 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 06:12:56,858 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 编辑界面 (edit)
+2025-04-13 06:12:58,121 - WARNING - jianying_utils.Fast_Jianying_Controller - 未能快速找到 QMainWindowTitleBar, 尝试备用方法...
+2025-04-13 06:12:58,918 - INFO - jianying_utils.Fast_Jianying_Controller - 获取剪映窗口并判断状态...
+2025-04-13 06:12:58,924 - INFO - jianying_utils.Fast_Jianying_Controller - 窗口状态判断为: 主界面 (home)
+2025-04-13 06:13:00,110 - INFO - jianying_utils.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 06:13:00,325 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 3.47秒
+2025-04-13 06:13:00,325 - INFO - jianying_utils.Fast_Jianying_Controller - 步骤10: 移动文件到目标路径 D:/111\2.mp4...
+2025-04-13 06:13:00,354 - INFO - jianying_utils.Fast_Jianying_Controller -   完成，耗时: 0.03秒
+2025-04-13 06:13:00,354 - INFO - jianying_utils.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\2.mp4 完成
+2025-04-13 06:13:00,355 - INFO - jianying_utils - 导出函数调用耗时: 12.73秒
+2025-04-13 06:13:00,355 - INFO - jianying_utils - 视频导出成功: D:/111\2.mp4
+2025-04-13 06:13:00,355 - INFO - jianying_utils - --- 批次处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 06:13:00,356 - INFO - batch_processor - 
+========= 批量处理完成 ==========
+2025-04-13 06:13:00,356 - INFO - batch_processor - 总批次数 (扫描到): 1
+2025-04-13 06:13:00,356 - INFO - batch_processor - 准备失败批次数: 0
+2025-04-13 06:13:00,356 - INFO - batch_processor - 实际处理批次数: 1
+2025-04-13 06:13:00,356 - INFO - batch_processor - 成功处理批次数: 1
+2025-04-13 06:13:00,357 - INFO - batch_processor - 失败处理批次数: 0
+2025-04-13 06:13:00,357 - INFO - batch_processor - 总耗时: 18.07 秒
+2025-04-13 06:13:00,357 - INFO - batch_processor -   - 阶段1 (准备/切割) 耗时: 4.02 秒
+2025-04-13 06:13:00,357 - INFO - batch_processor -   - 阶段2 (处理/导出) 耗时: 14.04 秒
+2025-04-13 06:13:00,357 - INFO - batch_processor - ===================================
+2025-04-13 06:13:00,788 - INFO - root - 后台处理进程 (PID: 55252) 已结束。退出码: 0
