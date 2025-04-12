@@ -412,10 +412,12 @@ def process_videos(video_paths,
                    draft_folder_path,
                    export_video=False,
                    export_path=None,
-                   export_filename=None):
+                   export_filename=None,
+                   original_duration_seconds=None):
     """
     处理单个视频批次（假设视频路径已准备好）：加载模板，替换片段，保存，导出。
     Now expects video_paths to be the final list (likely split segments).
+    Optionally adjusts the draft duration before saving.
 
     Args:
         video_paths (list): 最终用于替换的视频文件绝对路径列表 (通常是切割后的片段)。
@@ -424,13 +426,16 @@ def process_videos(video_paths,
         export_video (bool): 是否导出视频。
         export_path (str, optional): 导出视频的目标文件夹路径。
         export_filename (str, optional): 导出视频的文件名。
+        original_duration_seconds (float, optional): 原始视频的时长（秒）。如果提供，
+                                                    将尝试修改草稿的总时长。
 
     Returns:
         dict: 包含处理结果的字典，格式为 {"success": bool, "error": str|None}
     """
-    logger.info(f"--- 开始处理剪映模板: {draft_name} ---") # Adjusted log message
+    logger.info(f"--- 开始处理剪映模板: {draft_name} ---")
     logger.info(f"  使用视频片段 ({len(video_paths)}): {', '.join(os.path.basename(p) for p in video_paths)}")
     logger.info(f"  草稿库路径: {draft_folder_path}")
+    export_file_path = None
     if export_video:
         logger.info(f"  导出设置: 启用")
         if not export_path or not export_filename:
@@ -519,15 +524,38 @@ def process_videos(video_paths,
         replace_time = time.time() - replace_start_time
         logger.info(f"视频片段替换完成，耗时: {replace_time:.2f}秒.")
 
-        # 6. 保存修改回原草稿 (覆盖)
-        logger.warning(f"注意：即将保存修改，这将覆盖原始模板草稿 '{draft_name}'！")
+        # --- 6. (NEW) Adjust draft duration --- 
+        if original_duration_seconds is not None and original_duration_seconds > 0:
+            try:
+                original_duration_microseconds = int(original_duration_seconds * 1_000_000)
+                logger.info(f"尝试将草稿 '{draft_name}' 的总时长调整为原始视频时长: {original_duration_seconds:.2f} 秒 ({original_duration_microseconds} 微秒)")
+                # Access the draft content dictionary
+                if hasattr(script, 'content') and isinstance(script.content, dict):
+                    current_draft_duration = script.content.get('duration')
+                    if current_draft_duration is not None:
+                         logger.info(f"  当前草稿时长: {current_draft_duration} 微秒")
+                    else:
+                         logger.warning("  未在草稿内容中找到 'duration' 键。")
+
+                    script.content['duration'] = original_duration_microseconds
+                    logger.info(f"  草稿总时长已更新为: {script.content['duration']} 微秒")
+                else:
+                    logger.warning("无法访问草稿内容字典 (script.content) 或其不是字典，无法调整时长。")
+            except Exception as e:
+                logger.warning(f"调整草稿总时长时出错: {e}", exc_info=True)
+                # Continue even if duration adjustment fails
+        else:
+             logger.info("未提供有效的原始视频时长，跳过调整草稿时长步骤。")
+
+        # --- 7. Save draft changes (Original step 6) ---
+        logger.warning(f"注意：即将保存修改（包括可能调整过的时长），这将覆盖原始模板草稿 '{draft_name}'！")
         logger.info(f"保存修改到草稿: {draft_name}")
         save_start_time = time.time()
         script.save()
         save_time = time.time() - save_start_time
         logger.info(f"草稿保存成功，耗时: {save_time:.2f}秒.")
 
-        # 7. 导出视频 (如果需要)
+        # --- 8. Export video (Original step 7) ---
         if export_video:
             logger.info(f"准备导出视频到: {export_file_path}")
             try:
@@ -592,6 +620,6 @@ def process_videos(video_paths,
         result["error"] = f"未知错误: {str(e)}"
     finally:
         status_msg = "成功" if result["success"] else f"失败 ({result['error']})"
-        logger.info(f"--- 剪映模板处理结束: {draft_name} | 结果: {status_msg} ---") # Adjusted log message
+        logger.info(f"--- 剪映模板处理结束: {draft_name} | 结果: {status_msg} ---")
 
     return result 

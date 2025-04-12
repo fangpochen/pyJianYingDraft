@@ -9,11 +9,12 @@ import traceback
 # --- Import necessary functions from other modules ---
 try:
     # Functions for finding tasks and splitting videos
-    from video_processor import find_video_tasks, split_video_ffmpeg
+    from video_processor import find_video_tasks, split_video_ffmpeg, get_video_duration
 except ImportError:
     logging.exception("严重错误：无法导入 video_processor.py。")
     find_video_tasks = None
     split_video_ffmpeg = None
+    get_video_duration = None
 
 try:
     # Function for interacting with Jianying
@@ -40,7 +41,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                               segments after successful processing.
     """
     # --- Dependency Check ---
-    if not find_video_tasks or not split_video_ffmpeg:
+    if not find_video_tasks or not split_video_ffmpeg or not get_video_duration:
         logger.critical("视频处理模块 (video_processor.py) 未完全加载，无法继续。")
         return
     if not process_videos:
@@ -96,13 +97,24 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         logger.info(f"  最终导出文件名: {final_export_filename}")
 
         split_video_paths = None
+        original_duration_sec = None # Initialize duration
         processing_result = {"success": False, "error": "未开始处理"}
 
         try:
-            # --- Step 2a: Split the video (if necessary) ---
-            logger.info("  步骤 2a: 准备/切割视频...")
+            # --- Step 2a(i): Get Original Video Duration ---
+            try:
+                logger.info("  步骤 2a(i): 获取原始视频时长...")
+                original_duration_sec = get_video_duration(original_video_path)
+                logger.info(f"    原始视频时长: {original_duration_sec:.2f} 秒")
+            except Exception as dur_err:
+                logger.warning(f"  无法获取原始视频 '{os.path.basename(original_video_path)}' 的时长: {dur_err}")
+                logger.warning("  将无法调整模板时长，导出视频可能包含黑屏或被截断。")
+                # Do not fail the whole task, just proceed without duration adjustment
+                original_duration_sec = None # Ensure it's None
+
+            # --- Step 2a(ii): Split the video (if necessary) ---
+            logger.info("  步骤 2a(ii): 准备/切割视频...")
             split_start_time = time.time()
-            # Pass the specific output directory for this video's splits
             split_video_paths = split_video_ffmpeg(original_video_path, split_output_dir)
             split_duration = time.time() - split_start_time
             logger.info(f"  视频准备/切割完成，耗时: {split_duration:.2f}秒")
@@ -111,20 +123,21 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                 logger.error(f"  {task_identifier} 的视频切割失败，跳过此任务。")
                 split_failures += 1
                 failed_tasks += 1
-                continue # Move to the next task
+                continue
 
             logger.info(f"  最终用于处理的片段 ({len(split_video_paths)}): {', '.join(os.path.basename(p) for p in split_video_paths)}")
 
-            # --- Step 2b: Process with Jianying ---
+            # --- Step 2b: Process with Jianying (Pass duration) ---
             logger.info("  步骤 2b: 调用剪映处理...")
             jy_start_time = time.time()
             processing_result = process_videos(
-                video_paths=split_video_paths, # Use the split paths
+                video_paths=split_video_paths,
                 draft_name=draft_name,
                 draft_folder_path=draft_folder_path,
-                export_video=True, # Always export in this flow
+                export_video=True,
                 export_path=final_export_dir,
-                export_filename=final_export_filename
+                export_filename=final_export_filename,
+                original_duration_seconds=original_duration_sec # Pass the duration
             )
             jy_duration = time.time() - jy_start_time
             logger.info(f"  剪映处理完成，耗时: {jy_duration:.2f}秒")
