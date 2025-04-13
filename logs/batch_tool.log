@@ -1,0 +1,1248 @@
+2025-04-13 07:42:15,930 - INFO - root - 日志系统已配置。
+2025-04-13 07:42:15,931 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 07:42:15,931 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 07:42:16,115 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 07:42:16,133 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 07:42:16,134 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 07:42:16,278 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 07:42:27,841 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-13 07:42:27,842 - INFO - root -   输入文件夹: E:/1
+2025-04-13 07:42:27,842 - INFO - root -   输出文件夹: D:/111
+2025-04-13 07:42:27,842 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:42:27,842 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 07:42:27,842 - INFO - root -   处理后删除源文件: 否
+2025-04-13 07:42:27,842 - INFO - root - 后台处理线程已启动。
+2025-04-13 07:42:27,843 - INFO - app.core.orchestrator - ========= 开始逐个视频处理 =========
+2025-04-13 07:42:27,843 - INFO - app.core.orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-13 07:42:27,843 - INFO - app.core.processor - 开始扫描输入文件夹以查找独立的视频任务: E:/1
+2025-04-13 07:42:27,843 - INFO - app.core.processor - 扫描子文件夹: 2
+2025-04-13 07:42:27,843 - INFO - app.core.processor - 扫描子文件夹: 3
+2025-04-13 07:42:27,843 - INFO - app.core.processor - 扫描子文件夹: 5
+2025-04-13 07:42:27,843 - INFO - app.core.processor - 扫描完成，未在任何子文件夹中找到支持格式的视频文件任务。
+2025-04-13 07:42:27,843 - INFO - app.core.orchestrator - 未找到任何需要处理的视频任务，处理结束。
+2025-04-13 07:42:27,843 - INFO - app.core.orchestrator - ====================================
+2025-04-13 07:42:27,843 - INFO - app.ui.main_window - 后台处理函数 run_individual_video_processing 调用完成。
+2025-04-13 07:42:27,843 - INFO - app.ui.main_window - 后台任务完成信号接收: success=True, message='处理任务成功完成！'
+2025-04-13 07:42:30,213 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-13 07:46:21,226 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 07:46:21,227 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 07:46:21,227 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 07:46:23,883 - INFO - root - 日志系统已配置。
+2025-04-13 07:46:23,883 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 07:46:23,883 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 07:46:24,013 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 07:46:24,030 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 07:46:24,030 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 07:46:24,104 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 07:47:04,241 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-13 07:47:04,241 - INFO - root -   输入文件夹: E:/1
+2025-04-13 07:47:04,241 - INFO - root -   输出文件夹: D:/111
+2025-04-13 07:47:04,241 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:47:04,241 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 07:47:04,241 - INFO - root -   处理后删除源文件: 否
+2025-04-13 07:47:04,241 - INFO - root - 后台处理线程已启动。
+2025-04-13 07:47:04,242 - INFO - app.ui.main_window - Worker 开始调用 run_individual_video_processing...
+2025-04-13 07:47:04,242 - INFO - app.core.orchestrator - ========= 开始逐个视频处理 =========
+2025-04-13 07:47:04,242 - INFO - app.core.orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-13 07:47:04,242 - INFO - app.core.processor - 开始扫描输入文件夹以查找独立的视频任务: E:/1
+2025-04-13 07:47:04,243 - INFO - app.core.processor - 扫描子文件夹: 2
+2025-04-13 07:47:04,243 - INFO - app.core.processor - 扫描子文件夹: 3
+2025-04-13 07:47:04,243 - INFO - app.core.processor -   找到任务: 永远相信自己创业 提升自己.mp4 (属于子文件夹: 3)
+2025-04-13 07:47:04,243 - INFO - app.core.processor -   找到任务: 珍惜一切自媒体 珍惜.mp4 (属于子文件夹: 3)
+2025-04-13 07:47:04,243 - INFO - app.core.processor -   找到任务: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (属于子文件夹: 3)
+2025-04-13 07:47:04,243 - INFO - app.core.processor -   找到任务: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (属于子文件夹: 3)
+2025-04-13 07:47:04,243 - INFO - app.core.processor - 扫描子文件夹: 5
+2025-04-13 07:47:04,243 - INFO - app.core.processor - 扫描完成，共找到 4 个独立的视频处理任务。
+2025-04-13 07:47:04,243 - INFO - app.core.orchestrator - 共找到 4 个视频任务，准备开始逐个处理...
+2025-04-13 07:47:04,243 - INFO - app.core.orchestrator - 
+--- 阶段 2: 逐个处理视频任务 ---
+2025-04-13 07:47:04,243 - WARNING - app.core.orchestrator - 请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！
+2025-04-13 07:47:04,243 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) ---
+2025-04-13 07:47:04,243 - INFO - app.core.orchestrator -   原始视频: E:/1\3\永远相信自己创业 提升自己.mp4
+2025-04-13 07:47:04,243 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\永远相信自己创业 提升自己_splits
+2025-04-13 07:47:04,243 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:47:04,243 - INFO - app.core.orchestrator -   最终导出文件名: 永远相信自己创业 提升自己.mp4
+2025-04-13 07:47:04,243 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:47:04,634 - INFO - app.core.orchestrator -     原始视频时长: 22.67 秒
+2025-04-13 07:47:04,634 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:47:04,634 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\永远相信自己创业 提升自己_splits
+2025-04-13 07:47:04,670 - INFO - app.core.processor - 准备将 '永远相信自己创业 提升自己.mp4' (22.67s) 切割成 3 段，每段约 7.56s
+2025-04-13 07:47:04,670 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 0.0 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part1.mp4
+2025-04-13 07:47:05,584 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part1.mp4
+2025-04-13 07:47:05,584 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 7.555555666666667 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part2.mp4
+2025-04-13 07:47:06,210 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part2.mp4
+2025-04-13 07:47:06,210 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 15.111111333333334 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part3.mp4
+2025-04-13 07:47:06,828 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 07:47:06,828 - INFO - app.core.processor - 成功切割 '永远相信自己创业 提升自己.mp4' 为 3 段。
+2025-04-13 07:47:06,828 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.19秒
+2025-04-13 07:47:06,828 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 永远相信自己创业 提升自己_part1.mp4, 永远相信自己创业 提升自己_part2.mp4, 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 07:47:06,828 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:47:06,828 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:47:06,828 - INFO - app.util.jianying -   使用视频片段 (3): 永远相信自己创业 提升自己_part1.mp4, 永远相信自己创业 提升自己_part2.mp4, 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 07:47:06,828 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:47:06,828 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 07:47:06,828 - INFO - app.util.jianying -     导出目标: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 07:47:06,829 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 07:47:06,833 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:47:06,833 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 07:47:06,943 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.11秒
+2025-04-13 07:47:06,943 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 07:47:06,943 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:47:06,943 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:47:06,943 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:47:06,943 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 永远相信自己创业 提升自己_part1.mp4
+2025-04-13 07:47:06,944 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 永远相信自己创业 提升自己_part2.mp4
+2025-04-13 07:47:06,944 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 07:47:06,944 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:47:06,944 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:47:06,944 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:47:06,947 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:47:06,947 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 07:47:08,308 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:47:08,308 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 07:47:08,308 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:47:09,356 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.05秒
+2025-04-13 07:47:09,356 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:47:11,414 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 07:47:12,451 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.10秒
+2025-04-13 07:47:12,452 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:47:13,675 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 07:47:14,687 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.24秒
+2025-04-13 07:47:14,687 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:47:14,694 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:47:14,694 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:47:14,694 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:47:15,798 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:47:15,798 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:47:16,820 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:47:17,599 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.80秒
+2025-04-13 07:47:17,599 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:47:17,621 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 07:47:19,632 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 07:47:20,650 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:47:20,852 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.25秒
+2025-04-13 07:47:20,852 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\永远相信自己创业 提升自己.mp4...
+2025-04-13 07:47:20,853 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:47:20,853 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 07:47:20,954 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.10秒
+2025-04-13 07:47:20,954 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\永远相信自己创业 提升自己.mp4 完成
+2025-04-13 07:47:20,954 - INFO - app.util.jianying - 导出函数调用耗时: 12.65秒
+2025-04-13 07:47:20,954 - INFO - app.util.jianying - 视频导出成功: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 07:47:20,954 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:47:20,954 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 14.13秒
+2025-04-13 07:47:20,955 - INFO - app.core.orchestrator -   任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:47:20,955 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 07:47:20,955 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 07:47:20,955 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part1.mp4
+2025-04-13 07:47:20,956 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part2.mp4
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part3.mp4
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\永远相信自己创业 提升自己_splits
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator - --- 任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) 处理结束 [成功] | 耗时: 16.71秒 ---
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) ---
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -   原始视频: E:/1\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -   最终导出文件名: 珍惜一切自媒体 珍惜.mp4
+2025-04-13 07:47:20,957 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:47:20,999 - INFO - app.core.orchestrator -     原始视频时长: 37.77 秒
+2025-04-13 07:47:20,999 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:47:20,999 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 07:47:21,039 - INFO - app.core.processor - 准备将 '珍惜一切自媒体 珍惜.mp4' (37.77s) 切割成 3 段，每段约 12.59s
+2025-04-13 07:47:21,039 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 0.0 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 07:47:22,108 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 07:47:22,108 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 12.588889 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 07:47:23,055 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 07:47:23,055 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 25.177778 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 07:47:24,018 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 07:47:24,018 - INFO - app.core.processor - 成功切割 '珍惜一切自媒体 珍惜.mp4' 为 3 段。
+2025-04-13 07:47:24,018 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 3.02秒
+2025-04-13 07:47:24,018 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 珍惜一切自媒体 珍惜_part1.mp4, 珍惜一切自媒体 珍惜_part2.mp4, 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 07:47:24,018 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:47:24,018 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:47:24,018 - INFO - app.util.jianying -   使用视频片段 (3): 珍惜一切自媒体 珍惜_part1.mp4, 珍惜一切自媒体 珍惜_part2.mp4, 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 07:47:24,018 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:47:24,018 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 07:47:24,018 - INFO - app.util.jianying -     导出目标: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 07:47:24,019 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 07:47:24,022 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:47:24,022 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 07:47:24,052 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 07:47:24,053 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 07:47:24,053 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:47:24,053 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:47:24,053 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:47:24,053 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 07:47:24,053 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 07:47:24,053 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 07:47:24,053 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:47:24,053 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:47:24,053 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:47:24,056 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:47:24,056 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 07:47:25,101 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:47:25,101 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 07:47:25,101 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:47:26,135 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.03秒
+2025-04-13 07:47:26,135 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:47:27,766 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 07:47:28,821 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.69秒
+2025-04-13 07:47:28,821 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:47:30,089 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 07:47:31,101 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.28秒
+2025-04-13 07:47:31,101 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:47:31,108 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:47:31,108 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:47:31,108 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:47:32,207 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:47:32,207 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:47:33,245 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:47:34,007 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.80秒
+2025-04-13 07:47:34,007 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:47:34,030 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 07:47:35,896 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 07:47:36,910 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:47:37,125 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.12秒
+2025-04-13 07:47:37,125 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\珍惜一切自媒体 珍惜.mp4...
+2025-04-13 07:47:37,125 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:47:37,125 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 07:47:37,161 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.04秒
+2025-04-13 07:47:37,161 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\珍惜一切自媒体 珍惜.mp4 完成
+2025-04-13 07:47:37,163 - INFO - app.util.jianying - 导出函数调用耗时: 12.06秒
+2025-04-13 07:47:37,163 - INFO - app.util.jianying - 视频导出成功: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 07:47:37,163 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:47:37,163 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.14秒
+2025-04-13 07:47:37,163 - INFO - app.core.orchestrator -   任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:47:37,163 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 07:47:37,163 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 07:47:37,164 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 07:47:37,165 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator - --- 任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) 处理结束 [成功] | 耗时: 16.21秒 ---
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) ---
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator -   原始视频: E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:47:37,166 - INFO - app.core.orchestrator -   最终导出文件名: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 07:47:37,167 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:47:37,205 - INFO - app.core.orchestrator -     原始视频时长: 32.27 秒
+2025-04-13 07:47:37,205 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:47:37,205 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 07:47:37,245 - INFO - app.core.processor - 准备将 '自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4' (32.27s) 切割成 3 段，每段约 10.76s
+2025-04-13 07:47:37,245 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 0.0 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 07:47:37,957 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 07:47:37,957 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 10.757997000000001 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 07:47:38,696 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 07:47:38,696 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 21.515994000000003 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 07:47:39,503 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 07:47:39,503 - INFO - app.core.processor - 成功切割 '自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4' 为 3 段。
+2025-04-13 07:47:39,503 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.30秒
+2025-04-13 07:47:39,503 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 07:47:39,503 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:47:39,503 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:47:39,503 - INFO - app.util.jianying -   使用视频片段 (3): 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 07:47:39,503 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:47:39,503 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 07:47:39,503 - INFO - app.util.jianying -     导出目标: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 07:47:39,503 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 07:47:39,506 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:47:39,506 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 07:47:39,540 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 07:47:39,540 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 07:47:39,540 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:47:39,540 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:47:39,540 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:47:39,540 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 07:47:39,540 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 07:47:39,540 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 07:47:39,540 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:47:39,540 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:47:39,540 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:47:39,543 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:47:39,543 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 07:47:40,645 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:47:40,645 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 07:47:40,645 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:47:41,678 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.03秒
+2025-04-13 07:47:41,678 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:47:43,302 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 07:47:44,380 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.70秒
+2025-04-13 07:47:44,380 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:47:45,603 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 07:47:46,613 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.23秒
+2025-04-13 07:47:46,613 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:47:46,621 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:47:46,621 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:47:46,621 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:47:47,739 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.12秒
+2025-04-13 07:47:47,739 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:47:48,768 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:47:49,537 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.80秒
+2025-04-13 07:47:49,537 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:47:49,555 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 07:47:51,431 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 07:47:52,451 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:47:52,667 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.13秒
+2025-04-13 07:47:52,667 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4...
+2025-04-13 07:47:52,667 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:47:52,667 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 07:47:52,700 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.03秒
+2025-04-13 07:47:52,700 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 完成
+2025-04-13 07:47:52,701 - INFO - app.util.jianying - 导出函数调用耗时: 12.06秒
+2025-04-13 07:47:52,701 - INFO - app.util.jianying - 视频导出成功: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 07:47:52,701 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:47:52,701 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.20秒
+2025-04-13 07:47:52,701 - INFO - app.core.orchestrator -   任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:47:52,701 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 07:47:52,701 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 07:47:52,703 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 07:47:52,704 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 07:47:52,704 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 07:47:52,704 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator - --- 任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) 处理结束 [成功] | 耗时: 15.54秒 ---
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) ---
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator -   原始视频: E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator -   最终导出文件名: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 07:47:52,705 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 07:47:52,744 - INFO - app.core.orchestrator -     原始视频时长: 43.05 秒
+2025-04-13 07:47:52,744 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 07:47:52,744 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 07:47:52,780 - INFO - app.core.processor - 准备将 '首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4' (43.05s) 切割成 3 段，每段约 14.35s
+2025-04-13 07:47:52,780 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 0.0 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 07:47:53,836 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 07:47:53,836 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 14.349335000000002 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 07:47:54,943 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 07:47:54,943 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 28.698670000000003 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 07:47:56,047 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 07:47:56,047 - INFO - app.core.processor - 成功切割 '首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4' 为 3 段。
+2025-04-13 07:47:56,047 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 3.30秒
+2025-04-13 07:47:56,047 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 07:47:56,047 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 07:47:56,047 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 07:47:56,047 - INFO - app.util.jianying -   使用视频片段 (3): 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 07:47:56,047 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 07:47:56,047 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 07:47:56,047 - INFO - app.util.jianying -     导出目标: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 07:47:56,048 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 07:47:56,050 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 07:47:56,050 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 07:47:56,087 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.04秒
+2025-04-13 07:47:56,087 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 07:47:56,088 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 07:47:56,088 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 07:47:56,088 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 07:47:56,088 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 07:47:56,088 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 07:47:56,088 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 07:47:56,088 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 07:47:56,088 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 07:47:56,088 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 07:47:56,091 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 07:47:56,091 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 07:47:57,127 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 07:47:57,127 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 07:47:57,127 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 07:47:58,157 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.03秒
+2025-04-13 07:47:58,157 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 07:47:59,870 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 07:48:00,914 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.76秒
+2025-04-13 07:48:00,914 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 07:48:02,104 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 07:48:03,124 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.21秒
+2025-04-13 07:48:03,124 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 07:48:03,133 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:48:03,133 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 07:48:03,133 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 07:48:04,232 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 07:48:04,232 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 07:48:05,253 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 07:48:06,020 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.79秒
+2025-04-13 07:48:06,020 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 07:48:06,042 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 07:48:07,928 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 07:48:08,938 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 07:48:09,140 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.12秒
+2025-04-13 07:48:09,140 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4...
+2025-04-13 07:48:09,140 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 07:48:09,140 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 07:48:09,203 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.06秒
+2025-04-13 07:48:09,203 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 完成
+2025-04-13 07:48:09,203 - INFO - app.util.jianying - 导出函数调用耗时: 12.08秒
+2025-04-13 07:48:09,203 - INFO - app.util.jianying - 视频导出成功: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 07:48:09,203 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 07:48:09,204 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.16秒
+2025-04-13 07:48:09,204 - INFO - app.core.orchestrator -   任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 07:48:09,204 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 07:48:09,204 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 07:48:09,204 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 07:48:09,205 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 07:48:09,206 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 07:48:09,206 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 07:48:09,206 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 07:48:09,206 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - --- 任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) 处理结束 [成功] | 耗时: 16.50秒 ---
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - 处理完成: 共找到 4 个任务, 成功 4 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - 
+========= 逐个视频处理完成 =========
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - 总任务数 (扫描到): 4
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - 成功处理任务数: 4
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - 失败处理任务数: 0
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator -   - 因切割失败: 0
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator -   - 因剪映处理失败: 0
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - 总耗时: 64.96 秒
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - 平均任务耗时: 16.24 秒/任务
+2025-04-13 07:48:09,207 - INFO - app.core.orchestrator - ====================================
+2025-04-13 07:48:09,207 - INFO - app.ui.main_window - run_individual_video_processing 调用完成，返回: {'success': True, 'message': '处理完成: 共找到 4 个任务, 成功 4 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。', 'tasks_found': 4, 'tasks_processed': 4, 'tasks_failed': 0}
+2025-04-13 07:48:09,208 - INFO - app.ui.main_window - 后台任务完成信号接收: success=True, message='处理完成: 共找到 4 个任务, 成功 4 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。'
+2025-04-13 07:48:22,773 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-13 12:59:22,104 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-13 12:59:22,104 - INFO - root -   输入文件夹: E:/1
+2025-04-13 12:59:22,104 - INFO - root -   输出文件夹: D:/111
+2025-04-13 12:59:22,104 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 12:59:22,104 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 12:59:22,104 - INFO - root -   处理后删除源文件: 否
+2025-04-13 12:59:22,105 - INFO - root - 后台处理线程已启动。
+2025-04-13 12:59:22,105 - INFO - app.ui.main_window - Worker 开始调用 run_individual_video_processing...
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator - ========= 开始逐个视频处理 =========
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-13 12:59:22,106 - INFO - app.core.processor - 开始扫描输入文件夹以查找独立的视频任务: E:/1
+2025-04-13 12:59:22,106 - INFO - app.core.processor - 扫描子文件夹: 2
+2025-04-13 12:59:22,106 - INFO - app.core.processor - 扫描子文件夹: 3
+2025-04-13 12:59:22,106 - INFO - app.core.processor -   找到任务: 永远相信自己创业 提升自己.mp4 (属于子文件夹: 3)
+2025-04-13 12:59:22,106 - INFO - app.core.processor -   找到任务: 珍惜一切自媒体 珍惜.mp4 (属于子文件夹: 3)
+2025-04-13 12:59:22,106 - INFO - app.core.processor -   找到任务: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (属于子文件夹: 3)
+2025-04-13 12:59:22,106 - INFO - app.core.processor -   找到任务: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (属于子文件夹: 3)
+2025-04-13 12:59:22,106 - INFO - app.core.processor - 扫描子文件夹: 5
+2025-04-13 12:59:22,106 - INFO - app.core.processor - 扫描完成，共找到 4 个独立的视频处理任务。
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator - 共找到 4 个视频任务，准备开始逐个处理...
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator - 
+--- 阶段 2: 逐个处理视频任务 ---
+2025-04-13 12:59:22,106 - WARNING - app.core.orchestrator - 请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) ---
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator -   原始视频: E:/1\3\永远相信自己创业 提升自己.mp4
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\永远相信自己创业 提升自己_splits
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator -   最终导出文件名: 永远相信自己创业 提升自己.mp4
+2025-04-13 12:59:22,106 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 12:59:22,519 - INFO - app.core.orchestrator -     原始视频时长: 22.67 秒
+2025-04-13 12:59:22,519 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 12:59:22,520 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\永远相信自己创业 提升自己_splits
+2025-04-13 12:59:22,560 - INFO - app.core.processor - 准备将 '永远相信自己创业 提升自己.mp4' (22.67s) 切割成 3 段，每段约 7.56s
+2025-04-13 12:59:22,560 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 0.0 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part1.mp4
+2025-04-13 12:59:23,457 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part1.mp4
+2025-04-13 12:59:23,457 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 7.555555666666667 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part2.mp4
+2025-04-13 12:59:24,053 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part2.mp4
+2025-04-13 12:59:24,053 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 15.111111333333334 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part3.mp4
+2025-04-13 12:59:24,637 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 12:59:24,637 - INFO - app.core.processor - 成功切割 '永远相信自己创业 提升自己.mp4' 为 3 段。
+2025-04-13 12:59:24,637 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.12秒
+2025-04-13 12:59:24,637 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 永远相信自己创业 提升自己_part1.mp4, 永远相信自己创业 提升自己_part2.mp4, 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 12:59:24,637 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 12:59:24,637 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 12:59:24,637 - INFO - app.util.jianying -   使用视频片段 (3): 永远相信自己创业 提升自己_part1.mp4, 永远相信自己创业 提升自己_part2.mp4, 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 12:59:24,637 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 12:59:24,637 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 12:59:24,637 - INFO - app.util.jianying -     导出目标: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 12:59:24,638 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 12:59:24,641 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 12:59:24,641 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 12:59:24,667 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 12:59:24,668 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 12:59:24,668 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 12:59:24,668 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 12:59:24,668 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 12:59:24,668 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 永远相信自己创业 提升自己_part1.mp4
+2025-04-13 12:59:24,668 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 永远相信自己创业 提升自己_part2.mp4
+2025-04-13 12:59:24,668 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 12:59:24,668 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 12:59:24,668 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 12:59:24,668 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 12:59:24,671 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 12:59:24,671 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 12:59:25,823 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 12:59:25,823 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 12:59:25,823 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 12:59:26,861 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.04秒
+2025-04-13 12:59:26,861 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 12:59:28,644 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 12:59:29,678 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.82秒
+2025-04-13 12:59:29,678 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 12:59:31,062 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 12:59:32,087 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.41秒
+2025-04-13 12:59:32,087 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 12:59:32,094 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 12:59:32,095 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 12:59:32,095 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 12:59:33,198 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 12:59:33,198 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 12:59:34,222 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 12:59:35,003 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.81秒
+2025-04-13 12:59:35,003 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 12:59:35,021 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 12:59:36,850 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 12:59:37,869 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 12:59:38,073 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.07秒
+2025-04-13 12:59:38,073 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\永远相信自己创业 提升自己.mp4...
+2025-04-13 12:59:38,073 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 12:59:38,073 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 12:59:38,093 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.02秒
+2025-04-13 12:59:38,093 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\永远相信自己创业 提升自己.mp4 完成
+2025-04-13 12:59:38,093 - INFO - app.util.jianying - 导出函数调用耗时: 12.27秒
+2025-04-13 12:59:38,093 - INFO - app.util.jianying - 视频导出成功: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 12:59:38,093 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 12:59:38,093 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.46秒
+2025-04-13 12:59:38,093 - INFO - app.core.orchestrator -   任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 12:59:38,093 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 12:59:38,093 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 12:59:38,095 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part1.mp4
+2025-04-13 12:59:38,096 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part2.mp4
+2025-04-13 12:59:38,096 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part3.mp4
+2025-04-13 12:59:38,096 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\永远相信自己创业 提升自己_splits
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator - --- 任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) 处理结束 [成功] | 耗时: 15.99秒 ---
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) ---
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator -   原始视频: E:/1\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator -   最终导出文件名: 珍惜一切自媒体 珍惜.mp4
+2025-04-13 12:59:38,097 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 12:59:38,154 - INFO - app.core.orchestrator -     原始视频时长: 37.77 秒
+2025-04-13 12:59:38,154 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 12:59:38,154 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 12:59:38,193 - INFO - app.core.processor - 准备将 '珍惜一切自媒体 珍惜.mp4' (37.77s) 切割成 3 段，每段约 12.59s
+2025-04-13 12:59:38,193 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 0.0 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 12:59:39,098 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 12:59:39,098 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 12.588889 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 12:59:39,998 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 12:59:39,998 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 25.177778 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 12:59:40,943 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 12:59:40,943 - INFO - app.core.processor - 成功切割 '珍惜一切自媒体 珍惜.mp4' 为 3 段。
+2025-04-13 12:59:40,943 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.79秒
+2025-04-13 12:59:40,943 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 珍惜一切自媒体 珍惜_part1.mp4, 珍惜一切自媒体 珍惜_part2.mp4, 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 12:59:40,943 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 12:59:40,943 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 12:59:40,943 - INFO - app.util.jianying -   使用视频片段 (3): 珍惜一切自媒体 珍惜_part1.mp4, 珍惜一切自媒体 珍惜_part2.mp4, 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 12:59:40,943 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 12:59:40,943 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 12:59:40,943 - INFO - app.util.jianying -     导出目标: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 12:59:40,944 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 12:59:40,947 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 12:59:40,947 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 12:59:40,977 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 12:59:40,977 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 12:59:40,977 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 12:59:40,977 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 12:59:40,977 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 12:59:40,977 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 12:59:40,977 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 12:59:40,977 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 12:59:40,977 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 12:59:40,977 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 12:59:40,977 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 12:59:40,980 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 12:59:40,980 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 12:59:42,022 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 12:59:42,022 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 12:59:42,022 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 12:59:43,051 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.03秒
+2025-04-13 12:59:43,051 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 12:59:44,951 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 12:59:45,990 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.94秒
+2025-04-13 12:59:45,990 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 12:59:47,256 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 12:59:48,280 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.29秒
+2025-04-13 12:59:48,280 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 12:59:48,288 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 12:59:48,288 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 12:59:48,288 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 12:59:49,391 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 12:59:49,391 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 12:59:50,417 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 12:59:51,201 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.81秒
+2025-04-13 12:59:51,201 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 12:59:51,228 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 12:59:53,066 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 12:59:54,076 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 12:59:54,292 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.09秒
+2025-04-13 12:59:54,292 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\珍惜一切自媒体 珍惜.mp4...
+2025-04-13 12:59:54,292 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 12:59:54,292 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 12:59:54,353 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.06秒
+2025-04-13 12:59:54,353 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\珍惜一切自媒体 珍惜.mp4 完成
+2025-04-13 12:59:54,353 - INFO - app.util.jianying - 导出函数调用耗时: 12.33秒
+2025-04-13 12:59:54,353 - INFO - app.util.jianying - 视频导出成功: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 12:59:54,353 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 12:59:54,354 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.41秒
+2025-04-13 12:59:54,354 - INFO - app.core.orchestrator -   任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 12:59:54,354 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 12:59:54,354 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 12:59:54,355 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 12:59:54,355 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 12:59:54,356 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 12:59:54,356 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 12:59:54,356 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 12:59:54,356 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 12:59:54,356 - INFO - app.core.orchestrator - --- 任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) 处理结束 [成功] | 耗时: 16.26秒 ---
+2025-04-13 12:59:54,357 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) ---
+2025-04-13 12:59:54,357 - INFO - app.core.orchestrator -   原始视频: E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 12:59:54,357 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 12:59:54,357 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 12:59:54,357 - INFO - app.core.orchestrator -   最终导出文件名: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 12:59:54,357 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 12:59:54,409 - INFO - app.core.orchestrator -     原始视频时长: 32.27 秒
+2025-04-13 12:59:54,409 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 12:59:54,410 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 12:59:54,446 - INFO - app.core.processor - 准备将 '自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4' (32.27s) 切割成 3 段，每段约 10.76s
+2025-04-13 12:59:54,446 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 0.0 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 12:59:55,486 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 12:59:55,486 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 10.757997000000001 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 12:59:56,271 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 12:59:56,271 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 21.515994000000003 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 12:59:57,059 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 12:59:57,059 - INFO - app.core.processor - 成功切割 '自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4' 为 3 段。
+2025-04-13 12:59:57,059 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.65秒
+2025-04-13 12:59:57,059 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 12:59:57,059 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 12:59:57,059 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 12:59:57,059 - INFO - app.util.jianying -   使用视频片段 (3): 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 12:59:57,059 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 12:59:57,059 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 12:59:57,060 - INFO - app.util.jianying -     导出目标: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 12:59:57,060 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 12:59:57,064 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 12:59:57,064 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 12:59:57,097 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 12:59:57,098 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 12:59:57,098 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 12:59:57,098 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 12:59:57,098 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 12:59:57,098 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 12:59:57,098 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 12:59:57,098 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 12:59:57,098 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 12:59:57,098 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 12:59:57,098 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 12:59:57,104 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.01秒.
+2025-04-13 12:59:57,104 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 12:59:58,139 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 12:59:58,139 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 12:59:58,139 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 12:59:59,173 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.03秒
+2025-04-13 12:59:59,173 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 13:00:00,836 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:00:01,885 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.71秒
+2025-04-13 13:00:01,885 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 13:00:03,213 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 13:00:04,225 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.34秒
+2025-04-13 13:00:04,225 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 13:00:04,232 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:00:04,232 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 13:00:04,232 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 13:00:05,349 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.12秒
+2025-04-13 13:00:05,349 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 13:00:06,387 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 13:00:07,153 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.80秒
+2025-04-13 13:00:07,153 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 13:00:07,172 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:00:09,019 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 13:00:10,030 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 13:00:10,233 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.08秒
+2025-04-13 13:00:10,233 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4...
+2025-04-13 13:00:10,233 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:00:10,233 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:00:10,262 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.03秒
+2025-04-13 13:00:10,262 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 完成
+2025-04-13 13:00:10,262 - INFO - app.util.jianying - 导出函数调用耗时: 12.12秒
+2025-04-13 13:00:10,262 - INFO - app.util.jianying - 视频导出成功: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:00:10,262 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 13:00:10,263 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.20秒
+2025-04-13 13:00:10,263 - INFO - app.core.orchestrator -   任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 13:00:10,263 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 13:00:10,263 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 13:00:10,264 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 13:00:10,264 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 13:00:10,265 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 13:00:10,265 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator - --- 任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) 处理结束 [成功] | 耗时: 15.91秒 ---
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) ---
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator -   原始视频: E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator -   最终导出文件名: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:00:10,266 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 13:00:10,319 - INFO - app.core.orchestrator -     原始视频时长: 43.05 秒
+2025-04-13 13:00:10,319 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 13:00:10,320 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 13:00:10,361 - INFO - app.core.processor - 准备将 '首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4' (43.05s) 切割成 3 段，每段约 14.35s
+2025-04-13 13:00:10,361 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 0.0 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 13:00:11,356 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 13:00:11,356 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 14.349335000000002 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 13:00:12,437 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 13:00:12,438 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 28.698670000000003 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:00:13,571 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:00:13,571 - INFO - app.core.processor - 成功切割 '首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4' 为 3 段。
+2025-04-13 13:00:13,572 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 3.25秒
+2025-04-13 13:00:13,572 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:00:13,572 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 13:00:13,572 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 13:00:13,572 - INFO - app.util.jianying -   使用视频片段 (3): 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:00:13,572 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 13:00:13,572 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 13:00:13,572 - INFO - app.util.jianying -     导出目标: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:00:13,572 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 13:00:13,576 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 13:00:13,576 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 13:00:13,605 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 13:00:13,605 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 13:00:13,605 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 13:00:13,605 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 13:00:13,605 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 13:00:13,605 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 13:00:13,605 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 13:00:13,605 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:00:13,605 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 13:00:13,605 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 13:00:13,605 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 13:00:13,608 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 13:00:13,609 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:00:14,649 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 13:00:14,649 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:00:14,649 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 13:00:15,693 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.04秒
+2025-04-13 13:00:15,693 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 13:00:17,486 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:00:18,510 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.82秒
+2025-04-13 13:00:18,510 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 13:00:19,810 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 13:00:20,821 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.31秒
+2025-04-13 13:00:20,821 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 13:00:20,829 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:00:20,829 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 13:00:20,829 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 13:00:21,928 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 13:00:21,928 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 13:00:22,951 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 13:00:23,749 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.82秒
+2025-04-13 13:00:23,749 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 13:00:23,777 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:00:25,671 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 13:00:26,690 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 13:00:26,891 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.14秒
+2025-04-13 13:00:26,891 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4...
+2025-04-13 13:00:26,891 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:00:26,891 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:00:26,923 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.03秒
+2025-04-13 13:00:26,923 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 完成
+2025-04-13 13:00:26,923 - INFO - app.util.jianying - 导出函数调用耗时: 12.27秒
+2025-04-13 13:00:26,923 - INFO - app.util.jianying - 视频导出成功: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:00:26,923 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 13:00:26,924 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.35秒
+2025-04-13 13:00:26,924 - INFO - app.core.orchestrator -   任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 13:00:26,924 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 13:00:26,924 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 13:00:26,924 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 13:00:26,925 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 13:00:26,926 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:00:26,926 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 13:00:26,926 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 13:00:26,926 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 13:00:26,926 - INFO - app.core.orchestrator - --- 任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) 处理结束 [成功] | 耗时: 16.66秒 ---
+2025-04-13 13:00:26,926 - INFO - app.core.orchestrator - 处理完成: 共找到 4 个任务, 成功 4 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator - 
+========= 逐个视频处理完成 =========
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator - 总任务数 (扫描到): 4
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator - 成功处理任务数: 4
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator - 失败处理任务数: 0
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator -   - 因切割失败: 0
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator -   - 因剪映处理失败: 0
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator - 总耗时: 64.82 秒
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator - 平均任务耗时: 16.21 秒/任务
+2025-04-13 13:00:26,927 - INFO - app.core.orchestrator - ====================================
+2025-04-13 13:00:26,927 - INFO - app.ui.main_window - run_individual_video_processing 调用完成，返回: {'success': True, 'message': '处理完成: 共找到 4 个任务, 成功 4 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。', 'tasks_found': 4, 'tasks_processed': 4, 'tasks_failed': 0}
+2025-04-13 13:00:26,928 - INFO - app.ui.main_window - 后台任务完成信号接收: success=True, message='处理完成: 共找到 4 个任务, 成功 4 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。'
+2025-04-13 13:00:26,997 - INFO - app.ui.main_window - 后台任务完成信号接收: success=True, message='处理完成: 共找到 4 个任务, 成功 4 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。'
+2025-04-13 13:00:33,789 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-13 13:00:34,313 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-13 13:01:58,620 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 13:01:58,623 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 13:01:58,624 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 13:03:16,846 - INFO - root - 日志系统已配置。
+2025-04-13 13:03:16,847 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 13:03:16,847 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 13:03:17,003 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 13:03:17,038 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 13:03:17,042 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 13:03:17,163 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 13:03:30,132 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-13 13:03:30,132 - INFO - root -   输入文件夹: E:/1
+2025-04-13 13:03:30,132 - INFO - root -   输出文件夹: D:/111
+2025-04-13 13:03:30,132 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 13:03:30,132 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-13 13:03:30,132 - INFO - root -   处理后删除源文件: 否
+2025-04-13 13:03:30,132 - INFO - root - 后台处理线程已启动。
+2025-04-13 13:03:30,134 - INFO - app.ui.main_window - Worker 开始调用 run_individual_video_processing...
+2025-04-13 13:03:30,134 - INFO - app.core.orchestrator - ========= 开始逐个视频处理 =========
+2025-04-13 13:03:30,134 - INFO - app.core.orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-13 13:03:30,134 - INFO - app.core.processor - 开始扫描输入文件夹以查找独立的视频任务: E:/1
+2025-04-13 13:03:30,135 - INFO - app.core.processor - 扫描子文件夹: 2
+2025-04-13 13:03:30,135 - INFO - app.core.processor - 扫描子文件夹: 3
+2025-04-13 13:03:30,135 - INFO - app.core.processor -   找到任务: 永远相信自己创业 提升自己.mp4 (属于子文件夹: 3)
+2025-04-13 13:03:30,135 - INFO - app.core.processor -   找到任务: 珍惜一切自媒体 珍惜.mp4 (属于子文件夹: 3)
+2025-04-13 13:03:30,135 - INFO - app.core.processor -   找到任务: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (属于子文件夹: 3)
+2025-04-13 13:03:30,135 - INFO - app.core.processor -   找到任务: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (属于子文件夹: 3)
+2025-04-13 13:03:30,135 - INFO - app.core.processor - 扫描子文件夹: 5
+2025-04-13 13:03:30,135 - INFO - app.core.processor - 扫描完成，共找到 4 个独立的视频处理任务。
+2025-04-13 13:03:30,135 - INFO - app.core.orchestrator - 共找到 4 个视频任务，准备开始逐个处理...
+2025-04-13 13:03:30,135 - INFO - app.core.orchestrator - 
+--- 阶段 2: 逐个处理视频任务 ---
+2025-04-13 13:03:30,135 - WARNING - app.core.orchestrator - 请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！
+2025-04-13 13:03:30,135 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) ---
+2025-04-13 13:03:30,135 - INFO - app.core.orchestrator -   原始视频: E:/1\3\永远相信自己创业 提升自己.mp4
+2025-04-13 13:03:30,135 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\永远相信自己创业 提升自己_splits
+2025-04-13 13:03:30,135 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 13:03:30,135 - INFO - app.core.orchestrator -   最终导出文件名: 永远相信自己创业 提升自己.mp4
+2025-04-13 13:03:30,135 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 13:03:30,176 - INFO - app.core.orchestrator -     原始视频时长: 22.67 秒
+2025-04-13 13:03:30,176 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 13:03:30,176 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\永远相信自己创业 提升自己_splits
+2025-04-13 13:03:30,215 - INFO - app.core.processor - 准备将 '永远相信自己创业 提升自己.mp4' (22.67s) 切割成 3 段，每段约 7.56s
+2025-04-13 13:03:30,215 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 0.0 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part1.mp4
+2025-04-13 13:03:31,016 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part1.mp4
+2025-04-13 13:03:31,016 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 7.555555666666667 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part2.mp4
+2025-04-13 13:03:31,562 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part2.mp4
+2025-04-13 13:03:31,562 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\永远相信自己创业 提升自己.mp4 -ss 15.111111333333334 -t 7.555555666666667 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\永远相信自己创业 提升自己_splits\永远相信自己创业 提升自己_part3.mp4
+2025-04-13 13:03:32,116 - INFO - app.core.processor -     成功生成切割片段: 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 13:03:32,116 - INFO - app.core.processor - 成功切割 '永远相信自己创业 提升自己.mp4' 为 3 段。
+2025-04-13 13:03:32,116 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 1.94秒
+2025-04-13 13:03:32,116 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 永远相信自己创业 提升自己_part1.mp4, 永远相信自己创业 提升自己_part2.mp4, 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 13:03:32,116 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 13:03:32,116 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 13:03:32,116 - INFO - app.util.jianying -   使用视频片段 (3): 永远相信自己创业 提升自己_part1.mp4, 永远相信自己创业 提升自己_part2.mp4, 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 13:03:32,117 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 13:03:32,117 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 13:03:32,117 - INFO - app.util.jianying -     导出目标: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 13:03:32,117 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 13:03:32,120 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 13:03:32,120 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 13:03:32,183 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.06秒
+2025-04-13 13:03:32,183 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 13:03:32,183 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 13:03:32,183 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 13:03:32,183 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 13:03:32,183 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 永远相信自己创业 提升自己_part1.mp4
+2025-04-13 13:03:32,183 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 永远相信自己创业 提升自己_part2.mp4
+2025-04-13 13:03:32,183 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 永远相信自己创业 提升自己_part3.mp4
+2025-04-13 13:03:32,183 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 13:03:32,183 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 13:03:32,183 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 13:03:32,186 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 13:03:32,186 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 13:03:33,327 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 13:03:33,327 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\永远相信自己创业 提升自己.mp4
+2025-04-13 13:03:33,327 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 13:03:34,375 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.05秒
+2025-04-13 13:03:34,375 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 13:03:36,585 - WARNING - app.util.jianying.Fast_Jianying_Controller - 点击草稿后，窗口状态不是 'edit' (是 'home')，可能未成功进入编辑模式。
+2025-04-13 13:03:36,585 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.21秒
+2025-04-13 13:03:36,585 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 13:03:36,585 - ERROR - app.util.jianying.Fast_Jianying_Controller - 无法点击导出按钮，因为当前不在编辑模式。
+2025-04-13 13:03:36,585 - ERROR - app.util.jianying.Fast_Jianying_Controller - 导出过程中 UI 自动化出错: 不在编辑模式，无法导出
+Traceback (most recent call last):
+  File "F:\py\pyJianYingDraft\app\util\jianying.py", line 131, in export_draft
+    raise draft.exceptions.AutomationError("不在编辑模式，无法导出")
+pyJianYingDraft.exceptions.AutomationError: 不在编辑模式，无法导出
+2025-04-13 13:03:36,587 - INFO - app.util.jianying - 导出函数调用耗时: 3.26秒
+2025-04-13 13:03:36,587 - ERROR - app.util.jianying - 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 13:03:36,587 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 失败 (视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。) ---
+2025-04-13 13:03:36,588 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 4.47秒
+2025-04-13 13:03:36,588 - ERROR - app.core.orchestrator -   任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) 剪映处理失败: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 13:03:36,588 - ERROR - app.core.orchestrator - 处理 任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) 时发生错误
+Traceback (most recent call last):
+  File "F:\py\pyJianYingDraft\app\core\orchestrator.py", line 223, in run_individual_video_processing
+    raise RuntimeError(f"剪映处理失败: {error_msg_jy}") # 抛出异常
+RuntimeError: 剪映处理失败: 视频导出失败 (模板: 简单测试_4940)。请检查剪映状态和详细日志。
+2025-04-13 13:03:36,589 - INFO - app.core.orchestrator - --- 任务 1/4: 永远相信自己创业 提升自己.mp4 (来自: 3) 处理结束 [失败] | 耗时: 6.45秒 ---
+2025-04-13 13:03:36,589 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) ---
+2025-04-13 13:03:36,589 - INFO - app.core.orchestrator -   原始视频: E:/1\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 13:03:36,589 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 13:03:36,589 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 13:03:36,589 - INFO - app.core.orchestrator -   最终导出文件名: 珍惜一切自媒体 珍惜.mp4
+2025-04-13 13:03:36,589 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 13:03:36,627 - INFO - app.core.orchestrator -     原始视频时长: 37.77 秒
+2025-04-13 13:03:36,628 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 13:03:36,628 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 13:03:36,667 - INFO - app.core.processor - 准备将 '珍惜一切自媒体 珍惜.mp4' (37.77s) 切割成 3 段，每段约 12.59s
+2025-04-13 13:03:36,667 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 0.0 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 13:03:37,552 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 13:03:37,552 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 12.588889 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 13:03:38,444 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 13:03:38,444 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\珍惜一切自媒体 珍惜.mp4 -ss 25.177778 -t 12.588889 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 13:03:39,381 - INFO - app.core.processor -     成功生成切割片段: 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 13:03:39,381 - INFO - app.core.processor - 成功切割 '珍惜一切自媒体 珍惜.mp4' 为 3 段。
+2025-04-13 13:03:39,381 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.75秒
+2025-04-13 13:03:39,381 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 珍惜一切自媒体 珍惜_part1.mp4, 珍惜一切自媒体 珍惜_part2.mp4, 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 13:03:39,381 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 13:03:39,381 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 13:03:39,381 - INFO - app.util.jianying -   使用视频片段 (3): 珍惜一切自媒体 珍惜_part1.mp4, 珍惜一切自媒体 珍惜_part2.mp4, 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 13:03:39,381 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 13:03:39,381 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 13:03:39,381 - INFO - app.util.jianying -     导出目标: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 13:03:39,382 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 13:03:39,386 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 13:03:39,386 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 13:03:39,420 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 13:03:39,420 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 13:03:39,420 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 13:03:39,420 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 13:03:39,421 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 13:03:39,421 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 13:03:39,421 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 13:03:39,421 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 13:03:39,421 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 13:03:39,421 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 13:03:39,421 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 13:03:39,428 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.01秒.
+2025-04-13 13:03:39,428 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 13:03:40,488 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 13:03:40,488 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 13:03:40,488 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 13:03:41,534 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.05秒
+2025-04-13 13:03:41,534 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 13:03:43,260 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:03:44,274 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.74秒
+2025-04-13 13:03:44,274 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 13:03:45,574 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 13:03:46,586 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.31秒
+2025-04-13 13:03:46,586 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 13:03:46,593 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:03:46,593 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 13:03:46,593 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 13:03:47,691 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 13:03:47,691 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 13:03:48,710 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 13:03:49,491 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.80秒
+2025-04-13 13:03:49,491 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 13:03:49,518 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:03:51,402 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 13:03:52,419 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 13:03:52,621 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.13秒
+2025-04-13 13:03:52,621 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\珍惜一切自媒体 珍惜.mp4...
+2025-04-13 13:03:52,621 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:03:52,621 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 13:03:52,677 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.06秒
+2025-04-13 13:03:52,677 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\珍惜一切自媒体 珍惜.mp4 完成
+2025-04-13 13:03:52,677 - INFO - app.util.jianying - 导出函数调用耗时: 12.19秒
+2025-04-13 13:03:52,677 - INFO - app.util.jianying - 视频导出成功: D:/111\3\珍惜一切自媒体 珍惜.mp4
+2025-04-13 13:03:52,677 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 13:03:52,678 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.30秒
+2025-04-13 13:03:52,678 - INFO - app.core.orchestrator -   任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 13:03:52,678 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 13:03:52,678 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 13:03:52,679 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part1.mp4
+2025-04-13 13:03:52,680 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part2.mp4
+2025-04-13 13:03:52,680 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\珍惜一切自媒体 珍惜_splits\珍惜一切自媒体 珍惜_part3.mp4
+2025-04-13 13:03:52,680 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\珍惜一切自媒体 珍惜_splits
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator - --- 任务 2/4: 珍惜一切自媒体 珍惜.mp4 (来自: 3) 处理结束 [成功] | 耗时: 16.09秒 ---
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) ---
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator -   原始视频: E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator -   最终导出文件名: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:03:52,681 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 13:03:52,721 - INFO - app.core.orchestrator -     原始视频时长: 32.27 秒
+2025-04-13 13:03:52,721 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 13:03:52,721 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 13:03:52,756 - INFO - app.core.processor - 准备将 '自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4' (32.27s) 切割成 3 段，每段约 10.76s
+2025-04-13 13:03:52,756 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 0.0 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 13:03:53,465 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 13:03:53,465 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 10.757997000000001 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 13:03:54,218 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 13:03:54,218 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 -ss 21.515994000000003 -t 10.757997000000001 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 13:03:55,005 - INFO - app.core.processor -     成功生成切割片段: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 13:03:55,005 - INFO - app.core.processor - 成功切割 '自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4' 为 3 段。
+2025-04-13 13:03:55,005 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.28秒
+2025-04-13 13:03:55,005 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 13:03:55,005 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 13:03:55,005 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 13:03:55,005 - INFO - app.util.jianying -   使用视频片段 (3): 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4, 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 13:03:55,005 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 13:03:55,005 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 13:03:55,005 - INFO - app.util.jianying -     导出目标: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:03:55,006 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 13:03:55,011 - INFO - app.util.jianying - 模板加载成功，耗时: 0.01秒
+2025-04-13 13:03:55,011 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 13:03:55,047 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.04秒
+2025-04-13 13:03:55,048 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 13:03:55,048 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 13:03:55,048 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 13:03:55,048 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 13:03:55,048 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 13:03:55,048 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 13:03:55,048 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 13:03:55,048 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 13:03:55,048 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 13:03:55,048 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 13:03:55,051 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-13 13:03:55,051 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:03:56,089 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 13:03:56,089 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:03:56,089 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 13:03:57,137 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.05秒
+2025-04-13 13:03:57,137 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 13:03:58,860 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:03:59,948 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.81秒
+2025-04-13 13:03:59,948 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 13:04:01,306 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 13:04:02,331 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.38秒
+2025-04-13 13:04:02,331 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 13:04:02,340 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:04:02,340 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 13:04:02,340 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 13:04:03,437 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-13 13:04:03,437 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 13:04:04,477 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 13:04:05,254 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.82秒
+2025-04-13 13:04:05,254 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 13:04:05,271 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:04:07,106 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 13:04:08,120 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 13:04:08,334 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.08秒
+2025-04-13 13:04:08,334 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4...
+2025-04-13 13:04:08,335 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:04:08,335 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:04:08,362 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.03秒
+2025-04-13 13:04:08,362 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 完成
+2025-04-13 13:04:08,363 - INFO - app.util.jianying - 导出函数调用耗时: 12.27秒
+2025-04-13 13:04:08,363 - INFO - app.util.jianying - 视频导出成功: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4
+2025-04-13 13:04:08,363 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 13:04:08,363 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.36秒
+2025-04-13 13:04:08,363 - INFO - app.core.orchestrator -   任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 13:04:08,363 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 13:04:08,363 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 13:04:08,364 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part1.mp4
+2025-04-13 13:04:08,364 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part2.mp4
+2025-04-13 13:04:08,365 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_part3.mp4
+2025-04-13 13:04:08,365 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 13:04:08,365 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员_splits
+2025-04-13 13:04:08,365 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 13:04:08,365 - INFO - app.core.orchestrator - --- 任务 3/4: 自动上传的功能。得花不少时间研究了自媒体 js逆向 程序员.mp4 (来自: 3) 处理结束 [成功] | 耗时: 15.68秒 ---
+2025-04-13 13:04:08,365 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) ---
+2025-04-13 13:04:08,366 - INFO - app.core.orchestrator -   原始视频: E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:04:08,366 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 13:04:08,366 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-13 13:04:08,366 - INFO - app.core.orchestrator -   最终导出文件名: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:04:08,366 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-13 13:04:08,407 - INFO - app.core.orchestrator -     原始视频时长: 43.05 秒
+2025-04-13 13:04:08,407 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-13 13:04:08,408 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 13:04:08,448 - INFO - app.core.processor - 准备将 '首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4' (43.05s) 切割成 3 段，每段约 14.35s
+2025-04-13 13:04:08,448 - INFO - app.core.processor -   执行切割命令 (第 1/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 0.0 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 13:04:09,457 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 13:04:09,458 - INFO - app.core.processor -   执行切割命令 (第 2/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 14.349335000000002 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 13:04:10,520 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 13:04:10,521 - INFO - app.core.processor -   执行切割命令 (第 3/3 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 -ss 28.698670000000003 -t 14.349335000000002 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:04:11,654 - INFO - app.core.processor -     成功生成切割片段: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:04:11,654 - INFO - app.core.processor - 成功切割 '首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4' 为 3 段。
+2025-04-13 13:04:11,654 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 3.25秒
+2025-04-13 13:04:11,654 - INFO - app.core.orchestrator -   最终用于处理的片段 (3): 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:04:11,654 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-13 13:04:11,654 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-13 13:04:11,654 - INFO - app.util.jianying -   使用视频片段 (3): 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4, 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:04:11,654 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-13 13:04:11,654 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-13 13:04:11,654 - INFO - app.util.jianying -     导出目标: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:04:11,655 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-13 13:04:11,658 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-13 13:04:11,658 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-13 13:04:11,686 - INFO - app.util.jianying - 成功为 3 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-13 13:04:11,687 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-13 13:04:11,687 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-13 13:04:11,687 - INFO - app.util.jianying - 模板轨道现有 3 个片段，需要用 3 个新片段替换。
+2025-04-13 13:04:11,687 - INFO - app.util.jianying - 准备替换模板中的 3 个视频片段...
+2025-04-13 13:04:11,687 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 13:04:11,687 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 13:04:11,687 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:04:11,687 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-13 13:04:11,687 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-13 13:04:11,687 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-13 13:04:11,693 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.01秒.
+2025-04-13 13:04:11,693 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:04:12,744 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-13 13:04:12,744 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:04:12,744 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-13 13:04:13,777 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.03秒
+2025-04-13 13:04:13,777 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-13 13:04:15,684 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:04:16,737 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.96秒
+2025-04-13 13:04:16,737 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-13 13:04:18,020 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-13 13:04:19,043 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.31秒
+2025-04-13 13:04:19,043 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-13 13:04:19,050 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:04:19,051 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-13 13:04:19,051 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-13 13:04:20,164 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.11秒
+2025-04-13 13:04:20,164 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-13 13:04:21,188 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-13 13:04:21,979 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.81秒
+2025-04-13 13:04:21,979 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-13 13:04:22,001 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-13 13:04:23,858 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-13 13:04:24,881 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-13 13:04:25,082 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.10秒
+2025-04-13 13:04:25,082 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4...
+2025-04-13 13:04:25,082 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-13 13:04:25,082 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:04:25,118 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.04秒
+2025-04-13 13:04:25,118 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 完成
+2025-04-13 13:04:25,118 - INFO - app.util.jianying - 导出函数调用耗时: 12.37秒
+2025-04-13 13:04:25,118 - INFO - app.util.jianying - 视频导出成功: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4
+2025-04-13 13:04:25,118 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-13 13:04:25,119 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.47秒
+2025-04-13 13:04:25,119 - INFO - app.core.orchestrator -   任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) 剪映处理成功。
+2025-04-13 13:04:25,119 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-13 13:04:25,119 - INFO - app.core.orchestrator -     准备删除 3 个切割片段...
+2025-04-13 13:04:25,120 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part1.mp4
+2025-04-13 13:04:25,121 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part2.mp4
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_part3.mp4
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 3 个。
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感_splits
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - --- 任务 4/4: 首尾呼应炙热计划 吉他弹唱 唱歌 emo 氛围感.mp4 (来自: 3) 处理结束 [成功] | 耗时: 16.76秒 ---
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - 处理完成: 共找到 4 个任务, 成功 3 个, 失败 1 个 (切割失败: 0, 剪映失败: 1)。 请检查日志获取失败详情。
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - 
+========= 逐个视频处理完成 =========
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - 总任务数 (扫描到): 4
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - 成功处理任务数: 3
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - 失败处理任务数: 1
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator -   - 因切割失败: 0
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator -   - 因剪映处理失败: 1
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - 总耗时: 54.99 秒
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - 平均任务耗时: 13.75 秒/任务
+2025-04-13 13:04:25,122 - INFO - app.core.orchestrator - ====================================
+2025-04-13 13:04:25,122 - INFO - app.ui.main_window - run_individual_video_processing 调用完成，返回: {'success': False, 'message': '处理完成: 共找到 4 个任务, 成功 3 个, 失败 1 个 (切割失败: 0, 剪映失败: 1)。 请检查日志获取失败详情。', 'tasks_found': 4, 'tasks_processed': 3, 'tasks_failed': 1}
+2025-04-13 13:04:25,122 - INFO - app.ui.main_window - 后台任务完成信号接收: success=False, message='处理完成: 共找到 4 个任务, 成功 3 个, 失败 1 个 (切割失败: 0, 剪映失败: 1)。 请检查日志获取失败详情。'
+2025-04-13 13:04:58,489 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-13 13:05:19,748 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 13:05:19,749 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 13:05:19,749 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 14:09:12,153 - INFO - root - 日志系统已配置。
+2025-04-13 14:09:12,154 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 14:09:12,154 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 14:09:12,289 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 14:09:12,307 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 14:09:12,307 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 14:09:12,385 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 14:12:46,588 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 14:12:46,589 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 14:12:46,589 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 14:12:50,412 - INFO - root - 日志系统已配置。
+2025-04-13 14:12:50,412 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 14:12:50,412 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 14:12:50,555 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 14:12:50,573 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 14:12:50,574 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 14:12:50,648 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 14:12:55,531 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 14:12:55,532 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 14:12:55,532 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 14:12:58,283 - INFO - root - 日志系统已配置。
+2025-04-13 14:12:58,283 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 14:12:58,283 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 14:12:58,418 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 14:12:58,436 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 14:12:58,436 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 14:12:58,510 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 14:13:17,893 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 14:13:17,894 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 14:13:17,894 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 14:15:06,217 - INFO - root - 日志系统已配置。
+2025-04-13 14:15:06,218 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 14:15:06,218 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 14:15:06,398 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 14:15:06,416 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 14:15:06,416 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 14:15:06,493 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 14:15:13,814 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 14:15:13,815 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 14:15:13,815 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 14:17:21,401 - INFO - root - 日志系统已配置。
+2025-04-13 14:17:21,401 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 14:17:21,401 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 14:17:21,575 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 14:17:21,597 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 14:17:21,598 - INFO - app.ui.main_window - 从配置文件加载 DeleteSource: False
+2025-04-13 14:17:21,598 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 14:17:21,692 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 14:17:28,802 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 14:17:28,803 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 14:17:28,803 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 14:18:09,111 - INFO - root - 日志系统已配置。
+2025-04-13 14:18:09,111 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 14:18:09,111 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 14:18:09,251 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 14:18:09,268 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 14:18:09,269 - INFO - app.ui.main_window - 从配置文件加载 DeleteSource: False
+2025-04-13 14:18:09,269 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 14:18:09,359 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 14:18:12,947 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 14:18:12,947 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 14:18:12,947 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 14:18:15,211 - INFO - root - 日志系统已配置。
+2025-04-13 14:18:15,211 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 14:18:15,211 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 14:18:15,380 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 14:18:15,398 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 14:18:15,399 - INFO - app.ui.main_window - 从配置文件加载 DeleteSource: True
+2025-04-13 14:18:15,399 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 14:18:15,476 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 14:18:17,931 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 14:18:17,932 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 14:18:17,932 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-13 14:19:27,287 - INFO - root - 日志系统已配置。
+2025-04-13 14:19:27,288 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-13 14:19:27,288 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-13 14:19:27,428 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-13 14:19:27,450 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-13 14:19:27,451 - INFO - app.ui.main_window - 从配置文件加载 DeleteSource: True
+2025-04-13 14:19:27,451 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-13 14:19:27,546 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-13 14:19:38,226 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-13 14:19:38,227 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-13 14:19:38,227 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-14 00:28:40,185 - INFO - root - 日志系统已配置。
+2025-04-14 00:28:40,185 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-14 00:28:40,185 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-14 00:28:40,377 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-14 00:28:40,436 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-14 00:28:40,443 - INFO - app.ui.main_window - 从配置文件加载 DeleteSource: True
+2025-04-14 00:28:40,443 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-14 00:28:40,552 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-14 00:28:45,234 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-14 00:28:45,235 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-14 00:28:45,235 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。

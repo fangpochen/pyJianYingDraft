@@ -4195,3 +4195,5 @@ pyJianYingDraft.exceptions.AutomationError: 未找到导出路径框
 2025-04-13 07:24:16,116 - INFO - jianying_orchestrator - 平均任务耗时: 17.45 秒/任务
 2025-04-13 07:24:16,116 - INFO - jianying_orchestrator - ====================================
 2025-04-13 07:24:16,748 - INFO - root - 后台处理进程 (PID: 54768) 已结束。退出码: 0
+2025-04-13 07:26:20,041 - INFO - root - 应用程序正在关闭，保存配置...
+2025-04-13 07:26:20,043 - INFO - root - 配置已保存到: batch_tool_config.ini

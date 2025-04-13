@@ -1,3 +1,8 @@
 pymediainfo
 imageio
 uiautomation>=2
+PyQt6
+numpy
+ffmpeg-python
+DrissionPage
+requests

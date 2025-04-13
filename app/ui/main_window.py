@@ -1,0 +1,426 @@
+# app/ui/main_window.py
+import sys
+import os
+import queue
+import logging
+from PyQt6.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
+    QLabel, QLineEdit, QPushButton, QFileDialog, QPlainTextEdit,
+    QCheckBox, QMessageBox, QGridLayout, QSpacerItem, QSizePolicy
+)
+from PyQt6.QtCore import QThread, pyqtSignal, QObject, QTimer
+
+# 导入核心处理函数和配置、日志工具
+try:
+    # 注意相对导入路径
+    from ..core.orchestrator import run_individual_video_processing
+    from ..config import load_config, save_config
+    from ..util.logging_setup import log_queue # 使用 setup_logging 中定义的队列
+except ImportError as e:
+    # 如果直接运行此文件进行测试，导入会失败，提供备用方案或提示
+    print(f"Import Error: {e}. Make sure the script is run as part of the package.")
+    # Fallback for direct execution (less ideal)
+    run_individual_video_processing = None
+    load_config = None
+    save_config = None
+    log_queue = queue.Queue() # Dummy queue
+
+logger = logging.getLogger(__name__)
+
+# --- 后台工作线程 ---
+class WorkerSignals(QObject):
+    ''' 定义工作线程可发出的信号 '''
+    finished = pyqtSignal(bool, str) # 发送 bool 表示成功/失败，str 表示消息
+    progress = pyqtSignal(str)       # 发送字符串日志消息
+    # 可以添加其他信号，例如进度百分比等
+
+class ProcessingWorker(QObject):
+    ''' 执行后台处理任务的 Worker '''
+    signals = WorkerSignals()
+
+    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source):
+        super().__init__()
+        self.input_folder = input_folder
+        self.output_folder = output_folder
+        self.draft_name = draft_name
+        self.draft_folder_path = draft_folder_path
+        self.delete_source = delete_source
+        self.is_cancelled = False
+
+    def run(self):
+        ''' 执行实际的处理任务，并处理返回结果 '''
+        final_success = False
+        final_message = "处理未启动"
+        try:
+            if run_individual_video_processing is None:
+                 raise RuntimeError("核心处理函数未能加载")
+
+            # --- 调用实际处理函数，并捕获其返回的字典 --- 
+            logger.info("Worker 开始调用 run_individual_video_processing...")
+            result_dict = run_individual_video_processing(
+                self.input_folder, 
+                self.output_folder, 
+                self.draft_name, 
+                self.draft_folder_path, 
+                self.delete_source
+            )
+            logger.info(f"run_individual_video_processing 调用完成，返回: {result_dict}")
+            # --- 结束调用 --- 
+
+            # 根据返回的字典设置最终状态和消息
+            final_success = result_dict.get('success', False)
+            final_message = result_dict.get('message', '处理完成但未收到明确消息')
+
+            # 可以在这里添加逻辑，例如如果 tasks_found 为 0，修改消息
+            if final_success and result_dict.get('tasks_found', -1) == 0:
+                 # 即使 success 为 True，但如果没找到任务，修改消息
+                 # final_message = "未找到可处理的视频任务。" # 或者让 orchestrator 返回这个消息
+                 pass # 假设 orchestrator 返回的消息已包含此信息
+
+        except Exception as e:
+            # 捕获调用 run_individual_video_processing 本身可能抛出的异常
+            # (理论上 orchestrator 应该在其内部处理异常并返回失败字典，但作为保险)
+            logger.exception("后台处理任务执行期间发生意外错误")
+            final_message = f"处理过程中发生意外错误: {e}"
+            final_success = False
+        finally:
+            if not self.is_cancelled:
+                # 使用从 result_dict 或异常处理中获取的状态和消息
+                self.signals.finished.emit(final_success, final_message)
+
+    def cancel(self):
+        self.is_cancelled = True
+        # 可能需要更复杂的取消逻辑来中断 run_individual_video_processing
+        logger.warning("后台任务被请求取消 (简单标记，可能无法立即停止)")
+
+
+# --- 主窗口 ---
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("剪映批量处理工具 v2.0 (PyQt6)")
+        self.setGeometry(100, 100, 750, 600) # 调整窗口大小
+
+        self.config_data = {}
+        self.worker_thread = None
+        self.processing_worker = None
+        self.log_timer = QTimer(self) # 用于轮询日志队列
+
+        self.init_ui()
+        self.load_initial_config()
+        self.setup_log_polling()
+
+        # 确保在依赖错误时禁用按钮
+        if run_individual_video_processing is None:
+             self.start_button.setEnabled(False)
+             self.start_button.setText("依赖错误")
+             QMessageBox.critical(self, "依赖错误",
+                                  "无法导入核心处理逻辑 (app/core/orchestrator.py)。\n"
+                                  "请确保所有依赖项已安装且文件结构正确。")
+
+    def init_ui(self):
+        """初始化用户界面布局和组件"""
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+        main_layout = QVBoxLayout(central_widget)
+
+        # --- 配置区域 ---
+        config_layout = QGridLayout()
+        config_layout.setSpacing(10)
+
+        # 输入文件夹
+        config_layout.addWidget(QLabel("输入文件夹 (含子目录):"), 0, 0)
+        self.input_entry = QLineEdit()
+        config_layout.addWidget(self.input_entry, 0, 1)
+        self.input_button = QPushButton("浏览...")
+        self.input_button.clicked.connect(self.select_input_folder)
+        config_layout.addWidget(self.input_button, 0, 2)
+
+        # 输出文件夹
+        config_layout.addWidget(QLabel("输出文件夹:"), 1, 0)
+        self.output_entry = QLineEdit()
+        config_layout.addWidget(self.output_entry, 1, 1)
+        self.output_button = QPushButton("浏览...")
+        self.output_button.clicked.connect(self.select_output_folder)
+        config_layout.addWidget(self.output_button, 1, 2)
+
+        # 草稿库路径
+        config_layout.addWidget(QLabel("剪映草稿库路径:"), 2, 0)
+        self.draft_folder_entry = QLineEdit()
+        config_layout.addWidget(self.draft_folder_entry, 2, 1)
+        self.draft_folder_button = QPushButton("浏览...")
+        self.draft_folder_button.clicked.connect(self.select_draft_folder)
+        config_layout.addWidget(self.draft_folder_button, 2, 2)
+
+        # 草稿名称
+        config_layout.addWidget(QLabel("目标草稿名称:"), 3, 0)
+        self.draft_name_entry = QLineEdit()
+        config_layout.addWidget(self.draft_name_entry, 3, 1, 1, 2) # Span across 2 columns
+
+        # 删除源文件选项
+        self.delete_source_check = QCheckBox("处理成功后删除源视频")
+        self.delete_source_check.setChecked(True) # 设置默认选中
+        config_layout.addWidget(self.delete_source_check, 4, 0, 1, 2) # Span across 2 columns
+
+        # 开始按钮
+        self.start_button = QPushButton("开始逐个处理视频任务")
+        self.start_button.setFixedHeight(40) # Make button taller
+        self.start_button.setStyleSheet("background-color: lightblue; font-weight: bold;")
+        self.start_button.clicked.connect(self.start_processing)
+        config_layout.addWidget(self.start_button, 5, 1, 1, 2) # Place below checkbox
+
+        # 设置列伸展，让输入框占据更多空间
+        config_layout.setColumnStretch(1, 1)
+
+        main_layout.addLayout(config_layout)
+        main_layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
+
+        # --- 日志区域 ---
+        log_label = QLabel("处理日志 (详细日志请查看 logs/batch_tool.log):")
+        main_layout.addWidget(log_label)
+        self.log_text_edit = QPlainTextEdit()
+        self.log_text_edit.setReadOnly(True)
+        self.log_text_edit.setStyleSheet("background-color: #f0f0f0;") # Light gray background
+        main_layout.addWidget(self.log_text_edit)
+
+
+    def select_folder(self, line_edit_widget):
+        """通用函数：打开文件夹选择对话框并更新 QLineEdit"""
+        current_path = line_edit_widget.text()
+        if not current_path or not os.path.isdir(current_path):
+             # 如果当前路径无效或为空，尝试获取用户目录
+             current_path = os.path.expanduser("~")
+
+        folder_path = QFileDialog.getExistingDirectory(
+            self,
+            "选择文件夹",
+            current_path
+        )
+        if folder_path: # 如果用户选择了文件夹而不是取消
+            line_edit_widget.setText(folder_path)
+
+    def select_input_folder(self):
+        self.select_folder(self.input_entry)
+
+    def select_output_folder(self):
+        self.select_folder(self.output_entry)
+
+    def select_draft_folder(self):
+        self.select_folder(self.draft_folder_entry)
+
+    def load_initial_config(self):
+        """加载初始配置并更新 UI"""
+        if load_config:
+            self.config_data = load_config()
+            self.input_entry.setText(self.config_data.get('Paths', {}).get('InputFolder', ''))
+            self.output_entry.setText(self.config_data.get('Paths', {}).get('OutputFolder', ''))
+            self.draft_folder_entry.setText(self.config_data.get('Paths', {}).get('DraftFolder', ''))
+            self.draft_name_entry.setText(self.config_data.get('Settings', {}).get('DraftName', ''))
+
+            # --- 修改: 明确处理 DeleteSource ---
+            # 1. 尝试从配置中读取 Settings 部分
+            settings = self.config_data.get('Settings', {})
+            # 2. 检查 DeleteSource键是否存在
+            if 'DeleteSource' in settings:
+                # 如果存在，使用配置文件中的值
+                delete_src = settings['DeleteSource']
+                logger.info(f"从配置文件加载 DeleteSource: {delete_src}")
+            else:
+                # 如果不存在，设置默认值为 True (勾选)
+                delete_src = True 
+                logger.info("配置文件中未找到 DeleteSource，默认设置为 True")
+            
+            # 3. 确保转换为布尔值并更新复选框状态
+            try:
+                # 尝试更健壮地转换常见表示 False 的字符串
+                if isinstance(delete_src, str) and delete_src.lower() in ('false', '0', 'no', 'off'):
+                    checked_state = False
+                else:
+                    checked_state = bool(delete_src) # 其他情况（包括True, 1, 'true'等及非字符串）按bool处理
+                self.delete_source_check.setChecked(checked_state)
+            except Exception as e:
+                 logger.error(f"转换 DeleteSource ('{delete_src}') 为布尔值时出错: {e}，将默认为 True")
+                 self.delete_source_check.setChecked(True) # 出错时保险起见，默认为 True
+            # --- 结束修改 ---
+
+            logger.info("UI 已从配置文件更新。")
+        else:
+            logger.error("配置加载函数未找到，无法加载初始配置。")
+            QMessageBox.warning(self, "配置错误", "无法加载配置加载函数 (app/config.py)。")
+
+    def save_current_config(self):
+        """从 UI 获取当前值并保存配置"""
+        if save_config:
+            if 'Paths' not in self.config_data: self.config_data['Paths'] = {}
+            if 'Settings' not in self.config_data: self.config_data['Settings'] = {}
+
+            self.config_data['Paths']['InputFolder'] = self.input_entry.text()
+            self.config_data['Paths']['OutputFolder'] = self.output_entry.text()
+            self.config_data['Paths']['DraftFolder'] = self.draft_folder_entry.text()
+            self.config_data['Settings']['DraftName'] = self.draft_name_entry.text()
+            self.config_data['Settings']['DeleteSource'] = self.delete_source_check.isChecked()
+
+            save_config(self.config_data)
+        else:
+            logger.error("配置保存函数未找到，无法保存配置。")
+            # 不需要在关闭时弹窗，日志已记录
+
+    def setup_log_polling(self):
+        """设置定时器以轮询日志队列并更新 UI"""
+        self.log_timer.timeout.connect(self.process_log_queue)
+        self.log_timer.start(100) # 每 100 毫秒检查一次队列
+
+    def process_log_queue(self):
+        """从队列中获取日志消息并添加到日志区域"""
+        try:
+            while True: # 处理队列中的所有当前消息
+                record = log_queue.get_nowait()
+                self.log_text_edit.appendPlainText(record) # 追加文本
+                # log_queue.task_done() # 对于简单的 Queue，task_done 不是必需的
+        except queue.Empty:
+            pass # 队列为空时不做任何事
+        except Exception as e:
+             print(f"Error processing log queue: {e}") # 打印到控制台以防 UI 卡死
+             logger.error(f"处理日志队列时出错: {e}", exc_info=True)
+
+    def start_processing(self):
+        """开始后台处理任务"""
+        if self.worker_thread and self.worker_thread.isRunning():
+            QMessageBox.warning(self, "运行中", "一个处理任务已经在后台运行，请等待其完成。")
+            return
+
+        # --- 获取当前 UI 配置 --- 
+        input_folder = self.input_entry.text().strip()
+        output_folder = self.output_entry.text().strip()
+        draft_folder_path = self.draft_folder_entry.text().strip()
+        draft_name = self.draft_name_entry.text().strip()
+        delete_source = self.delete_source_check.isChecked()
+
+        # --- 验证输入 --- 
+        if not input_folder or not os.path.isdir(input_folder):
+            QMessageBox.critical(self, "错误", "请选择有效的输入文件夹！")
+            return
+        if not output_folder:
+             QMessageBox.critical(self, "错误", "请指定输出文件夹！")
+             return
+        # 尝试创建输出文件夹 (提前检查)
+        try:
+            os.makedirs(output_folder, exist_ok=True)
+        except Exception as e:
+            logger.exception(f"无法创建输出文件夹: {output_folder}")
+            QMessageBox.critical(self, "错误", f"无法创建输出文件夹 '{output_folder}':\n{e}")
+            return
+        if not draft_folder_path or not os.path.isdir(draft_folder_path):
+            QMessageBox.critical(self, "错误", "请提供有效的剪映草稿库路径！")
+            return
+        if not draft_name:
+            QMessageBox.critical(self, "错误", "请输入目标草稿名称！")
+            return
+        if run_individual_video_processing is None:
+            QMessageBox.critical(self, "依赖错误", "后台处理模块未能加载，无法启动处理。")
+            return
+
+        # --- 准备并启动后台线程 --- 
+        self.start_button.setEnabled(False)
+        self.start_button.setText("处理中...")
+        self.log_text_edit.clear() # 清空上次日志
+        self.log_text_edit.appendPlainText("开始逐个处理视频任务...") # 立即显示
+        QApplication.processEvents() # 确保 UI 更新
+
+        logging.info("准备启动后台逐个视频处理...")
+        logging.info(f"  输入文件夹: {input_folder}")
+        logging.info(f"  输出文件夹: {output_folder}")
+        logging.info(f"  草稿库路径: {draft_folder_path}")
+        logging.info(f"  目标草稿名: {draft_name}")
+        logging.info(f"  处理后删除源文件: {'是' if delete_source else '否'}")
+
+
+        # 创建 Worker 和 Thread
+        self.processing_worker = ProcessingWorker(
+            input_folder, output_folder, draft_name, draft_folder_path, delete_source
+        )
+        self.worker_thread = QThread(self) # Pass parent to help with lifetime management
+        self.processing_worker.moveToThread(self.worker_thread)
+
+        # 连接信号槽
+        self.processing_worker.signals.finished.connect(self.on_processing_finished)
+        # 连接线程生命周期管理
+        self.worker_thread.started.connect(self.processing_worker.run)
+        self.worker_thread.finished.connect(self.worker_thread.deleteLater) # 请求删除线程对象
+        self.processing_worker.signals.finished.connect(self.worker_thread.quit) # 请求线程退出事件循环
+        # 请求删除 worker 对象，应该在线程结束后进行，可以连接到 finished 信号
+        self.worker_thread.finished.connect(self.processing_worker.deleteLater)
+
+        # 启动线程
+        self.worker_thread.start()
+        logging.info("后台处理线程已启动。")
+
+    def on_processing_finished(self, success, message):
+        """后台任务完成时的处理"""
+        logger.info(f"后台任务完成信号接收: success={success}, message='{message}'")
+        self.start_button.setEnabled(True)
+        self.start_button.setText("开始逐个处理视频任务")
+
+        # 根据成功状态和消息内容显示不同的弹窗
+        if success:
+            # 即使成功，消息也可能包含警告或"未找到任务"等信息
+            QMessageBox.information(self, "处理完成", 
+                                      message + "\n\n请查看UI日志和 logs/batch_tool.log 获取详细信息。")
+        else:
+            QMessageBox.critical(self, "处理失败", 
+                                   "处理过程中发生错误。\n" + message + "\n\n请检查UI日志和 logs/batch_tool.log 获取详细信息。")
+
+        # 清理引用 (线程和 worker 会通过 deleteLater 自行清理)
+        self.worker_thread = None
+        self.processing_worker = None
+        logger.info("处理完成，UI已更新。")
+
+    def closeEvent(self, event):
+        """重写关闭事件处理程序"""
+        logger.info("应用程序正在关闭...")
+        
+        # 尝试停止后台线程（如果仍在运行）
+        force_quit = False
+        if self.worker_thread and self.worker_thread.isRunning():
+            reply = QMessageBox.question(self, '确认退出',
+                                           "处理任务仍在后台运行，确定要强制退出吗？\n（后台任务将被尝试终止，可能导致数据不一致）",
+                                           QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                           QMessageBox.StandardButton.No)
+
+            if reply == QMessageBox.StandardButton.Yes:
+                logger.warning("用户选择在处理过程中强制退出，尝试终止后台任务...")
+                if self.processing_worker:
+                    self.processing_worker.cancel() # 尝试标记取消
+                self.worker_thread.quit() # 请求退出事件循环
+                if not self.worker_thread.wait(1000): # 等待最多1秒
+                     logger.warning("后台线程未能及时停止。应用程序将强制退出。")
+                force_quit = True
+                event.accept() # 接受关闭事件
+            else:
+                event.ignore() # 忽略关闭事件，保持窗口打开
+                return # 不执行后续的保存和停止操作
+        else:
+            force_quit = True # 没有任务在运行，可以安全退出
+            event.accept() # 没有后台任务，正常接受关闭
+
+        if force_quit:
+            # 只有在确认可以退出时才保存配置和停止定时器
+            self.save_current_config() # 保存配置
+            self.log_timer.stop() # 停止日志轮询定时器
+            logger.info("配置已保存，日志轮询已停止。应用程序退出。")
+            super().closeEvent(event) # 调用父类方法执行实际关闭
+
+# --- 用于直接运行测试 UI (可选) ---
+# if __name__ == '__main__':
+#     # 需要先配置日志
+#     from ..util.logging_setup import setup_logging
+#     test_log_queue = queue.Queue()
+#     setup_logging(ui_queue=test_log_queue) # 配置日志以发送到队列
+#
+#     app = QApplication(sys.argv)
+#     mainWin = MainWindow()
+#     # 将测试队列传递给 MainWindow 以便它能处理日志
+#     # (更好的方式是 MainWindow 自己管理队列或通过信号传递)
+#     # 这里简化处理，假设 MainWindow 能访问 setup_logging 定义的 log_queue
+#     mainWin.show()
+#     sys.exit(app.exec()) 
