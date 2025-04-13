@@ -661,7 +661,7 @@ def process_videos(video_paths,
                     video_track,
                     i,
                     video_materials[i],
-                    handle_shrink=Shrink_mode.cut_tail, # 片段缩短时，提前结束点
+                    handle_shrink=Shrink_mode.cut_tail_align, # 片段缩短时，切尾并前移后续片段
                     handle_extend=Extend_mode.push_tail # 片段延长时，推后结束点及后续片段
                 )
                 logger.debug(f"    替换耗时: {time.time() - replace_seg_start:.2f}秒")

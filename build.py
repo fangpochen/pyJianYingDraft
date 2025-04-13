@@ -85,6 +85,7 @@ data_files = [
 
 # 根据操作系统使用正确的分隔符 (Windows用';', Linux/macOS用':')
 data_separator = ';' if platform.system() == "Windows" else ':'
+binary_separator = ';' if platform.system() == "Windows" else ':' # 二进制文件也需要分隔符
 
 for src, dest in data_files:
     if os.path.exists(src):
@@ -92,6 +93,20 @@ for src, dest in data_files:
         print(f"添加数据文件: {src} -> {dest}")
     else:
         print(f"警告: 要添加的数据文件 '{src}' 未找到，跳过此文件。")
+
+# 添加二进制文件 (例如 ffmpeg)
+binary_files = [
+    ('app/ffmpeg.exe', '.'), # (源文件路径, 打包后的目标目录, '.' 表示根目录)
+    ('app/ffprobe.exe', '.')
+]
+
+for src, dest in binary_files:
+    if os.path.isfile(src):
+        # 确保目标目录存在于 PyInstaller 参数中
+        pyinstaller_args.append(f'--add-binary={os.path.abspath(src)}{binary_separator}{dest}')
+        print(f"添加二进制文件: {src} -> {dest}")
+    else:
+        print(f"警告: 要添加的二进制文件 '{src}' 未找到，跳过此文件。")
 
 # 平台特定的调整 (例如添加 DLL 或数据文件)
 # if platform.system() == "Windows":
@@ -120,8 +135,10 @@ try:
 
     # --- 重要提醒 ---
     print("\n--- 重要提醒 ---")
-    print("1. 运行时依赖: 请确保运行可执行文件的系统上安装了 'ffmpeg' 并已添加到系统 PATH 环境变量中。")
-    print("2. 运行时依赖: 如果使用了 'pymediainfo'，可能需要将 'MediaInfo.dll' (或其他平台的相应库文件) 放置在生成的可执行文件旁边。")
+    print("1. ffmpeg 和 ffprobe: 这两个工具已尝试打包进可执行文件。如果遇到问题，请确保它们位于可执行文件同目录下或系统 PATH 中。")
+    # print("1. 运行时依赖: 请确保运行可执行文件的系统上安装了 'ffmpeg' 并已添加到系统 PATH 环境变量中。") # Bundled now
+    print("2. pymediainfo: 如果使用了 'pymediainfo' 且遇到问题，可能需要将 'MediaInfo.dll' (或其他平台的相应库文件) 放置在生成的可执行文件旁边。")
+    # print("2. 运行时依赖: 如果使用了 'pymediainfo'，可能需要将 'MediaInfo.dll' (或其他平台的相应库文件) 放置在生成的可执行文件旁边。")
     print("3. 测试: 请在干净的环境中（没有安装 Python 或项目依赖的环境）彻底测试生成的可执行文件，以确保所有功能正常并捕获任何运行时错误。")
 
 except Exception as e:

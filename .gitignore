@@ -11,3 +11,5 @@ dist/
 
 .venv/
 venv/
+app/ffmpeg.exe
+app/ffprobe.exe

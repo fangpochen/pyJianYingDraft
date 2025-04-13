@@ -4,7 +4,7 @@
 a = Analysis(
     ['app\\main.py'],
     pathex=[],
-    binaries=[],
+    binaries=[('F:\\py\\pyJianYingDraft\\app\\ffmpeg.exe', '.'), ('F:\\py\\pyJianYingDraft\\app\\ffprobe.exe', '.')],
     datas=[('F:\\py\\pyJianYingDraft\\pyJianYingDraft\\draft_content_template.json', 'pyJianYingDraft')],
     hiddenimports=['PyQt6.sip', 'PyQt6.QtCore', 'PyQt6.QtGui', 'PyQt6.QtWidgets', 'uiautomation', 'pymediainfo', 'ffmpeg', 'DrissionPage', 'logging.handlers', 'queue', 'multiprocessing', 'pkg_resources.py2_warn', 'app.core.orchestrator', 'app.config', 'app.util.logging_setup', 'app.ui.main_window'],
     hookspath=[],

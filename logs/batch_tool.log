@@ -2944,3 +2944,636 @@ C:/Users/Administrator/Documents/1.zip
 2025-04-14 04:52:09,272 - INFO - app.ui.main_window - 应用程序正在关闭...
 2025-04-14 04:52:09,273 - INFO - app.config - 配置已保存到: batch_tool_config.ini
 2025-04-14 04:52:09,273 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-14 05:38:25,778 - INFO - root - 日志系统已配置。
+2025-04-14 05:38:25,778 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-14 05:38:25,778 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-14 05:38:25,914 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-14 05:38:25,932 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-14 05:38:25,932 - INFO - app.ui.main_window - 从配置文件加载 DeleteSource: False
+2025-04-14 05:38:25,932 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-14 05:38:26,007 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-14 05:38:38,009 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-14 05:38:38,010 - INFO - root -   输入文件夹: E:/1
+2025-04-14 05:38:38,010 - INFO - root -   输出文件夹: D:/111
+2025-04-14 05:38:38,010 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-14 05:38:38,010 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-14 05:38:38,010 - INFO - root -   处理后删除源文件: 否
+2025-04-14 05:38:38,010 - INFO - root -   分割视频段数: 4
+2025-04-14 05:38:38,010 - INFO - root - 后台处理线程已启动。
+2025-04-14 05:38:38,011 - INFO - app.ui.main_window - Worker 开始调用 run_individual_video_processing...
+2025-04-14 05:38:38,011 - INFO - app.core.orchestrator - ========= 开始逐个视频处理 =========
+2025-04-14 05:38:38,011 - INFO - app.core.orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-14 05:38:38,011 - INFO - app.core.processor - 开始扫描输入文件夹以查找独立的视频任务: E:/1
+2025-04-14 05:38:38,011 - INFO - app.core.processor - 扫描子文件夹: 2
+2025-04-14 05:38:38,011 - INFO - app.core.processor - 扫描子文件夹: 3
+2025-04-14 05:38:38,011 - INFO - app.core.processor -   找到任务: 4a04f6779f0a2e5dea15f75b826563d0.mp4 (属于子文件夹: 3)
+2025-04-14 05:38:38,011 - INFO - app.core.processor - 扫描子文件夹: 5
+2025-04-14 05:38:38,011 - INFO - app.core.processor - 扫描完成，共找到 1 个独立的视频处理任务。
+2025-04-14 05:38:38,011 - INFO - app.core.orchestrator - 共找到 1 个视频任务，准备开始逐个处理...
+2025-04-14 05:38:38,011 - INFO - app.core.orchestrator - 
+--- 阶段 2: 逐个处理视频任务 ---
+2025-04-14 05:38:38,011 - WARNING - app.core.orchestrator - 请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！
+2025-04-14 05:38:38,011 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 1/1: 4a04f6779f0a2e5dea15f75b826563d0.mp4 (来自: 3) ---
+2025-04-14 05:38:38,012 - INFO - app.core.orchestrator -   原始视频: E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:38:38,012 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits
+2025-04-14 05:38:38,012 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-14 05:38:38,012 - INFO - app.core.orchestrator -   最终导出文件名: 4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:38:38,012 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-14 05:38:38,230 - INFO - app.core.orchestrator -     原始视频时长: 17.03 秒
+2025-04-14 05:38:38,230 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-14 05:38:38,230 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits
+2025-04-14 05:38:38,269 - INFO - app.core.processor - 准备将 '4a04f6779f0a2e5dea15f75b826563d0.mp4' (17.03s) 切割成 4 段，每段约 4.26s
+2025-04-14 05:38:38,269 - INFO - app.core.processor -   执行切割命令 (第 1/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 -ss 0.0 -t 4.25833325 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part1.mp4
+2025-04-14 05:38:38,847 - INFO - app.core.processor -     成功生成切割片段: 4a04f6779f0a2e5dea15f75b826563d0_part1.mp4
+2025-04-14 05:38:38,847 - INFO - app.core.processor -   执行切割命令 (第 2/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 -ss 4.25833325 -t 4.25833325 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part2.mp4
+2025-04-14 05:38:39,303 - INFO - app.core.processor -     成功生成切割片段: 4a04f6779f0a2e5dea15f75b826563d0_part2.mp4
+2025-04-14 05:38:39,303 - INFO - app.core.processor -   执行切割命令 (第 3/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 -ss 8.5166665 -t 4.25833325 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part3.mp4
+2025-04-14 05:38:39,746 - INFO - app.core.processor -     成功生成切割片段: 4a04f6779f0a2e5dea15f75b826563d0_part3.mp4
+2025-04-14 05:38:39,746 - INFO - app.core.processor -   执行切割命令 (第 4/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 -ss 12.77499975 -t 4.25833325 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:38:40,230 - INFO - app.core.processor -     成功生成切割片段: 4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:38:40,230 - INFO - app.core.processor - 成功切割 '4a04f6779f0a2e5dea15f75b826563d0.mp4' 为 4 段。
+2025-04-14 05:38:40,230 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.00秒
+2025-04-14 05:38:40,230 - INFO - app.core.orchestrator -   最终用于处理的片段 (4): 4a04f6779f0a2e5dea15f75b826563d0_part1.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part2.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part3.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:38:40,230 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-14 05:38:40,230 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-14 05:38:40,230 - INFO - app.util.jianying -   使用视频片段 (4): 4a04f6779f0a2e5dea15f75b826563d0_part1.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part2.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part3.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:38:40,230 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-14 05:38:40,230 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-14 05:38:40,230 - INFO - app.util.jianying -     导出目标: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:38:40,231 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-14 05:38:40,233 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-14 05:38:40,233 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-14 05:38:40,277 - INFO - app.util.jianying - 成功为 4 个视频片段创建素材对象，耗时: 0.04秒
+2025-04-14 05:38:40,278 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-14 05:38:40,278 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-14 05:38:40,278 - INFO - app.util.jianying - 模板轨道现有 4 个片段，需要用 4 个新片段替换。
+2025-04-14 05:38:40,278 - INFO - app.util.jianying - 准备替换模板中的 4 个视频片段...
+2025-04-14 05:38:40,278 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 4a04f6779f0a2e5dea15f75b826563d0_part1.mp4
+2025-04-14 05:38:40,278 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 4a04f6779f0a2e5dea15f75b826563d0_part2.mp4
+2025-04-14 05:38:40,278 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 4a04f6779f0a2e5dea15f75b826563d0_part3.mp4
+2025-04-14 05:38:40,278 - INFO - app.util.jianying -   替换 模板片段索引 3 -> 4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:38:40,278 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-14 05:38:40,278 - INFO - app.util.jianying - 计算得到的视频轨道实际结束时间: 17101000 微秒 (17.10 秒)
+2025-04-14 05:38:40,278 - INFO - app.util.jianying -   当前草稿总时长: 17100000 微秒
+2025-04-14 05:38:40,278 - INFO - app.util.jianying -   草稿总时长已更新为: 17101000 微秒
+2025-04-14 05:38:40,278 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-14 05:38:40,278 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-14 05:38:40,284 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.01秒.
+2025-04-14 05:38:40,284 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:38:41,563 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-14 05:38:41,563 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:38:41,563 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-14 05:38:42,612 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.05秒
+2025-04-14 05:38:42,612 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-14 05:38:43,927 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:38:44,986 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.37秒
+2025-04-14 05:38:44,986 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-14 05:38:46,249 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-14 05:38:47,268 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.28秒
+2025-04-14 05:38:47,268 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-14 05:38:47,282 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:38:47,282 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-14 05:38:47,282 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-14 05:38:48,376 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.09秒
+2025-04-14 05:38:48,376 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-14 05:38:49,401 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-14 05:38:50,179 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.80秒
+2025-04-14 05:38:50,180 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-14 05:38:50,198 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:38:52,038 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-14 05:38:53,050 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-14 05:38:53,265 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.09秒
+2025-04-14 05:38:53,265 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4...
+2025-04-14 05:38:53,265 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:38:53,265 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:38:53,298 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.03秒
+2025-04-14 05:38:53,298 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 完成
+2025-04-14 05:38:53,298 - INFO - app.util.jianying - 导出函数调用耗时: 11.74秒
+2025-04-14 05:38:53,298 - INFO - app.util.jianying - 视频导出成功: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:38:53,298 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-14 05:38:53,299 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.07秒
+2025-04-14 05:38:53,299 - INFO - app.core.orchestrator -   任务 1/1: 4a04f6779f0a2e5dea15f75b826563d0.mp4 (来自: 3) 剪映处理成功。
+2025-04-14 05:38:53,299 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-14 05:38:53,299 - INFO - app.core.orchestrator -     准备删除 4 个切割片段...
+2025-04-14 05:38:53,301 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part1.mp4
+2025-04-14 05:38:53,302 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part2.mp4
+2025-04-14 05:38:53,303 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part3.mp4
+2025-04-14 05:38:53,304 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:38:53,304 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 4 个。
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - --- 任务 1/1: 4a04f6779f0a2e5dea15f75b826563d0.mp4 (来自: 3) 处理结束 [成功] | 耗时: 15.29秒 ---
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - 处理完成: 共找到 1 个任务, 成功 1 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - 
+========= 逐个视频处理完成 =========
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - 总任务数 (扫描到): 1
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - 成功处理任务数: 1
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - 失败处理任务数: 0
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator -   - 因切割失败: 0
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator -   - 因剪映处理失败: 0
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - 总耗时: 15.29 秒
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - 平均任务耗时: 15.29 秒/任务
+2025-04-14 05:38:53,305 - INFO - app.core.orchestrator - ====================================
+2025-04-14 05:38:53,305 - INFO - app.ui.main_window - run_individual_video_processing 调用完成，返回: {'success': True, 'message': '处理完成: 共找到 1 个任务, 成功 1 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。', 'tasks_found': 1, 'tasks_processed': 1, 'tasks_failed': 0}
+2025-04-14 05:38:53,307 - INFO - app.ui.main_window - 后台任务完成信号接收: success=True, message='处理完成: 共找到 1 个任务, 成功 1 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。'
+2025-04-14 05:38:57,065 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-14 05:39:48,651 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-14 05:39:48,651 - INFO - root -   输入文件夹: E:/1
+2025-04-14 05:39:48,651 - INFO - root -   输出文件夹: D:/111
+2025-04-14 05:39:48,651 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-14 05:39:48,651 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-14 05:39:48,651 - INFO - root -   处理后删除源文件: 否
+2025-04-14 05:39:48,651 - INFO - root -   分割视频段数: 4
+2025-04-14 05:39:48,652 - INFO - root - 后台处理线程已启动。
+2025-04-14 05:39:48,652 - INFO - app.ui.main_window - Worker 开始调用 run_individual_video_processing...
+2025-04-14 05:39:48,652 - INFO - app.core.orchestrator - ========= 开始逐个视频处理 =========
+2025-04-14 05:39:48,652 - INFO - app.core.orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-14 05:39:48,652 - INFO - app.core.processor - 开始扫描输入文件夹以查找独立的视频任务: E:/1
+2025-04-14 05:39:48,653 - INFO - app.core.processor - 扫描子文件夹: 2
+2025-04-14 05:39:48,653 - INFO - app.core.processor -   找到任务: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (属于子文件夹: 2)
+2025-04-14 05:39:48,653 - INFO - app.core.processor -   找到任务: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (属于子文件夹: 2)
+2025-04-14 05:39:48,653 - INFO - app.core.processor -   找到任务: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 (属于子文件夹: 2)
+2025-04-14 05:39:48,653 - INFO - app.core.processor -   找到任务: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (属于子文件夹: 2)
+2025-04-14 05:39:48,653 - INFO - app.core.processor - 扫描子文件夹: 3
+2025-04-14 05:39:48,653 - INFO - app.core.processor -   找到任务: 4a04f6779f0a2e5dea15f75b826563d0.mp4 (属于子文件夹: 3)
+2025-04-14 05:39:48,653 - INFO - app.core.processor - 扫描子文件夹: 5
+2025-04-14 05:39:48,653 - INFO - app.core.processor - 扫描完成，共找到 5 个独立的视频处理任务。
+2025-04-14 05:39:48,653 - INFO - app.core.orchestrator - 共找到 5 个视频任务，准备开始逐个处理...
+2025-04-14 05:39:48,653 - INFO - app.core.orchestrator - 
+--- 阶段 2: 逐个处理视频任务 ---
+2025-04-14 05:39:48,653 - WARNING - app.core.orchestrator - 请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！
+2025-04-14 05:39:48,653 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 1/5: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 2) ---
+2025-04-14 05:39:48,653 - INFO - app.core.orchestrator -   原始视频: E:/1\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-14 05:39:48,654 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits
+2025-04-14 05:39:48,654 - INFO - app.core.orchestrator -   最终导出目录: D:/111\2
+2025-04-14 05:39:48,654 - INFO - app.core.orchestrator -   最终导出文件名: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-14 05:39:48,654 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-14 05:39:48,696 - INFO - app.core.orchestrator -     原始视频时长: 76.81 秒
+2025-04-14 05:39:48,696 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-14 05:39:48,697 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits
+2025-04-14 05:39:48,740 - INFO - app.core.processor - 准备将 '椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4' (76.81s) 切割成 4 段，每段约 19.20s
+2025-04-14 05:39:48,740 - INFO - app.core.processor -   执行切割命令 (第 1/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 0.0 -t 19.2025 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-14 05:39:50,709 - INFO - app.core.processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-14 05:39:50,709 - INFO - app.core.processor -   执行切割命令 (第 2/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 19.2025 -t 19.2025 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-14 05:39:52,577 - INFO - app.core.processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-14 05:39:52,577 - INFO - app.core.processor -   执行切割命令 (第 3/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 38.405 -t 19.2025 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-14 05:39:54,608 - INFO - app.core.processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-14 05:39:54,610 - INFO - app.core.processor -   执行切割命令 (第 4/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 -ss 57.6075 -t 19.2025 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part4.mp4
+2025-04-14 05:39:56,826 - INFO - app.core.processor -     成功生成切割片段: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part4.mp4
+2025-04-14 05:39:56,826 - INFO - app.core.processor - 成功切割 '椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4' 为 4 段。
+2025-04-14 05:39:56,826 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 8.13秒
+2025-04-14 05:39:56,826 - INFO - app.core.orchestrator -   最终用于处理的片段 (4): 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part4.mp4
+2025-04-14 05:39:56,826 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-14 05:39:56,826 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-14 05:39:56,826 - INFO - app.util.jianying -   使用视频片段 (4): 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4, 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part4.mp4
+2025-04-14 05:39:56,826 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-14 05:39:56,826 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-14 05:39:56,826 - INFO - app.util.jianying -     导出目标: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-14 05:39:56,827 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-14 05:39:56,830 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-14 05:39:56,830 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-14 05:39:56,873 - INFO - app.util.jianying - 成功为 4 个视频片段创建素材对象，耗时: 0.04秒
+2025-04-14 05:39:56,874 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-14 05:39:56,874 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-14 05:39:56,874 - INFO - app.util.jianying - 模板轨道现有 4 个片段，需要用 4 个新片段替换。
+2025-04-14 05:39:56,874 - INFO - app.util.jianying - 准备替换模板中的 4 个视频片段...
+2025-04-14 05:39:56,874 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-14 05:39:56,874 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-14 05:39:56,874 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-14 05:39:56,874 - INFO - app.util.jianying -   替换 模板片段索引 3 -> 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part4.mp4
+2025-04-14 05:39:56,874 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-14 05:39:56,874 - INFO - app.util.jianying - 计算得到的视频轨道实际结束时间: 76902000 微秒 (76.90 秒)
+2025-04-14 05:39:56,874 - INFO - app.util.jianying -   当前草稿总时长: 17100000 微秒
+2025-04-14 05:39:56,874 - INFO - app.util.jianying -   草稿总时长已更新为: 76902000 微秒
+2025-04-14 05:39:56,874 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-14 05:39:56,874 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-14 05:39:56,881 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.01秒.
+2025-04-14 05:39:56,881 - INFO - app.util.jianying - 准备导出视频到: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-14 05:39:57,976 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-14 05:39:57,976 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-14 05:39:57,976 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-14 05:39:59,011 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.03秒
+2025-04-14 05:39:59,011 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-14 05:40:00,433 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:40:01,489 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.48秒
+2025-04-14 05:40:01,489 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-14 05:40:02,776 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-14 05:40:03,803 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.31秒
+2025-04-14 05:40:03,803 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-14 05:40:03,812 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:40:03,812 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-14 05:40:03,812 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-14 05:40:04,904 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.09秒
+2025-04-14 05:40:04,904 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-14 05:40:10,460 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 5 次
+2025-04-14 05:40:11,224 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 6.32秒
+2025-04-14 05:40:11,224 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-14 05:40:11,251 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:40:13,113 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-14 05:40:14,130 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-14 05:40:14,341 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.12秒
+2025-04-14 05:40:14,341 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4...
+2025-04-14 05:40:14,341 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:40:14,341 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-14 05:40:14,403 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.06秒
+2025-04-14 05:40:14,403 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 完成
+2025-04-14 05:40:14,403 - INFO - app.util.jianying - 导出函数调用耗时: 16.43秒
+2025-04-14 05:40:14,403 - INFO - app.util.jianying - 视频导出成功: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4
+2025-04-14 05:40:14,403 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-14 05:40:14,404 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 17.58秒
+2025-04-14 05:40:14,404 - INFO - app.core.orchestrator -   任务 1/5: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 2) 剪映处理成功。
+2025-04-14 05:40:14,404 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-14 05:40:14,404 - INFO - app.core.orchestrator -     准备删除 4 个切割片段...
+2025-04-14 05:40:14,405 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part1.mp4
+2025-04-14 05:40:14,406 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part2.mp4
+2025-04-14 05:40:14,407 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part3.mp4
+2025-04-14 05:40:14,408 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_part4.mp4
+2025-04-14 05:40:14,408 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 4 个。
+2025-04-14 05:40:14,408 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\2\椿沈以诚 炙热计划 无声卡清唱 吉他弹唱_splits
+2025-04-14 05:40:14,408 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-14 05:40:14,408 - INFO - app.core.orchestrator - --- 任务 1/5: 椿沈以诚 炙热计划 无声卡清唱 吉他弹唱.mp4 (来自: 2) 处理结束 [成功] | 耗时: 25.75秒 ---
+2025-04-14 05:40:14,408 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 2/5: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 2) ---
+2025-04-14 05:40:14,409 - INFO - app.core.orchestrator -   原始视频: E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-14 05:40:14,409 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits
+2025-04-14 05:40:14,409 - INFO - app.core.orchestrator -   最终导出目录: D:/111\2
+2025-04-14 05:40:14,409 - INFO - app.core.orchestrator -   最终导出文件名: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-14 05:40:14,409 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-14 05:40:14,450 - INFO - app.core.orchestrator -     原始视频时长: 45.70 秒
+2025-04-14 05:40:14,450 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-14 05:40:14,450 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits
+2025-04-14 05:40:14,491 - INFO - app.core.processor - 准备将 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' (45.70s) 切割成 4 段，每段约 11.43s
+2025-04-14 05:40:14,491 - INFO - app.core.processor -   执行切割命令 (第 1/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 0.0 -t 11.425 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-14 05:40:15,368 - INFO - app.core.processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-14 05:40:15,368 - INFO - app.core.processor -   执行切割命令 (第 2/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 11.425 -t 11.425 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-14 05:40:16,346 - INFO - app.core.processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-14 05:40:16,347 - INFO - app.core.processor -   执行切割命令 (第 3/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 22.85 -t 11.425 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-14 05:40:17,331 - INFO - app.core.processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-14 05:40:17,332 - INFO - app.core.processor -   执行切割命令 (第 4/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 -ss 34.275000000000006 -t 11.425 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part4.mp4
+2025-04-14 05:40:18,418 - INFO - app.core.processor -     成功生成切割片段: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part4.mp4
+2025-04-14 05:40:18,418 - INFO - app.core.processor - 成功切割 '爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4' 为 4 段。
+2025-04-14 05:40:18,418 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 3.97秒
+2025-04-14 05:40:18,419 - INFO - app.core.orchestrator -   最终用于处理的片段 (4): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part4.mp4
+2025-04-14 05:40:18,419 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-14 05:40:18,419 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-14 05:40:18,419 - INFO - app.util.jianying -   使用视频片段 (4): 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4, 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part4.mp4
+2025-04-14 05:40:18,419 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-14 05:40:18,419 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-14 05:40:18,419 - INFO - app.util.jianying -     导出目标: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-14 05:40:18,420 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-14 05:40:18,422 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-14 05:40:18,422 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-14 05:40:18,464 - INFO - app.util.jianying - 成功为 4 个视频片段创建素材对象，耗时: 0.04秒
+2025-04-14 05:40:18,464 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-14 05:40:18,464 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-14 05:40:18,464 - INFO - app.util.jianying - 模板轨道现有 4 个片段，需要用 4 个新片段替换。
+2025-04-14 05:40:18,464 - INFO - app.util.jianying - 准备替换模板中的 4 个视频片段...
+2025-04-14 05:40:18,464 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-14 05:40:18,464 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-14 05:40:18,464 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-14 05:40:18,464 - INFO - app.util.jianying -   替换 模板片段索引 3 -> 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part4.mp4
+2025-04-14 05:40:18,464 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-14 05:40:18,464 - INFO - app.util.jianying - 计算得到的视频轨道实际结束时间: 69167333 微秒 (69.17 秒)
+2025-04-14 05:40:18,464 - INFO - app.util.jianying -   当前草稿总时长: 17100000 微秒
+2025-04-14 05:40:18,464 - INFO - app.util.jianying -   草稿总时长已更新为: 69167333 微秒
+2025-04-14 05:40:18,464 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-14 05:40:18,464 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-14 05:40:18,467 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-14 05:40:18,467 - INFO - app.util.jianying - 准备导出视频到: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-14 05:40:19,510 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-14 05:40:19,510 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-14 05:40:19,510 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-14 05:40:20,556 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.05秒
+2025-04-14 05:40:20,556 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-14 05:40:22,274 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:40:23,317 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.76秒
+2025-04-14 05:40:23,317 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-14 05:40:24,636 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-14 05:40:25,653 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.34秒
+2025-04-14 05:40:25,653 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-14 05:40:25,660 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:40:25,660 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-14 05:40:25,660 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-14 05:40:26,758 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-14 05:40:26,758 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-14 05:40:28,924 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 2 次
+2025-04-14 05:40:29,702 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.94秒
+2025-04-14 05:40:29,702 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-14 05:40:29,720 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:40:31,562 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-14 05:40:32,582 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-14 05:40:32,783 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.08秒
+2025-04-14 05:40:32,783 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4...
+2025-04-14 05:40:32,783 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:40:32,783 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-14 05:40:32,828 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.04秒
+2025-04-14 05:40:32,828 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 完成
+2025-04-14 05:40:32,828 - INFO - app.util.jianying - 导出函数调用耗时: 13.32秒
+2025-04-14 05:40:32,828 - INFO - app.util.jianying - 视频导出成功: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4
+2025-04-14 05:40:32,828 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-14 05:40:32,829 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 14.41秒
+2025-04-14 05:40:32,829 - INFO - app.core.orchestrator -   任务 2/5: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 2) 剪映处理成功。
+2025-04-14 05:40:32,829 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-14 05:40:32,829 - INFO - app.core.orchestrator -     准备删除 4 个切割片段...
+2025-04-14 05:40:32,831 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part1.mp4
+2025-04-14 05:40:32,832 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part2.mp4
+2025-04-14 05:40:32,832 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part3.mp4
+2025-04-14 05:40:32,833 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_part4.mp4
+2025-04-14 05:40:32,833 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 4 个。
+2025-04-14 05:40:32,833 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\2\爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感_splits
+2025-04-14 05:40:32,834 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-14 05:40:32,834 - INFO - app.core.orchestrator - --- 任务 2/5: 爱上一匹野马  可我的家里没有草原宋冬野董小姐emo炙热计划 氛围感.mp4 (来自: 2) 处理结束 [成功] | 耗时: 18.43秒 ---
+2025-04-14 05:40:32,834 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 3/5: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 (来自: 2) ---
+2025-04-14 05:40:32,834 - INFO - app.core.orchestrator -   原始视频: E:/1\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-14 05:40:32,834 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits
+2025-04-14 05:40:32,834 - INFO - app.core.orchestrator -   最终导出目录: D:/111\2
+2025-04-14 05:40:32,834 - INFO - app.core.orchestrator -   最终导出文件名: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-14 05:40:32,834 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-14 05:40:32,875 - INFO - app.core.orchestrator -     原始视频时长: 63.30 秒
+2025-04-14 05:40:32,875 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-14 05:40:32,875 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits
+2025-04-14 05:40:32,914 - INFO - app.core.processor - 准备将 '跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4' (63.30s) 切割成 4 段，每段约 15.82s
+2025-04-14 05:40:32,915 - INFO - app.core.processor -   执行切割命令 (第 1/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 -ss 0.0 -t 15.82400225 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part1.mp4
+2025-04-14 05:40:33,872 - INFO - app.core.processor -     成功生成切割片段: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part1.mp4
+2025-04-14 05:40:33,872 - INFO - app.core.processor -   执行切割命令 (第 2/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 -ss 15.82400225 -t 15.82400225 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part2.mp4
+2025-04-14 05:40:34,923 - INFO - app.core.processor -     成功生成切割片段: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part2.mp4
+2025-04-14 05:40:34,923 - INFO - app.core.processor -   执行切割命令 (第 3/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 -ss 31.6480045 -t 15.82400225 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part3.mp4
+2025-04-14 05:40:36,002 - INFO - app.core.processor -     成功生成切割片段: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part3.mp4
+2025-04-14 05:40:36,002 - INFO - app.core.processor -   执行切割命令 (第 4/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 -ss 47.47200675 -t 15.82400225 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part4.mp4
+2025-04-14 05:40:37,178 - INFO - app.core.processor -     成功生成切割片段: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part4.mp4
+2025-04-14 05:40:37,178 - INFO - app.core.processor - 成功切割 '跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4' 为 4 段。
+2025-04-14 05:40:37,178 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 4.30秒
+2025-04-14 05:40:37,178 - INFO - app.core.orchestrator -   最终用于处理的片段 (4): 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part1.mp4, 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part2.mp4, 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part3.mp4, 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part4.mp4
+2025-04-14 05:40:37,178 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-14 05:40:37,178 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-14 05:40:37,178 - INFO - app.util.jianying -   使用视频片段 (4): 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part1.mp4, 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part2.mp4, 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part3.mp4, 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part4.mp4
+2025-04-14 05:40:37,178 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-14 05:40:37,178 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-14 05:40:37,178 - INFO - app.util.jianying -     导出目标: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-14 05:40:37,179 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-14 05:40:37,181 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-14 05:40:37,181 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-14 05:40:37,223 - INFO - app.util.jianying - 成功为 4 个视频片段创建素材对象，耗时: 0.04秒
+2025-04-14 05:40:37,223 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-14 05:40:37,223 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-14 05:40:37,223 - INFO - app.util.jianying - 模板轨道现有 4 个片段，需要用 4 个新片段替换。
+2025-04-14 05:40:37,223 - INFO - app.util.jianying - 准备替换模板中的 4 个视频片段...
+2025-04-14 05:40:37,223 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part1.mp4
+2025-04-14 05:40:37,223 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part2.mp4
+2025-04-14 05:40:37,223 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part3.mp4
+2025-04-14 05:40:37,223 - INFO - app.util.jianying -   替换 模板片段索引 3 -> 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part4.mp4
+2025-04-14 05:40:37,223 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-14 05:40:37,223 - INFO - app.util.jianying - 计算得到的视频轨道实际结束时间: 63302000 微秒 (63.30 秒)
+2025-04-14 05:40:37,223 - INFO - app.util.jianying -   当前草稿总时长: 17100000 微秒
+2025-04-14 05:40:37,223 - INFO - app.util.jianying -   草稿总时长已更新为: 63302000 微秒
+2025-04-14 05:40:37,223 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-14 05:40:37,223 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-14 05:40:37,226 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-14 05:40:37,226 - INFO - app.util.jianying - 准备导出视频到: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-14 05:40:38,270 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-14 05:40:38,270 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-14 05:40:38,270 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-14 05:40:39,314 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.04秒
+2025-04-14 05:40:39,314 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-14 05:40:40,740 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:40:41,780 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.47秒
+2025-04-14 05:40:41,780 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-14 05:40:43,079 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-14 05:40:44,090 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.31秒
+2025-04-14 05:40:44,090 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-14 05:40:44,102 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:40:44,102 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-14 05:40:44,102 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-14 05:40:45,213 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.11秒
+2025-04-14 05:40:45,213 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-14 05:40:49,669 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 4 次
+2025-04-14 05:40:50,449 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 5.24秒
+2025-04-14 05:40:50,449 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-14 05:40:50,471 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:40:52,346 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-14 05:40:53,381 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-14 05:40:53,595 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.15秒
+2025-04-14 05:40:53,595 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4...
+2025-04-14 05:40:53,595 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:40:53,595 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-14 05:40:53,695 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.10秒
+2025-04-14 05:40:53,695 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 完成
+2025-04-14 05:40:53,696 - INFO - app.util.jianying - 导出函数调用耗时: 15.43秒
+2025-04-14 05:40:53,696 - INFO - app.util.jianying - 视频导出成功: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4
+2025-04-14 05:40:53,696 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-14 05:40:53,696 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 16.52秒
+2025-04-14 05:40:53,696 - INFO - app.core.orchestrator -   任务 3/5: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 (来自: 2) 剪映处理成功。
+2025-04-14 05:40:53,696 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-14 05:40:53,696 - INFO - app.core.orchestrator -     准备删除 4 个切割片段...
+2025-04-14 05:40:53,697 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part1.mp4
+2025-04-14 05:40:53,698 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part2.mp4
+2025-04-14 05:40:53,699 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part3.mp4
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_part4.mp4
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 4 个。
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\2\跟我一起去逃避吉他弹唱 无声卡清唱 陶喆_splits
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator - --- 任务 3/5: 跟我一起去逃避吉他弹唱 无声卡清唱 陶喆.mp4 (来自: 2) 处理结束 [成功] | 耗时: 20.87秒 ---
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 4/5: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 2) ---
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -   原始视频: E:/1\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -   最终导出目录: D:/111\2
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -   最终导出文件名: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-14 05:40:53,700 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-14 05:40:53,741 - INFO - app.core.orchestrator -     原始视频时长: 43.00 秒
+2025-04-14 05:40:53,741 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-14 05:40:53,742 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits
+2025-04-14 05:40:53,781 - INFO - app.core.processor - 准备将 '都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4' (43.00s) 切割成 4 段，每段约 10.75s
+2025-04-14 05:40:53,781 - INFO - app.core.processor -   执行切割命令 (第 1/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 0.0 -t 10.75047625 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-14 05:40:54,640 - INFO - app.core.processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-14 05:40:54,640 - INFO - app.core.processor -   执行切割命令 (第 2/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 10.75047625 -t 10.75047625 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-14 05:40:55,436 - INFO - app.core.processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-14 05:40:55,437 - INFO - app.core.processor -   执行切割命令 (第 3/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 21.5009525 -t 10.75047625 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-14 05:40:56,283 - INFO - app.core.processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-14 05:40:56,283 - INFO - app.core.processor -   执行切割命令 (第 4/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 -ss 32.25142875 -t 10.75047625 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part4.mp4
+2025-04-14 05:40:57,162 - INFO - app.core.processor -     成功生成切割片段: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part4.mp4
+2025-04-14 05:40:57,162 - INFO - app.core.processor - 成功切割 '都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4' 为 4 段。
+2025-04-14 05:40:57,162 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 3.42秒
+2025-04-14 05:40:57,162 - INFO - app.core.orchestrator -   最终用于处理的片段 (4): 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part4.mp4
+2025-04-14 05:40:57,162 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-14 05:40:57,162 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-14 05:40:57,162 - INFO - app.util.jianying -   使用视频片段 (4): 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4, 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part4.mp4
+2025-04-14 05:40:57,162 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-14 05:40:57,162 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-14 05:40:57,163 - INFO - app.util.jianying -     导出目标: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-14 05:40:57,163 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-14 05:40:57,165 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-14 05:40:57,165 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-14 05:40:57,200 - INFO - app.util.jianying - 成功为 4 个视频片段创建素材对象，耗时: 0.04秒
+2025-04-14 05:40:57,200 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-14 05:40:57,200 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-14 05:40:57,200 - INFO - app.util.jianying - 模板轨道现有 4 个片段，需要用 4 个新片段替换。
+2025-04-14 05:40:57,200 - INFO - app.util.jianying - 准备替换模板中的 4 个视频片段...
+2025-04-14 05:40:57,200 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-14 05:40:57,200 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-14 05:40:57,200 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-14 05:40:57,200 - INFO - app.util.jianying -   替换 模板片段索引 3 -> 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part4.mp4
+2025-04-14 05:40:57,200 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-14 05:40:57,201 - INFO - app.util.jianying - 计算得到的视频轨道实际结束时间: 58267333 微秒 (58.27 秒)
+2025-04-14 05:40:57,201 - INFO - app.util.jianying -   当前草稿总时长: 17100000 微秒
+2025-04-14 05:40:57,201 - INFO - app.util.jianying -   草稿总时长已更新为: 58267333 微秒
+2025-04-14 05:40:57,201 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-14 05:40:57,201 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-14 05:40:57,203 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-14 05:40:57,203 - INFO - app.util.jianying - 准备导出视频到: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-14 05:40:58,245 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-14 05:40:58,245 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-14 05:40:58,245 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-14 05:40:59,298 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.05秒
+2025-04-14 05:40:59,298 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-14 05:41:00,832 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:41:01,900 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.60秒
+2025-04-14 05:41:01,900 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-14 05:41:03,245 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-14 05:41:04,269 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.37秒
+2025-04-14 05:41:04,269 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-14 05:41:04,277 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:41:04,277 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-14 05:41:04,277 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-14 05:41:05,380 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.10秒
+2025-04-14 05:41:05,380 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-14 05:41:06,400 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-14 05:41:07,176 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.80秒
+2025-04-14 05:41:07,176 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-14 05:41:07,202 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:41:09,026 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-14 05:41:10,047 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-14 05:41:10,249 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.07秒
+2025-04-14 05:41:10,249 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4...
+2025-04-14 05:41:10,249 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:41:10,249 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-14 05:41:10,298 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.05秒
+2025-04-14 05:41:10,298 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 完成
+2025-04-14 05:41:10,299 - INFO - app.util.jianying - 导出函数调用耗时: 12.05秒
+2025-04-14 05:41:10,299 - INFO - app.util.jianying - 视频导出成功: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4
+2025-04-14 05:41:10,299 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-14 05:41:10,299 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.14秒
+2025-04-14 05:41:10,299 - INFO - app.core.orchestrator -   任务 4/5: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 2) 剪映处理成功。
+2025-04-14 05:41:10,299 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-14 05:41:10,300 - INFO - app.core.orchestrator -     准备删除 4 个切割片段...
+2025-04-14 05:41:10,300 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part1.mp4
+2025-04-14 05:41:10,302 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part2.mp4
+2025-04-14 05:41:10,302 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part3.mp4
+2025-04-14 05:41:10,303 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_part4.mp4
+2025-04-14 05:41:10,303 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 4 个。
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\2\都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌_splits
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator - --- 任务 4/5: 都会有遗憾的吧炙热计划 吉他弹唱 无声卡清唱 翻唱歌曲 唱歌.mp4 (来自: 2) 处理结束 [成功] | 耗时: 16.60秒 ---
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 5/5: 4a04f6779f0a2e5dea15f75b826563d0.mp4 (来自: 3) ---
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator -   原始视频: E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator -   最终导出目录: D:/111\3
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator -   最终导出文件名: 4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:41:10,304 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-14 05:41:10,347 - INFO - app.core.orchestrator -     原始视频时长: 17.03 秒
+2025-04-14 05:41:10,347 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-14 05:41:10,347 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits
+2025-04-14 05:41:10,385 - INFO - app.core.processor - 准备将 '4a04f6779f0a2e5dea15f75b826563d0.mp4' (17.03s) 切割成 4 段，每段约 4.26s
+2025-04-14 05:41:10,385 - INFO - app.core.processor -   执行切割命令 (第 1/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 -ss 0.0 -t 4.25833325 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part1.mp4
+2025-04-14 05:41:10,796 - INFO - app.core.processor -     成功生成切割片段: 4a04f6779f0a2e5dea15f75b826563d0_part1.mp4
+2025-04-14 05:41:10,796 - INFO - app.core.processor -   执行切割命令 (第 2/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 -ss 4.25833325 -t 4.25833325 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part2.mp4
+2025-04-14 05:41:11,247 - INFO - app.core.processor -     成功生成切割片段: 4a04f6779f0a2e5dea15f75b826563d0_part2.mp4
+2025-04-14 05:41:11,247 - INFO - app.core.processor -   执行切割命令 (第 3/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 -ss 8.5166665 -t 4.25833325 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part3.mp4
+2025-04-14 05:41:11,698 - INFO - app.core.processor -     成功生成切割片段: 4a04f6779f0a2e5dea15f75b826563d0_part3.mp4
+2025-04-14 05:41:11,698 - INFO - app.core.processor -   执行切割命令 (第 4/4 段, 编码器: libx264 (软件编码)): ffmpeg -y -i E:/1\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 -ss 12.77499975 -t 4.25833325 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:41:12,175 - INFO - app.core.processor -     成功生成切割片段: 4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:41:12,175 - INFO - app.core.processor - 成功切割 '4a04f6779f0a2e5dea15f75b826563d0.mp4' 为 4 段。
+2025-04-14 05:41:12,175 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 1.83秒
+2025-04-14 05:41:12,176 - INFO - app.core.orchestrator -   最终用于处理的片段 (4): 4a04f6779f0a2e5dea15f75b826563d0_part1.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part2.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part3.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:41:12,176 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-14 05:41:12,176 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-14 05:41:12,176 - INFO - app.util.jianying -   使用视频片段 (4): 4a04f6779f0a2e5dea15f75b826563d0_part1.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part2.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part3.mp4, 4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:41:12,176 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-14 05:41:12,176 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-14 05:41:12,176 - INFO - app.util.jianying -     导出目标: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:41:12,177 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-14 05:41:12,180 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-14 05:41:12,180 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-14 05:41:12,217 - INFO - app.util.jianying - 成功为 4 个视频片段创建素材对象，耗时: 0.04秒
+2025-04-14 05:41:12,218 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-14 05:41:12,218 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-14 05:41:12,218 - INFO - app.util.jianying - 模板轨道现有 4 个片段，需要用 4 个新片段替换。
+2025-04-14 05:41:12,218 - INFO - app.util.jianying - 准备替换模板中的 4 个视频片段...
+2025-04-14 05:41:12,218 - INFO - app.util.jianying -   替换 模板片段索引 0 -> 4a04f6779f0a2e5dea15f75b826563d0_part1.mp4
+2025-04-14 05:41:12,218 - INFO - app.util.jianying -   替换 模板片段索引 1 -> 4a04f6779f0a2e5dea15f75b826563d0_part2.mp4
+2025-04-14 05:41:12,218 - INFO - app.util.jianying -   替换 模板片段索引 2 -> 4a04f6779f0a2e5dea15f75b826563d0_part3.mp4
+2025-04-14 05:41:12,218 - INFO - app.util.jianying -   替换 模板片段索引 3 -> 4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:41:12,218 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-14 05:41:12,218 - INFO - app.util.jianying - 计算得到的视频轨道实际结束时间: 36567000 微秒 (36.57 秒)
+2025-04-14 05:41:12,218 - INFO - app.util.jianying -   当前草稿总时长: 17100000 微秒
+2025-04-14 05:41:12,218 - INFO - app.util.jianying -   草稿总时长已更新为: 36567000 微秒
+2025-04-14 05:41:12,218 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-14 05:41:12,218 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-14 05:41:12,221 - INFO - app.util.jianying - 草稿保存成功，耗时: 0.00秒.
+2025-04-14 05:41:12,221 - INFO - app.util.jianying - 准备导出视频到: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:41:13,265 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-14 05:41:13,265 - INFO - app.util.jianying.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:41:13,265 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-14 05:41:14,312 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.05秒
+2025-04-14 05:41:14,312 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-14 05:41:15,780 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:41:16,794 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.48秒
+2025-04-14 05:41:16,794 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-14 05:41:18,123 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-14 05:41:19,132 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 2.34秒
+2025-04-14 05:41:19,132 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-14 05:41:19,142 - INFO - app.util.jianying.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:41:19,142 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-14 05:41:19,142 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-14 05:41:20,255 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.11秒
+2025-04-14 05:41:20,255 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-14 05:41:21,292 - INFO - app.util.jianying.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-14 05:41:22,071 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 1.82秒
+2025-04-14 05:41:22,071 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-14 05:41:22,089 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-14 05:41:23,974 - INFO - app.util.jianying.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-14 05:41:24,997 - INFO - app.util.jianying.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-14 05:41:25,198 - INFO - app.util.jianying.Fast_Jianying_Controller -   完成，耗时: 3.13秒
+2025-04-14 05:41:25,198 - INFO - app.util.jianying.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4...
+2025-04-14 05:41:25,198 - INFO - app.util.jianying.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(1).mp4
+2025-04-14 05:41:25,198 - INFO - app.util.jianying.Fast_Jianying_Controller -   目标路径: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:41:25,226 - INFO - app.util.jianying.Fast_Jianying_Controller -   文件移动成功，耗时: 0.03秒
+2025-04-14 05:41:25,226 - INFO - app.util.jianying.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4 完成
+2025-04-14 05:41:25,227 - INFO - app.util.jianying - 导出函数调用耗时: 11.96秒
+2025-04-14 05:41:25,227 - INFO - app.util.jianying - 视频导出成功: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0.mp4
+2025-04-14 05:41:25,227 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-14 05:41:25,227 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.05秒
+2025-04-14 05:41:25,227 - INFO - app.core.orchestrator -   任务 5/5: 4a04f6779f0a2e5dea15f75b826563d0.mp4 (来自: 3) 剪映处理成功。
+2025-04-14 05:41:25,227 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-14 05:41:25,227 - INFO - app.core.orchestrator -     准备删除 4 个切割片段...
+2025-04-14 05:41:25,228 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part1.mp4
+2025-04-14 05:41:25,228 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part2.mp4
+2025-04-14 05:41:25,230 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part3.mp4
+2025-04-14 05:41:25,231 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits\4a04f6779f0a2e5dea15f75b826563d0_part4.mp4
+2025-04-14 05:41:25,231 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 4 个。
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\3\4a04f6779f0a2e5dea15f75b826563d0_splits
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - --- 任务 5/5: 4a04f6779f0a2e5dea15f75b826563d0.mp4 (来自: 3) 处理结束 [成功] | 耗时: 14.93秒 ---
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - 处理完成: 共找到 5 个任务, 成功 5 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - 
+========= 逐个视频处理完成 =========
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - 总任务数 (扫描到): 5
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - 成功处理任务数: 5
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - 失败处理任务数: 0
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator -   - 因切割失败: 0
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator -   - 因剪映处理失败: 0
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - 总耗时: 96.58 秒
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - 平均任务耗时: 19.32 秒/任务
+2025-04-14 05:41:25,232 - INFO - app.core.orchestrator - ====================================
+2025-04-14 05:41:25,232 - INFO - app.ui.main_window - run_individual_video_processing 调用完成，返回: {'success': True, 'message': '处理完成: 共找到 5 个任务, 成功 5 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。', 'tasks_found': 5, 'tasks_processed': 5, 'tasks_failed': 0}
+2025-04-14 05:41:25,232 - INFO - app.ui.main_window - 后台任务完成信号接收: success=True, message='处理完成: 共找到 5 个任务, 成功 5 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。'
+2025-04-14 05:41:25,282 - INFO - app.ui.main_window - 后台任务完成信号接收: success=True, message='处理完成: 共找到 5 个任务, 成功 5 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。'
+2025-04-14 05:41:29,639 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-14 05:41:30,749 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-14 05:56:41,622 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-14 05:56:41,623 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-14 05:56:41,623 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
