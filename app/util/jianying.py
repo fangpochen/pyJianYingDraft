@@ -676,12 +676,29 @@ def process_videos(video_paths,
         replace_time = time.time() - replace_start_time
         logger.info(f"视频片段替换完成，耗时: {replace_time:.2f}秒.")
 
-        # --- 6. Duration Adjustment Block (Commented Out) ---
-        # (Keep the commented block for reference if needed)
-        # logger.info("跳过调整草稿总时长步骤。")
+        # --- 6. (NEW) Adjust draft duration based on actual content ---
+        try:
+            if video_track and hasattr(video_track, 'end_time'):
+                new_total_duration_microseconds = video_track.end_time
+                logger.info(f"计算得到的视频轨道实际结束时间: {new_total_duration_microseconds} 微秒 ({new_total_duration_microseconds / 1_000_000:.2f} 秒)")
+                if hasattr(script, 'content') and isinstance(script.content, dict):
+                    current_draft_duration = script.content.get('duration')
+                    logger.info(f"  当前草稿总时长: {current_draft_duration} 微秒")
+                    if new_total_duration_microseconds != current_draft_duration:
+                        script.content['duration'] = new_total_duration_microseconds
+                        logger.info(f"  草稿总时长已更新为: {script.content['duration']} 微秒")
+                    else:
+                        logger.info("  计算时长与当前草稿时长一致，无需更新。")
+                else:
+                    logger.warning("无法访问草稿内容字典 (script.content) 或其不是字典，无法调整总时长。")
+            else:
+                logger.warning("无法获取 video_track 或其 end_time 属性，跳过总时长调整。")
+        except Exception as e:
+            logger.warning(f"调整草稿总时长时发生错误: {e}", exc_info=True)
+            # Continue even if duration adjustment fails
 
         # --- 7. Save draft changes ---
-        logger.warning(f"注意：即将保存修改，这将覆盖原始模板草稿 '{draft_name}'！")
+        logger.warning(f"注意：即将保存修改，这将覆盖原始模板草稿 \'{draft_name}\'！")
         logger.info(f"保存修改到草稿: {draft_name}")
         save_start_time = time.time()
         script.save()

@@ -14,6 +14,7 @@ from PyQt6.QtCore import QThread, pyqtSignal, QObject, QTimer
 try:
     # 注意相对导入路径
     from ..core.orchestrator import run_individual_video_processing
+    from ..core.draft_exporter import export_clean_draft
     from ..config import load_config, save_config
     from ..util.logging_setup import log_queue # 使用 setup_logging 中定义的队列
 except ImportError as e:
@@ -21,6 +22,7 @@ except ImportError as e:
     print(f"Import Error: {e}. Make sure the script is run as part of the package.")
     # Fallback for direct execution (less ideal)
     run_individual_video_processing = None
+    export_clean_draft = None
     load_config = None
     save_config = None
     log_queue = queue.Queue() # Dummy queue
@@ -38,13 +40,14 @@ class ProcessingWorker(QObject):
     ''' 执行后台处理任务的 Worker '''
     signals = WorkerSignals()
 
-    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source):
+    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments):
         super().__init__()
         self.input_folder = input_folder
         self.output_folder = output_folder
         self.draft_name = draft_name
         self.draft_folder_path = draft_folder_path
         self.delete_source = delete_source
+        self.num_segments = num_segments
         self.is_cancelled = False
 
     def run(self):
@@ -62,7 +65,8 @@ class ProcessingWorker(QObject):
                 self.output_folder, 
                 self.draft_name, 
                 self.draft_folder_path, 
-                self.delete_source
+                self.delete_source,
+                self.num_segments
             )
             logger.info(f"run_individual_video_processing 调用完成，返回: {result_dict}")
             # --- 结束调用 --- 
@@ -113,10 +117,19 @@ class MainWindow(QMainWindow):
         # 确保在依赖错误时禁用按钮
         if run_individual_video_processing is None:
              self.start_button.setEnabled(False)
-             self.start_button.setText("依赖错误")
+             self.start_button.setText("任务处理依赖错误")
              QMessageBox.critical(self, "依赖错误",
                                   "无法导入核心处理逻辑 (app/core/orchestrator.py)。\n"
                                   "请确保所有依赖项已安装且文件结构正确。")
+        # 新增：检查导出函数依赖
+        if export_clean_draft is None:
+             # 假设 self.export_json_button 已在 init_ui 中创建
+             if hasattr(self, 'export_json_button'):
+                 self.export_json_button.setEnabled(False)
+                 self.export_json_button.setText("Zip导出依赖错误")
+                 # 可以选择也弹出一个警告，或者只禁用按钮
+                 # QMessageBox.critical(self, "依赖错误",
+                 #                      "无法导入草稿导出逻辑 (app/core/draft_exporter.py)。")
 
     def init_ui(self):
         """初始化用户界面布局和组件"""
@@ -157,17 +170,30 @@ class MainWindow(QMainWindow):
         self.draft_name_entry = QLineEdit()
         config_layout.addWidget(self.draft_name_entry, 3, 1, 1, 2) # Span across 2 columns
 
-        # 删除源文件选项
+        # --- 新增：分割视频段数 --- 
+        config_layout.addWidget(QLabel("分割视频段数:"), 4, 0)
+        self.num_segments_entry = QLineEdit()
+        self.num_segments_entry.setPlaceholderText("默认为 1 (不分割)") # 添加提示
+        config_layout.addWidget(self.num_segments_entry, 4, 1, 1, 2) # Span across 2 columns
+        # -------------------------
+
+        # 删除源文件选项 (行号调整为 5)
         self.delete_source_check = QCheckBox("处理成功后删除源视频")
         self.delete_source_check.setChecked(True) # 设置默认选中
-        config_layout.addWidget(self.delete_source_check, 4, 0, 1, 2) # Span across 2 columns
+        config_layout.addWidget(self.delete_source_check, 5, 0, 1, 2) # Span across 2 columns
 
-        # 开始按钮
+        # 开始按钮 (行号调整为 6)
         self.start_button = QPushButton("开始逐个处理视频任务")
         self.start_button.setFixedHeight(40) # Make button taller
         self.start_button.setStyleSheet("background-color: lightblue; font-weight: bold;")
         self.start_button.clicked.connect(self.start_processing)
-        config_layout.addWidget(self.start_button, 5, 1, 1, 2) # Place below checkbox
+        config_layout.addWidget(self.start_button, 6, 1, 1, 2) # Place below checkbox
+
+        # 导出纯净草稿按钮 (行号调整为 7)
+        self.export_json_button = QPushButton("导出纯净草稿为 Zip")
+        self.export_json_button.setFixedHeight(30) # Standard height
+        self.export_json_button.clicked.connect(self.export_draft_json)
+        config_layout.addWidget(self.export_json_button, 7, 1, 1, 2) 
 
         # 设置列伸展，让输入框占据更多空间
         config_layout.setColumnStretch(1, 1)
@@ -216,6 +242,8 @@ class MainWindow(QMainWindow):
             self.output_entry.setText(self.config_data.get('Paths', {}).get('OutputFolder', ''))
             self.draft_folder_entry.setText(self.config_data.get('Paths', {}).get('DraftFolder', ''))
             self.draft_name_entry.setText(self.config_data.get('Settings', {}).get('DraftName', ''))
+            # 新增：加载分割段数配置
+            self.num_segments_entry.setText(str(self.config_data.get('Settings', {}).get('NumSegments', 1))) # 默认为 1
 
             # --- 修改: 明确处理 DeleteSource ---
             # 1. 尝试从配置中读取 Settings 部分
@@ -259,6 +287,16 @@ class MainWindow(QMainWindow):
             self.config_data['Paths']['DraftFolder'] = self.draft_folder_entry.text()
             self.config_data['Settings']['DraftName'] = self.draft_name_entry.text()
             self.config_data['Settings']['DeleteSource'] = self.delete_source_check.isChecked()
+            # 新增：保存分割段数配置
+            try:
+                num_segments = int(self.num_segments_entry.text().strip())
+                if num_segments <= 0:
+                    logger.warning(f"无效的分割段数 '{self.num_segments_entry.text().strip()}', 将保存为 1")
+                    num_segments = 1
+            except ValueError:
+                logger.warning(f"无法将分割段数 '{self.num_segments_entry.text().strip()}' 解析为整数，将保存为 1")
+                num_segments = 1
+            self.config_data['Settings']['NumSegments'] = num_segments
 
             save_config(self.config_data)
         else:
@@ -295,6 +333,16 @@ class MainWindow(QMainWindow):
         draft_folder_path = self.draft_folder_entry.text().strip()
         draft_name = self.draft_name_entry.text().strip()
         delete_source = self.delete_source_check.isChecked()
+        # 新增：读取并验证分割段数
+        num_segments_str = self.num_segments_entry.text().strip()
+        try:
+            num_segments = int(num_segments_str) if num_segments_str else 1
+            if num_segments <= 0:
+                logger.warning(f"无效的分割段数 '{num_segments_str}'，将使用 1")
+                num_segments = 1
+        except ValueError:
+            logger.warning(f"无法将分割段数 '{num_segments_str}' 解析为整数，将使用 1")
+            num_segments = 1
 
         # --- 验证输入 --- 
         if not input_folder or not os.path.isdir(input_folder):
@@ -333,11 +381,13 @@ class MainWindow(QMainWindow):
         logging.info(f"  草稿库路径: {draft_folder_path}")
         logging.info(f"  目标草稿名: {draft_name}")
         logging.info(f"  处理后删除源文件: {'是' if delete_source else '否'}")
+        logging.info(f"  分割视频段数: {num_segments}")
 
 
         # 创建 Worker 和 Thread
         self.processing_worker = ProcessingWorker(
-            input_folder, output_folder, draft_name, draft_folder_path, delete_source
+            input_folder, output_folder, draft_name, draft_folder_path, delete_source,
+            num_segments
         )
         self.worker_thread = QThread(self) # Pass parent to help with lifetime management
         self.processing_worker.moveToThread(self.worker_thread)
@@ -409,6 +459,54 @@ class MainWindow(QMainWindow):
             self.log_timer.stop() # 停止日志轮询定时器
             logger.info("配置已保存，日志轮询已停止。应用程序退出。")
             super().closeEvent(event) # 调用父类方法执行实际关闭
+
+    # --- 新增：导出纯净草稿 JSON 的槽函数 --- 
+    def export_draft_json(self):
+        """处理"导出纯净草稿为 Zip"按钮点击事件"""
+        logger.info("'导出纯净草稿为 Zip' 按钮被点击。")
+
+        draft_folder = self.draft_folder_entry.text().strip()
+        draft_name = self.draft_name_entry.text().strip()
+
+        # 1. 验证输入
+        if not draft_folder or not os.path.isdir(draft_folder):
+            QMessageBox.warning(self, "输入错误", "请输入有效的剪映草稿库路径。")
+            return
+        if not draft_name:
+            QMessageBox.warning(self, "输入错误", "请输入要导出的目标草稿名称。")
+            return
+        if export_clean_draft is None:
+             QMessageBox.critical(self, "功能错误", "草稿导出功能未能正确加载。")
+             return
+
+        # 2. 弹出文件保存对话框
+        default_filename = os.path.join(os.path.expanduser("~"), f"{draft_name}_clean.zip")
+        export_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "选择 Zip 导出路径",
+            default_filename,
+            "Zip 压缩包 (*.zip)"
+        )
+
+        # 3. 如果用户选择了路径，则调用核心函数
+        if export_path:
+            logger.info(f"用户选择导出 Zip 路径: {export_path}")
+            try:
+                # 调用核心导出函数
+                result = export_clean_draft(draft_folder, draft_name, export_path)
+
+                # 4. 显示结果消息框
+                if result.get('success'):
+                    QMessageBox.information(self, "导出成功", result.get('message', "操作成功完成。"))
+                else:
+                    QMessageBox.critical(self, "导出失败", result.get('message', "发生未知错误。"))
+            except Exception as e:
+                # 捕获调用 export_clean_draft 本身的意外错误
+                logger.exception("调用 export_clean_draft 时发生意外错误")
+                QMessageBox.critical(self, "导出异常", f"导出过程中发生意外错误: {e}")
+        else:
+            logger.info("用户取消了导出操作。")
+    # ------------------------------------------
 
 # --- 用于直接运行测试 UI (可选) ---
 # if __name__ == '__main__':

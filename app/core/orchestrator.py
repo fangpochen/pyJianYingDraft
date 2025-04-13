@@ -26,7 +26,7 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-def run_individual_video_processing(input_folder, output_folder, draft_name, draft_folder_path, delete_source):
+def run_individual_video_processing(input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments):
     """
     Main function to process each video file individually.
     Orchestrates finding tasks, splitting, processing via Jianying, and cleanup.
@@ -39,6 +39,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         draft_folder_path (str): Path to the Jianying draft library.
         delete_source (bool): Whether to delete the original video after successful processing.
                               Split segments are always deleted on success.
+        num_segments (int): The number of segments to logically split the video into.
 
     Returns:
         dict: A dictionary containing processing results:
@@ -143,7 +144,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                 # --- Step 2a(ii): Split the video (if necessary) ---
                 logger.info("  步骤 2a(ii): 准备/切割视频...")
                 split_start_time = time.time()
-                split_video_paths = split_video_ffmpeg(original_video_path, split_output_dir)
+                split_video_paths = split_video_ffmpeg(original_video_path, split_output_dir, num_segments=num_segments)
                 split_duration = time.time() - split_start_time
                 logger.info(f"  视频准备/切割完成，耗时: {split_duration:.2f}秒")
 
