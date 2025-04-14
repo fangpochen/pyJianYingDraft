@@ -6,9 +6,9 @@ import logging
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QLineEdit, QPushButton, QFileDialog, QPlainTextEdit,
-    QCheckBox, QMessageBox, QGridLayout, QSpacerItem, QSizePolicy
+    QCheckBox, QMessageBox, QGridLayout, QSpacerItem, QSizePolicy, QSlider
 )
-from PyQt6.QtCore import QThread, pyqtSignal, QObject, QTimer
+from PyQt6.QtCore import QThread, pyqtSignal, QObject, QTimer, Qt
 
 # 导入核心处理函数和配置、日志工具
 try:
@@ -40,7 +40,7 @@ class ProcessingWorker(QObject):
     ''' 执行后台处理任务的 Worker '''
     signals = WorkerSignals()
 
-    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments):
+    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100):
         super().__init__()
         self.input_folder = input_folder
         self.output_folder = output_folder
@@ -48,6 +48,8 @@ class ProcessingWorker(QObject):
         self.draft_folder_path = draft_folder_path
         self.delete_source = delete_source
         self.num_segments = num_segments
+        self.keep_bgm = keep_bgm
+        self.bgm_volume = bgm_volume
         self.is_cancelled = False
 
     def run(self):
@@ -66,7 +68,9 @@ class ProcessingWorker(QObject):
                 self.draft_name, 
                 self.draft_folder_path, 
                 self.delete_source,
-                self.num_segments
+                self.num_segments,
+                self.keep_bgm,  # 传递keep_bgm参数
+                self.bgm_volume  # 传递bgm_volume参数
             )
             logger.info(f"run_individual_video_processing 调用完成，返回: {result_dict}")
             # --- 结束调用 --- 
@@ -175,25 +179,59 @@ class MainWindow(QMainWindow):
         self.num_segments_entry = QLineEdit()
         self.num_segments_entry.setPlaceholderText("默认为 1 (不分割)") # 添加提示
         config_layout.addWidget(self.num_segments_entry, 4, 1, 1, 2) # Span across 2 columns
-        # -------------------------
+        
+        # --- 新增：BGM音量控制 ---
+        config_layout.addWidget(QLabel("BGM音量:"), 5, 0)
+        bgm_volume_layout = QHBoxLayout()
+        
+        # 创建音量滑动条
+        self.bgm_volume_slider = QSlider()
+        self.bgm_volume_slider.setOrientation(Qt.Orientation.Horizontal)  # 水平方向
+        self.bgm_volume_slider.setMinimum(0)
+        self.bgm_volume_slider.setMaximum(100)
+        self.bgm_volume_slider.setValue(100)  # 默认100%
+        self.bgm_volume_slider.setFixedWidth(300)
+        bgm_volume_layout.addWidget(self.bgm_volume_slider)
+        
+        # 添加音量数值显示标签
+        self.bgm_volume_label = QLabel("100%")
+        bgm_volume_layout.addWidget(self.bgm_volume_label)
+        
+        # 当滑动条值改变时更新标签
+        self.bgm_volume_slider.valueChanged.connect(self.update_volume_label)
+        
+        # 添加音量控制布局到主配置布局
+        config_layout.addLayout(bgm_volume_layout, 5, 1, 1, 2)
+        # --- BGM音量控制结束 ---
 
-        # 删除源文件选项 (行号调整为 5)
+        # --- 调整行号到 6 ---
+        # 删除源文件选项和使用模板BGM选项
+        checkbox_layout = QHBoxLayout()
+        
         self.delete_source_check = QCheckBox("处理成功后删除源视频")
         self.delete_source_check.setChecked(True) # 设置默认选中
-        config_layout.addWidget(self.delete_source_check, 5, 0, 1, 2) # Span across 2 columns
+        checkbox_layout.addWidget(self.delete_source_check)
+        
+        self.keep_bgm_check = QCheckBox("使用模板中的BGM")
+        self.keep_bgm_check.setChecked(True)  # 默认选中
+        checkbox_layout.addWidget(self.keep_bgm_check)
+        
+        config_layout.addLayout(checkbox_layout, 6, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
 
-        # 开始按钮 (行号调整为 6)
+        # --- 调整行号到 7 ---
+        # 开始按钮
         self.start_button = QPushButton("开始逐个处理视频任务")
         self.start_button.setFixedHeight(40) # Make button taller
         self.start_button.setStyleSheet("background-color: lightblue; font-weight: bold;")
         self.start_button.clicked.connect(self.start_processing)
-        config_layout.addWidget(self.start_button, 6, 1, 1, 2) # Place below checkbox
+        config_layout.addWidget(self.start_button, 7, 1, 1, 2) # Place below checkbox
 
-        # 导出纯净草稿按钮 (行号调整为 7)
+        # --- 调整行号到 8 ---
+        # 导出纯净草稿按钮
         self.export_json_button = QPushButton("导出纯净草稿为 Zip")
         self.export_json_button.setFixedHeight(30) # Standard height
         self.export_json_button.clicked.connect(self.export_draft_json)
-        config_layout.addWidget(self.export_json_button, 7, 1, 1, 2) 
+        config_layout.addWidget(self.export_json_button, 8, 1, 1, 2) 
 
         # 设置列伸展，让输入框占据更多空间
         config_layout.setColumnStretch(1, 1)
@@ -244,6 +282,11 @@ class MainWindow(QMainWindow):
             self.draft_name_entry.setText(self.config_data.get('Settings', {}).get('DraftName', ''))
             # 新增：加载分割段数配置
             self.num_segments_entry.setText(str(self.config_data.get('Settings', {}).get('NumSegments', 1))) # 默认为 1
+            
+            # 新增：加载BGM音量配置
+            bgm_volume = self.config_data.get('Settings', {}).get('BGMVolume', 100)
+            self.bgm_volume_slider.setValue(bgm_volume)
+            self.update_volume_label(bgm_volume)
 
             # --- 修改: 明确处理 DeleteSource ---
             # 1. 尝试从配置中读取 Settings 部分
@@ -270,6 +313,25 @@ class MainWindow(QMainWindow):
                  logger.error(f"转换 DeleteSource ('{delete_src}') 为布尔值时出错: {e}，将默认为 True")
                  self.delete_source_check.setChecked(True) # 出错时保险起见，默认为 True
             # --- 结束修改 ---
+            
+            # --- 新增: 加载 KeepBGM 配置 ---
+            if 'KeepBGM' in settings:
+                keep_bgm = settings['KeepBGM']
+                logger.info(f"从配置文件加载 KeepBGM: {keep_bgm}")
+            else:
+                keep_bgm = True  # 默认保留BGM
+                logger.info("配置文件中未找到 KeepBGM，默认设置为 True")
+            
+            try:
+                if isinstance(keep_bgm, str) and keep_bgm.lower() in ('false', '0', 'no', 'off'):
+                    checked_state = False
+                else:
+                    checked_state = bool(keep_bgm)
+                self.keep_bgm_check.setChecked(checked_state)
+            except Exception as e:
+                logger.error(f"转换 KeepBGM ('{keep_bgm}') 为布尔值时出错: {e}，将默认为 True")
+                self.keep_bgm_check.setChecked(True)
+            # --- 结束新增 ---
 
             logger.info("UI 已从配置文件更新。")
         else:
@@ -287,6 +349,10 @@ class MainWindow(QMainWindow):
             self.config_data['Paths']['DraftFolder'] = self.draft_folder_entry.text()
             self.config_data['Settings']['DraftName'] = self.draft_name_entry.text()
             self.config_data['Settings']['DeleteSource'] = self.delete_source_check.isChecked()
+            # 新增：保存是否使用BGM配置
+            self.config_data['Settings']['KeepBGM'] = self.keep_bgm_check.isChecked()
+            # 新增：保存BGM音量配置
+            self.config_data['Settings']['BGMVolume'] = self.bgm_volume_slider.value()
             # 新增：保存分割段数配置
             try:
                 num_segments = int(self.num_segments_entry.text().strip())
@@ -333,6 +399,8 @@ class MainWindow(QMainWindow):
         draft_folder_path = self.draft_folder_entry.text().strip()
         draft_name = self.draft_name_entry.text().strip()
         delete_source = self.delete_source_check.isChecked()
+        keep_bgm = self.keep_bgm_check.isChecked()  # 获取是否使用模板BGM
+        bgm_volume = self.bgm_volume_slider.value()  # 获取BGM音量值
         # 新增：读取并验证分割段数
         num_segments_str = self.num_segments_entry.text().strip()
         try:
@@ -382,12 +450,14 @@ class MainWindow(QMainWindow):
         logging.info(f"  目标草稿名: {draft_name}")
         logging.info(f"  处理后删除源文件: {'是' if delete_source else '否'}")
         logging.info(f"  分割视频段数: {num_segments}")
+        logging.info(f"  使用模板BGM: {'是' if keep_bgm else '否'}")
+        logging.info(f"  BGM音量: {bgm_volume}%")  # 新增：记录BGM音量设置
 
 
         # 创建 Worker 和 Thread
         self.processing_worker = ProcessingWorker(
             input_folder, output_folder, draft_name, draft_folder_path, delete_source,
-            num_segments
+            num_segments, keep_bgm, bgm_volume  # 添加bgm_volume参数
         )
         self.worker_thread = QThread(self) # Pass parent to help with lifetime management
         self.processing_worker.moveToThread(self.worker_thread)
@@ -467,6 +537,7 @@ class MainWindow(QMainWindow):
 
         draft_folder = self.draft_folder_entry.text().strip()
         draft_name = self.draft_name_entry.text().strip()
+        keep_bgm = self.keep_bgm_check.isChecked()  # 获取当前 KeepBGM 状态
 
         # 1. 验证输入
         if not draft_folder or not os.path.isdir(draft_folder):
@@ -493,7 +564,7 @@ class MainWindow(QMainWindow):
             logger.info(f"用户选择导出 Zip 路径: {export_path}")
             try:
                 # 调用核心导出函数
-                result = export_clean_draft(draft_folder, draft_name, export_path)
+                result = export_clean_draft(draft_folder, draft_name, export_path, keep_bgm=keep_bgm)
 
                 # 4. 显示结果消息框
                 if result.get('success'):
@@ -507,6 +578,10 @@ class MainWindow(QMainWindow):
         else:
             logger.info("用户取消了导出操作。")
     # ------------------------------------------
+
+    def update_volume_label(self, value):
+        """更新BGM音量标签显示"""
+        self.bgm_volume_label.setText(f"{value}%")
 
 # --- 用于直接运行测试 UI (可选) ---
 # if __name__ == '__main__':

@@ -6,18 +6,20 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_path: str) -> dict:
+def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_path: str, keep_bgm: bool = True) -> dict:
     """导出指定草稿的整个文件夹为 Zip 压缩包，但前提是其中不包含复合片段。
 
     Args:
         jianying_drafts_folder: 剪映草稿库的根文件夹路径。
         draft_name: 要导出的草稿在剪映中显示的名称。
         export_zip_path: 导出的 .zip 文件应保存的完整路径。
+        keep_bgm: 是否保留草稿中的BGM音频轨道，默认为True。
 
     Returns:
         一个字典，包含 'success' (bool) 和 'message' (str)。
     """
     logger.info(f"请求导出纯净草稿文件夹为 Zip: '{draft_name}' 从 '{jianying_drafts_folder}' 到 '{export_zip_path}'")
+    logger.info(f"保留BGM设置: {keep_bgm}")
 
     draft_folder_path = os.path.join(jianying_drafts_folder, draft_name)
     source_json_path = os.path.join(draft_folder_path, 'draft_content.json')
@@ -55,14 +57,50 @@ def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_
         else:
             logger.warning("JSON 结构异常：'materials.drafts' 不是一个列表。跳过复合片段检查。")
 
-        # 4. 根据检查结果决定是否导出
+        # 4. 如果不保留BGM，移除所有BGM轨道
+        if not keep_bgm:
+            logger.info("根据设置，将移除BGM轨道...")
+            try:
+                # 获取轨道信息
+                tracks = data.get('tracks', [])
+                audio_tracks = [track for track in tracks if track.get('type') == 'audio']
+                bgm_tracks = []
+                
+                # 查找所有可能是BGM的轨道
+                for track in audio_tracks:
+                    track_name = track.get('name', '').lower()
+                    # 通过轨道名称判断是否为BGM轨道
+                    if any(keyword in track_name for keyword in ['bgm', '音乐', 'music']):
+                        bgm_tracks.append(track)
+                        logger.info(f"找到可能的BGM轨道: {track.get('name')} (id: {track.get('id')})")
+                
+                # 移除BGM轨道
+                if bgm_tracks:
+                    for bgm_track in bgm_tracks:
+                        tracks.remove(bgm_track)
+                        logger.info(f"已移除BGM轨道: {bgm_track.get('name')}")
+                    
+                    # 更新JSON数据中的轨道列表
+                    data['tracks'] = tracks
+                    
+                    # 写回JSON文件
+                    with open(source_json_path, 'w', encoding='utf-8') as f:
+                        json.dump(data, f, ensure_ascii=False)
+                    logger.info("更新后的JSON已写回文件")
+                else:
+                    logger.info("未找到BGM轨道，无需移除")
+            except Exception as e:
+                logger.warning(f"移除BGM轨道过程中出错: {e}")
+                # 继续执行，不因为BGM处理失败而中断整个流程
+
+        # 5. 根据检查结果决定是否导出
         if has_combination:
             msg = f"导出失败：草稿 '{draft_name}' 包含复合片段 (combination)，不支持导出。"
             logger.error(msg)
             return {'success': False, 'message': msg}
         else:
             logger.info("未检测到复合片段，准备压缩草稿文件夹...")
-            # 5. 压缩整个草稿文件夹
+            # 6. 压缩整个草稿文件夹
             try:
                 # shutil.make_archive 需要目标路径（不含扩展名）和格式
                 # 我们先获取用户指定的 zip 路径的目录和不带扩展名的基本名称
@@ -75,6 +113,8 @@ def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_
                 # 检查结果路径是否与预期一致 (shutil 会自动添加 .zip)
                 if os.path.abspath(result_path) == os.path.abspath(export_zip_path):
                     msg = f"成功将纯净草稿 '{draft_name}' 文件夹导出为 Zip 压缩包到:\n{export_zip_path}"
+                    if not keep_bgm:
+                        msg += "\n注意：已移除BGM轨道"
                     logger.info(msg)
                     return {'success': True, 'message': msg}
                 else:
@@ -113,13 +153,13 @@ if __name__ == '__main__':
     test_export_path_combo = r"./test_combo_export.zip" # <--- 改为 .zip
 
     print("\n--- 测试导出无复合片段的草稿为 Zip ---")
-    result_clean = export_clean_draft(test_drafts_folder, test_draft_name_clean, test_export_path_clean)
+    result_clean = export_clean_draft(test_drafts_folder, test_draft_name_clean, test_export_path_clean, keep_bgm=True)
     print(f"结果: {result_clean}")
     if result_clean['success']:
         print(f"检查 Zip 文件是否存在: {os.path.exists(test_export_path_clean)}")
 
     print("\n--- 测试导出含复合片段的草稿为 Zip --- ")
-    result_combo = export_clean_draft(test_drafts_folder, test_draft_name_combo, test_export_path_combo)
+    result_combo = export_clean_draft(test_drafts_folder, test_draft_name_combo, test_export_path_combo, keep_bgm=True)
     print(f"结果: {result_combo}")
     if not result_combo['success']:
         print(f"检查 Zip 文件是否未生成 (预期): {not os.path.exists(test_export_path_combo)}") 

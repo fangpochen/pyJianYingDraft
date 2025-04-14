@@ -26,7 +26,7 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-def run_individual_video_processing(input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments):
+def run_individual_video_processing(input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm=True, bgm_volume=100):
     """
     Main function to process each video file individually.
     Orchestrates finding tasks, splitting, processing via Jianying, and cleanup.
@@ -40,6 +40,8 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         delete_source (bool): Whether to delete the original video after successful processing.
                               Split segments are always deleted on success.
         num_segments (int): The number of segments to logically split the video into.
+        keep_bgm (bool): Whether to keep the background music from the draft template. Defaults to True.
+        bgm_volume (int): BGM音量，取值范围0-100，默认为100（原始音量）。
 
     Returns:
         dict: A dictionary containing processing results:
@@ -166,7 +168,9 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     export_video=True,
                     export_path=final_export_dir,
                     export_filename=final_export_filename,
-                    original_duration_seconds=original_duration_sec
+                    original_duration_seconds=original_duration_sec,
+                    keep_bgm=keep_bgm,
+                    bgm_volume=bgm_volume  # 传递BGM音量参数
                 )
                 jy_duration = time.time() - jy_start_time
                 logger.info(f"  剪映处理完成，耗时: {jy_duration:.2f}秒")
