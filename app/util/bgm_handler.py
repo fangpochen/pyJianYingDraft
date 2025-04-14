@@ -37,9 +37,48 @@ def process_bgm(script, video_end_time, keep_bgm=True, bgm_loop=True, bgm_volume
         "success": True
     }
     
-    # 如果用户选择不保留BGM，则直接返回
+    # 如果用户选择不保留BGM，则将音量设置为0（静音）
     if not keep_bgm:
-        logger.info("用户选择不保留BGM，将跳过BGM处理")
+        logger.info("用户选择不保留BGM，将BGM音量设置为0（静音）")
+        # 获取所有音频轨道
+        try:
+            audio_tracks = []
+            i = 0
+            while True:
+                try:
+                    audio_track = script.get_imported_track(draft.Track_type.audio, index=i)
+                    if audio_track:
+                        audio_tracks.append(audio_track)
+                        if hasattr(audio_track, 'segments'):
+                            muted_count = 0
+                            for segment in audio_track.segments:
+                                if hasattr(segment, 'volume'):
+                                    segment.volume = 0.0
+                                    muted_count += 1
+                                elif hasattr(segment, '_json') and '_json' in segment.__dict__:
+                                    segment._json['volume'] = 0.0
+                                    muted_count += 1
+                                else:
+                                    try:
+                                        segment.__dict__['volume'] = 0.0
+                                        muted_count += 1
+                                    except Exception as e:
+                                        logger.warning(f"无法设置BGM片段音量为0: {e}")
+                            logger.info(f"已将音频轨道 #{i} ({audio_track.name if hasattr(audio_track, 'name') else '无名称'}) 的 {muted_count}/{len(audio_track.segments)} 个片段音量设置为0")
+                        else:
+                            logger.warning(f"音频轨道 #{i} 没有segments属性，无法静音")
+                    i += 1
+                except IndexError:
+                    # 没有更多音频轨道，退出循环
+                    break
+                except Exception as e:
+                    logger.warning(f"获取音频轨道 #{i} 时出错: {e}")
+                    break
+                    
+            result["audio_tracks"] = audio_tracks
+            logger.info(f"已静音 {len(audio_tracks)} 个音频轨道")
+        except Exception as e:
+            logger.warning(f"静音BGM时发生错误: {e}", exc_info=True)
         return result
     
     # 获取所有音频轨道
