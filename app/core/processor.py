@@ -114,7 +114,7 @@ def get_video_duration(video_path):
         logger.exception(f"获取视频时长时发生未知错误: {video_path}")
         return None # Return None on unknown error
 
-def split_video_ffmpeg(input_path, output_folder, num_segments=EXPECTED_SEGMENTS):
+def split_video_ffmpeg(input_path, output_folder, num_segments=EXPECTED_SEGMENTS, volume_level=100):
     """
     使用 ffmpeg 将单个视频平均切割成指定数量的片段。
 
@@ -122,6 +122,7 @@ def split_video_ffmpeg(input_path, output_folder, num_segments=EXPECTED_SEGMENTS
         input_path (str): Path to the source video file.
         output_folder (str): Directory to save the split segments.
         num_segments (int): The desired number of segments.
+        volume_level (int): 音量级别，范围0-100，默认100表示保持原始音量。
 
     Returns:
         list: A list of absolute paths to the generated segment files, or None if splitting fails.
@@ -165,6 +166,13 @@ def split_video_ffmpeg(input_path, output_folder, num_segments=EXPECTED_SEGMENTS
     segment_duration = duration / num_segments
     logger.info(f"准备将 '{base_name}{ext}' ({duration:.2f}s) 切割成 {num_segments} 段，每段约 {segment_duration:.2f}s")
 
+    # 处理音量设置
+    normalized_volume = max(0, min(100, volume_level)) / 100.0
+    volume_filter = []
+    if volume_level != 100:
+        volume_filter = ['-af', f'volume={normalized_volume}']
+        logger.info(f"  应用音量调整: {volume_level}% (归一化值: {normalized_volume:.2f})")
+
     if segment_duration < 0.1:
         logger.warning(f"计算出的切割片段时长 ({segment_duration:.3f}s) 非常短，可能导致 ffmpeg 出错或产生无效片段。")
 
@@ -196,6 +204,10 @@ def split_video_ffmpeg(input_path, output_folder, num_segments=EXPECTED_SEGMENTS
         command.extend(['-ss', str(start_time)])
         command.extend(['-t', str(current_segment_duration)])
 
+        # 添加音量滤镜
+        if volume_filter:
+            command.extend(volume_filter)
+
         codec_params = []
         encoder_used = "libx264 (软件编码)"
         if hwaccel_used and GPU_TYPE == 'nvidia':
@@ -217,7 +229,11 @@ def split_video_ffmpeg(input_path, output_folder, num_segments=EXPECTED_SEGMENTS
         command.extend(['-movflags', '+faststart'])
         command.append(output_path)
 
-        logger.info(f"  执行切割命令 (第 {i+1}/{num_segments} 段, 编码器: {encoder_used}): {' '.join(command)}")
+        # 在日志中显示音量信息
+        volume_info = f"音量: {volume_level}%" if volume_level != 100 else ""
+        volume_display = f", {volume_info}" if volume_info else ""
+        logger.info(f"  执行切割命令 (第 {i+1}/{num_segments} 段, 编码器: {encoder_used}{volume_display}): {' '.join(command)}")
+        
         try:
             process_result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8', errors='ignore', shell=False)
             if process_result.stdout:

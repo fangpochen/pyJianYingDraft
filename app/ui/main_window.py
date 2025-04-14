@@ -40,7 +40,7 @@ class ProcessingWorker(QObject):
     ''' 执行后台处理任务的 Worker '''
     signals = WorkerSignals()
 
-    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100):
+    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100, main_track_volume=100):
         super().__init__()
         self.input_folder = input_folder
         self.output_folder = output_folder
@@ -50,6 +50,7 @@ class ProcessingWorker(QObject):
         self.num_segments = num_segments
         self.keep_bgm = keep_bgm
         self.bgm_volume = bgm_volume
+        self.main_track_volume = main_track_volume
         self.is_cancelled = False
 
     def run(self):
@@ -70,7 +71,8 @@ class ProcessingWorker(QObject):
                 self.delete_source,
                 self.num_segments,
                 self.keep_bgm,  # 传递keep_bgm参数
-                self.bgm_volume  # 传递bgm_volume参数
+                self.bgm_volume,  # 传递bgm_volume参数
+                self.main_track_volume  # 传递main_track_volume参数
             )
             logger.info(f"run_individual_video_processing 调用完成，返回: {result_dict}")
             # --- 结束调用 --- 
@@ -134,6 +136,11 @@ class MainWindow(QMainWindow):
                  # 可以选择也弹出一个警告，或者只禁用按钮
                  # QMessageBox.critical(self, "依赖错误",
                  #                      "无法导入草稿导出逻辑 (app/core/draft_exporter.py)。")
+                 
+        # 设置BGM音量为0（静音）
+        self.bgm_volume_slider.setValue(0)
+        self.update_volume_label(0)
+        logger.info("BGM音量已设置为0（静音）")
 
     def init_ui(self):
         """初始化用户界面布局和组件"""
@@ -189,12 +196,12 @@ class MainWindow(QMainWindow):
         self.bgm_volume_slider.setOrientation(Qt.Orientation.Horizontal)  # 水平方向
         self.bgm_volume_slider.setMinimum(0)
         self.bgm_volume_slider.setMaximum(100)
-        self.bgm_volume_slider.setValue(100)  # 默认100%
+        self.bgm_volume_slider.setValue(0)  # 默认0%（静音）
         self.bgm_volume_slider.setFixedWidth(300)
         bgm_volume_layout.addWidget(self.bgm_volume_slider)
         
         # 添加音量数值显示标签
-        self.bgm_volume_label = QLabel("100%")
+        self.bgm_volume_label = QLabel("0%")
         bgm_volume_layout.addWidget(self.bgm_volume_label)
         
         # 当滑动条值改变时更新标签
@@ -204,7 +211,31 @@ class MainWindow(QMainWindow):
         config_layout.addLayout(bgm_volume_layout, 5, 1, 1, 2)
         # --- BGM音量控制结束 ---
 
-        # --- 调整行号到 6 ---
+        # --- 新增：主轨道音量控制 ---
+        config_layout.addWidget(QLabel("主轨道音量:"), 6, 0)
+        main_volume_layout = QHBoxLayout()
+        
+        # 创建音量滑动条
+        self.main_volume_slider = QSlider()
+        self.main_volume_slider.setOrientation(Qt.Orientation.Horizontal)  # 水平方向
+        self.main_volume_slider.setMinimum(0)
+        self.main_volume_slider.setMaximum(100)
+        self.main_volume_slider.setValue(100)  # 默认100%
+        self.main_volume_slider.setFixedWidth(300)
+        main_volume_layout.addWidget(self.main_volume_slider)
+        
+        # 添加音量数值显示标签
+        self.main_volume_label = QLabel("100%")
+        main_volume_layout.addWidget(self.main_volume_label)
+        
+        # 当滑动条值改变时更新标签
+        self.main_volume_slider.valueChanged.connect(self.update_main_volume_label)
+        
+        # 添加音量控制布局到主配置布局
+        config_layout.addLayout(main_volume_layout, 6, 1, 1, 2)
+        # --- 主轨道音量控制结束 ---
+
+        # --- 调整行号到 7 ---
         # 删除源文件选项和使用模板BGM选项
         checkbox_layout = QHBoxLayout()
         
@@ -216,22 +247,22 @@ class MainWindow(QMainWindow):
         self.keep_bgm_check.setChecked(True)  # 默认选中
         checkbox_layout.addWidget(self.keep_bgm_check)
         
-        config_layout.addLayout(checkbox_layout, 6, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
+        config_layout.addLayout(checkbox_layout, 7, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
 
-        # --- 调整行号到 7 ---
+        # --- 调整行号到 8 ---
         # 开始按钮
         self.start_button = QPushButton("开始逐个处理视频任务")
         self.start_button.setFixedHeight(40) # Make button taller
         self.start_button.setStyleSheet("background-color: lightblue; font-weight: bold;")
         self.start_button.clicked.connect(self.start_processing)
-        config_layout.addWidget(self.start_button, 7, 1, 1, 2) # Place below checkbox
+        config_layout.addWidget(self.start_button, 8, 1, 1, 2) # Place below checkbox
 
-        # --- 调整行号到 8 ---
+        # --- 调整行号到 9 ---
         # 导出纯净草稿按钮
         self.export_json_button = QPushButton("导出纯净草稿为 Zip")
         self.export_json_button.setFixedHeight(30) # Standard height
         self.export_json_button.clicked.connect(self.export_draft_json)
-        config_layout.addWidget(self.export_json_button, 8, 1, 1, 2) 
+        config_layout.addWidget(self.export_json_button, 9, 1, 1, 2) 
 
         # 设置列伸展，让输入框占据更多空间
         config_layout.setColumnStretch(1, 1)
@@ -246,7 +277,6 @@ class MainWindow(QMainWindow):
         self.log_text_edit.setReadOnly(True)
         self.log_text_edit.setStyleSheet("background-color: #f0f0f0;") # Light gray background
         main_layout.addWidget(self.log_text_edit)
-
 
     def select_folder(self, line_edit_widget):
         """通用函数：打开文件夹选择对话框并更新 QLineEdit"""
@@ -287,6 +317,11 @@ class MainWindow(QMainWindow):
             bgm_volume = self.config_data.get('Settings', {}).get('BGMVolume', 100)
             self.bgm_volume_slider.setValue(bgm_volume)
             self.update_volume_label(bgm_volume)
+            
+            # 新增：加载主轨道音量配置
+            main_volume = self.config_data.get('Settings', {}).get('MainTrackVolume', 100)
+            self.main_volume_slider.setValue(main_volume)
+            self.update_main_volume_label(main_volume)
 
             # --- 修改: 明确处理 DeleteSource ---
             # 1. 尝试从配置中读取 Settings 部分
@@ -353,6 +388,8 @@ class MainWindow(QMainWindow):
             self.config_data['Settings']['KeepBGM'] = self.keep_bgm_check.isChecked()
             # 新增：保存BGM音量配置
             self.config_data['Settings']['BGMVolume'] = self.bgm_volume_slider.value()
+            # 新增：保存主轨道音量配置
+            self.config_data['Settings']['MainTrackVolume'] = self.main_volume_slider.value()
             # 新增：保存分割段数配置
             try:
                 num_segments = int(self.num_segments_entry.text().strip())
@@ -400,7 +437,11 @@ class MainWindow(QMainWindow):
         draft_name = self.draft_name_entry.text().strip()
         delete_source = self.delete_source_check.isChecked()
         keep_bgm = self.keep_bgm_check.isChecked()  # 获取是否使用模板BGM
-        bgm_volume = self.bgm_volume_slider.value()  # 获取BGM音量值
+        
+        # 获取用户设置的BGM音量，将百分比转换为0-1的值
+        bgm_volume = self.bgm_volume_slider.value() / 100.0
+        
+        main_track_volume = self.main_volume_slider.value()  # 获取主轨道音量值
         # 新增：读取并验证分割段数
         num_segments_str = self.num_segments_entry.text().strip()
         try:
@@ -451,13 +492,14 @@ class MainWindow(QMainWindow):
         logging.info(f"  处理后删除源文件: {'是' if delete_source else '否'}")
         logging.info(f"  分割视频段数: {num_segments}")
         logging.info(f"  使用模板BGM: {'是' if keep_bgm else '否'}")
-        logging.info(f"  BGM音量: {bgm_volume}%")  # 新增：记录BGM音量设置
+        logging.info(f"  BGM音量: {bgm_volume}%")  # 记录BGM音量设置
+        logging.info(f"  主轨道音量: {main_track_volume}%")  # 记录主轨道音量设置
 
 
         # 创建 Worker 和 Thread
         self.processing_worker = ProcessingWorker(
             input_folder, output_folder, draft_name, draft_folder_path, delete_source,
-            num_segments, keep_bgm, bgm_volume  # 添加bgm_volume参数
+            num_segments, keep_bgm, bgm_volume, main_track_volume  # 添加main_track_volume参数
         )
         self.worker_thread = QThread(self) # Pass parent to help with lifetime management
         self.processing_worker.moveToThread(self.worker_thread)
@@ -582,6 +624,10 @@ class MainWindow(QMainWindow):
     def update_volume_label(self, value):
         """更新BGM音量标签显示"""
         self.bgm_volume_label.setText(f"{value}%")
+        
+    def update_main_volume_label(self, value):
+        """更新主轨道音量标签显示"""
+        self.main_volume_label.setText(f"{value}%")
 
 # --- 用于直接运行测试 UI (可选) ---
 # if __name__ == '__main__':
