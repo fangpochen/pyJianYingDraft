@@ -191,21 +191,21 @@ def process_videos(video_paths,
                         audio_track = script.get_imported_track(draft.Track_type.audio, index=i)
                         if audio_track:
                             audio_tracks.append(audio_track)
-                            # 检查是否是BGM轨道（根据命名约定或其他特征）
-                            if "bgm" in audio_track.name.lower() or "音乐" in audio_track.name or "music" in audio_track.name.lower():
-                                bgm_tracks.append(audio_track)
-                                # 收集BGM片段信息
-                                if hasattr(audio_track, 'segments') and audio_track.segments:
-                                    for seg in audio_track.segments:
-                                        bgm_segments.append({
-                                            "track": audio_track,
-                                            "segment": seg,
-                                            "index": len(bgm_segments),
-                                            "start": seg.target_timerange.start,
-                                            "duration": seg.target_timerange.duration,
-                                            "material_id": seg.material_id,
-                                            "material_instance": None  # 后续需要查找素材实例
-                                        })
+                            # 将所有音频轨道都视为BGM轨道
+                            bgm_tracks.append(audio_track)
+                            logger.info(f"将音频轨道 #{i} ({audio_track.name}) 识别为BGM轨道")
+                            # 收集BGM片段信息
+                            if hasattr(audio_track, 'segments') and audio_track.segments:
+                                for seg in audio_track.segments:
+                                    bgm_segments.append({
+                                        "track": audio_track,
+                                        "segment": seg,
+                                        "index": len(bgm_segments),
+                                        "start": seg.target_timerange.start,
+                                        "duration": seg.target_timerange.duration,
+                                        "material_id": seg.material_id,
+                                        "material_instance": None  # 后续需要查找素材实例
+                                    })
                             logger.info(f"找到音频轨道 #{i} ({audio_track.name}), 包含 {len(audio_track.segments) if hasattr(audio_track, 'segments') else '未知'} 个片段")
                         i += 1
                     except IndexError:
@@ -325,132 +325,179 @@ def process_videos(video_paths,
                 if keep_bgm and bgm_segments and len(bgm_segments) > 0:
                     logger.info("开始处理BGM...")
                     
-                    # 获取第一个BGM片段的素材信息
-                    bgm_material = None
-                    for bgm_info in bgm_segments:
+                    # 直接使用第一个BGM片段信息
+                    first_bgm_segment = bgm_segments[0]
+                    first_bgm_track = first_bgm_segment["track"]
+                    
+                    # 确保轨道有片段
+                    if hasattr(first_bgm_track, 'segments'):
+                        # 确保bgm_volume在合法范围内并归一化为0.0-1.0
+                        normalized_volume = max(0, min(100, bgm_volume)) / 100.0
+                        if normalized_volume < 0.01 and bgm_volume > 0:
+                            normalized_volume = 0.01  # 确保即使是低音量设置也至少有1%的音量
+                        logger.info(f"设置BGM音量为: {bgm_volume}% (归一化值: {normalized_volume:.4f})")
+                        
+                        # 不管音量是多少，都只调整音量，不删除BGM轨道内容
                         try:
-                            if bgm_info["material_id"] in script.materials:
-                                bgm_info["material_instance"] = script.materials[bgm_info["material_id"]]
-                                if not bgm_material:
-                                    bgm_material = bgm_info["material_instance"]
-                                logger.debug(f"获取到BGM素材: {bgm_info['material_id']}")
-                            else:
-                                logger.warning(f"BGM素材ID {bgm_info['material_id']} 在素材库中未找到")
-                        except Exception as e:
-                            logger.warning(f"获取BGM素材时发生错误: {e}")
-
-                    if not bgm_material:
-                        logger.warning("未能获取有效的BGM素材信息，将跳过BGM处理")
-                    else:
-                        # 获取BGM总长度和首个BGM片段信息
-                        first_bgm_segment = bgm_segments[0]
-                        first_bgm_track = first_bgm_segment["track"]
-                        first_bgm_duration = bgm_material.duration
-                        
-                        logger.info(f"BGM素材时长: {first_bgm_duration / 1_000_000:.2f} 秒")
-                        
-                        # 清空bgm轨道上的所有片段，我们将重新添加
-                        for bgm_track in bgm_tracks:
-                            if hasattr(bgm_track, 'segments'):
-                                # 备份原始片段信息，以便重建
-                                bgm_track.segments.clear()
-                                logger.debug(f"清空BGM轨道 {bgm_track.name} 上的片段")
-                        
-                        # 确保bgm_volume在合法范围内
-                        normalized_volume = max(0, min(100, bgm_volume)) / 100.0  # 转换为0.0-1.0的浮点数
-                        
-                        if video_end_time <= first_bgm_duration:
-                            # 视频比BGM短，需要截断BGM
-                            logger.info(f"视频长度小于BGM，截断BGM至 {video_end_time / 1_000_000:.2f} 秒")
+                            segments_updated = 0
+                            segments_total = len(first_bgm_track.segments)
                             
-                            # 创建新的截断BGM片段
-                            try:
-                                # 使用原始素材，但设置新时长
-                                target_timerange = Timerange(0, video_end_time)
-                                source_timerange = Timerange(0, video_end_time)
+                            # 对轨道上所有BGM片段应用音量设置 - 使用多种方法确保音量设置生效
+                            for i, segment in enumerate(first_bgm_track.segments):
+                                # 方法1: 直接设置volume属性
+                                segment.volume = normalized_volume
+                                logger.debug(f"  方法1: 直接设置BGM片段{i}的volume属性为: {normalized_volume}")
                                 
-                                # 替换第一个轨道的素材，应用音量设置
-                                first_bgm_track.segments.append(
-                                    draft.Imported_media_segment({
-                                        "material_id": bgm_material.material_id,
-                                        "source_timerange": source_timerange.export_json(),
-                                        "target_timerange": target_timerange.export_json(),
-                                        "clip": None,
-                                        "volume": normalized_volume,  # 应用用户设置的音量
-                                        "extra_material_refs": [],
-                                        "id": first_bgm_segment["segment"].segment_id if hasattr(first_bgm_segment["segment"], "segment_id") else None
-                                    })
-                                )
-                                logger.info(f"成功添加截断的BGM片段，时长: {video_end_time / 1_000_000:.2f} 秒，音量: {bgm_volume}%")
-                            except Exception as e:
-                                logger.error(f"添加截断BGM片段时出错: {e}", exc_info=True)
-                        
-                        elif bgm_loop:
-                            # 视频比BGM长，需要循环播放BGM
-                            logger.info(f"视频长度大于BGM，将循环播放BGM {math.ceil(video_end_time / first_bgm_duration)} 次")
-                            
-                            # 计算需要多少个完整BGM循环
-                            current_position = 0
-                            loop_count = 0
-                            
-                            while current_position < video_end_time:
-                                remaining_time = video_end_time - current_position
+                                # 方法2: 使用set_segment_volume函数全面处理
+                                if set_segment_volume(
+                                    segment, 
+                                    normalized_volume, 
+                                    segment_idx=i, 
+                                    context="BGM音量设置"
+                                ):
+                                    segments_updated += 1
                                 
-                                # 计算当前循环应该使用的时长（可能需要截断最后一个循环）
-                                loop_duration = min(first_bgm_duration, remaining_time)
+                                # 方法3: 检查并处理JSON属性 (直接修改底层数据)
+                                if hasattr(segment, '_json'):
+                                    segment._json['volume'] = normalized_volume
+                                    logger.debug(f"  直接设置BGM片段{i}的_json属性中的音量为: {normalized_volume}")
                                 
+                                # 方法4: 对音频片段添加音量关键帧 (从头到尾保持相同音量)
                                 try:
-                                    # 创建新的BGM片段
-                                    target_timerange = Timerange(current_position, loop_duration)
-                                    source_timerange = Timerange(0, loop_duration)
+                                    if hasattr(segment, 'common_keyframes'):
+                                        # 先清除现有音量关键帧
+                                        segment.common_keyframes = [kf for kf in segment.common_keyframes 
+                                                                 if not (hasattr(kf, 'keyframe_property') and 
+                                                                        getattr(kf, 'keyframe_property', None) == draft.Keyframe_property.volume)]
+                                        
+                                        # 只有在音量不为默认值1.0时才添加关键帧
+                                        if normalized_volume != 1.0:
+                                            # 获取片段时长
+                                            if hasattr(segment, 'target_timerange') and hasattr(segment.target_timerange, 'duration'):
+                                                # 创建两个关键帧（开始和结束），确保整个片段都是相同音量
+                                                start_kf = draft.Keyframe({
+                                                    "keyframe_property": draft.Keyframe_property.volume.value,
+                                                    "interpolation_type": draft.Interpolation_type.linear.value,
+                                                    "time": 0,  # 开始位置
+                                                    "value": normalized_volume  # 音量值
+                                                })
+                                                
+                                                end_kf = draft.Keyframe({
+                                                    "keyframe_property": draft.Keyframe_property.volume.value,
+                                                    "interpolation_type": draft.Interpolation_type.linear.value,
+                                                    "time": segment.target_timerange.duration,  # 结束位置
+                                                    "value": normalized_volume  # 音量值
+                                                })
+                                                
+                                                # 添加关键帧
+                                                segment.common_keyframes.append(start_kf)
+                                                segment.common_keyframes.append(end_kf)
+                                                logger.debug(f"  为BGM片段{i}添加了音量关键帧，音量值: {normalized_volume}")
+                                except Exception as kf_err:
+                                    logger.warning(f"  为BGM片段{i}添加音量关键帧时出错: {kf_err}")
+                            
+                            logger.info(f"成功更新 {segments_updated}/{segments_total} 个BGM片段的音量为 {bgm_volume}%")
+                            
+                            # 视频长度大于BGM且需要循环播放时，处理循环
+                            if bgm_loop and video_end_time > first_bgm_segment["duration"]:
+                                logger.info(f"视频长度大于BGM，检查是否需要添加循环片段")
+                                
+                                # 计算当前BGM总长度
+                                total_bgm_length = 0
+                                for segment in first_bgm_track.segments:
+                                    if hasattr(segment, 'target_timerange') and hasattr(segment.target_timerange, 'duration'):
+                                        total_bgm_length += segment.target_timerange.duration
+                                
+                                # 如果当前BGM长度小于视频长度，需要添加循环片段
+                                if total_bgm_length < video_end_time:
+                                    logger.info(f"需要添加循环BGM片段，当前BGM长度: {total_bgm_length/1_000_000:.2f}秒，视频长度: {video_end_time/1_000_000:.2f}秒")
                                     
-                                    # 添加到第一个BGM轨道，应用音量设置
-                                    segment_id = first_bgm_segment["segment"].segment_id if hasattr(first_bgm_segment["segment"], "segment_id") and loop_count == 0 else None
+                                    # 获取原始素材ID
+                                    orig_segment = first_bgm_segment["segment"]
+                                    material_id = orig_segment.material_id
                                     
-                                    first_bgm_track.segments.append(
-                                        draft.Imported_media_segment({
-                                            "material_id": bgm_material.material_id,
+                                    # 当前位置和循环计数
+                                    current_position = total_bgm_length
+                                    loop_count = len(first_bgm_track.segments)
+                                    segment_duration = first_bgm_segment["duration"]
+                                    
+                                    # 添加循环片段直到覆盖整个视频长度
+                                    while current_position < video_end_time:
+                                        remaining_time = video_end_time - current_position
+                                        loop_duration = min(segment_duration, remaining_time)
+                                        
+                                        # 添加循环片段
+                                        target_timerange = Timerange(current_position, loop_duration)
+                                        source_timerange = Timerange(0, loop_duration)
+                                        
+                                        # 创建新的BGM循环片段
+                                        new_segment = draft.Imported_media_segment({
+                                            "material_id": material_id,
                                             "source_timerange": source_timerange.export_json(),
                                             "target_timerange": target_timerange.export_json(),
                                             "clip": None,
-                                            "volume": normalized_volume,  # 应用用户设置的音量
+                                            "volume": normalized_volume,  # 设置正确的音量
                                             "extra_material_refs": [],
-                                            "id": segment_id
+                                            "id": None,  # 循环部分不使用原始ID
+                                            "keyframes": [], # 确保有keyframes属性
                                         })
-                                    )
-                                    logger.debug(f"添加第 {loop_count+1} 个BGM循环片段，起始位置: {current_position / 1_000_000:.2f} 秒，时长: {loop_duration / 1_000_000:.2f} 秒，音量: {bgm_volume}%")
-                                except Exception as e:
-                                    logger.error(f"添加第 {loop_count+1} 个BGM循环片段时出错: {e}")
-                                    break
-                                
-                                # 更新位置和计数
-                                current_position += loop_duration
-                                loop_count += 1
-                            
-                            logger.info(f"成功添加 {loop_count} 个BGM循环片段，总时长: {current_position / 1_000_000:.2f} 秒，音量: {bgm_volume}%")
-                        else:
-                            # 不循环BGM，保持原有长度
-                            logger.info("视频长度大于BGM，但不循环播放，保持原BGM长度")
-                            
-                            # 仅添加一次完整BGM，应用音量设置
-                            try:
-                                target_timerange = Timerange(0, first_bgm_duration)
-                                source_timerange = Timerange(0, first_bgm_duration)
-                                
-                                first_bgm_track.segments.append(
-                                    draft.Imported_media_segment({
-                                        "material_id": bgm_material.material_id,
-                                        "source_timerange": source_timerange.export_json(),
-                                        "target_timerange": target_timerange.export_json(),
-                                        "clip": None,
-                                        "volume": normalized_volume,  # 应用用户设置的音量
-                                        "extra_material_refs": [],
-                                        "id": first_bgm_segment["segment"].segment_id if hasattr(first_bgm_segment["segment"], "segment_id") else None
-                                    })
-                                )
-                                logger.info(f"成功添加单次播放的BGM片段，时长: {first_bgm_duration / 1_000_000:.2f} 秒，音量: {bgm_volume}%")
-                            except Exception as e:
-                                logger.error(f"添加单次播放BGM片段时出错: {e}", exc_info=True)
+                                        
+                                        # 添加到轨道
+                                        first_bgm_track.segments.append(new_segment)
+                                        
+                                        # 对新片段应用多种音量设置方法
+                                        try:
+                                            # 方法1: 确保volume属性已设置
+                                            if hasattr(new_segment, 'volume'):
+                                                new_segment.volume = normalized_volume
+                                            
+                                            # 方法2: 处理JSON属性
+                                            if hasattr(new_segment, '_json'):
+                                                new_segment._json['volume'] = normalized_volume
+                                            
+                                            # 方法3: 添加音量关键帧
+                                            if hasattr(new_segment, 'common_keyframes') and normalized_volume != 1.0:
+                                                # 创建两个关键帧（开始和结束）
+                                                start_kf = draft.Keyframe({
+                                                    "keyframe_property": draft.Keyframe_property.volume.value,
+                                                    "interpolation_type": draft.Interpolation_type.linear.value,
+                                                    "time": 0,  # 开始位置
+                                                    "value": normalized_volume  # 音量值
+                                                })
+                                                
+                                                end_kf = draft.Keyframe({
+                                                    "keyframe_property": draft.Keyframe_property.volume.value,
+                                                    "interpolation_type": draft.Interpolation_type.linear.value,
+                                                    "time": loop_duration,  # 结束位置
+                                                    "value": normalized_volume  # 音量值
+                                                })
+                                                
+                                                # 添加关键帧
+                                                if not hasattr(new_segment, 'common_keyframes') or new_segment.common_keyframes is None:
+                                                    new_segment.common_keyframes = []
+                                                new_segment.common_keyframes.append(start_kf)
+                                                new_segment.common_keyframes.append(end_kf)
+                                            
+                                            logger.debug(f"添加第 {loop_count+1} 个BGM循环片段，设置音量为 {normalized_volume}")
+                                        except Exception as e:
+                                            logger.warning(f"设置BGM循环片段 {loop_count+1} 音量时出错: {e}")
+                                            
+                                        logger.debug(f"添加第 {loop_count+1} 个BGM循环片段，起始位置: {current_position / 1_000_000:.2f} 秒")
+                                        
+                                        current_position += loop_duration
+                                        loop_count += 1
+                                    
+                                    logger.info(f"成功添加循环BGM片段，总计 {loop_count} 个BGM片段，覆盖时长: {current_position / 1_000_000:.2f} 秒")
+                        except Exception as e:
+                            logger.error(f"处理BGM片段时出错: {e}", exc_info=True)
+                    else:
+                        logger.warning(f"BGM轨道 {first_bgm_track.name} 不包含segments属性，无法处理")
+                elif keep_bgm:
+                    # 如果选择保留BGM但没有找到BGM片段，只记录日志，不做其他操作
+                    logger.info("用户选择了保留BGM，但模板中未找到可用的BGM音频轨道，将保持原状")
+                else:
+                    # 用户明确选择不保留BGM，但仍不删除，只记录日志
+                    logger.info("用户选择不保留BGM，但不会删除现有音频轨道，只调整音量")
                 
                 # 更新草稿总时长
                 if hasattr(script, 'content') and isinstance(script.content, dict):
@@ -527,8 +574,62 @@ def process_videos(video_paths,
             except Exception as e:
                 logger.error(f"最终应用音量设置时出错: {e}")
         
+        # 保存前记录BGM音量信息
+        if keep_bgm and bgm_tracks:
+            logger.info("====== 保存前BGM音量状态 ======")
+            try:
+                for track_idx, track in enumerate(bgm_tracks):
+                    if hasattr(track, 'segments') and track.segments:
+                        logger.info(f"BGM轨道 #{track_idx} ({track.name}) 保存前音量:")
+                        for seg_idx, segment in enumerate(track.segments):
+                            seg_volume = getattr(segment, 'volume', '未设置')
+                            json_volume = getattr(segment, '_json', {}).get('volume', '无JSON数据') if hasattr(segment, '_json') else '无_json属性'
+                            logger.info(f"  片段 #{seg_idx}: volume={seg_volume}, _json['volume']={json_volume}")
+            except Exception as e:
+                logger.error(f"检查保存前BGM音量时出错: {e}")
+            logger.info("============================")
+        
+        logger.info(f"准备保存草稿: {draft_name}...")
         script.save()
         logger.info(f"草稿 '{draft_name}' 保存完成")
+        
+        # 保存后重新加载草稿验证BGM音量
+        if keep_bgm and bgm_tracks:
+            logger.info("====== 保存后BGM音量验证 ======")
+            try:
+                logger.info(f"重新加载草稿 '{draft_name}' 以验证保存后的BGM音量...")
+                reload_script = draft_folder.load_template(draft_name)
+                
+                # 查找音频轨道
+                reload_bgm_tracks = []
+                i = 0
+                try:
+                    while True:
+                        try:
+                            audio_track = reload_script.get_imported_track(draft.Track_type.audio, index=i)
+                            if audio_track:
+                                reload_bgm_tracks.append(audio_track)
+                            i += 1
+                        except IndexError:
+                            break
+                except Exception as e:
+                    logger.error(f"获取重新加载后的音频轨道时出错: {e}")
+                
+                # 检查BGM音量
+                if reload_bgm_tracks:
+                    logger.info(f"重新加载后找到 {len(reload_bgm_tracks)} 个音频轨道")
+                    for track_idx, track in enumerate(reload_bgm_tracks):
+                        if hasattr(track, 'segments') and track.segments:
+                            logger.info(f"重新加载后BGM轨道 #{track_idx} ({track.name}):")
+                            for seg_idx, segment in enumerate(track.segments):
+                                seg_volume = getattr(segment, 'volume', '未设置')
+                                json_volume = getattr(segment, '_json', {}).get('volume', '无JSON数据') if hasattr(segment, '_json') else '无_json属性'
+                                logger.info(f"  片段 #{seg_idx}: volume={seg_volume}, _json['volume']={json_volume}")
+                else:
+                    logger.warning("重新加载后未找到任何音频轨道！")
+            except Exception as e:
+                logger.error(f"验证保存后BGM音量时出错: {e}")
+            logger.info("============================")
 
         # --- 8. Export video --- 
         # 使用独立的导出模块

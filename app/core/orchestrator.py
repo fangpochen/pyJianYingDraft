@@ -166,6 +166,8 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                 # --- Step 2b: Process with Jianying (Pass duration) ---
                 logger.info("  步骤 2b: 调用剪映处理...")
                 jy_start_time = time.time()
+                # 确保bgm_volume参数值是正确的
+                logger.info(f"  传递BGM音量设置: {bgm_volume}%")
                 # 调用剪映处理函数
                 jy_result = process_videos(
                     video_paths=split_video_paths,
@@ -176,7 +178,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     export_filename=final_export_filename,
                     original_duration_seconds=original_duration_sec,
                     keep_bgm=keep_bgm,
-                    bgm_volume=bgm_volume,
+                    bgm_volume=bgm_volume,  # 确保音量设置正确传递
                     main_track_volume=main_track_volume
                 )
                 jy_duration = time.time() - jy_start_time

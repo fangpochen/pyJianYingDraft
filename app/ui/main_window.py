@@ -438,8 +438,8 @@ class MainWindow(QMainWindow):
         delete_source = self.delete_source_check.isChecked()
         keep_bgm = self.keep_bgm_check.isChecked()  # 获取是否使用模板BGM
         
-        # 获取用户设置的BGM音量，将百分比转换为0-1的值
-        bgm_volume = self.bgm_volume_slider.value() / 100.0
+        # 获取用户设置的BGM音量，不再进行归一化，直接使用0-100的值
+        bgm_volume = self.bgm_volume_slider.value()
         
         main_track_volume = self.main_volume_slider.value()  # 获取主轨道音量值
         # 新增：读取并验证分割段数
@@ -580,6 +580,7 @@ class MainWindow(QMainWindow):
         draft_folder = self.draft_folder_entry.text().strip()
         draft_name = self.draft_name_entry.text().strip()
         keep_bgm = self.keep_bgm_check.isChecked()  # 获取当前 KeepBGM 状态
+        bgm_volume = self.bgm_volume_slider.value()  # 获取当前BGM音量值
 
         # 1. 验证输入
         if not draft_folder or not os.path.isdir(draft_folder):
@@ -605,8 +606,11 @@ class MainWindow(QMainWindow):
         if export_path:
             logger.info(f"用户选择导出 Zip 路径: {export_path}")
             try:
-                # 调用核心导出函数
-                result = export_clean_draft(draft_folder, draft_name, export_path, keep_bgm=keep_bgm)
+                # 调用核心导出函数，同时传递BGM音量参数
+                logger.info(f"导出时设置BGM音量为: {bgm_volume}%")
+                result = export_clean_draft(draft_folder, draft_name, export_path, 
+                                           keep_bgm=keep_bgm,
+                                           bgm_volume=bgm_volume)
 
                 # 4. 显示结果消息框
                 if result.get('success'):

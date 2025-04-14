@@ -58,6 +58,17 @@ class Imported_media_segment(Base_segment):
     def export_json(self) -> Dict[str, Any]:
         json_data = deepcopy(self.raw_data)
         json_data.update(util.export_attr_to_json(self, self.__DATA_ATTRS))
+        
+        # --- 新增：确保 volume 和 last_nonzero_volume 被写入 JSON --- 
+        if hasattr(self, 'volume'):
+            json_data['volume'] = self.volume
+            # 如果音量不为0，则同步更新 last_nonzero_volume
+            if abs(self.volume) > 1e-6: # 避免浮点数精度问题
+                json_data['last_nonzero_volume'] = self.volume
+            # 如果音量为0，则保持 last_nonzero_volume 不变 (或按需设置为上次的值)
+            # 注意：当前实现下，若音量为0，last_nonzero_volume 会保留原始值
+        # ----------------------------------------------------------
+            
         return json_data
 
 class Imported_track(Base_track):

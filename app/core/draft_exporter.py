@@ -6,7 +6,37 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_path: str, keep_bgm: bool = True) -> dict:
+def update_bgm_volume(draft_data, bgm_volume_percentage):
+    """
+    修改草稿JSON中BGM轨道的音量
+    
+    Args:
+        draft_data (dict): 草稿JSON数据
+        bgm_volume_percentage (int): BGM音量百分比(0-100)
+        
+    Returns:
+        dict: 修改后的草稿JSON数据
+    """
+    # 将百分比转换为0-1的浮点数
+    volume_value = max(0, min(100, bgm_volume_percentage)) / 100.0
+    logger.info(f"正在设置BGM音量为: {bgm_volume_percentage}% (实际值: {volume_value:.4f})")
+    
+    # 寻找音频轨道
+    for track in draft_data.get('tracks', []):
+        if track.get('type') == 'audio':
+            logger.info(f"找到音频轨道: {track.get('id')}")
+            # 遍历轨道的所有segments
+            for segment in track.get('segments', []):
+                # 修改音量属性
+                old_volume = segment.get('volume', 1.0)
+                segment['volume'] = volume_value
+                # 同时更新last_nonzero_volume属性
+                segment['last_nonzero_volume'] = volume_value
+                logger.info(f"音频段落 {segment.get('id')} 音量从 {old_volume:.4f} 修改为 {volume_value:.4f}")
+    
+    return draft_data
+
+def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_path: str, keep_bgm: bool = True, bgm_volume: int = None) -> dict:
     """导出指定草稿的整个文件夹为 Zip 压缩包，但前提是其中不包含复合片段。
 
     Args:
@@ -14,6 +44,7 @@ def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_
         draft_name: 要导出的草稿在剪映中显示的名称。
         export_zip_path: 导出的 .zip 文件应保存的完整路径。
         keep_bgm: 是否保留草稿中的BGM音频轨道，默认为True。
+        bgm_volume: BGM音量百分比(0-100)，默认为None(不修改)。
 
     Returns:
         一个字典，包含 'success' (bool) 和 'message' (str)。
@@ -93,6 +124,18 @@ def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_
                 logger.warning(f"移除BGM轨道过程中出错: {e}")
                 # 继续执行，不因为BGM处理失败而中断整个流程
 
+        # 应用BGM音量设置(如果指定了)
+        if bgm_volume is not None:
+            data = update_bgm_volume(data, bgm_volume)
+            # 将修改后的JSON写回文件
+            try:
+                with open(source_json_path, 'w', encoding='utf-8') as f:
+                    json.dump(data, f, ensure_ascii=False)
+                logger.info(f"已更新BGM音量为{bgm_volume}%，并将修改写回JSON文件")
+            except Exception as e:
+                logger.error(f"更新BGM音量后写回JSON文件时出错: {e}")
+                # 继续执行，不因为写入失败而中断整个导出流程
+
         # 5. 根据检查结果决定是否导出
         if has_combination:
             msg = f"导出失败：草稿 '{draft_name}' 包含复合片段 (combination)，不支持导出。"
@@ -115,6 +158,8 @@ def export_clean_draft(jianying_drafts_folder: str, draft_name: str, export_zip_
                     msg = f"成功将纯净草稿 '{draft_name}' 文件夹导出为 Zip 压缩包到:\n{export_zip_path}"
                     if not keep_bgm:
                         msg += "\n注意：已移除BGM轨道"
+                    if bgm_volume is not None:
+                        msg += f"\nBGM音量已设置为: {bgm_volume}%"
                     logger.info(msg)
                     return {'success': True, 'message': msg}
                 else:
