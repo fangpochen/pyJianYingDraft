@@ -17844,3 +17844,6 @@ RuntimeError: 剪映处理失败: 视频导出失败 (模板: 简单测试_4940)
 2025-04-14 21:51:54,328 - INFO - app.ui.main_window - 处理完成，UI已更新。
 2025-04-14 21:51:55,128 - INFO - app.ui.main_window - 处理完成，UI已更新。
 2025-04-14 21:51:55,758 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-14 21:55:50,485 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-14 21:55:50,485 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-14 21:55:50,485 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。

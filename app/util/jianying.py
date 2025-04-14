@@ -631,7 +631,7 @@ def process_videos(video_paths,
                 logger.error(f"验证保存后BGM音量时出错: {e}")
             logger.info("============================")
 
-        # --- 8. Export video --- 
+        # --- 8. Export video ---
         # 使用独立的导出模块
         if export_video:
             logger.info(f"准备导出视频到: {export_file_path}")
@@ -641,24 +641,52 @@ def process_videos(video_paths,
             ctrl = Fast_Jianying_Controller() # 使用优化的控制器
             logger.info("使用速度优化的剪映控制器进行导出...")
 
-            export_start = time.time()
-            export_success = ctrl.export_draft(
-                draft_name=draft_name,
-                output_path=export_file_path, # This is the final destination path
-                resolution=Export_resolution.RES_1080P if CUSTOMIZE_EXPORT else None,
-                framerate=Export_framerate.FR_30 if CUSTOMIZE_EXPORT else None
-            )
-            export_dur = time.time() - export_start
-            logger.info(f"导出函数调用耗时: {export_dur:.2f}秒")
+            export_success = False # 初始化导出状态
+            max_retries = 3
+            for attempt in range(1, max_retries + 1):
+                logger.info(f"开始导出尝试 #{attempt}/{max_retries}...")
+                export_start = time.time()
+                try:
+                    current_export_success = ctrl.export_draft(
+                        draft_name=draft_name,
+                        output_path=export_file_path, # This is the final destination path
+                        resolution=Export_resolution.RES_1080P if CUSTOMIZE_EXPORT else None,
+                        framerate=Export_framerate.FR_30 if CUSTOMIZE_EXPORT else None
+                    )
+                    export_dur = time.time() - export_start
+                    logger.info(f"导出函数调用 (尝试 #{attempt}) 耗时: {export_dur:.2f}秒")
 
+                    if current_export_success:
+                        export_success = True # 标记最终成功状态
+                        logger.info(f"导出尝试 #{attempt} 成功。")
+                        break # 成功则跳出重试循环
+                    else:
+                        logger.warning(f"导出尝试 #{attempt} 失败。")
+                        if attempt < max_retries:
+                            logger.info(f"将在1秒后进行下一次尝试...")
+                            time.sleep(1)
+                        else:
+                            logger.error(f"所有 {max_retries} 次导出尝试均失败。")
+                except Exception as export_err:
+                    export_dur = time.time() - export_start
+                    logger.error(f"导出尝试 #{attempt} 期间发生异常: {export_err}", exc_info=True)
+                    logger.info(f"导出函数调用 (尝试 #{attempt} - 异常) 耗时: {export_dur:.2f}秒")
+                    if attempt < max_retries:
+                        logger.info(f"异常发生，将在1秒后进行下一次尝试...")
+                        time.sleep(1)
+                    else:
+                        logger.error(f"所有 {max_retries} 次导出尝试均因异常失败。")
+
+            # --- 根据最终的 export_success 状态进行后续处理 ---
             if export_success:
                 logger.info(f"视频导出成功: {export_file_path}")
                 result["success"] = True
             else:
-                error_msg = f"视频导出失败 (模板: {draft_name})。请检查剪映状态和详细日志。"
+                # 如果所有尝试都失败了
+                error_msg = f"视频导出失败 (模板: {draft_name})，已尝试 {max_retries} 次。请检查剪映状态和详细日志。"
                 logger.error(error_msg)
-                result["error"] = error_msg # Set error message
-                # No longer raising error here, return success=False
+                result["error"] = error_msg # Set error message based on final failure
+                result["success"] = False # Ensure result reflects the failure
         else:
              logger.info("跳过视频导出步骤。")
              result["success"] = True # Mark as success if export is skipped
