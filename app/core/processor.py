@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 SUPPORTED_VIDEO_EXTENSIONS = {'.mp4', '.mov', '.avi', '.mkv'}
 EXPECTED_SEGMENTS = 3 # How many segments to split each video into
 # Make GPU options more configurable or disable by default if causing issues
-USE_GPU_ACCEL = False # Default to False for broader compatibility
+USE_GPU_ACCEL = True # 默认开启GPU加速以提高处理速度
 GPU_TYPE = 'nvidia' # 'nvidia', 'intel', 'amd' (Only relevant if USE_GPU_ACCEL is True)
 
 def find_video_tasks(input_folder):

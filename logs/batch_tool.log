@@ -874,3 +874,199 @@ pyJianYingDraft.exceptions.AutomationError: 剪映窗口未找到
 2025-04-15 02:05:02,896 - INFO - app.ui.main_window - 应用程序正在关闭...
 2025-04-15 02:05:02,897 - INFO - app.config - 配置已保存到: batch_tool_config.ini
 2025-04-15 02:05:02,897 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-15 02:05:21,997 - INFO - root - 日志系统已配置。
+2025-04-15 02:05:21,997 - INFO - root - 详细日志将写入: F:\py\pyJianYingDraft\logs\batch_tool.log
+2025-04-15 02:05:21,997 - INFO - __main__ - 应用程序启动，日志系统已配置。
+2025-04-15 02:05:22,136 - INFO - __main__ - 尝试设置 DPI Awareness (2=Per Monitor v2): Result=-2147024891
+2025-04-15 02:05:22,154 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-15 02:05:22,155 - INFO - app.ui.main_window - 从配置文件加载 DeleteSource: False
+2025-04-15 02:05:22,155 - INFO - app.ui.main_window - 配置文件中未找到 KeepBGM，默认设置为 True
+2025-04-15 02:05:22,155 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-15 02:05:22,155 - INFO - app.ui.main_window - BGM音量已设置为0（静音）
+2025-04-15 02:05:22,232 - INFO - __main__ - 主窗口已显示。启动 Qt 事件循环...
+2025-04-15 02:05:30,663 - INFO - root - 准备启动后台逐个视频处理...
+2025-04-15 02:05:30,663 - INFO - root -   输入文件夹: E:/2
+2025-04-15 02:05:30,663 - INFO - root -   输出文件夹: D:/111
+2025-04-15 02:05:30,663 - INFO - root -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-15 02:05:30,663 - INFO - root -   目标草稿名: 简单测试_4940
+2025-04-15 02:05:30,664 - INFO - root -   处理后删除源文件: 否
+2025-04-15 02:05:30,664 - INFO - root -   分割视频段数: 4
+2025-04-15 02:05:30,664 - INFO - root -   使用模板BGM: 是
+2025-04-15 02:05:30,664 - INFO - root -   BGM音量: 48%
+2025-04-15 02:05:30,664 - INFO - root -   主轨道音量: 0%
+2025-04-15 02:05:30,664 - INFO - root - 后台处理线程已启动。
+2025-04-15 02:05:30,664 - INFO - app.ui.main_window - Worker 开始调用 run_individual_video_processing...
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator - ========= 开始逐个视频处理 =========
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator - --- 阶段 1: 查找所有独立的视频任务 ---
+2025-04-15 02:05:30,665 - INFO - app.core.processor - 开始扫描输入文件夹以查找独立的视频任务: E:/2
+2025-04-15 02:05:30,665 - INFO - app.core.processor - 扫描子文件夹: 1
+2025-04-15 02:05:30,665 - INFO - app.core.processor -   找到任务: put your head卡点舞 丝滑 扭一扭.mp4 (属于子文件夹: 1)
+2025-04-15 02:05:30,665 - INFO - app.core.processor - 扫描完成，共找到 1 个独立的视频处理任务。
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator - 共找到 1 个视频任务，准备开始逐个处理...
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator - 
+--- 阶段 2: 逐个处理视频任务 ---
+2025-04-15 02:05:30,665 - WARNING - app.core.orchestrator - 请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator - 
+--- 开始处理 任务 1/1: put your head卡点舞 丝滑 扭一扭.mp4 (来自: 1) ---
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator -   原始视频: E:/2\1\put your head卡点舞 丝滑 扭一扭.mp4
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator -   切割片段输出目录: D:/111\1\put your head卡点舞 丝滑 扭一扭_splits
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator -   最终导出目录: D:/111\1
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator -   最终导出文件名: put your head卡点舞 丝滑 扭一扭.mp4
+2025-04-15 02:05:30,665 - INFO - app.core.orchestrator -   步骤 2a(i): 获取原始视频时长...
+2025-04-15 02:05:30,710 - INFO - app.core.orchestrator -     原始视频时长: 11.00 秒
+2025-04-15 02:05:30,710 - INFO - app.core.orchestrator -   步骤 2a(ii): 准备/切割视频...
+2025-04-15 02:05:30,710 - INFO - app.core.processor - 为切割文件创建输出文件夹: D:/111\1\put your head卡点舞 丝滑 扭一扭_splits
+2025-04-15 02:05:30,754 - INFO - app.core.processor - 准备将 'put your head卡点舞 丝滑 扭一扭.mp4' (11.00s) 切割成 4 段，每段约 2.75s
+2025-04-15 02:05:30,754 - INFO - app.core.processor -   应用音量调整: 0% (归一化值: 0.00)
+2025-04-15 02:05:30,754 - INFO - app.core.processor -   执行切割命令 (第 1/4 段, 编码器: libx264 (软件编码), 音量: 0%): ffmpeg -y -i E:/2\1\put your head卡点舞 丝滑 扭一扭.mp4 -ss 0.0 -t 2.75 -af volume=0.0 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\1\put your head卡点舞 丝滑 扭一扭_splits\put your head卡点舞 丝滑 扭一扭_part1.mp4
+2025-04-15 02:05:31,514 - INFO - app.core.processor -     成功生成切割片段: put your head卡点舞 丝滑 扭一扭_part1.mp4
+2025-04-15 02:05:31,514 - INFO - app.core.processor -   执行切割命令 (第 2/4 段, 编码器: libx264 (软件编码), 音量: 0%): ffmpeg -y -i E:/2\1\put your head卡点舞 丝滑 扭一扭.mp4 -ss 2.75 -t 2.75 -af volume=0.0 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\1\put your head卡点舞 丝滑 扭一扭_splits\put your head卡点舞 丝滑 扭一扭_part2.mp4
+2025-04-15 02:05:32,148 - INFO - app.core.processor -     成功生成切割片段: put your head卡点舞 丝滑 扭一扭_part2.mp4
+2025-04-15 02:05:32,148 - INFO - app.core.processor -   执行切割命令 (第 3/4 段, 编码器: libx264 (软件编码), 音量: 0%): ffmpeg -y -i E:/2\1\put your head卡点舞 丝滑 扭一扭.mp4 -ss 5.5 -t 2.75 -af volume=0.0 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\1\put your head卡点舞 丝滑 扭一扭_splits\put your head卡点舞 丝滑 扭一扭_part3.mp4
+2025-04-15 02:05:32,862 - INFO - app.core.processor -     成功生成切割片段: put your head卡点舞 丝滑 扭一扭_part3.mp4
+2025-04-15 02:05:32,862 - INFO - app.core.processor -   执行切割命令 (第 4/4 段, 编码器: libx264 (软件编码), 音量: 0%): ffmpeg -y -i E:/2\1\put your head卡点舞 丝滑 扭一扭.mp4 -ss 8.25 -t 2.75 -af volume=0.0 -c:v libx264 -preset medium -crf 23 -b:v 6M -maxrate 10M -bufsize 10M -profile:v high -c:a aac -b:a 128k -movflags +faststart D:/111\1\put your head卡点舞 丝滑 扭一扭_splits\put your head卡点舞 丝滑 扭一扭_part4.mp4
+2025-04-15 02:05:33,580 - INFO - app.core.processor -     成功生成切割片段: put your head卡点舞 丝滑 扭一扭_part4.mp4
+2025-04-15 02:05:33,580 - INFO - app.core.processor - 成功切割 'put your head卡点舞 丝滑 扭一扭.mp4' 为 4 段。
+2025-04-15 02:05:33,580 - INFO - app.core.orchestrator -   视频准备/切割完成，耗时: 2.87秒
+2025-04-15 02:05:33,580 - INFO - app.core.orchestrator -   最终用于处理的片段 (4): put your head卡点舞 丝滑 扭一扭_part1.mp4, put your head卡点舞 丝滑 扭一扭_part2.mp4, put your head卡点舞 丝滑 扭一扭_part3.mp4, put your head卡点舞 丝滑 扭一扭_part4.mp4
+2025-04-15 02:05:33,580 - INFO - app.core.orchestrator -   步骤 2b: 调用剪映处理...
+2025-04-15 02:05:33,580 - INFO - app.core.orchestrator -   传递BGM音量设置: 48%
+2025-04-15 02:05:33,580 - INFO - app.util.jianying - --- 开始处理剪映模板: 简单测试_4940 ---
+2025-04-15 02:05:33,580 - INFO - app.util.jianying -   使用视频片段 (4): put your head卡点舞 丝滑 扭一扭_part1.mp4, put your head卡点舞 丝滑 扭一扭_part2.mp4, put your head卡点舞 丝滑 扭一扭_part3.mp4, put your head卡点舞 丝滑 扭一扭_part4.mp4
+2025-04-15 02:05:33,580 - INFO - app.util.jianying -   草稿库路径: D:\DJianYingDrafts\JianyingPro Drafts
+2025-04-15 02:05:33,580 - INFO - app.util.jianying -   保留BGM: True, BGM循环: True, BGM音量: 48%, 主轨道音量: 0%
+2025-04-15 02:05:33,580 - INFO - app.util.jianying -   导出设置: 启用
+2025-04-15 02:05:33,580 - INFO - app.util.jianying -     导出目标: D:/111\1\put your head卡点舞 丝滑 扭一扭.mp4
+2025-04-15 02:05:33,581 - INFO - app.util.jianying - 加载模板草稿: 简单测试_4940
+2025-04-15 02:05:33,583 - INFO - app.util.jianying - 模板加载成功，耗时: 0.00秒
+2025-04-15 02:05:33,583 - INFO - app.util.jianying - 创建视频素材对象...
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - 成功为 4 个视频片段创建素材对象，耗时: 0.03秒
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - 获取第一个视频轨道...
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - 视频轨道获取成功，耗时: 0.00秒
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - 模板轨道现有 4 个片段，需要用 4 个新片段替换。
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - 准备替换模板中的 4 个视频片段...
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - 主轨道音量设置为: 0% (归一化值: 0.00)
+2025-04-15 02:05:33,612 - INFO - app.util.jianying -   替换 模板片段索引 0 -> put your head卡点舞 丝滑 扭一扭_part1.mp4
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - [替换后立即设置] 成功设置片段 0音量从 1.00 到 0.00
+2025-04-15 02:05:33,612 - INFO - app.util.jianying -   替换 模板片段索引 1 -> put your head卡点舞 丝滑 扭一扭_part2.mp4
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - [替换后立即设置] 成功设置片段 1音量从 1.00 到 0.00
+2025-04-15 02:05:33,612 - INFO - app.util.jianying -   替换 模板片段索引 2 -> put your head卡点舞 丝滑 扭一扭_part3.mp4
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - [替换后立即设置] 成功设置片段 2音量从 1.00 到 0.00
+2025-04-15 02:05:33,612 - INFO - app.util.jianying -   替换 模板片段索引 3 -> put your head卡点舞 丝滑 扭一扭_part4.mp4
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - [替换后立即设置] 成功设置片段 3音量从 1.00 到 0.00
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - 视频片段替换完成，耗时: 0.00秒.
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - 所有片段替换完成，开始应用主轨道音量设置: 0%
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - [替换完成后批量设置] 成功设置片段 0音量从 0.00 到 0.00
+2025-04-15 02:05:33,612 - INFO - app.util.jianying - [替换完成后批量设置] 成功设置片段 1音量从 0.00 到 0.00
+2025-04-15 02:05:33,613 - INFO - app.util.jianying - [替换完成后批量设置] 成功设置片段 2音量从 0.00 到 0.00
+2025-04-15 02:05:33,613 - INFO - app.util.jianying - [替换完成后批量设置] 成功设置片段 3音量从 0.00 到 0.00
+2025-04-15 02:05:33,613 - INFO - app.util.jianying - 已更新 4/4 个视频片段的音量为 0%
+2025-04-15 02:05:33,613 - INFO - app.util.jianying - 计算得到的视频轨道实际结束时间: 11068000 微秒 (11.07 秒)
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - script:<pyJianYingDraft.script_file.Script_file object at 0x000001DA6BBC2F20>
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - video_end_time:11068000
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - keep_bgm:True
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - bgm_loop:True
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - bgm_volume:48
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 将音频轨道 #0 () 识别为BGM轨道
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 找到音频轨道 #0 (), 包含 1 个片段
+2025-04-15 02:05:33,613 - WARNING - app.util.bgm_handler - 获取音频轨道 #1 时出错: 没有找到满足条件的轨道: track_type=Track_type.audio, name=None, index=1
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 成功找到 1 个音频轨道，其中 1 个被识别为BGM轨道。
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 找到 1 个BGM片段。
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 开始处理BGM...
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 原始BGM片段时长: 11.10秒
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 设置BGM音量为: 48% (归一化值: 0.4800)
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - BGM片段原始起始位置: 0.00秒
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 通过__dict__设置BGM片段音量: 0.48
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 视频长度小于BGM长度，截断BGM至 11.07秒
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - 成功截断BGM片段至视频长度: 11.07秒
+2025-04-15 02:05:33,613 - INFO - app.util.bgm_handler - BGM处理完成，轨道包含 1 个片段
+2025-04-15 02:05:33,613 - INFO - app.util.jianying -   当前草稿总时长: 11100000 微秒
+2025-04-15 02:05:33,613 - INFO - app.util.jianying -   草稿总时长已更新为: 11068000 微秒 (11.07秒)
+2025-04-15 02:05:33,613 - WARNING - app.util.jianying - 注意：即将保存修改，这将覆盖原始模板草稿 '简单测试_4940'！
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - 保存修改到草稿: 简单测试_4940
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - 保存前验证主轨道音量设置状态：
+2025-04-15 02:05:33,614 - INFO - app.util.jianying -   保存前片段 0 音量为: 0.0
+2025-04-15 02:05:33,614 - INFO - app.util.jianying -   保存前片段 1 音量为: 0.0
+2025-04-15 02:05:33,614 - INFO - app.util.jianying -   保存前片段 2 音量为: 0.0
+2025-04-15 02:05:33,614 - INFO - app.util.jianying -   保存前片段 3 音量为: 0.0
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - 保存前强制应用最终音量设置...
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - [保存前最终设置] 成功设置片段 0音量从 0.00 到 0.00
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - [保存前最终设置] 成功设置片段 1音量从 0.00 到 0.00
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - [保存前最终设置] 成功设置片段 2音量从 0.00 到 0.00
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - [保存前最终设置] 成功设置片段 3音量从 0.00 到 0.00
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - 保存前已更新 4/4 个视频片段的音量为 0%
+2025-04-15 02:05:33,614 - INFO - app.util.bgm_handler - ====== 保存前BGM音量状态 ======
+2025-04-15 02:05:33,614 - INFO - app.util.bgm_handler - BGM轨道 #0 () 保存前音量:
+2025-04-15 02:05:33,614 - INFO - app.util.bgm_handler -   片段 #0: volume=0.48, _json=不存在或不是字典, __dict__['volume']=0.48
+2025-04-15 02:05:33,614 - INFO - app.util.bgm_handler - ============================
+2025-04-15 02:05:33,614 - INFO - app.util.jianying - 准备保存草稿: 简单测试_4940...
+2025-04-15 02:05:33,616 - INFO - app.util.jianying - 草稿 '简单测试_4940' 保存完成
+2025-04-15 02:05:33,616 - INFO - app.util.jianying - 重新加载草稿 '简单测试_4940' 以验证保存后的BGM音量...
+2025-04-15 02:05:33,618 - ERROR - app.util.jianying - 获取重新加载后的音频轨道时出错: 没有找到满足条件的轨道: track_type=Track_type.audio, name=None, index=1
+2025-04-15 02:05:33,618 - INFO - app.util.bgm_handler - ====== 保存后BGM音量状态 ======
+2025-04-15 02:05:33,618 - INFO - app.util.bgm_handler - BGM轨道 #0 () 保存后音量:
+2025-04-15 02:05:33,618 - INFO - app.util.bgm_handler -   片段 #0: volume=未设置(属性不存在), _json=不存在或不是字典, __dict__['volume']=不存在
+2025-04-15 02:05:33,618 - INFO - app.util.bgm_handler - ============================
+2025-04-15 02:05:33,618 - INFO - app.util.jianying - 准备导出视频到: D:/111\1\put your head卡点舞 丝滑 扭一扭.mp4
+2025-04-15 02:05:34,864 - INFO - app.util.jianying - 使用速度优化的剪映控制器进行导出...
+2025-04-15 02:05:34,864 - INFO - app.util.jianying - 开始导出尝试 #1/3...
+2025-04-15 02:05:34,864 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 开始导出 简单测试_4940 至 D:/111\1\put your head卡点舞 丝滑 扭一扭.mp4
+2025-04-15 02:05:34,864 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 步骤1: 获取剪映窗口并切换到主页...
+2025-04-15 02:05:35,903 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   完成，耗时: 1.04秒
+2025-04-15 02:05:35,903 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 步骤2: 点击目标草稿...
+2025-04-15 02:05:37,874 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-15 02:05:38,907 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   完成，耗时: 3.00秒
+2025-04-15 02:05:38,907 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 步骤3: 点击导出按钮...
+2025-04-15 02:05:40,144 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 窗口状态更新为: pre_export
+2025-04-15 02:05:41,164 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   完成，耗时: 2.26秒
+2025-04-15 02:05:41,164 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 步骤4: 获取原始导出路径...
+2025-04-15 02:05:41,171 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   剪映默认导出路径: C:/Users/Administrator/Videos/简单测试_4940(6).mp4
+2025-04-15 02:05:41,171 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   完成，耗时: 0.01秒
+2025-04-15 02:05:41,171 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 步骤7: 点击最终导出按钮...
+2025-04-15 02:05:42,293 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   完成，耗时: 1.12秒
+2025-04-15 02:05:42,293 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 步骤8: 等待导出完成...
+2025-04-15 02:05:43,319 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   导出成功! 共检查进度 1 次
+2025-04-15 02:05:44,099 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   完成，耗时: 1.81秒
+2025-04-15 02:05:44,099 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 步骤9: 返回剪映主页...
+2025-04-15 02:05:44,118 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 窗口状态更新为: edit
+2025-04-15 02:05:45,976 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 窗口状态更新为: home
+2025-04-15 02:05:46,993 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 成功切换到主页。
+2025-04-15 02:05:47,208 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   完成，耗时: 3.11秒
+2025-04-15 02:05:47,208 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 步骤10: 准备移动文件到目标路径 D:/111\1\put your head卡点舞 丝滑 扭一扭.mp4...
+2025-04-15 02:05:47,208 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   源文件: C:/Users/Administrator/Videos/简单测试_4940(6).mp4
+2025-04-15 02:05:47,208 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   目标路径: D:/111\1\put your head卡点舞 丝滑 扭一扭.mp4
+2025-04-15 02:05:47,218 - INFO - app.util.jianying_export.Fast_Jianying_Controller -   文件移动成功，耗时: 0.01秒
+2025-04-15 02:05:47,218 - INFO - app.util.jianying_export.Fast_Jianying_Controller - 导出 简单测试_4940 至 D:/111\1\put your head卡点舞 丝滑 扭一扭.mp4 完成
+2025-04-15 02:05:47,218 - INFO - app.util.jianying - 导出函数调用 (尝试 #1) 耗时: 12.35秒
+2025-04-15 02:05:47,218 - INFO - app.util.jianying - 导出尝试 #1 成功。
+2025-04-15 02:05:47,218 - INFO - app.util.jianying - 视频导出成功: D:/111\1\put your head卡点舞 丝滑 扭一扭.mp4
+2025-04-15 02:05:47,218 - INFO - app.util.jianying - --- 剪映模板处理结束: 简单测试_4940 | 结果: 成功 ---
+2025-04-15 02:05:47,219 - INFO - app.core.orchestrator -   剪映处理完成，耗时: 13.64秒
+2025-04-15 02:05:47,219 - INFO - app.core.orchestrator -   任务 1/1: put your head卡点舞 丝滑 扭一扭.mp4 (来自: 1) 剪映处理成功。
+2025-04-15 02:05:47,219 - INFO - app.core.orchestrator -   步骤 2c(i): 准备删除切割片段...
+2025-04-15 02:05:47,219 - INFO - app.core.orchestrator -     准备删除 4 个切割片段...
+2025-04-15 02:05:47,219 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\1\put your head卡点舞 丝滑 扭一扭_splits\put your head卡点舞 丝滑 扭一扭_part1.mp4
+2025-04-15 02:05:47,220 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\1\put your head卡点舞 丝滑 扭一扭_splits\put your head卡点舞 丝滑 扭一扭_part2.mp4
+2025-04-15 02:05:47,221 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\1\put your head卡点舞 丝滑 扭一扭_splits\put your head卡点舞 丝滑 扭一扭_part3.mp4
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator -       已删除切割片段: D:/111\1\put your head卡点舞 丝滑 扭一扭_splits\put your head卡点舞 丝滑 扭一扭_part4.mp4
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator -     切割片段删除完成: 成功删除 4 个。
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator -     已删除空的切割片段目录: D:/111\1\put your head卡点舞 丝滑 扭一扭_splits
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator -   步骤 2c(ii): 选项未启用，跳过删除原始视频文件。
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - --- 任务 1/1: put your head卡点舞 丝滑 扭一扭.mp4 (来自: 1) 处理结束 [成功] | 耗时: 16.56秒 ---
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - 处理完成: 共找到 1 个任务, 成功 1 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - 
+========= 逐个视频处理完成 =========
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - 总任务数 (扫描到): 1
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - 成功处理任务数: 1
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - 失败处理任务数: 0
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator -   - 因切割失败: 0
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator -   - 因剪映处理失败: 0
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - 总耗时: 16.56 秒
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - 平均任务耗时: 16.56 秒/任务
+2025-04-15 02:05:47,222 - INFO - app.core.orchestrator - ====================================
+2025-04-15 02:05:47,222 - INFO - app.ui.main_window - run_individual_video_processing 调用完成，返回: {'success': True, 'message': '处理完成: 共找到 1 个任务, 成功 1 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。', 'tasks_found': 1, 'tasks_processed': 1, 'tasks_failed': 0}
+2025-04-15 02:05:47,223 - INFO - app.ui.main_window - 后台任务完成信号接收: success=True, message='处理完成: 共找到 1 个任务, 成功 1 个, 失败 0 个 (切割失败: 0, 剪映失败: 0)。'
+2025-04-15 02:06:00,099 - INFO - app.ui.main_window - 处理完成，UI已更新。
+2025-04-15 02:06:17,088 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-15 02:06:17,088 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-15 02:06:17,088 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
