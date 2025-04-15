@@ -6,7 +6,8 @@ import logging
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QLineEdit, QPushButton, QFileDialog, QPlainTextEdit,
-    QCheckBox, QMessageBox, QGridLayout, QSpacerItem, QSizePolicy, QSlider
+    QCheckBox, QMessageBox, QGridLayout, QSpacerItem, QSizePolicy, QSlider,
+    QButtonGroup, QRadioButton
 )
 from PyQt6.QtCore import QThread, pyqtSignal, QObject, QTimer, Qt
 
@@ -40,7 +41,7 @@ class ProcessingWorker(QObject):
     ''' 执行后台处理任务的 Worker '''
     signals = WorkerSignals()
 
-    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100, main_track_volume=100):
+    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100, main_track_volume=100, process_mode="split", target_videos_count=1):
         super().__init__()
         self.input_folder = input_folder
         self.output_folder = output_folder
@@ -51,6 +52,8 @@ class ProcessingWorker(QObject):
         self.keep_bgm = keep_bgm
         self.bgm_volume = bgm_volume
         self.main_track_volume = main_track_volume
+        self.process_mode = process_mode  # 新增：处理模式参数
+        self.target_videos_count = target_videos_count  # 新增：目标生成视频数量
         self.is_cancelled = False
 
     def run(self):
@@ -72,7 +75,9 @@ class ProcessingWorker(QObject):
                 self.num_segments,
                 self.keep_bgm,  # 传递keep_bgm参数
                 self.bgm_volume,  # 传递bgm_volume参数
-                self.main_track_volume  # 传递main_track_volume参数
+                self.main_track_volume,  # 传递main_track_volume参数
+                self.process_mode,  # 传递处理模式参数
+                self.target_videos_count  # 传递目标生成视频数量参数
             )
             logger.info(f"run_individual_video_processing 调用完成，返回: {result_dict}")
             # --- 结束调用 --- 
@@ -181,14 +186,43 @@ class MainWindow(QMainWindow):
         self.draft_name_entry = QLineEdit()
         config_layout.addWidget(self.draft_name_entry, 3, 1, 1, 2) # Span across 2 columns
 
-        # --- 新增：分割视频段数 --- 
-        config_layout.addWidget(QLabel("分割视频段数:"), 4, 0)
+        # --- 新增：处理模式选择 ---
+        config_layout.addWidget(QLabel("处理模式:"), 4, 0)
+        process_mode_layout = QHBoxLayout()
+        
+        self.mode_group = QButtonGroup(self)
+        self.split_mode_radio = QRadioButton("分割素材后替换")
+        self.merge_mode_radio = QRadioButton("直接素材替换")
+        self.split_mode_radio.setChecked(True)  # 默认选中分割模式
+        
+        self.mode_group.addButton(self.split_mode_radio)
+        self.mode_group.addButton(self.merge_mode_radio)
+        
+        process_mode_layout.addWidget(self.split_mode_radio)
+        process_mode_layout.addWidget(self.merge_mode_radio)
+        process_mode_layout.addStretch()
+        
+        config_layout.addLayout(process_mode_layout, 4, 1, 1, 2)
+        
+        # 切换文本标签的显示
+        self.split_mode_radio.toggled.connect(self.update_segments_label)
+        self.split_mode_radio.toggled.connect(self.update_button_text)
+        
+        # --- 修改：分割/融合段数 ---
+        self.segments_label = QLabel("替换素材段数:")
+        config_layout.addWidget(self.segments_label, 5, 0)
         self.num_segments_entry = QLineEdit()
         self.num_segments_entry.setPlaceholderText("默认为 1 (不分割)") # 添加提示
-        config_layout.addWidget(self.num_segments_entry, 4, 1, 1, 2) # Span across 2 columns
+        config_layout.addWidget(self.num_segments_entry, 5, 1, 1, 2) # Span across 2 columns
+        
+        # --- 新增：目标生成视频数量 ---
+        config_layout.addWidget(QLabel("目标生成视频数量:"), 6, 0)
+        self.target_videos_count_entry = QLineEdit()
+        self.target_videos_count_entry.setPlaceholderText("默认为 1 (不组合)")
+        config_layout.addWidget(self.target_videos_count_entry, 6, 1, 1, 2)
         
         # --- 新增：BGM音量控制 ---
-        config_layout.addWidget(QLabel("BGM音量:"), 5, 0)
+        config_layout.addWidget(QLabel("BGM音量:"), 7, 0)
         bgm_volume_layout = QHBoxLayout()
         
         # 创建音量滑动条
@@ -208,11 +242,11 @@ class MainWindow(QMainWindow):
         self.bgm_volume_slider.valueChanged.connect(self.update_volume_label)
         
         # 添加音量控制布局到主配置布局
-        config_layout.addLayout(bgm_volume_layout, 5, 1, 1, 2)
+        config_layout.addLayout(bgm_volume_layout, 7, 1, 1, 2)
         # --- BGM音量控制结束 ---
 
         # --- 新增：主轨道音量控制 ---
-        config_layout.addWidget(QLabel("主轨道音量:"), 6, 0)
+        config_layout.addWidget(QLabel("主轨道音量:"), 8, 0)
         main_volume_layout = QHBoxLayout()
         
         # 创建音量滑动条
@@ -232,10 +266,10 @@ class MainWindow(QMainWindow):
         self.main_volume_slider.valueChanged.connect(self.update_main_volume_label)
         
         # 添加音量控制布局到主配置布局
-        config_layout.addLayout(main_volume_layout, 6, 1, 1, 2)
+        config_layout.addLayout(main_volume_layout, 8, 1, 1, 2)
         # --- 主轨道音量控制结束 ---
 
-        # --- 调整行号到 7 ---
+        # --- 调整行号到 9 ---
         # 删除源文件选项和使用模板BGM选项
         checkbox_layout = QHBoxLayout()
         
@@ -247,22 +281,22 @@ class MainWindow(QMainWindow):
         self.keep_bgm_check.setChecked(True)  # 默认选中
         checkbox_layout.addWidget(self.keep_bgm_check)
         
-        config_layout.addLayout(checkbox_layout, 7, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
+        config_layout.addLayout(checkbox_layout, 9, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
 
-        # --- 调整行号到 8 ---
+        # --- 调整行号到 10 ---
         # 开始按钮
-        self.start_button = QPushButton("开始逐个处理视频任务")
+        self.start_button = QPushButton("开始分割素材后替换处理")
         self.start_button.setFixedHeight(40) # Make button taller
         self.start_button.setStyleSheet("background-color: lightblue; font-weight: bold;")
         self.start_button.clicked.connect(self.start_processing)
-        config_layout.addWidget(self.start_button, 8, 1, 1, 2) # Place below checkbox
+        config_layout.addWidget(self.start_button, 10, 1, 1, 2) # Place below checkbox
 
-        # --- 调整行号到 9 ---
+        # --- 调整行号到 11 ---
         # 导出纯净草稿按钮
         self.export_json_button = QPushButton("导出纯净草稿为 Zip")
         self.export_json_button.setFixedHeight(30) # Standard height
         self.export_json_button.clicked.connect(self.export_draft_json)
-        config_layout.addWidget(self.export_json_button, 9, 1, 1, 2) 
+        config_layout.addWidget(self.export_json_button, 11, 1, 1, 2) 
 
         # 设置列伸展，让输入框占据更多空间
         config_layout.setColumnStretch(1, 1)
@@ -312,6 +346,9 @@ class MainWindow(QMainWindow):
             self.draft_name_entry.setText(self.config_data.get('Settings', {}).get('DraftName', ''))
             # 新增：加载分割段数配置
             self.num_segments_entry.setText(str(self.config_data.get('Settings', {}).get('NumSegments', 1))) # 默认为 1
+            
+            # 新增：加载目标生成视频数量配置
+            self.target_videos_count_entry.setText(str(self.config_data.get('Settings', {}).get('TargetVideosCount', 1))) # 默认为 1
             
             # 新增：加载BGM音量配置
             bgm_volume = self.config_data.get('Settings', {}).get('BGMVolume', 100)
@@ -401,6 +438,17 @@ class MainWindow(QMainWindow):
                 num_segments = 1
             self.config_data['Settings']['NumSegments'] = num_segments
 
+            # 新增：保存目标生成视频数量配置
+            try:
+                target_videos_count = int(self.target_videos_count_entry.text().strip())
+                if target_videos_count <= 0:
+                    logger.warning(f"无效的目标生成视频数量 '{self.target_videos_count_entry.text().strip()}', 将保存为 1")
+                    target_videos_count = 1
+            except ValueError:
+                logger.warning(f"无法将目标生成视频数量 '{self.target_videos_count_entry.text().strip()}' 解析为整数，将保存为 1")
+                target_videos_count = 1
+            self.config_data['Settings']['TargetVideosCount'] = target_videos_count
+
             save_config(self.config_data)
         else:
             logger.error("配置保存函数未找到，无法保存配置。")
@@ -425,33 +473,59 @@ class MainWindow(QMainWindow):
              logger.error(f"处理日志队列时出错: {e}", exc_info=True)
 
     def start_processing(self):
-        """开始后台处理任务"""
-        if self.worker_thread and self.worker_thread.isRunning():
-            QMessageBox.warning(self, "运行中", "一个处理任务已经在后台运行，请等待其完成。")
+        """开始处理任务：验证输入、创建Worker、启动线程"""
+        # 检查依赖
+        if run_individual_video_processing is None:
+            QMessageBox.critical(self, "依赖错误", "核心处理函数未加载。无法执行任务。")
+            return
+        
+        # 检查当前状态
+        if self.worker_thread is not None and self.worker_thread.isRunning():
+            QMessageBox.warning(self, "任务进行中", "已有任务正在处理中，请等待当前任务完成。")
             return
 
-        # --- 获取当前 UI 配置 --- 
+        # 获取并验证输入
         input_folder = self.input_entry.text().strip()
         output_folder = self.output_entry.text().strip()
-        draft_folder_path = self.draft_folder_entry.text().strip()
         draft_name = self.draft_name_entry.text().strip()
+        draft_folder_path = self.draft_folder_entry.text().strip()
+        
+        # 获取其他选项
         delete_source = self.delete_source_check.isChecked()
-        keep_bgm = self.keep_bgm_check.isChecked()  # 获取是否使用模板BGM
-        
-        # 获取用户设置的BGM音量，不再进行归一化，直接使用0-100的值
+        keep_bgm = self.keep_bgm_check.isChecked()
         bgm_volume = self.bgm_volume_slider.value()
+        main_track_volume = self.main_volume_slider.value()
         
-        main_track_volume = self.main_volume_slider.value()  # 获取主轨道音量值
-        # 新增：读取并验证分割段数
-        num_segments_str = self.num_segments_entry.text().strip()
-        try:
-            num_segments = int(num_segments_str) if num_segments_str else 1
-            if num_segments <= 0:
-                logger.warning(f"无效的分割段数 '{num_segments_str}'，将使用 1")
-                num_segments = 1
-        except ValueError:
-            logger.warning(f"无法将分割段数 '{num_segments_str}' 解析为整数，将使用 1")
-            num_segments = 1
+        # 获取处理模式
+        process_mode = "split" if self.split_mode_radio.isChecked() else "merge"
+        
+        # 获取段数
+        num_segments_text = self.num_segments_entry.text().strip()
+        if not num_segments_text:
+            num_segments = 1 if process_mode == "split" else 0  # 默认值
+        else:
+            try:
+                num_segments = int(num_segments_text)
+                if num_segments < 1:
+                    QMessageBox.warning(self, "输入错误", f"替换素材段数必须大于0。")
+                    return
+            except ValueError:
+                QMessageBox.warning(self, "输入错误", f"替换素材段数必须是整数。")
+                return
+                
+        # 获取目标生成视频数量
+        target_videos_count_text = self.target_videos_count_entry.text().strip()
+        if not target_videos_count_text:
+            target_videos_count = 1  # 默认值
+        else:
+            try:
+                target_videos_count = int(target_videos_count_text)
+                if target_videos_count < 1:
+                    QMessageBox.warning(self, "输入错误", f"目标生成视频数量必须大于0。")
+                    return
+            except ValueError:
+                QMessageBox.warning(self, "输入错误", f"目标生成视频数量必须是整数。")
+                return
 
         # --- 验证输入 --- 
         if not input_folder or not os.path.isdir(input_folder):
@@ -473,33 +547,41 @@ class MainWindow(QMainWindow):
         if not draft_name:
             QMessageBox.critical(self, "错误", "请输入目标草稿名称！")
             return
-        if run_individual_video_processing is None:
-            QMessageBox.critical(self, "依赖错误", "后台处理模块未能加载，无法启动处理。")
-            return
 
         # --- 准备并启动后台线程 --- 
         self.start_button.setEnabled(False)
-        self.start_button.setText("处理中...")
+        process_mode_text = "分割素材后替换" if process_mode == "split" else "直接素材替换"
+        self.start_button.setText(f"{process_mode_text}处理中...")
         self.log_text_edit.clear() # 清空上次日志
-        self.log_text_edit.appendPlainText("开始逐个处理视频任务...") # 立即显示
+        self.log_text_edit.appendPlainText(f"开始{process_mode_text}处理...") # 立即显示
         QApplication.processEvents() # 确保 UI 更新
 
-        logging.info("准备启动后台逐个视频处理...")
+        logging.info("准备启动后台视频处理...")
         logging.info(f"  输入文件夹: {input_folder}")
         logging.info(f"  输出文件夹: {output_folder}")
         logging.info(f"  草稿库路径: {draft_folder_path}")
         logging.info(f"  目标草稿名: {draft_name}")
         logging.info(f"  处理后删除源文件: {'是' if delete_source else '否'}")
-        logging.info(f"  分割视频段数: {num_segments}")
+        logging.info(f"  处理模式: {process_mode_text}")
+        logging.info(f"  替换素材段数: {num_segments}")
+        logging.info(f"  目标生成视频数量: {target_videos_count}")
         logging.info(f"  使用模板BGM: {'是' if keep_bgm else '否'}")
         logging.info(f"  BGM音量: {bgm_volume}%")  # 记录BGM音量设置
         logging.info(f"  主轨道音量: {main_track_volume}%")  # 记录主轨道音量设置
 
-
-        # 创建 Worker 和 Thread
+        # 创建worker
         self.processing_worker = ProcessingWorker(
-            input_folder, output_folder, draft_name, draft_folder_path, delete_source,
-            num_segments, keep_bgm, bgm_volume, main_track_volume  # 添加main_track_volume参数
+            input_folder, 
+            output_folder, 
+            draft_name, 
+            draft_folder_path, 
+            delete_source, 
+            num_segments,
+            keep_bgm,
+            bgm_volume,
+            main_track_volume,
+            process_mode,  # 传递处理模式
+            target_videos_count  # 传递目标生成视频数量
         )
         self.worker_thread = QThread(self) # Pass parent to help with lifetime management
         self.processing_worker.moveToThread(self.worker_thread)
@@ -521,7 +603,8 @@ class MainWindow(QMainWindow):
         """后台任务完成时的处理"""
         logger.info(f"后台任务完成信号接收: success={success}, message='{message}'")
         self.start_button.setEnabled(True)
-        self.start_button.setText("开始逐个处理视频任务")
+        # 更新按钮文字为当前模式
+        self.update_button_text()
 
         # 根据成功状态和消息内容显示不同的弹窗
         if success:
@@ -632,6 +715,23 @@ class MainWindow(QMainWindow):
     def update_main_volume_label(self, value):
         """更新主轨道音量标签显示"""
         self.main_volume_label.setText(f"{value}%")
+
+    def update_segments_label(self):
+        """根据选择的处理模式更新分割/融合段数标签"""
+        if self.split_mode_radio.isChecked():
+            self.segments_label.setText("替换素材段数:")
+            self.num_segments_entry.setPlaceholderText("默认为 1 (不分割)")
+        else:
+            self.segments_label.setText("素材替换段数:")
+            self.num_segments_entry.setPlaceholderText("默认为 1")
+    
+    def update_button_text(self):
+        """根据选择的处理模式更新按钮文字"""
+        if self.split_mode_radio.isChecked():
+            self.start_button.setText("开始分割素材后替换处理")
+        else:
+            self.start_button.setText("开始直接素材替换处理")
+            
 
 # --- 用于直接运行测试 UI (可选) ---
 # if __name__ == '__main__':

@@ -388,8 +388,17 @@ def process_videos(video_paths,
             logger.info("使用速度优化的剪映控制器进行导出...")
 
             export_success = False # 初始化导出状态
-            max_retries = 3
+            max_retries = 10  # 增加到10次重试
+            initial_wait = 3  # 初始等待时间3秒
+            
             for attempt in range(1, max_retries + 1):
+                # 计算等待时间：初始值 + (尝试次数 - 1)
+                wait_time = initial_wait + (attempt - 1) if attempt > 1 else 0
+                
+                if attempt > 1:
+                    logger.info(f"等待 {wait_time} 秒后进行第 {attempt} 次导出尝试...")
+                    time.sleep(wait_time)
+                    
                 logger.info(f"开始导出尝试 #{attempt}/{max_retries}...")
                 export_start = time.time()
                 try:
@@ -408,19 +417,13 @@ def process_videos(video_paths,
                         break # 成功则跳出重试循环
                     else:
                         logger.warning(f"导出尝试 #{attempt} 失败。")
-                        if attempt < max_retries:
-                            logger.info(f"将在1秒后进行下一次尝试...")
-                            time.sleep(1)
-                        else:
+                        if attempt >= max_retries:
                             logger.error(f"所有 {max_retries} 次导出尝试均失败。")
                 except Exception as export_err:
                     export_dur = time.time() - export_start
                     logger.error(f"导出尝试 #{attempt} 期间发生异常: {export_err}", exc_info=True)
                     logger.info(f"导出函数调用 (尝试 #{attempt} - 异常) 耗时: {export_dur:.2f}秒")
-                    if attempt < max_retries:
-                        logger.info(f"异常发生，将在1秒后进行下一次尝试...")
-                        time.sleep(1)
-                    else:
+                    if attempt >= max_retries:
                         logger.error(f"所有 {max_retries} 次导出尝试均因异常失败。")
 
             # --- 根据最终的 export_success 状态进行后续处理 ---
