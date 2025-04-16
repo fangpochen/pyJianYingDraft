@@ -93,29 +93,62 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
     failed_tasks = 0
     split_merge_failures = 0
     jianying_failures = 0
+    
+    # 跟踪全局成功处理的组合数量（在直接素材替换模式下使用）
+    global_successful_combinations = 0
+    
+    # 明确目标生成视频数量
+    global_target_count = target_videos_count if process_mode == "merge" else tasks_found
+    logger.info(f"[全局统计] 处理模式: {process_mode}，目标视频数量: {global_target_count}")
 
     try:
         # 1. Find all individual video tasks
-        logger.info("--- 阶段 1: 查找所有独立的视频任务 ---")
-        video_tasks = find_video_tasks(input_folder)
-        tasks_found = len(video_tasks)
-        result_summary['tasks_found'] = tasks_found
-
-        if tasks_found == 0:
-            msg = "未找到任何需要处理的视频任务，处理结束。"
-            logger.info(msg)
-            logger.info("====================================")
-            result_summary['success'] = True # 没有错误发生，所以算成功
-            result_summary['message'] = msg
-            return result_summary # 返回成功，但任务数为 0
-
-        logger.info(f"共找到 {tasks_found} 个视频任务，准备开始逐个处理...")
+        logger.info("\n--- 阶段 1: 扫描并准备素材 ---")
+        
+        # 获取所有视频任务
+        try:
+            video_tasks = find_video_tasks(input_folder)
+            tasks_found = len(video_tasks)
+            logger.info(f"找到 {tasks_found} 个素材文件夹")
+            
+            if tasks_found == 0:
+                logger.warning("未找到任何视频素材文件夹，任务完成")
+                result_summary = {
+                    'success': True,  # 虽然没有任务，但不算错误
+                    'message': "未找到任何视频素材文件夹，请检查输入路径。",
+                    'tasks_found': 0,
+                    'tasks_processed': 0,
+                    'tasks_failed': 0
+                }
+                return result_summary
+                
+        except Exception as e:
+            # 捕获查找任务时的错误
+            logger.exception(f"查找素材文件夹时出错: {e}")
+            error_msg = f"视频素材查找阶段错误: {e}"
+            result_summary = {
+                'success': False,
+                'message': error_msg,
+                'tasks_found': 0,
+                'tasks_processed': 0,
+                'tasks_failed': 0
+            }
+            return result_summary
 
         # 2. Process each task individually
-        logger.info("\n--- 阶段 2: 逐个处理视频任务 ---")
+        logger.info("\n--- 阶段 2: 逐个处理视频素材 ---")
         logger.warning("请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！")
 
+        # 设置目标生成视频数量（全局范围）
+        global_combinations_to_process = target_videos_count if process_mode == "merge" else tasks_found
+        logger.info(f"[全局统计] 目标总视频数量: {global_combinations_to_process}（{'按组合数' if process_mode == 'merge' else '按素材文件夹数'}）")
+
         for i, task in enumerate(video_tasks):
+            # 检查是否已达到全局目标
+            if process_mode == "merge" and global_successful_combinations >= global_combinations_to_process:
+                logger.info(f"[全局统计] ⚠️ 已成功处理 {global_successful_combinations} 个组合，达到全局目标 {global_combinations_to_process}，停止后续任务处理")
+                break
+
             task_start_time = time.time()
             original_video_path = task['original_path']
             subfolder_name = task['subfolder_name']
@@ -259,9 +292,17 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     successful_combinations = 0
                     failed_combinations = 0
                     
-                    # 根据目标生成视频数量处理
-                    combinations_to_process = max(1, target_videos_count)
-                    logger.info(f"  目标处理{combinations_to_process}个视频组合")
+                    # 根据目标生成视频数量计算当前任务需要处理的组合数
+                    # 考虑全局已完成的组合数，确保不会超过全局目标
+                    remaining_combinations = global_combinations_to_process - global_successful_combinations
+                    combinations_to_process = min(max(1, target_videos_count), remaining_combinations)
+                    logger.info(f"  任务 {i+1} 目标处理 {combinations_to_process} 个视频组合（全局已完成: {global_successful_combinations}, 全局目标: {global_combinations_to_process}）")
+                    
+                    # 如果没有剩余组合需要处理，跳过当前任务
+                    if combinations_to_process <= 0:
+                        logger.info(f"[全局统计] 当前素材文件夹 {i+1} 中没有剩余组合需要处理（全局已完成: {global_successful_combinations}/{global_combinations_to_process}）")
+                        processing_success_flag = True  # 标记为成功，不计入失败
+                        continue
                     
                     # 初始化组合索引
                     combo_index = 0
@@ -425,11 +466,17 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                         logger.error(f"  组合 {combo_index+1}: 记录到数据库失败: {e}")
                                     
                                     successful_combinations += 1
-                                    logger.info(f"  当前进度: 已成功 {successful_combinations}/{combinations_to_process}")
+                                    global_successful_combinations += 1
+                                    logger.info(f"[全局统计] 组合处理成功 - 当前任务进度: {successful_combinations}/{combinations_to_process} (全局进度: {global_successful_combinations}/{global_combinations_to_process})")
                                     
                                     # 如果已达到目标数量，提前退出循环
                                     if successful_combinations >= combinations_to_process:
-                                        logger.info(f"  已成功处理 {successful_combinations} 个组合，达到目标数量 {combinations_to_process}，停止处理")
+                                        logger.info(f"[全局统计] 当前任务已完成 - 已成功处理 {successful_combinations} 个组合，达到当前任务目标 {combinations_to_process}")
+                                        break
+                                    
+                                    # 如果已达到全局目标数量，也提前退出循环
+                                    if global_successful_combinations >= global_combinations_to_process:
+                                        logger.info(f"[全局统计] ⚠️ 全局目标已达成 - 已处理 {global_successful_combinations} 个组合，达到目标 {global_combinations_to_process}")
                                         break
                                 else:
                                     logger.error(f"  组合 {combo_index+1}: 剪映处理失败: {jy_result.get('error', '未知错误')}")
@@ -578,11 +625,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         result_summary['tasks_failed'] = failed_tasks
         result_summary['success'] = (failed_tasks == 0) # 只有所有任务都成功才算整体成功
         
-        final_message = f"处理完成: 共找到 {tasks_found} 个任务, 成功 {successful_tasks} 个, 失败 {failed_tasks} 个 "
-        if process_mode == "split":
-            final_message += f"(分割失败: {split_merge_failures}, 剪映失败: {jianying_failures})。"
-        else:
-            final_message += f"(融合失败: {split_merge_failures}, 剪映失败: {jianying_failures})。"
+        final_message = f"处理完成: 共找到 {tasks_found} 个素材文件夹, 成功处理 {successful_tasks} 个, 失败 {failed_tasks} 个 (融合失败: {split_merge_failures}, 剪映失败: {jianying_failures})。共生成 {global_successful_combinations} 个视频组合。"
         if failed_tasks > 0:
              final_message += " 请检查日志获取失败详情。"
         result_summary['message'] = final_message
@@ -600,20 +643,26 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
     end_time = time.time()
     total_time = end_time - start_time
     logger.info(f"\n========= 逐个视频{'分割' if process_mode == 'split' else '融合'}处理完成 =========")
-    logger.info(f"总任务数 (扫描到): {tasks_found}")
-    logger.info(f"成功处理任务数: {successful_tasks}")
-    logger.info(f"失败处理任务数: {failed_tasks}")
+    logger.info(f"总素材文件夹数 (扫描到): {tasks_found}")
+    logger.info(f"成功处理素材文件夹数: {successful_tasks}")
+    logger.info(f"失败处理素材文件夹数: {failed_tasks}")
     if process_mode == "split":
         logger.info(f"  - 因分割失败: {split_merge_failures}")
     else:
         logger.info(f"  - 因融合失败: {split_merge_failures}")
+        logger.info(f"[全局统计] 最终总共处理组合数: {global_successful_combinations}/{global_combinations_to_process}")
     logger.info(f"  - 因剪映处理失败: {jianying_failures}")
     logger.info(f"总耗时: {total_time:.2f} 秒")
     if tasks_found > 0:
         avg_time = total_time / tasks_found
-        logger.info(f"平均任务耗时: {avg_time:.2f} 秒/任务")
+        logger.info(f"平均素材文件夹处理耗时: {avg_time:.2f} 秒/文件夹")
     logger.info("====================================")
 
+    # 添加最终统计信息到结果字典
+    if process_mode == "merge":
+        result_summary['combinations_processed'] = global_successful_combinations
+        result_summary['combinations_target'] = global_combinations_to_process
+    
     return result_summary # 返回包含详细结果的字典
 
 # --- Entry point for direct execution (if needed for testing) ---

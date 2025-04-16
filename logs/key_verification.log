@@ -1,0 +1,14 @@
+2025-04-16 04:03:03,989 - key_verification - INFO - 用户关闭了验证窗口
+2025-04-16 04:03:04,002 - key_verification - INFO - 验证未通过或用户取消，程序退出
+2025-04-16 04:03:04,033 - comtypes._post_coinit.unknwn - DEBUG - Calling CoUninitialize()
+2025-04-16 04:03:04,037 - comtypes._post_coinit.unknwn - DEBUG - CoUninitialize() done.
+2025-04-16 04:03:29,320 - key_verification - INFO - 正在验证密钥: 1
+2025-04-16 04:03:29,320 - key_verification - DEBUG - 发送验证请求: {'key': '1', 'machine_info': {'hostname': '方应9900x', 'os': 'Windows 10', 'cpu': 'Unknown CPU', 'mac': 'b5:d5:56:5a:68:a2', 'item': 'clip'}}
+2025-04-16 04:03:29,325 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.cloudoption.site:443
+2025-04-16 04:03:29,436 - urllib3.connectionpool - DEBUG - https://api.cloudoption.site:443 "POST /api/v1/api-keys/verify HTTP/1.1" 200 51
+2025-04-16 04:03:29,436 - key_verification - INFO - 密钥验证结果: {'valid': False, 'message': 'Invalid or inactive key'}
+2025-04-16 04:03:29,437 - key_verification - WARNING - 密钥验证失败
+2025-04-16 04:03:31,881 - key_verification - INFO - 用户关闭了验证窗口
+2025-04-16 04:03:31,898 - key_verification - INFO - 验证未通过或用户取消，程序退出
+2025-04-16 04:03:31,926 - comtypes._post_coinit.unknwn - DEBUG - Calling CoUninitialize()
+2025-04-16 04:03:31,929 - comtypes._post_coinit.unknwn - DEBUG - CoUninitialize() done.

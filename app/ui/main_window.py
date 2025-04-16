@@ -628,7 +628,7 @@ class MainWindow(QMainWindow):
         force_quit = False
         if self.worker_thread and self.worker_thread.isRunning():
             reply = QMessageBox.question(self, '确认退出',
-                                           "处理任务仍在后台运行，确定要强制退出吗？\n（后台任务将被尝试终止，可能导致数据不一致）",
+                                           "素材处理仍在后台运行，确定要强制退出吗？\n（后台处理将被尝试终止，可能导致数据不一致）",
                                            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                                            QMessageBox.StandardButton.No)
 
