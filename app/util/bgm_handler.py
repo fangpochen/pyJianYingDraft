@@ -133,6 +133,40 @@ def process_bgm_keep(script, video_end_time, bgm_loop=True, bgm_volume=100):
     bgm_segments = []  # 存储所有BGM片段信息
     
     try:
+        # 计算视频轨道的实际长度
+        # 获取脚本中的所有视频轨道
+        video_tracks = []
+        total_video_length = 0
+        track_idx = 0
+        
+        # 尝试获取视频轨道
+        while True:
+            try:
+                video_track = script.get_imported_track(draft.Track_type.video, index=track_idx)
+                if video_track:
+                    video_tracks.append(video_track)
+                    
+                    # 计算视频轨道的实际结束时间
+                    if hasattr(video_track, 'segments') and video_track.segments:
+                        for segment in video_track.segments:
+                            if hasattr(segment, 'target_timerange'):
+                                segment_end = segment.target_timerange.start + segment.target_timerange.duration
+                                if segment_end > total_video_length:
+                                    total_video_length = segment_end
+                track_idx += 1
+            except IndexError:
+                break
+            except Exception as e:
+                logger.warning(f"获取视频轨道 #{track_idx} 时出错: {e}")
+                break
+        
+        # 如果找到了视频轨道，使用它的实际长度作为BGM长度
+        if total_video_length > 0:
+            logger.info(f"计算出视频轨道的实际长度: {total_video_length/1_000_000:.2f}秒，使用此长度作为BGM长度")
+            video_end_time = total_video_length
+        else:
+            logger.info(f"未能计算出视频轨道实际长度，使用传入的视频结束时间: {video_end_time/1_000_000:.2f}秒")
+        
         # 尝试查找所有音频轨道
         i = 0
         while True:
@@ -150,8 +184,8 @@ def process_bgm_keep(script, video_end_time, bgm_loop=True, bgm_volume=100):
                                 "track": audio_track,
                                 "segment": seg,
                                 "index": len(bgm_segments),
-                                "start": seg.target_timerange.start,
-                                "duration": seg.target_timerange.duration,
+                                "start": seg.target_timerange.start if hasattr(seg, 'target_timerange') else 0,
+                                "duration": seg.target_timerange.duration if hasattr(seg, 'target_timerange') else 0,
                                 "material_id": seg.material_id,
                                 "material_instance": None  # 后续需要查找素材实例
                             })
@@ -201,15 +235,6 @@ def process_bgm_keep(script, video_end_time, bgm_loop=True, bgm_volume=100):
             # 保存原始片段以便复制
             original_segments = []
             for segment in first_bgm_track.segments:
-                # 记录BGM片段的起始位置
-                if hasattr(segment, 'target_timerange'):
-                    bgm_start = segment.target_timerange.start
-                    logger.info(f"BGM片段原始起始位置: {bgm_start/1_000_000:.2f}秒")
-                    
-                    # 如果BGM不是从0开始，记录下来
-                    if bgm_start > 0:
-                        logger.info(f"注意：BGM不是从0开始，而是从 {bgm_start/1_000_000:.2f}秒开始")
-                
                 # 设置所有片段的音量
                 if hasattr(segment, 'volume'):
                     segment.volume = normalized_volume
@@ -227,143 +252,125 @@ def process_bgm_keep(script, video_end_time, bgm_loop=True, bgm_volume=100):
                         logger.warning(f"无法设置BGM片段音量: {e}")
                 original_segments.append(segment)
             
-            # 根据情况处理BGM
-            if video_end_time <= bgm_duration:
-                # 情况1: 视频短于BGM，需要截断BGM
-                logger.info(f"视频长度小于BGM长度，截断BGM至 {video_end_time/1_000_000:.2f}秒")
-                
-                # 仅保留第一个片段并截断时长
-                if len(original_segments) > 0:
-                    first_segment = original_segments[0]
-                    
-                    # 简化处理：只修改target_timerange，保留其他属性不变
-                    if hasattr(first_segment, 'target_timerange'):
-                        # 获取原始起始位置
-                        original_start = first_segment.target_timerange.start
-                        # 只修改时长，起始位置保持不变
-                        first_segment.target_timerange = Timerange(original_start, video_end_time - original_start)
-                        logger.info(f"截断BGM：仅修改target_timerange至 start={original_start/1_000_000:.2f}秒, duration={(video_end_time-original_start)/1_000_000:.2f}秒")
-                        
-                        # 必须设置source_timerange，确保BGM播放正确部分
-                        if hasattr(first_segment, 'source_timerange'):
-                            # 保持原始的source_timerange起始位置不变，但截断长度
-                            source_start = first_segment.source_timerange.start if hasattr(first_segment, 'source_timerange') else 0
-                            first_segment.source_timerange = Timerange(source_start, video_end_time - original_start)
-                            logger.info(f"设置截断BGM的source_timerange: start={source_start/1_000_000:.2f}秒, duration={(video_end_time-original_start)/1_000_000:.2f}秒")
-                        
-                        # 检查并设置音量
-                        if hasattr(first_segment, 'volume'):
-                            current_volume = first_segment.volume
-                            # 判断当前音量与目标音量是否一致，不一致则修改
-                            if current_volume != normalized_volume:
-                                logger.info(f"调整BGM音量: {current_volume:.2f} -> {normalized_volume:.2f}")
-                                first_segment.volume = normalized_volume
-                        else:
-                            logger.warning("BGM片段没有volume属性，无法设置音量")
-                        
-                        # 将轨道段修改为只有第一个片段
-                        first_bgm_track.segments = [first_segment]
-                        logger.info(f"成功截断BGM片段至视频长度: {video_end_time/1_000_000:.2f}秒")
+            # === 统一处理逻辑：无论视频与BGM长度关系如何，都确保start为0，duration与视频长度一致 ===
             
-            elif bgm_loop and len(original_segments) > 0:
-                # 情况2: 视频长于BGM且需循环播放
-                logger.info(f"视频长度大于BGM长度且需循环BGM: {bgm_duration/1_000_000:.2f}秒 < {video_end_time/1_000_000:.2f}秒")
+            logger.info(f"按照要求设置BGM时长等于视频时长: {video_end_time/1_000_000:.2f}秒，且起始位置为0")
+            
+            # 无论BGM长度如何，只处理第一个片段
+            if len(original_segments) > 0:
+                # 保留第一个片段，设置正确的timerange
+                first_segment = original_segments[0]
                 
-                # 清空现有片段，准备重新创建循环片段
-                first_bgm_track.segments.clear()
+                # 设置target_timerange，起始位置为0，时长为视频时长
+                if hasattr(first_segment, 'target_timerange') or True:  # 确保创建target_timerange
+                    first_segment.target_timerange = Timerange(0, video_end_time)
+                    logger.info(f"设置BGM target_timerange: start=0秒, duration={video_end_time/1_000_000:.2f}秒")
                 
-                # 添加循环片段直到覆盖整个视频长度
-                template_segment = original_segments[0]  # 使用第一个片段作为模板
+                # 必须设置source_timerange，start为0，duration与target_timerange.duration一致
+                if hasattr(first_segment, 'source_timerange') or True:  # 确保创建source_timerange
+                    first_segment.source_timerange = Timerange(0, video_end_time)
+                    logger.info(f"设置BGM source_timerange: start=0秒, duration={video_end_time/1_000_000:.2f}秒")
                 
-                # BGM起始位置强制设为0（确保从视频开头播放）
-                current_position = 0
-                logger.info(f"将BGM起始位置设置为0，确保从视频开头播放")
+                # 设置音量
+                if hasattr(first_segment, 'volume'):
+                    first_segment.volume = normalized_volume
+                    logger.info(f"设置BGM片段音量为: {normalized_volume:.2f}")
                 
-                # 循环添加BGM片段，直到覆盖整个视频长度
-                loop_count = 0
-                total_duration = 0
-                
-                while current_position < video_end_time:
-                    # 计算当前位置到视频结束还剩多少时间
-                    remaining_time = video_end_time - current_position
-                    
-                    # 计算当前循环片段应该使用的时长（取BGM长度和剩余时间的较小值）
-                    # 这确保了最后一个片段不会超出视频长度
-                    loop_duration = min(bgm_duration, remaining_time)
-                    
-                    # 复制模板片段并调整属性
-                    new_segment = copy.deepcopy(template_segment)
-                    
-                    # 简化处理：只修改target_timerange，保留其他属性不变
-                    # 这样可以确保音效和其他设置保持原样
-                    if hasattr(new_segment, 'target_timerange'):
-                        new_segment.target_timerange = Timerange(current_position, loop_duration)
-                        logger.info(f"设置BGM片段时间范围: {current_position/1_000_000:.2f}s - {(current_position+loop_duration)/1_000_000:.2f}s")
-                    
-                    # 必须设置source_timerange，否则会导致音效异常
-                    if hasattr(new_segment, 'source_timerange'):
-                        new_segment.source_timerange = Timerange(0, loop_duration)
-                        logger.info(f"设置BGM片段素材范围: 从0开始，时长{loop_duration/1_000_000:.2f}秒")
-                    
-                    # 设置音量
-                    if hasattr(new_segment, 'volume'):
-                        new_segment.volume = normalized_volume
-                    
-                    # 添加到轨道
-                    first_bgm_track.segments.append(new_segment)
-                    
-                    # 更新位置指针到下一个片段的起始位置
-                    current_position += loop_duration
-                    total_duration += loop_duration
-                    loop_count += 1
-                    logger.info(f"添加第 {loop_count} 个BGM循环片段, 位置: {(current_position-loop_duration)/1_000_000:.2f}s - {current_position/1_000_000:.2f}s, 时长: {loop_duration/1_000_000:.2f}秒")
-                
-                # 验证最终BGM总时长是否与视频匹配
-                logger.info(f"BGM循环处理完成: 视频总长={video_end_time/1_000_000:.2f}秒, BGM总长={total_duration/1_000_000:.2f}秒")
-                if abs(total_duration - video_end_time) > 1000000:  # 允许1秒误差
-                    logger.warning(f"警告: BGM总时长与视频总时长不匹配，可能未正确截断")
-                
-                logger.info(f"成功添加 {loop_count} 个BGM循环片段，总计覆盖时长: {current_position/1_000_000:.2f}秒")
-            else:
-                # 情况3: 视频长于BGM但不循环，保留原始片段
-                logger.info(f"视频长度大于BGM长度但不循环: {bgm_duration/1_000_000:.2f}秒 < {video_end_time/1_000_000:.2f}秒")
-                logger.info("保留原始BGM片段，仅设置音量")
-                
-                # 仅设置音量
-                for i, segment in enumerate(first_bgm_track.segments):
-                    if hasattr(segment, 'volume'):
-                        segment.volume = normalized_volume
-                        logger.info(f"设置BGM片段 {i} 的音量为 {bgm_volume}%")
+                # 将轨道段修改为只有第一个片段
+                first_bgm_track.segments = [first_segment]
+                logger.info(f"成功设置BGM片段: 起始位置=0秒, 时长={video_end_time/1_000_000:.2f}秒")
             
             # 验证BGM轨道片段状态
             if hasattr(first_bgm_track, 'segments'):
                 bgm_segments_count = len(first_bgm_track.segments)
                 logger.info(f"BGM处理完成，轨道包含 {bgm_segments_count} 个片段")
+            
+            # 修改轨道级别的timerange属性
+            for track in bgm_tracks:
+                # 确保轨道上的segment的timerange正确
+                if hasattr(track, 'segments') and track.segments:
+                    for seg in track.segments:
+                        # 设置segment的target_timerange
+                        if hasattr(seg, 'target_timerange'):
+                            seg.target_timerange = Timerange(0, video_end_time)
+                            logger.info(f"设置BGM segment的target_timerange: start=0秒, duration={video_end_time/1_000_000:.2f}秒")
+                        
+                        # 设置segment的source_timerange
+                        if hasattr(seg, 'source_timerange'):
+                            seg.source_timerange = Timerange(0, video_end_time)
+                            logger.info(f"设置BGM segment的source_timerange: start=0秒, duration={video_end_time/1_000_000:.2f}秒")
+                
+                # 设置轨道级别的source_timerange
+                if hasattr(track, 'source_timerange'):
+                    track.source_timerange = Timerange(0, video_end_time)
+                    logger.info(f"设置BGM轨道source_timerange: start=0秒, duration={video_end_time/1_000_000:.2f}秒")
+                
+                # 设置轨道级别的target_timerange
+                if hasattr(track, 'target_timerange'):
+                    track.target_timerange = Timerange(0, video_end_time)
+                    logger.info(f"设置BGM轨道target_timerange: start=0秒, duration={video_end_time/1_000_000:.2f}秒")
+                
+                # 设置轨道的end_time
+                if hasattr(track, 'end_time'):
+                    track.end_time = video_end_time
+                    logger.info(f"设置BGM轨道end_time: {video_end_time/1_000_000:.2f}秒")
+                
+                # 尝试直接设置文件时长（如果存在这个属性）
+                if hasattr(track, 'duration'):
+                    track.duration = video_end_time
+                    logger.info(f"设置BGM轨道duration: {video_end_time/1_000_000:.2f}秒")
+                
+                # 检查轨道的_json属性
+                if hasattr(track, '_json') and track._json and isinstance(track._json, dict):
+                    # 尝试设置_json中的timerange相关字段
+                    if 'source_timerange' in track._json:
+                        track._json['source_timerange'] = {'start': 0, 'duration': video_end_time}
+                    if 'target_timerange' in track._json:
+                        track._json['target_timerange'] = {'start': 0, 'duration': video_end_time}
+                    if 'duration' in track._json:
+                        track._json['duration'] = video_end_time
+                    logger.info(f"设置BGM轨道_json字段中的时间属性为视频总时长: {video_end_time/1_000_000:.2f}秒")
+            
+            # 如果有单独的音频素材对象，也修改其时长（但不要修改草稿对象的总时长）
+            for segment in bgm_segments:
+                if 'material_instance' in segment and segment['material_instance'] is not None:
+                    material = segment['material_instance']
+                    if hasattr(material, 'duration'):
+                        # 修改素材的原始时长，使其与视频时长一致
+                        material.duration = video_end_time
+                        logger.info(f"设置BGM素材duration为视频时长: {video_end_time/1_000_000:.2f}秒")
+                        
+                        # 如果素材有_json属性，也修改其中的duration值
+                        if hasattr(material, '_json') and material._json and isinstance(material._json, dict):
+                            if 'duration' in material._json:
+                                material._json['duration'] = video_end_time
+                                logger.info(f"设置BGM素材_json['duration']为视频时长: {video_end_time/1_000_000:.2f}秒")
+            
+            # 修改所有音频素材的duration
+            if hasattr(script, 'materials') and hasattr(script.materials, 'audios'):
+                for audio_material in script.materials.audios:
+                    if hasattr(audio_material, 'duration'):
+                        # 记录原始duration以便日志
+                        original_duration = audio_material.duration
+                        audio_material.duration = video_end_time
+                        logger.info(f"修改音频素材duration从 {original_duration/1_000_000:.2f}秒 到 {video_end_time/1_000_000:.2f}秒")
+                    
+                    # 如果素材有_json属性，也修改其中的duration值
+                    if hasattr(audio_material, '_json') and audio_material._json and isinstance(audio_material._json, dict):
+                        if 'duration' in audio_material._json:
+                            audio_material._json['duration'] = video_end_time
+                            logger.info(f"设置音频素材_json['duration']为视频时长: {video_end_time/1_000_000:.2f}秒")
+                            
+            # 修改content中的总时长
+            if hasattr(script, 'content') and isinstance(script.content, dict):
+                if 'duration' in script.content:
+                    script.content['duration'] = video_end_time
+                    logger.info(f"设置草稿content['duration']为视频时长: {video_end_time/1_000_000:.2f}秒")
         else:
             logger.warning(f"BGM轨道不包含segments属性或没有片段，无法处理")
         
-        # 计算新的总时长（考虑所有轨道的最大结束时间）
-        max_track_end_time = video_end_time
-        
-        # 如果有BGM且不循环，检查BGM轨道是否超出视频长度
-        if not bgm_loop and bgm_tracks:
-            for bgm_track in bgm_tracks:
-                if hasattr(bgm_track, 'end_time'):
-                    track_end_time = bgm_track.end_time
-                    if track_end_time > max_track_end_time:
-                        logger.info(f"BGM轨道 {bgm_track.name} 结束时间 ({track_end_time / 1_000_000:.2f}秒) 大于视频轨道")
-                        max_track_end_time = track_end_time
-        
-        # 可能还有其他轨道需要考虑
-        for track in audio_tracks:
-            if track not in bgm_tracks and hasattr(track, 'end_time'):
-                track_end_time = track.end_time
-                if track_end_time > max_track_end_time:
-                    logger.info(f"音频轨道 {track.name} 结束时间 ({track_end_time / 1_000_000:.2f}秒) 大于当前最大时长")
-                    max_track_end_time = track_end_time
-        
         # 更新返回结果中的最大轨道时长
-        result["max_track_end_time"] = max_track_end_time
+        result["max_track_end_time"] = video_end_time
         
     except Exception as e:
         logger.warning(f"处理BGM时发生错误: {e}", exc_info=True)
@@ -420,6 +427,12 @@ def validate_bgm_volume(bgm_tracks, context="保存前"):
                     
                     # 输出所有获取到的音量值
                     logger.info(f"  片段 #{seg_idx}: {', '.join(volume_attrs)}")
+                    
+                    # 输出timerange信息
+                    if hasattr(segment, 'target_timerange'):
+                        logger.info(f"  片段 #{seg_idx} target_timerange: start={segment.target_timerange.start/1_000_000:.2f}秒, duration={segment.target_timerange.duration/1_000_000:.2f}秒")
+                    if hasattr(segment, 'source_timerange'):
+                        logger.info(f"  片段 #{seg_idx} source_timerange: start={segment.source_timerange.start/1_000_000:.2f}秒, duration={segment.source_timerange.duration/1_000_000:.2f}秒")
                     
                     # 尝试输出片段的JSON表示
                     try:

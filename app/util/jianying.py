@@ -300,6 +300,31 @@ def process_videos(video_paths,
                         logger.info("  计算时长与当前草稿时长一致，无需更新。")
                 else:
                     logger.warning("无法访问草稿内容字典 (script.content) 或其不是字典，无法调整总时长。")
+                
+                # 确保所有素材的duration都设置为视频实际时长
+                try:
+                    # 设置音频素材的duration
+                    if hasattr(script, 'materials') and hasattr(script.materials, 'audios'):
+                        audio_materials_count = len(script.materials.audios)
+                        audio_materials_updated = 0
+                        for audio_material in script.materials.audios:
+                            if hasattr(audio_material, 'duration') and audio_material.duration != max_track_end_time:
+                                original_duration = audio_material.duration
+                                audio_material.duration = max_track_end_time
+                                audio_materials_updated += 1
+                                logger.info(f"  更新音频素材duration从 {original_duration/1_000_000:.2f}秒 到 {max_track_end_time/1_000_000:.2f}秒")
+                        logger.info(f"  更新了 {audio_materials_updated}/{audio_materials_count} 个音频素材的duration")
+                    
+                    # 设置Script_file的duration属性
+                    if hasattr(script, 'duration'):
+                        if script.duration != max_track_end_time:
+                            logger.info(f"  更新script.duration从 {script.duration/1_000_000:.2f}秒 到 {max_track_end_time/1_000_000:.2f}秒")
+                            script.duration = max_track_end_time
+                        else:
+                            logger.info(f"  script.duration已经是正确的值: {script.duration/1_000_000:.2f}秒")
+                
+                except Exception as e:
+                    logger.warning(f"  在设置素材duration时发生错误: {e}", exc_info=True)
             else:
                 logger.warning("无法获取 video_track 或其 end_time 属性，跳过总时长调整。")
         except Exception as e:
