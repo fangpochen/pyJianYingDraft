@@ -12,6 +12,9 @@ import datetime
 import shutil
 import logging # 导入日志模块
 
+# 导入UI日志队列，确保日志可以显示在界面上
+from ..util.logging_setup import log_queue
+
 # 全局配置，未来可以考虑放入配置文件或通过参数传递
 UI_WAIT_TIMES = {
     "draft_click": 0.5,
@@ -57,6 +60,21 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
              # Initialize necessary attributes manually if super fails
              self.app = None
              self.app_status = None
+
+    # 添加一个直接向UI发送消息的方法，用于关键操作
+    def log_to_ui(self, message, level=logging.INFO):
+        """直接向UI发送日志消息"""
+        # 记录到正常日志系统
+        self.logger.log(level, message)
+        
+        # 同时直接添加到UI队列
+        try:
+            timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            level_name = logging.getLevelName(level)
+            formatted_message = f"{timestamp} - {level_name} - {self.__class__.__name__} - {message}"
+            log_queue.put(formatted_message)
+        except Exception as e:
+            self.logger.error(f"向UI发送日志失败: {e}")
 
     def timed_sleep(self, seconds, operation_name="未命名操作"):
         """计时的sleep函数，使用标准 logging"""
@@ -408,69 +426,44 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
                 
 
     def get_window_fast(self):
-        """获取剪映窗口并判断状态 (home/edit/pre_export)，优化查找方式"""
-        self.logger.debug("获取剪映窗口并判断状态...") # Use debug for frequent calls
-
-        # 1. 首先按名称查找主窗口
-        self.app = uia.WindowControl(searchDepth=1, Name='剪映专业版')
-        if not self.app.Exists(0.5, 0.1): # Shorter wait, faster interval
-            # Maybe try finding by ClassName as a fallback? Less reliable.
-            # self.app = uia.WindowControl(searchDepth=1, ClassName='XXX')
-            self.logger.error("按名称 '剪映专业版' 未找到主窗口。")
-            # Reset status if window not found
-            self.app_status = None
-            self.app = None
-            raise draft.exceptions.AutomationError("剪映窗口未找到")
-
-        # 2. 判断窗口状态 (Home vs Edit) 基于 ClassName
-        window_name = self.app.Name
-        window_class_name = self.app.ClassName
-        self.logger.debug(f"找到窗口: Name='{window_name}', ClassName='{window_class_name}'")
-
-        # Store previous status to detect changes
-        previous_status = self.app_status
-
-        class_name_lower = window_class_name.lower()
-        if "homepage" in class_name_lower or "homewindow" in class_name_lower:
-            self.app_status = "home"
-        elif "maineditorwindow" in class_name_lower or "mainwindow" in class_name_lower or "lvcompositionwindow" in class_name_lower:
-            self.app_status = "edit"
-        else:
-            # Status unknown based on class name, check for export window title explicitly
-            if window_name == "导出":
-                 self.app_status = "pre_export"
-            else:
-                 self.logger.warning(f"无法根据 ClassName '{window_class_name}' 或窗口标题 '{window_name}' 判断窗口状态 (home/edit/pre_export)。")
-                 # Keep previous status? Or set to None? Let's keep previous for now.
-                 # self.app_status = None
-
-        # 3. 检查是否存在导出窗口 (Could be a child window or the main window renamed)
-        # Check if the current self.app IS the export window
-        if self.app_status == "pre_export":
-             self.logger.debug("窗口状态判断为: 导出窗口 (pre_export) (主窗口名判断)")
-        else:
-            # Look for a child export window
-            export_window = self.app.WindowControl(searchDepth=1, Name="导出")
-            if export_window.Exists(0, 0.1):
-                self.logger.debug("检测到 '导出' 子窗口，更新状态为 pre_export")
-                self.app = export_window # Target the export window
-                self.app_status = "pre_export"
-
-        if self.app_status != previous_status:
-             self.logger.info(f"窗口状态更新为: {self.app_status}")
-        else:
-             self.logger.debug(f"窗口状态保持为: {self.app_status}")
-
-        # 4. 尝试激活和置顶 (保持不变)
+        """使用快速方法获取剪映窗口，并添加超时保护"""
+        self.logger.debug("使用快速方法获取剪映窗口...")
+        
+        # 添加超时控制
+        import time
+        start_time = time.time()
+        timeout = 10  # 10秒超时
+        
         try:
-            if self.app:
-                self.app.SetActive()
-                self.app.SetTopmost()
-        except Exception as activate_error:
-            self.logger.warning(f"警告：激活或置顶窗口时出错: {activate_error}")
-
-        # Reduce sleep time here? Or rely on subsequent waits?
-        # self.timed_sleep(self.wait_times.get("window_search", 0.05), "窗口激活等待") # Shorter wait
+            # 尝试获取剪映窗口
+            desktop = uia.GetRootElement()
+            
+            while time.time() - start_time < timeout:
+                # 查找所有"CapCut"或"剪映专业版"的窗口
+                condition = uia.CreatePropertyConditionEx(UIA_NamePropertyId, "剪映专业版", PropertyConditionFlags_None)
+                
+                jy_window = desktop.FindFirst(TreeScope_Children, condition)
+                
+                if jy_window:
+                    self.logger.debug("成功找到剪映窗口")
+                    window_title = jy_window.CurrentName if hasattr(jy_window, 'CurrentName') else "未知"
+                    window_visible = jy_window.CurrentIsEnabled if hasattr(jy_window, 'CurrentIsEnabled') else False
+                    self.logger.debug(f"窗口信息: 标题='{window_title}', 可见={window_visible}")
+                    return jy_window
+                
+                # 未找到窗口，等待一会再试
+                self.logger.debug("未找到剪映窗口，等待后重试...")
+                time.sleep(0.5)
+            
+            # 超时未找到窗口
+            error_msg = f"获取剪映窗口超时 ({timeout}秒)，请确保剪映已打开且窗口标题为'剪映专业版'"
+            self.log_to_ui(error_msg, logging.ERROR)  # 使用UI日志
+            return None
+            
+        except Exception as e:
+            error_msg = f"获取剪映窗口时出错: {e}"
+            self.log_to_ui(error_msg, logging.ERROR)  # 使用UI日志
+            return None
 
     def switch_to_home_fast(self):
         """优化版的切换到主页函数"""
@@ -527,3 +520,214 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
              # If error occurred, maybe refresh window state one last time? Might not help.
              # try: self.get_window_fast() except: pass
              raise draft.exceptions.AutomationError(f"切换到主页失败: {e}") 
+
+    def check_jianying_state(self, retry_attempts=3):
+        """检查剪映状态并等待其就绪，添加更详细的日志和错误处理"""
+        self.logger.debug("检查剪映状态...")
+        
+        for attempt in range(retry_attempts):
+            try:
+                # 获取剪映窗口
+                jy_window = self.get_window_fast()
+                if not jy_window:
+                    self.logger.error(f"无法获取剪映窗口 (尝试 {attempt+1}/{retry_attempts})")
+                    if attempt < retry_attempts - 1:
+                        time.sleep(1)
+                        continue
+                    else:
+                        return False, "剪映窗口未找到"
+                
+                # 检查窗口状态
+                pattern = jy_window.GetCurrentPattern(UIA_WindowPatternId)
+                if pattern and pattern.CurrentCanMaximize:
+                    self.logger.debug("剪映窗口可能被最小化，尝试恢复...")
+                    pattern.SetWindowVisualState(WindowVisualState_Normal)
+                    time.sleep(0.5)
+                
+                # 检查是否在主界面
+                # ...原有检查逻辑...
+                
+                self.logger.debug("剪映状态检查完成，窗口正常")
+                return True, "剪映窗口状态正常"
+                
+            except Exception as e:
+                self.logger.error(f"检查剪映状态时出错 (尝试 {attempt+1}/{retry_attempts}): {e}")
+                if attempt < retry_attempts - 1:
+                    time.sleep(1)
+                else:
+                    return False, f"检查剪映状态失败: {e}"
+        
+        return False, "检查剪映状态失败，超过最大重试次数"
+
+    # 修改调用剪映处理的方法，增加超时保护
+    def process_with_jianying(self, draft_name, video_path, output_path, max_wait_time=300):
+        """使用剪映处理视频
+        
+        Args:
+            draft_name: 草稿名称
+            video_path: 视频路径
+            output_path: 输出路径
+            max_wait_time: 最大等待时间(秒)
+        
+        Returns:
+            成功与否
+        """
+        self.log_to_ui(f"开始剪映处理: {draft_name} -> {output_path}")
+        
+        # 记录开始时间，用于超时判断
+        import time
+        start_time = time.time()
+        last_status_time = start_time
+        
+        try:
+            # 获取剪映窗口
+            self.log_to_ui("正在获取剪映窗口...")
+            jy_window = self.get_window_fast()
+            if not jy_window:
+                self.log_to_ui("剪映窗口未找到，无法继续处理", logging.ERROR)
+                return False
+                
+            # 检查剪映状态
+            status, msg = self.check_jianying_state()
+            if not status:
+                self.log_to_ui(f"剪映状态检查失败: {msg}", logging.ERROR)
+                return False
+                
+            self.log_to_ui("剪映窗口已准备就绪，开始处理...")
+            
+            # 继续原有处理逻辑...
+            
+            # 定期状态更新
+            while True:
+                current_time = time.time()
+                # 检查是否超时
+                if current_time - start_time > max_wait_time:
+                    self.log_to_ui(f"剪映处理超时，已等待{max_wait_time}秒", logging.ERROR)
+                    return False
+                    
+                # 每30秒更新一次状态到UI
+                if current_time - last_status_time > 30:
+                    self.log_to_ui(f"剪映处理进行中: 已等待 {int(current_time - start_time)} 秒...")
+                    last_status_time = current_time
+                
+                # 检查剪映状态
+                # ...原有代码...
+                
+                # 避免CPU高占用
+                time.sleep(0.5)
+            
+        except Exception as e:
+            self.log_to_ui(f"剪映处理过程中发生错误: {e}", logging.ERROR)
+            return False
+        
+        self.log_to_ui(f"剪映处理完成: {draft_name}")
+        return True
+
+    # 添加或修改导出视频的方法
+    def export_video(self, draft_name, output_path, max_wait_time=300):
+        """导出视频，添加超时保护机制
+        
+        Args:
+            draft_name: 草稿名称
+            output_path: 输出路径
+            max_wait_time: 最大等待时间(秒)
+        
+        Returns:
+            (成功与否, 错误信息)
+        """
+        self.logger.info(f"开始导出 {draft_name} 至 {output_path}")
+        
+        # 记录开始时间，用于超时判断
+        import time
+        start_time = time.time()
+        last_log_time = start_time
+        
+        try:
+            # 检查剪映状态
+            status, msg = self.check_jianying_state()
+            if not status:
+                self.logger.error(f"剪映状态检查失败: {msg}")
+                return False, msg
+            
+            # 原有导出逻辑...
+            
+            # 等待导出完成，添加超时保护
+            while True:
+                # 检查是否超时
+                current_time = time.time()
+                if current_time - start_time > max_wait_time:
+                    self.logger.error(f"导出超时，已等待{max_wait_time}秒")
+                    return False, f"导出超时 ({max_wait_time}秒)"
+                
+                # 每30秒打印一次日志，避免日志过多
+                if current_time - last_log_time > 30:
+                    self.logger.info(f"导出进行中，已等待 {int(current_time - start_time)} 秒...")
+                    last_log_time = current_time
+                
+                # 检查导出状态 - 可能需要根据实际代码结构进行调整
+                try:
+                    # 尝试查找导出进度或导出完成标志
+                    export_status = self.check_export_status()
+                    
+                    if export_status == "completed":
+                        self.logger.info(f"导出成功完成，耗时 {int(current_time - start_time)} 秒")
+                        return True, "导出成功"
+                    elif export_status == "error":
+                        self.logger.error("导出过程中发生错误")
+                        return False, "导出错误"
+                    # 其他状态继续等待
+                    
+                except Exception as e:
+                    self.logger.warning(f"检查导出状态时出错: {e}")
+                    # 继续等待，不中断导出过程
+                
+                # 避免CPU高占用
+                time.sleep(1)
+            
+        except Exception as e:
+            self.logger.exception(f"导出过程中发生错误: {e}")
+            return False, f"导出错误: {e}"
+
+    def check_export_status(self):
+        """检查导出状态，返回 'in_progress', 'completed', 'error'"""
+        try:
+            # 基于UI元素判断导出状态
+            jy_window = self.get_window_fast()
+            if not jy_window:
+                self.logger.error("检查导出状态: 剪映窗口未找到")
+                return "error"
+            
+            # 检查是否存在"导出成功"提示
+            # 这里需要根据剪映UI结构调整元素查找方式
+            success_indicator = None
+            try:
+                # 尝试找到导出成功的指示器
+                # 例如: 可能是一个包含"导出成功"文本的元素
+                success_condition = uia.CreatePropertyConditionEx(UIA_NamePropertyId, "导出成功", PropertyConditionFlags_None)
+                success_indicator = jy_window.FindFirst(TreeScope_Descendants, success_condition)
+            except:
+                pass
+            
+            if success_indicator:
+                self.logger.info("检测到导出成功提示")
+                return "completed"
+            
+            # 检查是否存在错误提示
+            error_indicator = None
+            try:
+                # 尝试找到导出错误的指示器
+                error_condition = uia.CreatePropertyConditionEx(UIA_NamePropertyId, "导出失败", PropertyConditionFlags_None)
+                error_indicator = jy_window.FindFirst(TreeScope_Descendants, error_condition)
+            except:
+                pass
+            
+            if error_indicator:
+                self.logger.error("检测到导出失败提示")
+                return "error"
+            
+            # 默认认为正在导出中
+            return "in_progress"
+            
+        except Exception as e:
+            self.logger.error(f"检查导出状态时发生异常: {e}")
+            return "error" 

@@ -6710,3 +6710,21 @@
 2025-04-16 04:02:58,858 - INFO - app.ui.main_window - 应用程序正在关闭...
 2025-04-16 04:02:58,859 - INFO - app.config - 配置已保存到: batch_tool_config.ini
 2025-04-16 04:02:58,860 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。
+2025-04-16 10:17:39,824 - INFO - root - 日志系统已配置，级别：INFO，文件：logs/batch_tool.log，队列处理程序已添加
+2025-04-16 10:17:39,825 - INFO - root - 应用程序启动，日志系统已配置
+2025-04-16 10:17:40,529 - INFO - comtypes.client._code_cache - Imported existing <module 'comtypes.gen' from 'C:\\ProgramData\\anaconda3\\envs\\jianying\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-04-16 10:17:40,530 - INFO - comtypes.client._code_cache - Using writeable comtypes cache directory: 'C:\ProgramData\anaconda3\envs\jianying\lib\site-packages\comtypes\gen'
+2025-04-16 10:17:40,783 - INFO - key_verification - 已加载保存的密钥
+2025-04-16 10:17:42,008 - INFO - key_verification - 正在验证密钥: JMEgNrg5RKs8PUHgleqBWPh0PAli9RHmmZrd_XxPE-s
+2025-04-16 10:17:42,118 - INFO - key_verification - 密钥验证结果: {'valid': True}
+2025-04-16 10:17:42,119 - INFO - key_verification - 密钥验证成功
+2025-04-16 10:17:42,119 - INFO - key_verification - 密钥已保存
+2025-04-16 10:17:42,140 - INFO - key_verification - 验证通过，启动主程序
+2025-04-16 10:17:42,152 - INFO - app.config - 成功加载配置文件: batch_tool_config.ini
+2025-04-16 10:17:42,153 - INFO - app.ui.main_window - 从配置文件加载 DeleteSource: False
+2025-04-16 10:17:42,153 - INFO - app.ui.main_window - 配置文件中未找到 KeepBGM，默认设置为 True
+2025-04-16 10:17:42,153 - INFO - app.ui.main_window - UI 已从配置文件更新。
+2025-04-16 10:17:42,154 - INFO - app.ui.main_window - BGM音量已设置为0（静音）
+2025-04-16 10:17:47,391 - INFO - app.ui.main_window - 应用程序正在关闭...
+2025-04-16 10:17:47,399 - INFO - app.config - 配置已保存到: batch_tool_config.ini
+2025-04-16 10:17:47,400 - INFO - app.ui.main_window - 配置已保存，日志轮询已停止。应用程序退出。

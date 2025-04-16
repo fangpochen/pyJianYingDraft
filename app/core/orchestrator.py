@@ -97,10 +97,6 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
     # 跟踪全局成功处理的组合数量（在直接素材替换模式下使用）
     global_successful_combinations = 0
     
-    # 明确目标生成视频数量
-    global_target_count = target_videos_count if process_mode == "merge" else tasks_found
-    logger.info(f"[全局统计] 处理模式: {process_mode}，目标视频数量: {global_target_count}")
-
     try:
         # 1. Find all individual video tasks
         logger.info("\n--- 阶段 1: 扫描并准备素材 ---")
@@ -110,6 +106,10 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
             video_tasks = find_video_tasks(input_folder)
             tasks_found = len(video_tasks)
             logger.info(f"找到 {tasks_found} 个素材文件夹")
+            
+            # 明确目标生成视频数量 - 移到这里，确保tasks_found已定义
+            global_target_count = target_videos_count if process_mode == "merge" else tasks_found
+            logger.info(f"[全局统计] 处理模式: {process_mode}，目标视频数量: {global_target_count}")
             
             if tasks_found == 0:
                 logger.warning("未找到任何视频素材文件夹，任务完成")
