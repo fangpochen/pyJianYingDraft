@@ -116,11 +116,25 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
                 self.logger.error("无法从 pyJianYingDraft 导入 ControlFinder")
                 raise
 
-            draft_name_text = self.app.TextControl(
-                searchDepth=2,
-                Compare=ControlFinder.desc_matcher(f"HomePageDraftTitle:{draft_name}", exact=True)
-            )
-            if not draft_name_text.Exists(0):
+            # 添加重试逻辑，尝试多次查找草稿
+            draft_found = False
+            for retry in range(3):  # 最多尝试3次
+                try:
+                    draft_name_text = self.app.TextControl(
+                        searchDepth=2,
+                        Compare=ControlFinder.desc_matcher(f"HomePageDraftTitle:{draft_name}", exact=True)
+                    )
+                    if draft_name_text.Exists(0.5):  # 增加等待时间
+                        draft_found = True
+                        break
+                    else:
+                        self.logger.warning(f"尝试 #{retry+1}: 未找到草稿 '{draft_name}'，等待后重试...")
+                        time.sleep(1)  # 等待后重试
+                except Exception as e:
+                    self.logger.warning(f"尝试 #{retry+1}: 查找草稿时出错: {e}，等待后重试...")
+                    time.sleep(1)  # 等待后重试
+            
+            if not draft_found:
                 self.logger.error(f"未找到名为 '{draft_name}' 的剪映草稿")
                 raise draft.exceptions.DraftNotFound(f"未找到名为{draft_name}的剪映草稿")
 
@@ -130,11 +144,21 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
                  raise draft.exceptions.AutomationError("无法获取草稿按钮")
 
             draft_btn.Click(simulateMove=False)
-            self.timed_sleep(self.wait_times.get("draft_click", 1.0), "点击草稿等待")
+            # 增加等待时间，确保状态转换完成
+            self.timed_sleep(self.wait_times.get("draft_click", 2.0), "点击草稿等待")  # 从1.0增加到2.0
             self.get_window_fast() # Refresh window state after click
+            
+            # 添加重试逻辑，确保进入编辑模式
             if self.app_status != "edit":
-                 self.logger.warning(f"点击草稿后，窗口状态不是 'edit' (是 '{self.app_status}')，可能未成功进入编辑模式。")
-                 # Optionally add a retry or longer wait here
+                self.logger.warning(f"点击草稿后，窗口状态不是 'edit' (是 '{self.app_status}')，等待并重试检查...")
+                for retry in range(5):  # 最多重试5次
+                    time.sleep(1)  # 等待状态更新
+                    self.get_window_fast()
+                    if self.app_status == "edit":
+                        self.logger.info(f"重试检查 #{retry+1}: 成功进入编辑模式")
+                        break
+                    else:
+                        self.logger.warning(f"重试检查 #{retry+1}: 状态仍不是 'edit' (是 '{self.app_status}')")
 
             self.logger.info(f"  完成，耗时: {time.time() - step_start:.2f}秒")
 
@@ -143,35 +167,90 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
             self.logger.info("步骤3: 点击导出按钮...")
             # Re-check window status before clicking export
             if self.app_status != "edit":
-                 self.logger.error("无法点击导出按钮，因为当前不在编辑模式。")
-                 raise draft.exceptions.AutomationError("不在编辑模式，无法导出")
+                self.logger.warning("当前不在编辑模式，尝试重新获取窗口...")
+                # 尝试重新获取窗口状态，有时window_fast可能未正确识别状态
+                for retry in range(3):
+                    self.get_window_fast()
+                    if self.app_status == "edit":
+                        self.logger.info(f"重新检查后发现窗口已处于编辑模式")
+                        break
+                    time.sleep(1)
 
-            export_btn = self.app.TextControl(searchDepth=2,
-                                             Compare=ControlFinder.desc_matcher("MainWindowTitleBarExportBtn"))
-            if not export_btn.Exists(0):
+            # 即使状态不是edit，也尝试查找导出按钮，有时状态检测可能不准确
+            export_btn_found = False
+            export_btn = None
+            
+            for retry in range(3):  # 最多尝试3次
+                try:
+                    export_btn = self.app.TextControl(
+                        searchDepth=2,
+                        Compare=ControlFinder.desc_matcher("MainWindowTitleBarExportBtn")
+                    )
+                    if export_btn.Exists(0.5):  # 增加等待时间
+                        export_btn_found = True
+                        break
+                    else:
+                        self.logger.warning(f"尝试 #{retry+1}: 未找到导出按钮，等待后重试...")
+                        time.sleep(1)  # 等待后重试
+                except Exception as e:
+                    self.logger.warning(f"尝试 #{retry+1}: 查找导出按钮时出错: {e}，等待后重试...")
+                    time.sleep(1)  # 等待后重试
+            
+            if not export_btn_found:
                 self.logger.error("未在编辑窗口中找到导出按钮")
                 raise draft.exceptions.AutomationError("未在编辑窗口中找到导出按钮")
+
             export_btn.Click(simulateMove=False)
-            self.timed_sleep(self.wait_times.get("export_click", 1.0), "点击导出按钮等待")
+            # 增加等待时间，确保导出窗口弹出
+            self.timed_sleep(self.wait_times.get("export_click", 2.0), "点击导出按钮等待")  # 从1.0增加到2.0
             self.get_window_fast() # Refresh state, should be pre_export now
+            
+            # 添加重试逻辑，确保进入导出窗口模式
             if self.app_status != "pre_export":
-                 self.logger.warning(f"点击导出按钮后，窗口状态不是 'pre_export' (是 '{self.app_status}')，可能导出窗口未弹出。")
-                 # Optionally add retry or longer wait
+                self.logger.warning(f"点击导出按钮后，窗口状态不是 'pre_export' (是 '{self.app_status}')，等待并重试检查...")
+                for retry in range(5):  # 最多重试5次
+                    time.sleep(1)  # 等待状态更新
+                    self.get_window_fast()
+                    if self.app_status == "pre_export":
+                        self.logger.info(f"重试检查 #{retry+1}: 成功进入导出窗口模式")
+                        break
+                    else:
+                        self.logger.warning(f"重试检查 #{retry+1}: 状态仍不是 'pre_export' (是 '{self.app_status}')")
 
             self.logger.info(f"  完成，耗时: {time.time() - step_start:.2f}秒")
 
             # === 第4步：获取原始导出路径 ===
             step_start = time.time()
             self.logger.info("步骤4: 获取原始导出路径...")
+            # 即使状态检测不准确，也尝试继续获取导出路径
             if self.app_status != "pre_export":
-                 self.logger.error("无法获取导出路径，因为当前不在导出窗口模式。")
-                 raise draft.exceptions.AutomationError("不在导出窗口，无法获取路径")
-
-            export_path_sib = self.app.TextControl(searchDepth=2,
-                                                  Compare=ControlFinder.desc_matcher("ExportPath"))
-            if not export_path_sib.Exists(0):
+                self.logger.warning("当前可能不在导出窗口模式，但仍尝试查找导出路径控件...")
+            
+            # 添加重试逻辑，尝试获取导出路径
+            export_path_found = False
+            export_path_sib = None
+            export_path_text = None
+            
+            for retry in range(3):  # 最多尝试3次
+                try:
+                    export_path_sib = self.app.TextControl(
+                        searchDepth=2,
+                        Compare=ControlFinder.desc_matcher("ExportPath")
+                    )
+                    if export_path_sib.Exists(0.5):  # 增加等待时间
+                        export_path_found = True
+                        break
+                    else:
+                        self.logger.warning(f"尝试 #{retry+1}: 未找到导出路径标签控件，等待后重试...")
+                        time.sleep(1)  # 等待后重试
+                except Exception as e:
+                    self.logger.warning(f"尝试 #{retry+1}: 查找导出路径标签控件时出错: {e}，等待后重试...")
+                    time.sleep(1)  # 等待后重试
+            
+            if not export_path_found:
                 self.logger.error("未找到导出路径标签控件")
                 raise draft.exceptions.AutomationError("未找到导出路径标签控件")
+
             export_path_text = export_path_sib.GetSiblingControl(lambda ctrl: True)
             if not export_path_text:
                  self.logger.error("未找到导出路径文本控件 (标签控件的兄弟)")
@@ -426,43 +505,74 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
                 
 
     def get_window_fast(self):
-        """使用快速方法获取剪映窗口，并添加超时保护"""
-        self.logger.debug("使用快速方法获取剪映窗口...")
-        
-        # 添加超时控制
-        import time
-        start_time = time.time()
-        timeout = 10  # 10秒超时
-        
+        """获取剪映窗口并判断状态 (home/edit/pre_export)，优化查找方式"""
+        self.logger.debug("获取剪映窗口并判断状态...") # Use debug for frequent calls
+
+        # 1. 首先按名称查找主窗口
         try:
-            # 尝试获取剪映窗口
-            desktop = uia.GetRootElement()
-            
-            while time.time() - start_time < timeout:
-                # 查找所有"CapCut"或"剪映专业版"的窗口
-                condition = uia.CreatePropertyConditionEx(UIA_NamePropertyId, "剪映专业版", PropertyConditionFlags_None)
-                
-                jy_window = desktop.FindFirst(TreeScope_Children, condition)
-                
-                if jy_window:
-                    self.logger.debug("成功找到剪映窗口")
-                    window_title = jy_window.CurrentName if hasattr(jy_window, 'CurrentName') else "未知"
-                    window_visible = jy_window.CurrentIsEnabled if hasattr(jy_window, 'CurrentIsEnabled') else False
-                    self.logger.debug(f"窗口信息: 标题='{window_title}', 可见={window_visible}")
-                    return jy_window
-                
-                # 未找到窗口，等待一会再试
-                self.logger.debug("未找到剪映窗口，等待后重试...")
-                time.sleep(0.5)
-            
-            # 超时未找到窗口
-            error_msg = f"获取剪映窗口超时 ({timeout}秒)，请确保剪映已打开且窗口标题为'剪映专业版'"
-            self.log_to_ui(error_msg, logging.ERROR)  # 使用UI日志
-            return None
-            
+            self.app = uia.WindowControl(searchDepth=1, Name='剪映专业版')
+            if not self.app.Exists(0.5, 0.1): # Shorter wait, faster interval
+                # Maybe try finding by ClassName as a fallback? Less reliable.
+                # self.app = uia.WindowControl(searchDepth=1, ClassName='XXX')
+                self.logger.error("按名称 '剪映专业版' 未找到主窗口。")
+                # Reset status if window not found
+                self.app_status = None
+                self.app = None
+                raise draft.exceptions.AutomationError("剪映窗口未找到")
+
+            # 2. 判断窗口状态 (Home vs Edit) 基于 ClassName
+            window_name = self.app.Name
+            window_class_name = self.app.ClassName
+            self.logger.debug(f"找到窗口: Name='{window_name}', ClassName='{window_class_name}'")
+
+            # Store previous status to detect changes
+            previous_status = self.app_status
+
+            class_name_lower = window_class_name.lower()
+            if "homepage" in class_name_lower or "homewindow" in class_name_lower:
+                self.app_status = "home"
+            elif "maineditorwindow" in class_name_lower or "mainwindow" in class_name_lower or "lvcompositionwindow" in class_name_lower:
+                self.app_status = "edit"
+            else:
+                # Status unknown based on class name, check for export window title explicitly
+                if window_name == "导出":
+                    self.app_status = "pre_export"
+                else:
+                    self.logger.warning(f"无法根据 ClassName '{window_class_name}' 或窗口标题 '{window_name}' 判断窗口状态 (home/edit/pre_export)。")
+                    # Keep previous status
+                    if not self.app_status:
+                        self.app_status = "unknown"
+
+            # 3. 检查是否存在导出窗口 (Could be a child window or the main window renamed)
+            # Check if the current self.app IS the export window
+            if self.app_status == "pre_export":
+                self.logger.debug("窗口状态判断为: 导出窗口 (pre_export) (主窗口名判断)")
+            else:
+                # Look for a child export window
+                export_window = self.app.WindowControl(searchDepth=1, Name="导出")
+                if export_window.Exists(0, 0.1):
+                    self.logger.debug("检测到 '导出' 子窗口，更新状态为 pre_export")
+                    self.app = export_window # Target the export window
+                    self.app_status = "pre_export"
+
+            if self.app_status != previous_status:
+                self.logger.info(f"窗口状态更新为: {self.app_status}")
+            else:
+                self.logger.debug(f"窗口状态保持为: {self.app_status}")
+
+            # 4. 尝试激活和置顶 (保持不变)
+            try:
+                if self.app:
+                    self.app.SetActive()
+                    self.app.SetTopmost()
+            except Exception as activate_error:
+                self.logger.warning(f"警告：激活或置顶窗口时出错: {activate_error}")
+
+            return self.app
         except Exception as e:
-            error_msg = f"获取剪映窗口时出错: {e}"
-            self.log_to_ui(error_msg, logging.ERROR)  # 使用UI日志
+            self.logger.error(f"获取剪映窗口时出错: {e}")
+            self.app_status = None
+            self.app = None
             return None
 
     def switch_to_home_fast(self):
