@@ -292,6 +292,9 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     successful_combinations = 0
                     failed_combinations = 0
                     
+                    # 用于跟踪本次处理中使用过的所有文件
+                    used_video_files = set()
+                    
                     # 根据目标生成视频数量计算当前任务需要处理的组合数
                     # 考虑全局已完成的组合数，确保不会超过全局目标
                     remaining_combinations = global_combinations_to_process - global_successful_combinations
@@ -418,11 +421,6 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                             if len(least_used_files) >= num_segments:
                                                 selected_combo = least_used_files[:num_segments]
                                                 logger.warning(f"  组合 {combo_index+1}: 使用了频率最低的文件（可能包含相同前缀）")
-                                            else:
-                                                # 如果获取失败，随机选择
-                                                import random
-                                                selected_combo = random.sample(potential_videos, num_segments)
-                                                logger.warning(f"  组合 {combo_index+1}: 随机选择文件组合（可能包含相同前缀）")
                             
                             if selected_combo:
                                 # 检查所选组合中的前缀是否都不同
@@ -465,6 +463,10 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                     except Exception as e:
                                         logger.error(f"  组合 {combo_index+1}: 记录到数据库失败: {e}")
                                     
+                                    # 将成功处理的文件添加到使用过的文件集合中
+                                    for video_file in selected_combo:
+                                        used_video_files.add(video_file)
+                                    
                                     successful_combinations += 1
                                     global_successful_combinations += 1
                                     logger.info(f"[全局统计] 组合处理成功 - 当前任务进度: {successful_combinations}/{combinations_to_process} (全局进度: {global_successful_combinations}/{global_combinations_to_process})")
@@ -505,6 +507,28 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     
                     # 更新任务处理结果
                     logger.info(f"  成功处理 {successful_combinations}/{combinations_to_process} 个组合")
+                    
+                    # 如果启用了删除源文件选项，并且处理成功，则删除原始视频文件
+                    if delete_source and successful_combinations > 0:
+                        logger.info("  步骤 2c: 选项已启用，准备删除已使用的原始视频文件...")
+                        try:
+                            # 删除已使用的文件
+                            source_files_deleted = 0
+                            for video_file in used_video_files:
+                                if os.path.exists(video_file):
+                                    os.remove(video_file)
+                                    logger.info(f"    已删除已使用的视频文件: {video_file}")
+                                    source_files_deleted += 1
+                                else:
+                                    logger.warning(f"    已使用的视频文件已不存在，跳过删除: {video_file}")
+                            
+                            logger.info(f"    已删除 {source_files_deleted} 个已使用的视频文件（共使用了 {len(used_video_files)} 个文件）")
+                        except Exception as e:
+                            logger.error(f"    删除已使用的视频文件失败: {e}", exc_info=True)
+                    elif not delete_source:
+                        logger.info("  步骤 2c: 选项未启用，跳过删除原始视频文件。")
+                    else:
+                        logger.info("  步骤 2c: 处理未成功，跳过删除原始视频文件。")
                     
                     # 设置用于后续处理的video_paths
                     # 这里我们不再需要split_video_paths，因为已经直接处理了所有组合

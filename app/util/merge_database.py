@@ -317,4 +317,44 @@ class MergeDatabase:
         )
         
         # 返回使用频率最低的文件
-        return [f[0] for f in sorted_files[:limit]] 
+        return [f[0] for f in sorted_files[:limit]]
+    
+    def get_used_files_in_current_batch(self, hours_threshold: int = 1) -> List[str]:
+        """
+        获取当前批次中已使用的视频文件名列表
+        
+        Args:
+            hours_threshold: 时间阈值，获取最近多少小时内的记录，默认为1小时
+            
+        Returns:
+            List[str]: 最近使用的文件名列表
+        """
+        if not self.conn:
+            logger.error("数据库未初始化")
+            return []
+        
+        try:
+            cursor = self.conn.cursor()
+            
+            # 查询最近hours_threshold小时内添加的任务
+            cursor.execute(
+                '''
+                SELECT ms.file_name 
+                FROM merge_sources ms
+                JOIN merge_tasks mt ON ms.task_id = mt.id
+                WHERE mt.timestamp >= datetime('now', ?) 
+                GROUP BY ms.file_name
+                ''', 
+                (f'-{hours_threshold} hours',)
+            )
+            
+            # 返回文件名列表
+            results = cursor.fetchall()
+            file_names = [row[0] for row in results]
+            
+            logger.info(f"找到最近{hours_threshold}小时内使用的{len(file_names)}个文件")
+            return file_names
+            
+        except Exception as e:
+            logger.error(f"获取最近使用的文件时出错: {e}")
+            return [] 
