@@ -142,10 +142,10 @@ class MainWindow(QMainWindow):
                  # QMessageBox.critical(self, "依赖错误",
                  #                      "无法导入草稿导出逻辑 (app/core/draft_exporter.py)。")
                  
-        # 设置BGM音量为0（静音）
-        self.bgm_volume_slider.setValue(0)
-        self.update_volume_label(0)
-        logger.info("BGM音量已设置为0（静音）")
+        # 删除硬编码设置BGM音量为0的代码
+        # self.bgm_volume_slider.setValue(0)
+        # self.update_volume_label(0)
+        # logger.info("BGM音量已设置为0（静音）")
 
     def init_ui(self):
         """初始化用户界面布局和组件"""
@@ -344,6 +344,14 @@ class MainWindow(QMainWindow):
             self.output_entry.setText(self.config_data.get('Paths', {}).get('OutputFolder', ''))
             self.draft_folder_entry.setText(self.config_data.get('Paths', {}).get('DraftFolder', ''))
             self.draft_name_entry.setText(self.config_data.get('Settings', {}).get('DraftName', ''))
+            
+            # 新增：加载处理模式配置
+            process_mode = self.config_data.get('Settings', {}).get('ProcessMode', 'split')
+            if process_mode == 'merge':
+                self.merge_mode_radio.setChecked(True)
+            else:
+                self.split_mode_radio.setChecked(True)
+            
             # 新增：加载分割段数配置
             self.num_segments_entry.setText(str(self.config_data.get('Settings', {}).get('NumSegments', 1))) # 默认为 1
             
@@ -427,6 +435,8 @@ class MainWindow(QMainWindow):
             self.config_data['Settings']['BGMVolume'] = self.bgm_volume_slider.value()
             # 新增：保存主轨道音量配置
             self.config_data['Settings']['MainTrackVolume'] = self.main_volume_slider.value()
+            # 新增：保存处理模式
+            self.config_data['Settings']['ProcessMode'] = "split" if self.split_mode_radio.isChecked() else "merge"
             # 新增：保存分割段数配置
             try:
                 num_segments = int(self.num_segments_entry.text().strip())
