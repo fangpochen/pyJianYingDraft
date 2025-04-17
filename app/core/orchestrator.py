@@ -309,7 +309,14 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     
                     # 初始化组合索引
                     combo_index = 0
-                    
+
+                    # ========== 简化替换：只保留两种核心逻辑 ==========
+                    # 获取所有已经使用过的视频文件名列表
+                    with MergeDatabase(db_path) as db:
+                        # 获取已使用文件记录
+                        used_files_in_db = db.get_used_files()
+                        logger.info(f"  从数据库获取到 {len(used_files_in_db)} 个已使用过的视频文件")
+
                     # 修改循环条件，当成功处理的组合数达到目标时，停止处理
                     while successful_combinations < combinations_to_process:
                         try:
@@ -323,119 +330,62 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                             # 选择视频组合
                             selected_combo = None
                             
-                            # 自定义生成不包含相同前缀视频的组合
-                            def create_diverse_combo():
-                                # 收集每个前缀组的使用次数
-                                prefix_usage = {}
-                                with MergeDatabase(db_path) as db:
-                                    for prefix, videos in prefix_to_videos.items():
-                                        # 计算该前缀组中文件的平均使用次数
-                                        usage_stats = db.get_file_usage_stats()
-                                        total_usage = sum(usage_stats.get(os.path.basename(v), 0) for v in videos)
-                                        avg_usage = total_usage / len(videos) if videos else 0
-                                        prefix_usage[prefix] = avg_usage
+                            # ===== 简化逻辑 1: 只选择不同前缀且未使用过的素材 =====
+                            # 检查是否有足够的前缀组
+                            if len(prefix_to_videos) >= num_segments:
+                                # 从每个前缀组中选择一个未使用过的视频
+                                selected_combo = []
+                                used_prefixes = set()
                                 
-                                # 按使用次数排序前缀，优先选择使用次数少的
-                                sorted_prefixes = sorted(prefix_usage.keys(), key=lambda p: prefix_usage[p])
+                                # 按照前缀组的顺序处理
+                                sorted_prefixes = sorted(prefix_to_videos.keys())
                                 
-                                # 如果排序后的前缀数量少于需要的段数，无法创建多样化组合
-                                if len(sorted_prefixes) < num_segments:
-                                    logger.warning(f"  没有足够的不同前缀 ({len(sorted_prefixes)}/{num_segments})，无法创建完全多样化的组合")
-                                    return None
-                                
-                                # 选择使用频率最低的每个前缀组中的一个视频
-                                combo = []
-                                used_prefixes = []
-                                
-                                for i in range(min(num_segments, len(sorted_prefixes))):
-                                    prefix = sorted_prefixes[i]
-                                    used_prefixes.append(prefix)
+                                # 从每个前缀组中选择一个未使用过的视频
+                                for prefix in sorted_prefixes:
+                                    # 如果已经选择了足够的视频，跳出循环
+                                    if len(selected_combo) >= num_segments:
+                                        break
                                     
-                                    # 从该前缀组中选择使用频率最低的视频
-                                    videos_in_prefix = prefix_to_videos[prefix]
-                                    with MergeDatabase(db_path) as db:
-                                        least_used = db.get_least_used_files(videos_in_prefix, limit=len(videos_in_prefix))
-                                        if least_used:
-                                            combo.append(least_used[0])
-                                        else:
-                                            # 如果数据库查询失败，随机选择一个
-                                            import random
-                                            combo.append(random.choice(videos_in_prefix))
+                                    # 获取当前前缀组中所有未使用过的视频
+                                    unused_videos = []
+                                    for video in prefix_to_videos[prefix]:
+                                        # 检查是否已在数据库中被标记为使用过
+                                        video_basename = os.path.basename(video)
+                                        if video_basename not in used_files_in_db and video not in used_video_files:
+                                            unused_videos.append(video)
+                                    
+                                    # 如果有未使用过的视频，选择第一个
+                                    if unused_videos:
+                                        selected_combo.append(unused_videos[0])
+                                        used_prefixes.add(prefix)
                                 
-                                logger.info(f"  已创建多样化组合，使用了以下前缀: {', '.join(used_prefixes)}")
-                                return combo
+                                # 检查是否成功选择了足够的视频
+                                if len(selected_combo) < num_segments:
+                                    logger.warning(f"  未能从每个前缀组中选择足够的未使用视频 ({len(selected_combo)}/{num_segments})")
+                                    selected_combo = None  # 重置为None，进入第二种逻辑
                             
-                            with MergeDatabase(db_path) as db:
-                                # 查找使用不同前缀的未使用组合
-                                logger.info(f"  正在为组合 {combo_index+1}/{combinations_to_process} 查找使用不同前缀的视频组合...")
-                                
-                                # 尝试自定义生成多样化组合
-                                selected_combo = create_diverse_combo()
-                                
-                                if selected_combo:
-                                    logger.info(f"  组合 {combo_index+1}: 成功创建使用不同前缀的组合")
-                                else:
-                                    # 如果无法创建多样化组合，则回退到旧方法
-                                    logger.warning(f"  组合 {combo_index+1}: 无法创建完全多样化的组合，将尝试使用旧方法")
-                                    
-                                    # 尝试从所有可能文件中找出未使用的组合
+                            # ===== 简化逻辑 2: 如果无法选择足够不同前缀的未使用视频，从数据库查找未使用组合 =====
+                            if not selected_combo:
+                                logger.info("  尝试从数据库查找未使用过的组合...")
+                                with MergeDatabase(db_path) as db:
+                                    # 查找未使用的组合
                                     unused_combinations = db.find_unused_combinations(potential_videos, num_segments)
                                     
                                     if unused_combinations:
-                                        # 过滤出不包含相同前缀的组合
-                                        diverse_combinations = []
-                                        for combo in unused_combinations:
-                                            prefixes = [extract_video_prefix(v) for v in combo]
-                                            if len(prefixes) == len(set(prefixes)):  # 检查前缀是否都不同
-                                                diverse_combinations.append(combo)
-                                        
-                                        if diverse_combinations:
-                                            idx = min(combo_index, len(diverse_combinations) - 1)
-                                            selected_combo = diverse_combinations[idx]
-                                            logger.info(f"  组合 {combo_index+1}: 找到使用不同前缀的未使用组合")
-                                        else:
-                                            logger.warning(f"  组合 {combo_index+1}: 未找到使用不同前缀的未使用组合")
-                                            # 回退到随机选择，但确保前缀不同
-                                            import random
-                                            if len(prefix_to_videos) >= num_segments:
-                                                selected_prefixes = random.sample(list(prefix_to_videos.keys()), num_segments)
-                                                selected_combo = [random.choice(prefix_to_videos[p]) for p in selected_prefixes]
-                                                logger.info(f"  组合 {combo_index+1}: 随机选择了不同前缀的文件")
-                                            else:
-                                                logger.warning(f"  组合 {combo_index+1}: 没有足够的不同前缀可供选择")
-                                                selected_combo = random.sample(potential_videos, num_segments)
-                                                logger.warning(f"  组合 {combo_index+1}: 随机选择文件组合（可能包含相同前缀）")
+                                        selected_combo = unused_combinations[0]  # 选择第一个未使用组合
+                                        logger.info(f"  从数据库中找到未使用过的组合")
                                     else:
-                                        # 如果没有未使用的组合，尝试创建前缀多样化的组合
-                                        logger.warning(f"  组合 {combo_index+1}: 未找到未使用的组合，将尝试创建多样化组合")
-                                        
-                                        if len(prefix_to_videos) >= num_segments:
-                                            import random
-                                            selected_prefixes = random.sample(list(prefix_to_videos.keys()), num_segments)
-                                            selected_combo = [random.choice(prefix_to_videos[p]) for p in selected_prefixes]
-                                            logger.info(f"  组合 {combo_index+1}: 创建了使用不同前缀的组合")
-                                        else:
-                                            logger.warning(f"  组合 {combo_index+1}: 没有足够的不同前缀 ({len(prefix_to_videos)}/{num_segments})")
-                                            # 回退到使用最少使用的文件
-                                            least_used_files = db.get_least_used_files(potential_videos, limit=len(potential_videos))
-                                            if len(least_used_files) >= num_segments:
-                                                selected_combo = least_used_files[:num_segments]
-                                                logger.warning(f"  组合 {combo_index+1}: 使用了频率最低的文件（可能包含相同前缀）")
+                                        logger.warning(f"  未找到未使用过的组合，可能所有可能的组合都已经被使用过")
+                                        # 无可用组合，退出循环
+                                        break
                             
                             if selected_combo:
-                                # 检查所选组合中的前缀是否都不同
+                                # 记录所选视频的前缀情况
                                 combo_prefixes = [extract_video_prefix(v) for v in selected_combo]
-                                has_unique_prefixes = len(combo_prefixes) == len(set(combo_prefixes))
-                                
-                                if has_unique_prefixes:
-                                    logger.info(f"  组合 {combo_index+1}: 所选组合使用了不同的前缀")
-                                else:
-                                    logger.warning(f"  组合 {combo_index+1}: 所选组合包含相同前缀: {', '.join(combo_prefixes)}")
+                                unique_prefixes = len(set(combo_prefixes))
+                                logger.info(f"  组合 {combo_index+1}: 所选组合使用了 {unique_prefixes} 个不同前缀: {', '.join(set(combo_prefixes))}")
                                 
                                 logger.info(f"  组合 {combo_index+1} 选择的文件: {', '.join(os.path.basename(f) for f in selected_combo)}")
-                                
-                                # 直接将选中的文件传递给剪映处理
-                                logger.info(f"  组合 {combo_index+1}: 直接将选中文件传递给剪映处理")
                                 
                                 # 调用剪映处理
                                 jy_result = process_videos(
@@ -457,8 +407,13 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                     # 记录到数据库
                                     try:
                                         with MergeDatabase(db_path) as db:
-                                            # 重要：每个组合使用不同的输出文件路径，确保生成不同的task_id
+                                            # 添加整个合并任务
                                             db.add_merge_task(selected_combo, combo_export_path)
+                                            
+                                            # 更新数据库中已使用文件列表
+                                            for video in selected_combo:
+                                                used_files_in_db.add(os.path.basename(video))
+                                            
                                             logger.info(f"  组合 {combo_index+1}: 已记录到数据库")
                                     except Exception as e:
                                         logger.error(f"  组合 {combo_index+1}: 记录到数据库失败: {e}")
@@ -494,9 +449,9 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                         # 增加组合索引，准备处理下一个组合
                         combo_index += 1
                         
-                        # 防止无限循环，设置最大尝试次数为目标数量的5倍
-                        if combo_index >= combinations_to_process * 5:
-                            logger.warning(f"  已尝试处理 {combo_index} 个组合，超过最大尝试次数 {combinations_to_process * 5}，强制停止处理")
+                        # 防止无限循环，设置最大尝试次数为目标数量的3倍
+                        if combo_index >= combinations_to_process * 3:
+                            logger.warning(f"  已尝试处理 {combo_index} 个组合，超过最大尝试次数 {combinations_to_process * 3}，强制停止处理")
                             break
                     
                     # 检查处理结果

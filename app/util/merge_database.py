@@ -357,4 +357,25 @@ class MergeDatabase:
             
         except Exception as e:
             logger.error(f"获取最近使用的文件时出错: {e}")
-            return [] 
+            return []
+    
+    def get_used_files(self) -> Set[str]:
+        """
+        获取所有已经使用过的文件名称集合
+        
+        Returns:
+            Set[str]: 已使用过的文件名称集合
+        """
+        if not self.conn:
+            logger.error("数据库未初始化")
+            return set()
+        
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('SELECT file_name FROM merge_sources')
+            used_files = {row[0] for row in cursor.fetchall()}
+            logger.info(f"从数据库获取到 {len(used_files)} 个已使用过的文件")
+            return used_files
+        except Exception as e:
+            logger.error(f"获取已使用文件时出错: {e}")
+            return set() 
