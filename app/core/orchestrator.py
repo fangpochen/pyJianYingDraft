@@ -311,11 +311,15 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     combo_index = 0
 
                     # ========== 简化替换：只保留两种核心逻辑 ==========
-                    # 获取所有已经使用过的视频文件名列表
-                    with MergeDatabase(db_path) as db:
-                        # 获取已使用文件记录
-                        used_files_in_db = db.get_used_files()
-                        logger.info(f"  从数据库获取到 {len(used_files_in_db)} 个已使用过的视频文件")
+                    # 获取所有已经使用过的视频文件名列表 - 仅当不删除源文件时需要
+                    used_files_in_db = set() # 初始化为空集合
+                    if not delete_source: # 检查 delete_source 选项
+                        with MergeDatabase(db_path) as db:
+                            # 获取已使用文件记录
+                            used_files_in_db = db.get_used_files()
+                            logger.info(f"  (delete_source=False) 从数据库获取到 {len(used_files_in_db)} 个已使用过的视频文件")
+                    else:
+                        logger.info(f"  (delete_source=True) 跳过从数据库获取已使用文件列表，将基于文件存在性判断。")
 
                     # 修改循环条件，当成功处理的组合数达到目标时，停止处理
                     while successful_combinations < combinations_to_process:
@@ -349,9 +353,19 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                     # 获取当前前缀组中所有未使用过的视频
                                     unused_videos = []
                                     for video in prefix_to_videos[prefix]:
-                                        # 检查是否已在数据库中被标记为使用过
+                                        # 检查是否已在数据库中被标记为使用过 (仅当 delete_source=False 时)
+                                        # 并且检查是否已在本次任务中被使用过
                                         video_basename = os.path.basename(video)
-                                        if video_basename not in used_files_in_db and video not in used_video_files:
+                                        is_used_in_db = (not delete_source) and (video_basename in used_files_in_db)
+                                        is_used_in_current_task = video in used_video_files
+
+                                        # 如果 delete_source=True，则 is_used_in_db 始终为 False
+                                        # 核心判断逻辑：如果 (不是 在数据库标记为已用) 且 (不是 在本次任务中已用)
+                                        if not is_used_in_db and not is_used_in_current_task:
+                                            # 如果 delete_source=True，还需要额外检查文件是否存在（理论上应该存在，但加一层保险）
+                                            if delete_source and not os.path.exists(video):
+                                                logger.warning(f"    (delete_source=True) 文件 {video_basename} 在检查时不存在，跳过。")
+                                                continue # 跳过这个不存在的文件
                                             unused_videos.append(video)
                                     
                                     # 如果有未使用过的视频，选择第一个
@@ -364,9 +378,16 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                     logger.warning(f"  未能从每个前缀组中选择足够的未使用视频 ({len(selected_combo)}/{num_segments})")
                                     selected_combo = None  # 重置为None，进入第二种逻辑
                             
-                            # ===== 简化逻辑 2: 如果无法选择足够不同前缀的未使用视频，从数据库查找未使用组合 =====
-                            if not selected_combo:
-                                logger.info("  尝试从数据库查找未使用过的组合...")
+                            # ===== 简化逻辑 2: 如果无法选择足够不同前缀的未使用视频 =====
+                            # 如果 delete_source 为 True，则不再尝试从数据库查找
+                            if not selected_combo and delete_source:
+                                logger.warning(f"  (delete_source=True) 未能从每个前缀组中选择足够的未使用文件，且已禁用数据库查找。无法生成更多组合。")
+                                # 由于无法找到组合，直接退出当前任务的组合循环
+                                break # 退出 while successful_combinations < combinations_to_process 循环
+                            
+                            # ===== 简化逻辑 2 (原版): 如果 delete_source 为 False，从数据库查找未使用组合 =====
+                            if not selected_combo and not delete_source:
+                                logger.info("  (delete_source=False) 尝试从数据库查找未使用过的组合...")
                                 with MergeDatabase(db_path) as db:
                                     # 查找未使用的组合
                                     unused_combinations = db.find_unused_combinations(potential_videos, num_segments)
@@ -408,17 +429,19 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                     try:
                                         with MergeDatabase(db_path) as db:
                                             # 添加整个合并任务
+                                            # 如果 delete_source=True，可以考虑是否还需要记录任务，但记录文件使用状态仍有用
                                             db.add_merge_task(selected_combo, combo_export_path)
-                                            
-                                            # 更新数据库中已使用文件列表
+
+                                            # 更新数据库中已使用文件列表 (即使 delete_source=True 也更新，以防未来配置改变)
+                                            # 但主要依赖 used_video_files 来避免任务内重复
                                             for video in selected_combo:
                                                 used_files_in_db.add(os.path.basename(video))
-                                            
+
                                             logger.info(f"  组合 {combo_index+1}: 已记录到数据库")
                                     except Exception as e:
                                         logger.error(f"  组合 {combo_index+1}: 记录到数据库失败: {e}")
                                     
-                                    # 将成功处理的文件添加到使用过的文件集合中
+                                    # 将成功处理的文件添加到使用过的文件集合中 (无论 delete_source 如何都执行)
                                     for video_file in selected_combo:
                                         used_video_files.add(video_file)
                                     
@@ -467,7 +490,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     if delete_source and successful_combinations > 0:
                         logger.info("  步骤 2c: 选项已启用，准备删除已使用的原始视频文件...")
                         try:
-                            # 删除已使用的文件
+                            # 删除已使用的文件 (used_video_files 集合中的文件)
                             source_files_deleted = 0
                             for video_file in used_video_files:
                                 if os.path.exists(video_file):
