@@ -151,16 +151,31 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
             # 添加重试逻辑，确保进入编辑模式
             if self.app_status != "edit":
                 self.logger.warning(f"点击草稿后，窗口状态不是 'edit' (是 '{self.app_status}')，等待并重试检查...")
-                for retry in range(5):  # 最多重试5次
-                    time.sleep(1)  # 等待状态更新
+                for retry in range(8):  # 增加重试次数从5到8次
+                    time.sleep(2)  # 增加每次检查间隔从1秒到2秒
                     self.get_window_fast()
                     if self.app_status == "edit":
                         self.logger.info(f"重试检查 #{retry+1}: 成功进入编辑模式")
                         break
                     else:
                         self.logger.warning(f"重试检查 #{retry+1}: 状态仍不是 'edit' (是 '{self.app_status}')")
+                        
+                # 如果仍未进入编辑模式，再尝试点击草稿一次
+                if self.app_status != "edit" and draft_btn.Exists(0.5):
+                    self.logger.warning("多次检查后仍未进入编辑模式，尝试再次点击草稿...")
+                    draft_btn.Click(simulateMove=False)
+                    time.sleep(5.0)  # 再等待5秒
+                    self.get_window_fast()
+                    if self.app_status == "edit":
+                        self.logger.info("再次点击草稿后成功进入编辑模式")
 
             self.logger.info(f"  完成，耗时: {time.time() - step_start:.2f}秒")
+
+            # 在草稿成功加载进入编辑模式后，额外强制等待，确保界面完全加载
+            if self.app_status == "edit":
+                self.logger.info("草稿已进入编辑模式，现在额外等待5秒，确保界面元素完全加载...")
+                time.sleep(5.0)  # 强制等待5秒，确保所有界面元素完全加载
+                self.logger.info("额外等待完成，开始查找导出按钮")
 
             # === 第3步：点击导出按钮 ===
             step_start = time.time()
@@ -180,21 +195,25 @@ class Fast_Jianying_Controller(draft.Jianying_controller):
             export_btn_found = False
             export_btn = None
             
-            for retry in range(3):  # 最多尝试3次
+            # 增加重试次数和间隔时间
+            for retry in range(6):  # 从3次增加到6次
                 try:
                     export_btn = self.app.TextControl(
                         searchDepth=2,
                         Compare=ControlFinder.desc_matcher("MainWindowTitleBarExportBtn")
                     )
-                    if export_btn.Exists(0.5):  # 增加等待时间
+                    # 增加等待时间
+                    if export_btn.Exists(2.0):  # 从0.5秒增加到2秒
                         export_btn_found = True
+                        self.logger.info(f"在第 {retry+1} 次尝试中找到导出按钮")
                         break
                     else:
                         self.logger.warning(f"尝试 #{retry+1}: 未找到导出按钮，等待后重试...")
-                        time.sleep(1)  # 等待后重试
+                        # 增加重试等待时间
+                        time.sleep(3.0)  # 从1秒增加到3秒
                 except Exception as e:
                     self.logger.warning(f"尝试 #{retry+1}: 查找导出按钮时出错: {e}，等待后重试...")
-                    time.sleep(1)  # 等待后重试
+                    time.sleep(3.0)
             
             if not export_btn_found:
                 self.logger.error("未在编辑窗口中找到导出按钮")

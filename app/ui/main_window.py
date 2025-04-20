@@ -3,11 +3,12 @@ import sys
 import os
 import queue
 import logging
+import random  # 添加random库用于随机选择模板
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QLineEdit, QPushButton, QFileDialog, QPlainTextEdit,
     QCheckBox, QMessageBox, QGridLayout, QSpacerItem, QSizePolicy, QSlider,
-    QButtonGroup, QRadioButton
+    QButtonGroup, QRadioButton, QScrollArea, QGroupBox  # 添加QScrollArea和QGroupBox用于模板选择区域
 )
 from PyQt6.QtCore import QThread, pyqtSignal, QObject, QTimer, Qt
 
@@ -113,13 +114,18 @@ class ProcessingWorker(QObject):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("剪映批量处理工具 v2.0 (PyQt6)")
-        self.setGeometry(100, 100, 750, 600) # 调整窗口大小
+        self.setWindowTitle("剪映批量处理工具 v2.1 (PyQt6)")
+        self.setGeometry(100, 100, 850, 800)  # 将窗口高度从700增加到800
 
         self.config_data = {}
         self.worker_thread = None
         self.processing_worker = None
         self.log_timer = QTimer(self) # 用于轮询日志队列
+        
+        # 存储模板复选框的字典
+        self.template_checkboxes = {}
+        # 存储上次选择的模板列表
+        self.selected_templates = []
 
         self.init_ui()
         self.load_initial_config()
@@ -185,9 +191,50 @@ class MainWindow(QMainWindow):
         config_layout.addWidget(QLabel("目标草稿名称:"), 3, 0)
         self.draft_name_entry = QLineEdit()
         config_layout.addWidget(self.draft_name_entry, 3, 1, 1, 2) # Span across 2 columns
-
+        
+        # --- 新增：随机模板选择区域 ---
+        config_layout.addWidget(QLabel("或选择随机模板:"), 4, 0)
+        template_buttons_layout = QHBoxLayout()
+        
+        # 刷新模板按钮
+        self.refresh_templates_button = QPushButton("刷新模板列表")
+        self.refresh_templates_button.clicked.connect(self.refresh_templates)
+        template_buttons_layout.addWidget(self.refresh_templates_button)
+        
+        # 全选/取消全选按钮
+        self.select_all_button = QPushButton("全选")
+        self.select_all_button.clicked.connect(self.select_all_templates)
+        template_buttons_layout.addWidget(self.select_all_button)
+        
+        self.deselect_all_button = QPushButton("取消全选")
+        self.deselect_all_button.clicked.connect(self.deselect_all_templates)
+        template_buttons_layout.addWidget(self.deselect_all_button)
+        
+        template_buttons_layout.addStretch()
+        config_layout.addLayout(template_buttons_layout, 4, 1, 1, 2)
+        
+        # 创建模板选择区域
+        templates_group = QGroupBox("可选模板列表 (勾选后将随机使用其中一个)")
+        templates_layout = QVBoxLayout(templates_group)
+        
+        # 使用滚动区域来容纳模板复选框
+        self.templates_scroll_area = QScrollArea()
+        self.templates_scroll_area.setWidgetResizable(True)
+        # 设置最小高度，增加可视区域大小
+        self.templates_scroll_area.setMinimumHeight(150)  # 增加模板区域的最小高度
+        self.templates_container = QWidget()
+        self.templates_container_layout = QVBoxLayout(self.templates_container)
+        self.templates_container_layout.setSpacing(5)
+        self.templates_container_layout.addStretch()
+        
+        self.templates_scroll_area.setWidget(self.templates_container)
+        templates_layout.addWidget(self.templates_scroll_area)
+        
+        # 添加模板区域到主配置中
+        config_layout.addWidget(templates_group, 5, 0, 1, 3)
+        
         # --- 新增：处理模式选择 ---
-        config_layout.addWidget(QLabel("处理模式:"), 4, 0)
+        config_layout.addWidget(QLabel("处理模式:"), 6, 0)
         process_mode_layout = QHBoxLayout()
         
         self.mode_group = QButtonGroup(self)
@@ -202,7 +249,7 @@ class MainWindow(QMainWindow):
         process_mode_layout.addWidget(self.merge_mode_radio)
         process_mode_layout.addStretch()
         
-        config_layout.addLayout(process_mode_layout, 4, 1, 1, 2)
+        config_layout.addLayout(process_mode_layout, 6, 1, 1, 2)
         
         # 切换文本标签的显示
         self.split_mode_radio.toggled.connect(self.update_segments_label)
@@ -210,19 +257,19 @@ class MainWindow(QMainWindow):
         
         # --- 修改：分割/融合段数 ---
         self.segments_label = QLabel("替换素材段数:")
-        config_layout.addWidget(self.segments_label, 5, 0)
+        config_layout.addWidget(self.segments_label, 7, 0)
         self.num_segments_entry = QLineEdit()
         self.num_segments_entry.setPlaceholderText("默认为 1 (不分割)") # 添加提示
-        config_layout.addWidget(self.num_segments_entry, 5, 1, 1, 2) # Span across 2 columns
+        config_layout.addWidget(self.num_segments_entry, 7, 1, 1, 2) # Span across 2 columns
         
         # --- 新增：目标生成视频数量 ---
-        config_layout.addWidget(QLabel("目标生成视频数量:"), 6, 0)
+        config_layout.addWidget(QLabel("目标生成视频数量:"), 8, 0)
         self.target_videos_count_entry = QLineEdit()
         self.target_videos_count_entry.setPlaceholderText("默认为 1 (不组合)")
-        config_layout.addWidget(self.target_videos_count_entry, 6, 1, 1, 2)
+        config_layout.addWidget(self.target_videos_count_entry, 8, 1, 1, 2)
         
         # --- 新增：BGM音量控制 ---
-        config_layout.addWidget(QLabel("BGM音量:"), 7, 0)
+        config_layout.addWidget(QLabel("BGM音量:"), 9, 0)
         bgm_volume_layout = QHBoxLayout()
         
         # 创建音量滑动条
@@ -242,11 +289,11 @@ class MainWindow(QMainWindow):
         self.bgm_volume_slider.valueChanged.connect(self.update_volume_label)
         
         # 添加音量控制布局到主配置布局
-        config_layout.addLayout(bgm_volume_layout, 7, 1, 1, 2)
+        config_layout.addLayout(bgm_volume_layout, 9, 1, 1, 2)
         # --- BGM音量控制结束 ---
 
         # --- 新增：主轨道音量控制 ---
-        config_layout.addWidget(QLabel("主轨道音量:"), 8, 0)
+        config_layout.addWidget(QLabel("主轨道音量:"), 10, 0)
         main_volume_layout = QHBoxLayout()
         
         # 创建音量滑动条
@@ -266,10 +313,10 @@ class MainWindow(QMainWindow):
         self.main_volume_slider.valueChanged.connect(self.update_main_volume_label)
         
         # 添加音量控制布局到主配置布局
-        config_layout.addLayout(main_volume_layout, 8, 1, 1, 2)
+        config_layout.addLayout(main_volume_layout, 10, 1, 1, 2)
         # --- 主轨道音量控制结束 ---
 
-        # --- 调整行号到 9 ---
+        # --- 调整行号到 11 ---
         # 删除源文件选项和使用模板BGM选项
         checkbox_layout = QHBoxLayout()
         
@@ -281,22 +328,22 @@ class MainWindow(QMainWindow):
         self.keep_bgm_check.setChecked(True)  # 默认选中
         checkbox_layout.addWidget(self.keep_bgm_check)
         
-        config_layout.addLayout(checkbox_layout, 9, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
+        config_layout.addLayout(checkbox_layout, 11, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
 
-        # --- 调整行号到 10 ---
+        # --- 调整行号到 12 ---
         # 开始按钮
         self.start_button = QPushButton("开始分割素材后替换处理")
         self.start_button.setFixedHeight(40) # Make button taller
         self.start_button.setStyleSheet("background-color: lightblue; font-weight: bold;")
         self.start_button.clicked.connect(self.start_processing)
-        config_layout.addWidget(self.start_button, 10, 1, 1, 2) # Place below checkbox
+        config_layout.addWidget(self.start_button, 12, 1, 1, 2) # Place below checkbox
 
-        # --- 调整行号到 11 ---
+        # --- 调整行号到 13 ---
         # 导出纯净草稿按钮
         self.export_json_button = QPushButton("导出纯净草稿为 Zip")
         self.export_json_button.setFixedHeight(30) # Standard height
         self.export_json_button.clicked.connect(self.export_draft_json)
-        config_layout.addWidget(self.export_json_button, 11, 1, 1, 2) 
+        config_layout.addWidget(self.export_json_button, 13, 1, 1, 2) 
 
         # 设置列伸展，让输入框占据更多空间
         config_layout.setColumnStretch(1, 1)
@@ -413,6 +460,10 @@ class MainWindow(QMainWindow):
                 self.keep_bgm_check.setChecked(True)
             # --- 结束新增 ---
 
+            # 新增：加载上次选择的模板列表
+            self.selected_templates = self.config_data.get('Templates', {}).get('SelectedTemplates', [])
+            logger.info(f"从配置加载了 {len(self.selected_templates)} 个上次选择的模板")
+
             logger.info("UI 已从配置文件更新。")
         else:
             logger.error("配置加载函数未找到，无法加载初始配置。")
@@ -423,6 +474,7 @@ class MainWindow(QMainWindow):
         if save_config:
             if 'Paths' not in self.config_data: self.config_data['Paths'] = {}
             if 'Settings' not in self.config_data: self.config_data['Settings'] = {}
+            if 'Templates' not in self.config_data: self.config_data['Templates'] = {}
 
             self.config_data['Paths']['InputFolder'] = self.input_entry.text()
             self.config_data['Paths']['OutputFolder'] = self.output_entry.text()
@@ -458,6 +510,9 @@ class MainWindow(QMainWindow):
                 logger.warning(f"无法将目标生成视频数量 '{self.target_videos_count_entry.text().strip()}' 解析为整数，将保存为 1")
                 target_videos_count = 1
             self.config_data['Settings']['TargetVideosCount'] = target_videos_count
+
+            # 新增：保存选择的模板列表
+            self.config_data['Templates']['SelectedTemplates'] = self.selected_templates
 
             save_config(self.config_data)
         else:
@@ -497,8 +552,25 @@ class MainWindow(QMainWindow):
         # 获取并验证输入
         input_folder = self.input_entry.text().strip()
         output_folder = self.output_entry.text().strip()
-        draft_name = self.draft_name_entry.text().strip()
         draft_folder_path = self.draft_folder_entry.text().strip()
+        
+        # --- 修改：处理随机模板选择 ---
+        selected_templates = self.get_selected_templates()
+        self.selected_templates = selected_templates  # 保存当前选择，用于下次刷新时恢复勾选状态
+        
+        # 如果有选择模板，从中随机选择一个；否则使用手动输入的模板名
+        draft_name = self.draft_name_entry.text().strip()
+        final_template = draft_name
+        
+        if selected_templates:
+            final_template = random.choice(selected_templates)
+            logger.info(f"从 {len(selected_templates)} 个选中的模板中随机选择: {final_template}")
+        else:
+            # 如果没有选择随机模板，检查是否输入了模板名称
+            if not draft_name:
+                QMessageBox.critical(self, "错误", "请输入目标草稿名称或选择至少一个随机模板！")
+                return
+            logger.info(f"使用手动指定的模板: {final_template}")
         
         # 获取其他选项
         delete_source = self.delete_source_check.isChecked()
@@ -563,14 +635,27 @@ class MainWindow(QMainWindow):
         process_mode_text = "分割素材后替换" if process_mode == "split" else "直接素材替换"
         self.start_button.setText(f"{process_mode_text}处理中...")
         self.log_text_edit.clear() # 清空上次日志
-        self.log_text_edit.appendPlainText(f"开始{process_mode_text}处理...") # 立即显示
+        
+        # 修改初始日志，包含模板信息
+        if selected_templates:
+            self.log_text_edit.appendPlainText(f"开始{process_mode_text}处理，使用随机选择的模板: {final_template}") 
+        else:
+            self.log_text_edit.appendPlainText(f"开始{process_mode_text}处理，使用指定的模板: {final_template}")
+        
         QApplication.processEvents() # 确保 UI 更新
 
         logging.info("准备启动后台视频处理...")
         logging.info(f"  输入文件夹: {input_folder}")
         logging.info(f"  输出文件夹: {output_folder}")
         logging.info(f"  草稿库路径: {draft_folder_path}")
-        logging.info(f"  目标草稿名: {draft_name}")
+        
+        # 添加模板选择信息到日志
+        if selected_templates:
+            logging.info(f"  选择了 {len(selected_templates)} 个模板")
+            logging.info(f"  随机选择的模板: {final_template}")
+        else:
+            logging.info(f"  使用指定模板: {final_template}")
+            
         logging.info(f"  处理后删除源文件: {'是' if delete_source else '否'}")
         logging.info(f"  处理模式: {process_mode_text}")
         logging.info(f"  替换素材段数: {num_segments}")
@@ -579,19 +664,19 @@ class MainWindow(QMainWindow):
         logging.info(f"  BGM音量: {bgm_volume}%")  # 记录BGM音量设置
         logging.info(f"  主轨道音量: {main_track_volume}%")  # 记录主轨道音量设置
 
-        # 创建worker
+        # 创建worker - 使用随机或指定的模板名称
         self.processing_worker = ProcessingWorker(
             input_folder, 
             output_folder, 
-            draft_name, 
+            final_template,  # 使用最终确定的模板名称
             draft_folder_path, 
             delete_source, 
             num_segments,
             keep_bgm,
             bgm_volume,
             main_track_volume,
-            process_mode,  # 传递处理模式
-            target_videos_count  # 传递目标生成视频数量
+            process_mode,
+            target_videos_count
         )
         self.worker_thread = QThread(self) # Pass parent to help with lifetime management
         self.processing_worker.moveToThread(self.worker_thread)
@@ -742,6 +827,85 @@ class MainWindow(QMainWindow):
         else:
             self.start_button.setText("开始直接素材替换处理")
             
+    # --- 新增：模板相关方法 ---
+    def refresh_templates(self):
+        """刷新剪映草稿文件夹中的模板列表"""
+        # 清除当前的模板复选框
+        for checkbox in self.template_checkboxes.values():
+            self.templates_container_layout.removeWidget(checkbox)
+            checkbox.deleteLater()
+        self.template_checkboxes.clear()
+        
+        # 获取草稿文件夹路径
+        draft_folder = self.draft_folder_entry.text().strip()
+        if not draft_folder or not os.path.isdir(draft_folder):
+            QMessageBox.warning(self, "路径错误", "请输入有效的剪映草稿文件夹路径")
+            return
+        
+        # 查找草稿文件夹中的所有草稿
+        try:
+            templates = self.get_draft_templates(draft_folder)
+            if not templates:
+                QMessageBox.information(self, "无结果", "在指定路径未找到剪映草稿文件夹")
+                return
+                
+            # 添加复选框到滚动区域
+            for template_name in sorted(templates):
+                checkbox = QCheckBox(template_name)
+                # 如果是上次选择的模板，默认勾选
+                if template_name in self.selected_templates:
+                    checkbox.setChecked(True)
+                self.template_checkboxes[template_name] = checkbox
+                # 在添加拉伸前插入
+                self.templates_container_layout.insertWidget(
+                    self.templates_container_layout.count() - 1, checkbox)
+            
+            # 添加一个标签显示模板数量
+            template_count_label = QLabel(f"已加载 {len(templates)} 个模板")
+            self.templates_container_layout.insertWidget(
+                self.templates_container_layout.count() - 1, template_count_label)
+                
+            QMessageBox.information(self, "刷新成功", f"成功加载 {len(templates)} 个模板")
+            
+        except Exception as e:
+            logger.exception("刷新模板列表时出错")
+            QMessageBox.critical(self, "刷新失败", f"刷新模板列表时出错: {e}")
+    
+    def get_draft_templates(self, draft_folder):
+        """获取剪映草稿文件夹中的所有草稿名称"""
+        templates = []
+        
+        try:
+            # 遍历草稿文件夹下的所有子文件夹
+            for item in os.listdir(draft_folder):
+                item_path = os.path.join(draft_folder, item)
+                if os.path.isdir(item_path):
+                    # 检查是否包含draft_content.json文件，这是剪映草稿的标志
+                    if os.path.exists(os.path.join(item_path, "draft_content.json")):
+                        templates.append(item)
+        except Exception as e:
+            logger.error(f"获取草稿模板列表时出错: {e}")
+            raise
+            
+        return templates
+    
+    def select_all_templates(self):
+        """选择所有模板"""
+        for checkbox in self.template_checkboxes.values():
+            checkbox.setChecked(True)
+    
+    def deselect_all_templates(self):
+        """取消选择所有模板"""
+        for checkbox in self.template_checkboxes.values():
+            checkbox.setChecked(False)
+    
+    def get_selected_templates(self):
+        """获取当前选中的模板列表"""
+        selected = []
+        for name, checkbox in self.template_checkboxes.items():
+            if checkbox.isChecked():
+                selected.append(name)
+        return selected
 
 # --- 用于直接运行测试 UI (可选) ---
 # if __name__ == '__main__':
