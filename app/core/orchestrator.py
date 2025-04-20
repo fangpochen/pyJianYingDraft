@@ -208,7 +208,8 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                         logger.info(f"子目录 '{subfolder}' 已成功处理 {subfolder_counts[subfolder]} 个视频 (总进度: {total_processed}/{total_target})")
                     else:
                         failed_tasks += 1
-                        
+                        logger.error(f"处理任务失败: {task_identifier}")
+
                     if task_result.get('split_merge_failed', False):
                         split_merge_failures += 1
                     if task_result.get('jianying_failed', False):
@@ -666,107 +667,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                         # 任务成功标记
                         if successful_combinations > 0:
                             processing_success_flag = True
-                            # 增加成功任务计数
-                            successful_tasks += successful_combinations - 1  # 减1是因为外层循环会再加1
-                        
-                            # 在当前视频的模板循环尝试机制
-                            MAX_TEMPLATE_RETRIES = 3  # 最多尝试3个不同模板
-                            template_tried_count = 0
-                            template_tried_names = []
-                            processing_success_flag = False
-                            
-                            # 提前准备好可用模板列表，并打印用于调试
-                            available_templates = []
-                            if selected_templates and len(selected_templates) > 0:
-                                # 确保模板列表中包含初始选择的模板
-                                if draft_name not in selected_templates:
-                                    available_templates = selected_templates + [draft_name]
-                                else:
-                                    available_templates = selected_templates
-                                
-                                # 记录所有可用模板，增强可见性
-                                logger.info(f"  可用模板列表 ({len(available_templates)}): {', '.join(available_templates)}")
-                                
-                                # 直接随机选择一个模板供首次尝试使用
-                                initial_template = random.choice(available_templates)
-                                logger.info(f"\n  ▶▶▶▶▶ 强制随机选择模板: 【{initial_template}】 ◀◀◀◀◀\n")
-                                # 将随机选择的模板放在已尝试列表的第一位
-                                template_tried_names = [initial_template]
-                                task_draft_name = initial_template
-                                template_tried_count = 1
-                            else:
-                                available_templates = [draft_name]
-                                logger.info(f"  仅有一个可用模板: {draft_name}")
-                                template_tried_names = []
-                                task_draft_name = draft_name
-                            
-                            # 继续现有的重试逻辑
-                            while template_tried_count < MAX_TEMPLATE_RETRIES and not processing_success_flag:
-                                # 从剩余可用模板中随机选择一个
-                                unused_templates = [t for t in available_templates if t not in template_tried_names]
-                                
-                                if unused_templates:
-                                    # 真正的随机选择并高亮显示
-                                    task_draft_name = random.choice(unused_templates)
-                                    logger.info(f"  ★★★ 为视频随机选择模板 (尝试 {template_tried_count+1}/{MAX_TEMPLATE_RETRIES}): 【{task_draft_name}】 ★★★")
-                                else:
-                                    task_draft_name = draft_name
-                                    logger.warning(f"  没有未尝试的模板可用，使用默认模板: {draft_name}")
-                                
-                                # 添加到已尝试列表
-                                template_tried_names.append(task_draft_name)
-                                template_tried_count += 1
-                                
-                                # 确保bgm_volume参数值是正确的
-                                logger.info(f"  传递BGM音量设置: {bgm_volume}%")
-                                
-                                # 在直接替换模式下，如果split_video_paths为空，使用原始视频
-                                if process_mode == "merge" and (not split_video_paths or len(split_video_paths) == 0):
-                                    logger.info("  直接素材替换模式：使用原始视频路径")
-                                    # 直接使用原始视频路径
-                                    videos_to_process = [original_video_path]
-                                    logger.info(f"  使用视频 ({len(videos_to_process)}): {', '.join(os.path.basename(p) for p in videos_to_process)}")
-                                else:
-                                    videos_to_process = split_video_paths
-                                
-                                # 调用剪映处理函数
-                                jy_result = process_videos(
-                                    video_paths=videos_to_process,
-                                    draft_name=task_draft_name,
-                                    draft_folder_path=draft_folder_path,
-                                    export_video=True,
-                                    export_path=final_export_dir,
-                                    export_filename=final_export_filename,
-                                    original_duration_seconds=original_duration_sec,
-                                    keep_bgm=keep_bgm,
-                                    bgm_volume=bgm_volume,  # 确保音量设置正确传递
-                                    main_track_volume=main_track_volume
-                                )
-                                
-                                jy_duration = time.time() - jy_start_time
-                                logger.info(f"  剪映处理完成，耗时: {jy_duration:.2f}秒")
-
-                                if jy_result["success"]:
-                                    logger.info(f"  {task_identifier} 剪映处理成功。")
-                                    processing_success_flag = True # 标记成功
-                                    result['success'] = True  # 确保结果字典也被标记为成功
-                                    break  # 成功处理，跳出重试循环
-                                else:
-                                    error_msg_jy = jy_result.get('error', '未知剪映错误')
-                                    logger.error(f"  {task_identifier} 使用模板 '{task_draft_name}' 处理失败: {error_msg_jy}")
-                                    
-                                    if template_tried_count < MAX_TEMPLATE_RETRIES and selected_templates and len(selected_templates) > 1:
-                                        logger.info(f"  将尝试使用其他模板继续处理")
-                                    else:
-                                        jianying_failures += 1
-                                        if template_tried_count >= MAX_TEMPLATE_RETRIES:
-                                            logger.error(f"  已尝试 {template_tried_count} 个模板，全部失败")
-                                            result['jianying_failed'] = True
                     
-                    # 如果尝试处理成功
-                    if processing_success_flag:
-                        successful_tasks += 1
-
                 except Exception as task_error:
                     # 捕获当前任务处理过程中的所有异常 (切割失败, 剪映处理失败等)
                     logger.exception(f"处理 {task_identifier} 时发生错误")
@@ -778,7 +679,6 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
 
                 # 处理完成，记录成功或失败
                 if processing_success_flag:
-                    successful_tasks += 1
                     # 如果启用了按子目录循环处理，更新子目录计数
                     if process_by_subfolder and subfolder_name in subfolder_counts:
                         subfolder_counts[subfolder_name] += 1
@@ -796,9 +696,10 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         result_summary['tasks_failed'] = failed_tasks
         result_summary['success'] = (failed_tasks == 0) # 只有所有任务都成功才算整体成功
         
-        final_message = f"处理完成: 共找到 {tasks_found} 个素材文件夹, 成功处理 {successful_tasks} 个, 失败 {failed_tasks} 个 (融合失败: {split_merge_failures}, 剪映失败: {jianying_failures})。共生成 {global_successful_combinations} 个视频组合。"
-        if failed_tasks > 0:
-             final_message += " 请检查日志获取失败详情。"
+        if failed_tasks == 0:
+            final_message = f"处理完成: 共找到 {tasks_found} 个素材文件夹, 成功处理 {successful_tasks} 个，所有任务处理成功！" 
+        else:
+            final_message = f"处理完成: 共找到 {tasks_found} 个素材文件夹, 成功处理 {successful_tasks} 个, 失败 {failed_tasks} 个 (融合失败: {split_merge_failures}, 剪映失败: {jianying_failures})。共生成 {global_successful_combinations} 个视频组合。请检查日志获取失败详情。"
         result_summary['message'] = final_message
         logger.info(final_message)
 

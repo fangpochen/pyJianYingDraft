@@ -413,7 +413,7 @@ def process_videos(video_paths,
             logger.info("使用速度优化的剪映控制器进行导出...")
 
             export_success = False # 初始化导出状态
-            max_retries = 10  # 增加到10次重试
+            max_retries = 3  # 从10次减少到3次重试
             initial_wait = 3  # 初始等待时间3秒
             
             for attempt in range(1, max_retries + 1):
