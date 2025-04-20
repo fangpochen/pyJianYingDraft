@@ -42,7 +42,7 @@ class ProcessingWorker(QObject):
     ''' 执行后台处理任务的 Worker '''
     signals = WorkerSignals()
 
-    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100, main_track_volume=100, process_mode="split", target_videos_count=1):
+    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100, main_track_volume=100, process_mode="split", target_videos_count=1, process_by_subfolder=False, videos_per_subfolder=0):
         super().__init__()
         self.input_folder = input_folder
         self.output_folder = output_folder
@@ -55,6 +55,8 @@ class ProcessingWorker(QObject):
         self.main_track_volume = main_track_volume
         self.process_mode = process_mode  # 新增：处理模式参数
         self.target_videos_count = target_videos_count  # 新增：目标生成视频数量
+        self.process_by_subfolder = process_by_subfolder  # 新增：是否按子目录循环处理
+        self.videos_per_subfolder = videos_per_subfolder  # 新增：每个子目录处理的视频数量
         self.is_cancelled = False
 
     def run(self):
@@ -78,7 +80,9 @@ class ProcessingWorker(QObject):
                 self.bgm_volume,  # 传递bgm_volume参数
                 self.main_track_volume,  # 传递main_track_volume参数
                 self.process_mode,  # 传递处理模式参数
-                self.target_videos_count  # 传递目标生成视频数量参数
+                self.target_videos_count,  # 传递目标生成视频数量参数
+                self.process_by_subfolder,  # 传递是否按子目录循环处理参数
+                self.videos_per_subfolder  # 传递每个子目录处理的视频数量参数
             )
             logger.info(f"run_individual_video_processing 调用完成，返回: {result_dict}")
             # --- 结束调用 --- 
@@ -268,8 +272,22 @@ class MainWindow(QMainWindow):
         self.target_videos_count_entry.setPlaceholderText("默认为 1 (不组合)")
         config_layout.addWidget(self.target_videos_count_entry, 8, 1, 1, 2)
         
-        # --- 新增：BGM音量控制 ---
-        config_layout.addWidget(QLabel("BGM音量:"), 9, 0)
+        # --- 新增：按子目录循环处理和每个子目录处理视频数量 ---
+        subfolder_layout = QHBoxLayout()
+        self.process_by_subfolder_check = QCheckBox("按子目录循环处理")
+        subfolder_layout.addWidget(self.process_by_subfolder_check)
+        
+        subfolder_layout.addWidget(QLabel("每个子目录处理视频数量:"))
+        self.videos_per_subfolder_entry = QLineEdit()
+        self.videos_per_subfolder_entry.setPlaceholderText("默认为0 (不限制)")
+        self.videos_per_subfolder_entry.setMaximumWidth(150)  # 限制输入框宽度，使其不会占据太大空间
+        subfolder_layout.addWidget(self.videos_per_subfolder_entry)
+        
+        subfolder_layout.addStretch()
+        config_layout.addLayout(subfolder_layout, 9, 0, 1, 3)  # 添加到第9行
+        
+        # --- 新增：BGM音量控制（从原来的第9行调整到第10行） ---
+        config_layout.addWidget(QLabel("BGM音量:"), 10, 0)
         bgm_volume_layout = QHBoxLayout()
         
         # 创建音量滑动条
@@ -289,11 +307,11 @@ class MainWindow(QMainWindow):
         self.bgm_volume_slider.valueChanged.connect(self.update_volume_label)
         
         # 添加音量控制布局到主配置布局
-        config_layout.addLayout(bgm_volume_layout, 9, 1, 1, 2)
+        config_layout.addLayout(bgm_volume_layout, 10, 1, 1, 2)
         # --- BGM音量控制结束 ---
 
-        # --- 新增：主轨道音量控制 ---
-        config_layout.addWidget(QLabel("主轨道音量:"), 10, 0)
+        # --- 新增：主轨道音量控制（从原来的第10行调整到第11行） ---
+        config_layout.addWidget(QLabel("主轨道音量:"), 11, 0)
         main_volume_layout = QHBoxLayout()
         
         # 创建音量滑动条
@@ -313,10 +331,10 @@ class MainWindow(QMainWindow):
         self.main_volume_slider.valueChanged.connect(self.update_main_volume_label)
         
         # 添加音量控制布局到主配置布局
-        config_layout.addLayout(main_volume_layout, 10, 1, 1, 2)
+        config_layout.addLayout(main_volume_layout, 11, 1, 1, 2)
         # --- 主轨道音量控制结束 ---
 
-        # --- 调整行号到 11 ---
+        # --- 调整行号到 12 ---
         # 删除源文件选项和使用模板BGM选项
         checkbox_layout = QHBoxLayout()
         
@@ -328,22 +346,22 @@ class MainWindow(QMainWindow):
         self.keep_bgm_check.setChecked(True)  # 默认选中
         checkbox_layout.addWidget(self.keep_bgm_check)
         
-        config_layout.addLayout(checkbox_layout, 11, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
+        config_layout.addLayout(checkbox_layout, 12, 0, 1, 3)  # 放在音量滑动条下方，跨越3列
 
-        # --- 调整行号到 12 ---
+        # --- 调整行号到 13 ---
         # 开始按钮
         self.start_button = QPushButton("开始分割素材后替换处理")
         self.start_button.setFixedHeight(40) # Make button taller
         self.start_button.setStyleSheet("background-color: lightblue; font-weight: bold;")
         self.start_button.clicked.connect(self.start_processing)
-        config_layout.addWidget(self.start_button, 12, 1, 1, 2) # Place below checkbox
+        config_layout.addWidget(self.start_button, 13, 1, 1, 2) # Place below checkbox
 
-        # --- 调整行号到 13 ---
+        # --- 调整行号到 14 ---
         # 导出纯净草稿按钮
         self.export_json_button = QPushButton("导出纯净草稿为 Zip")
         self.export_json_button.setFixedHeight(30) # Standard height
         self.export_json_button.clicked.connect(self.export_draft_json)
-        config_layout.addWidget(self.export_json_button, 13, 1, 1, 2) 
+        config_layout.addWidget(self.export_json_button, 14, 1, 1, 2) 
 
         # 设置列伸展，让输入框占据更多空间
         config_layout.setColumnStretch(1, 1)
@@ -404,6 +422,14 @@ class MainWindow(QMainWindow):
             
             # 新增：加载目标生成视频数量配置
             self.target_videos_count_entry.setText(str(self.config_data.get('Settings', {}).get('TargetVideosCount', 1))) # 默认为 1
+            
+            # 新增：加载按子目录处理配置
+            process_by_subfolder = self.config_data.get('Settings', {}).get('ProcessBySubfolder', False)
+            self.process_by_subfolder_check.setChecked(process_by_subfolder)
+            
+            # 新增：加载每个子目录处理视频数量配置
+            videos_per_subfolder = self.config_data.get('Settings', {}).get('VideosPerSubfolder', 0)
+            self.videos_per_subfolder_entry.setText(str(videos_per_subfolder))
             
             # 新增：加载BGM音量配置
             bgm_volume = self.config_data.get('Settings', {}).get('BGMVolume', 100)
@@ -510,6 +536,20 @@ class MainWindow(QMainWindow):
                 logger.warning(f"无法将目标生成视频数量 '{self.target_videos_count_entry.text().strip()}' 解析为整数，将保存为 1")
                 target_videos_count = 1
             self.config_data['Settings']['TargetVideosCount'] = target_videos_count
+            
+            # 新增：保存按子目录处理配置
+            self.config_data['Settings']['ProcessBySubfolder'] = self.process_by_subfolder_check.isChecked()
+            
+            # 新增：保存每个子目录处理视频数量配置
+            try:
+                videos_per_subfolder = int(self.videos_per_subfolder_entry.text().strip() or "0")
+                if videos_per_subfolder < 0:
+                    logger.warning(f"无效的每个子目录处理视频数量 '{self.videos_per_subfolder_entry.text().strip()}', 将保存为 0")
+                    videos_per_subfolder = 0
+            except ValueError:
+                logger.warning(f"无法将每个子目录处理视频数量 '{self.videos_per_subfolder_entry.text().strip()}' 解析为整数，将保存为 0")
+                videos_per_subfolder = 0
+            self.config_data['Settings']['VideosPerSubfolder'] = videos_per_subfolder
 
             # 新增：保存选择的模板列表
             self.config_data['Templates']['SelectedTemplates'] = self.selected_templates
@@ -608,6 +648,23 @@ class MainWindow(QMainWindow):
             except ValueError:
                 QMessageBox.warning(self, "输入错误", f"目标生成视频数量必须是整数。")
                 return
+        
+        # 获取是否按子目录处理
+        process_by_subfolder = self.process_by_subfolder_check.isChecked()
+        
+        # 获取每个子目录处理视频数量
+        videos_per_subfolder_text = self.videos_per_subfolder_entry.text().strip()
+        if not videos_per_subfolder_text:
+            videos_per_subfolder = 0  # 默认值，表示不限制
+        else:
+            try:
+                videos_per_subfolder = int(videos_per_subfolder_text)
+                if videos_per_subfolder < 0:
+                    QMessageBox.warning(self, "输入错误", f"每个子目录处理视频数量不能为负数。")
+                    return
+            except ValueError:
+                QMessageBox.warning(self, "输入错误", f"每个子目录处理视频数量必须是整数。")
+                return
 
         # --- 验证输入 --- 
         if not input_folder or not os.path.isdir(input_folder):
@@ -663,6 +720,8 @@ class MainWindow(QMainWindow):
         logging.info(f"  使用模板BGM: {'是' if keep_bgm else '否'}")
         logging.info(f"  BGM音量: {bgm_volume}%")  # 记录BGM音量设置
         logging.info(f"  主轨道音量: {main_track_volume}%")  # 记录主轨道音量设置
+        logging.info(f"  按子目录循环处理: {'是' if process_by_subfolder else '否'}")
+        logging.info(f"  每个子目录处理视频数量: {videos_per_subfolder if videos_per_subfolder > 0 else '不限制'}")
 
         # 创建worker - 使用随机或指定的模板名称
         self.processing_worker = ProcessingWorker(
@@ -676,7 +735,9 @@ class MainWindow(QMainWindow):
             bgm_volume,
             main_track_volume,
             process_mode,
-            target_videos_count
+            target_videos_count,
+            process_by_subfolder,  # 新增：是否按子目录循环处理
+            videos_per_subfolder   # 新增：每个子目录处理视频数量
         )
         self.worker_thread = QThread(self) # Pass parent to help with lifetime management
         self.processing_worker.moveToThread(self.worker_thread)
