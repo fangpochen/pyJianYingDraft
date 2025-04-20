@@ -163,15 +163,27 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
             subfolder_counts = {subfolder: 0 for subfolder in subfolder_tasks.keys()}
             total_processed = 0
             
-            # 持续循环直到所有子文件夹都处理完毕或达到限制
-            while True:
+            # 计算总目标视频数
+            total_target = target_videos_count if process_mode == "merge" else min(tasks_found, target_videos_count)
+            logger.info(f"按子目录轮流处理已启用，每个子目录基础限制: {videos_per_subfolder}，总目标数量: {total_target}")
+            
+            # 持续循环直到达到总目标数量或所有子文件夹都处理完毕
+            while total_processed < total_target:
                 any_task_processed = False
                 
                 # 遍历每个子文件夹
                 for subfolder, tasks in subfolder_tasks.items():
-                    # 跳过已达到处理上限的子文件夹
+                    # 如果已达到总目标，退出循环
+                    if total_processed >= total_target:
+                        break
+                        
+                    # 跳过已达到处理上限的子文件夹，除非是第二轮分配
                     if videos_per_subfolder > 0 and subfolder_counts[subfolder] >= videos_per_subfolder:
-                        continue
+                        # 当总处理数小于总子目录数时，严格按每个子目录限制处理
+                        if total_processed < len(subfolder_tasks):
+                            continue
+                        # 当进入第二轮分配，优先分配给还有剩余任务的子目录
+                        # 此时每个子目录至少处理了一个视频，可以继续处理剩余的目标视频
                     
                     # 跳过没有剩余任务的子文件夹
                     if not tasks:
@@ -184,15 +196,16 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                     logger.info(f"\n--- 开始处理 {task_identifier} ---")
                     
                     # 处理单个任务的代码
-                    task_result = process_single_task(task, output_folder, task_draft_name if 'task_draft_name' in locals() else draft_name,
+                    task_result = process_single_task(task, output_folder, draft_name,
                                                     draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume,
                                                     main_track_volume, process_mode, selected_templates)
                     
                     if task_result['success']:
                         successful_tasks += 1
                         subfolder_counts[subfolder] += 1
+                        total_processed += 1
                         any_task_processed = True
-                        logger.info(f"子目录 '{subfolder}' 已成功处理 {subfolder_counts[subfolder]}/{videos_per_subfolder if videos_per_subfolder > 0 else '不限制'} 个视频")
+                        logger.info(f"子目录 '{subfolder}' 已成功处理 {subfolder_counts[subfolder]} 个视频 (总进度: {total_processed}/{total_target})")
                     else:
                         failed_tasks += 1
                         
@@ -203,6 +216,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                 
                 # 如果没有任何任务被处理，说明所有子文件夹都已处理完毕或达到限制
                 if not any_task_processed:
+                    logger.info(f"所有可处理的任务都已完成，总共处理了 {total_processed}/{total_target} 个视频")
                     break
                     
                 # 检查是否达到全局目标数量（直接素材替换模式）
@@ -661,26 +675,43 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                             template_tried_names = []
                             processing_success_flag = False
                             
-                            while template_tried_count < MAX_TEMPLATE_RETRIES and not processing_success_flag:
-                                # 随机选择一个模板（避免选择已经尝试过的）
-                                task_draft_name = draft_name
-                                if selected_templates and len(selected_templates) > 0:
-                                    available_templates = []
-                                    for t in (selected_templates if draft_name in selected_templates else selected_templates + [draft_name]):
-                                        if t not in template_tried_names:
-                                            available_templates.append(t)
-                                    
-                                    if available_templates:
-                                        task_draft_name = random.choice(available_templates)
-                                        logger.info(f"  为当前视频随机选择模板(尝试 {template_tried_count+1}/{MAX_TEMPLATE_RETRIES}): {task_draft_name}")
-                                    else:
-                                        logger.warning(f"  已尝试所有可用模板，没有更多可尝试的模板")
-                                        break
+                            # 提前准备好可用模板列表，并打印用于调试
+                            available_templates = []
+                            if selected_templates and len(selected_templates) > 0:
+                                # 确保模板列表中包含初始选择的模板
+                                if draft_name not in selected_templates:
+                                    available_templates = selected_templates + [draft_name]
                                 else:
-                                    if template_tried_count > 0:
-                                        logger.warning(f"  没有选定多个模板，无法尝试其他模板")
-                                        break
-                                    logger.info(f"  使用固定模板: {task_draft_name}")
+                                    available_templates = selected_templates
+                                
+                                # 记录所有可用模板，增强可见性
+                                logger.info(f"  可用模板列表 ({len(available_templates)}): {', '.join(available_templates)}")
+                                
+                                # 直接随机选择一个模板供首次尝试使用
+                                initial_template = random.choice(available_templates)
+                                logger.info(f"\n  ▶▶▶▶▶ 强制随机选择模板: 【{initial_template}】 ◀◀◀◀◀\n")
+                                # 将随机选择的模板放在已尝试列表的第一位
+                                template_tried_names = [initial_template]
+                                task_draft_name = initial_template
+                                template_tried_count = 1
+                            else:
+                                available_templates = [draft_name]
+                                logger.info(f"  仅有一个可用模板: {draft_name}")
+                                template_tried_names = []
+                                task_draft_name = draft_name
+                            
+                            # 继续现有的重试逻辑
+                            while template_tried_count < MAX_TEMPLATE_RETRIES and not processing_success_flag:
+                                # 从剩余可用模板中随机选择一个
+                                unused_templates = [t for t in available_templates if t not in template_tried_names]
+                                
+                                if unused_templates:
+                                    # 真正的随机选择并高亮显示
+                                    task_draft_name = random.choice(unused_templates)
+                                    logger.info(f"  ★★★ 为视频随机选择模板 (尝试 {template_tried_count+1}/{MAX_TEMPLATE_RETRIES}): 【{task_draft_name}】 ★★★")
+                                else:
+                                    task_draft_name = draft_name
+                                    logger.warning(f"  没有未尝试的模板可用，使用默认模板: {draft_name}")
                                 
                                 # 添加到已尝试列表
                                 template_tried_names.append(task_draft_name)
@@ -718,6 +749,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                 if jy_result["success"]:
                                     logger.info(f"  {task_identifier} 剪映处理成功。")
                                     processing_success_flag = True # 标记成功
+                                    result['success'] = True  # 确保结果字典也被标记为成功
                                     break  # 成功处理，跳出重试循环
                                 else:
                                     error_msg_jy = jy_result.get('error', '未知剪映错误')
@@ -729,8 +761,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                         jianying_failures += 1
                                         if template_tried_count >= MAX_TEMPLATE_RETRIES:
                                             logger.error(f"  已尝试 {template_tried_count} 个模板，全部失败")
-                                        elif not selected_templates or len(selected_templates) <= 1:
-                                            logger.error(f"  没有其他可用模板可尝试")
+                                            result['jianying_failed'] = True
                     
                     # 如果尝试处理成功
                     if processing_success_flag:
@@ -833,6 +864,9 @@ def process_single_task(task, output_folder, draft_name, draft_folder_path, dele
     subfolder_name = task['subfolder_name']
     output_base_name = task['output_base_name']
     
+    # 添加任务标识符，用于日志输出
+    task_identifier = f"视频任务: {os.path.basename(original_video_path)} (来自: {subfolder_name})"
+    
     # --- Determine output directory for this specific task ---
     base_output_dir = os.path.join(output_folder, subfolder_name)
     try:
@@ -898,26 +932,43 @@ def process_single_task(task, output_folder, draft_name, draft_folder_path, dele
         template_tried_names = []
         processing_success_flag = False
         
-        while template_tried_count < MAX_TEMPLATE_RETRIES and not processing_success_flag:
-            # 随机选择一个模板（避免选择已经尝试过的）
-            task_draft_name = draft_name
-            if selected_templates and len(selected_templates) > 0:
-                available_templates = []
-                for t in (selected_templates if draft_name in selected_templates else selected_templates + [draft_name]):
-                    if t not in template_tried_names:
-                        available_templates.append(t)
-                
-                if available_templates:
-                    task_draft_name = random.choice(available_templates)
-                    logger.info(f"  为当前视频随机选择模板(尝试 {template_tried_count+1}/{MAX_TEMPLATE_RETRIES}): {task_draft_name}")
-                else:
-                    logger.warning(f"  已尝试所有可用模板，没有更多可尝试的模板")
-                    break
+        # 提前准备好可用模板列表，并打印用于调试
+        available_templates = []
+        if selected_templates and len(selected_templates) > 0:
+            # 确保模板列表中包含初始选择的模板
+            if draft_name not in selected_templates:
+                available_templates = selected_templates + [draft_name]
             else:
-                if template_tried_count > 0:
-                    logger.warning(f"  没有选定多个模板，无法尝试其他模板")
-                    break
-                logger.info(f"  使用固定模板: {task_draft_name}")
+                available_templates = selected_templates
+            
+            # 记录所有可用模板，增强可见性
+            logger.info(f"  可用模板列表 ({len(available_templates)}): {', '.join(available_templates)}")
+            
+            # 直接随机选择一个模板供首次尝试使用
+            initial_template = random.choice(available_templates)
+            logger.info(f"\n  ▶▶▶▶▶ 强制随机选择模板: 【{initial_template}】 ◀◀◀◀◀\n")
+            # 将随机选择的模板放在已尝试列表的第一位
+            template_tried_names = [initial_template]
+            task_draft_name = initial_template
+            template_tried_count = 1
+        else:
+            available_templates = [draft_name]
+            logger.info(f"  仅有一个可用模板: {draft_name}")
+            template_tried_names = []
+            task_draft_name = draft_name
+            
+        # 继续现有的重试逻辑
+        while template_tried_count < MAX_TEMPLATE_RETRIES and not processing_success_flag:
+            # 从剩余可用模板中随机选择一个
+            unused_templates = [t for t in available_templates if t not in template_tried_names]
+            
+            if unused_templates:
+                # 真正的随机选择并高亮显示
+                task_draft_name = random.choice(unused_templates)
+                logger.info(f"  ★★★ 为视频随机选择模板 (尝试 {template_tried_count+1}/{MAX_TEMPLATE_RETRIES}): 【{task_draft_name}】 ★★★")
+            else:
+                task_draft_name = draft_name
+                logger.warning(f"  没有未尝试的模板可用，使用默认模板: {draft_name}")
             
             # 添加到已尝试列表
             template_tried_names.append(task_draft_name)
@@ -945,7 +996,7 @@ def process_single_task(task, output_folder, draft_name, draft_folder_path, dele
                 export_filename=final_export_filename,
                 original_duration_seconds=original_duration_sec,
                 keep_bgm=keep_bgm,
-                bgm_volume=bgm_volume,  # 确保音量设置正确传递
+                bgm_volume=bgm_volume,
                 main_track_volume=main_track_volume
             )
             
@@ -954,26 +1005,8 @@ def process_single_task(task, output_folder, draft_name, draft_folder_path, dele
 
             if jy_result["success"]:
                 logger.info(f"  {task_identifier} 剪映处理成功。")
-                result['success'] = True
-                
-                # 删除临时文件
-                if split_video_paths:
-                    for split_file in split_video_paths:
-                        if split_file != original_video_path and os.path.exists(split_file):
-                            try:
-                                os.remove(split_file)
-                                logger.info(f"  已删除临时文件: {os.path.basename(split_file)}")
-                            except Exception as e:
-                                logger.warning(f"  删除临时文件失败: {e}")
-                
-                # 删除源文件（如果启用）
-                if delete_source:
-                    try:
-                        if os.path.exists(original_video_path):
-                            os.remove(original_video_path)
-                            logger.info(f"  已删除原始视频: {os.path.basename(original_video_path)}")
-                    except Exception as e:
-                        logger.warning(f"  删除原始视频失败: {e}")
+                processing_success_flag = True # 标记成功
+                result['success'] = True  # 确保结果字典也被标记为成功
             else:
                 error_msg_jy = jy_result.get('error', '未知剪映错误')
                 logger.error(f"  {task_identifier} 使用模板 '{task_draft_name}' 处理失败: {error_msg_jy}")
@@ -986,16 +1019,21 @@ def process_single_task(task, output_folder, draft_name, draft_folder_path, dele
                         logger.error(f"  已尝试 {template_tried_count} 个模板，全部失败")
                         result['jianying_failed'] = True
         
-        # 如果尝试处理成功
-        if processing_success_flag:
-            successful_tasks += 1
+        # 明确记录最终处理状态
+        status = "成功" if result['success'] else "失败"
+        
+        # 确保计算任务持续时间
+        task_duration = time.time() - task_start_time
+        logger.info(f"--- {task_identifier} 处理结束 [{status}] | 耗时: {task_duration:.2f}秒 ---")
+        
+        return result
 
     except Exception as e:
         logger.exception(f"处理视频任务时出错: {e}")
     
     task_duration = time.time() - task_start_time
     status = "成功" if result['success'] else "失败"
-    logger.info(f"--- 任务处理结束 [{status}] | 耗时: {task_duration:.2f}秒 ---")
+    logger.info(f"--- {task_identifier} 处理结束 [{status}] | 耗时: {task_duration:.2f}秒 ---")
     
     return result
 
