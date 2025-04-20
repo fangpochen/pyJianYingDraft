@@ -42,7 +42,7 @@ class ProcessingWorker(QObject):
     ''' 执行后台处理任务的 Worker '''
     signals = WorkerSignals()
 
-    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100, main_track_volume=100, process_mode="split", target_videos_count=1, process_by_subfolder=False, videos_per_subfolder=0):
+    def __init__(self, input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume=100, main_track_volume=100, process_mode="split", target_videos_count=1, process_by_subfolder=False, videos_per_subfolder=0, selected_templates=[]):
         super().__init__()
         self.input_folder = input_folder
         self.output_folder = output_folder
@@ -57,6 +57,7 @@ class ProcessingWorker(QObject):
         self.target_videos_count = target_videos_count  # 新增：目标生成视频数量
         self.process_by_subfolder = process_by_subfolder  # 新增：是否按子目录循环处理
         self.videos_per_subfolder = videos_per_subfolder  # 新增：每个子目录处理的视频数量
+        self.selected_templates = selected_templates  # 新增：选择的模板列表，用于每个视频任务随机选择
         self.is_cancelled = False
 
     def run(self):
@@ -82,7 +83,8 @@ class ProcessingWorker(QObject):
                 self.process_mode,  # 传递处理模式参数
                 self.target_videos_count,  # 传递目标生成视频数量参数
                 self.process_by_subfolder,  # 传递是否按子目录循环处理参数
-                self.videos_per_subfolder  # 传递每个子目录处理的视频数量参数
+                self.videos_per_subfolder,   # 传递每个子目录处理的视频数量参数
+                self.selected_templates  # 传递选择的模板列表，用于每个视频任务随机选择
             )
             logger.info(f"run_individual_video_processing 调用完成，返回: {result_dict}")
             # --- 结束调用 --- 
@@ -737,7 +739,8 @@ class MainWindow(QMainWindow):
             process_mode,
             target_videos_count,
             process_by_subfolder,  # 新增：是否按子目录循环处理
-            videos_per_subfolder   # 新增：每个子目录处理视频数量
+            videos_per_subfolder,   # 新增：每个子目录处理视频数量
+            selected_templates  # 新增：选择的模板列表，用于每个视频任务随机选择
         )
         self.worker_thread = QThread(self) # Pass parent to help with lifetime management
         self.processing_worker.moveToThread(self.worker_thread)

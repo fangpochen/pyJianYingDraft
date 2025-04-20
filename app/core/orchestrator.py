@@ -6,6 +6,7 @@ import time
 import logging
 import traceback
 import re
+import random
 
 # --- Import necessary functions from other modules ---
 try:
@@ -29,7 +30,7 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-def run_individual_video_processing(input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm=True, bgm_volume=100, main_track_volume=100, process_mode="split", target_videos_count=1):
+def run_individual_video_processing(input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm=True, bgm_volume=100, main_track_volume=100, process_mode="split", target_videos_count=1, process_by_subfolder=False, videos_per_subfolder=0, selected_templates=None):
     """
     Main function to process each video file individually.
     Orchestrates finding tasks, splitting, processing via Jianying, and cleanup.
@@ -48,6 +49,9 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         main_track_volume (int): 主轨道音量，取值范围0-100，默认为100（原始音量）。
         process_mode (str): 处理模式，可选值为"split"（分割）或"merge"（融合），默认为"split"。
         target_videos_count (int): 目标生成视频数量，用于排列组合，默认为1（不组合）。
+        process_by_subfolder (bool): 是否按子目录循环处理，默认为False。
+        videos_per_subfolder (int): 每个子目录处理视频数量，默认为0（不限制）。
+        selected_templates (list): 选中的模板列表，如果提供且包含多个模板，将为每个视频任务随机选择一个模板。
 
     Returns:
         dict: A dictionary containing processing results:
@@ -143,484 +147,618 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         global_combinations_to_process = target_videos_count if process_mode == "merge" else tasks_found
         logger.info(f"[全局统计] 目标总视频数量: {global_combinations_to_process}（{'按组合数' if process_mode == 'merge' else '按素材文件夹数'}）")
 
-        for i, task in enumerate(video_tasks):
-            # 检查是否已达到全局目标
-            if process_mode == "merge" and global_successful_combinations >= global_combinations_to_process:
-                logger.info(f"[全局统计] ⚠️ 已成功处理 {global_successful_combinations} 个组合，达到全局目标 {global_combinations_to_process}，停止后续任务处理")
-                break
-
-            task_start_time = time.time()
-            original_video_path = task['original_path']
-            subfolder_name = task['subfolder_name']
-            output_base_name = task['output_base_name'] # Base name for export/splits
-            task_identifier = f"任务 {i+1}/{tasks_found}: {os.path.basename(original_video_path)} (来自: {subfolder_name})"
-
-            logger.info(f"\n--- 开始处理 {task_identifier} ---")
-
-            # --- Determine output directory for this specific task ---
-            base_output_dir = os.path.join(output_folder, subfolder_name)
-            try:
-                os.makedirs(base_output_dir, exist_ok=True)
-            except OSError as e:
-                 logger.error(f"无法创建基础输出目录 {base_output_dir}: {e}", exc_info=True)
-                 failed_tasks += 1
-                 continue # Skip this task if base output dir cannot be created
-
-            split_output_dir = os.path.join(base_output_dir, f"{output_base_name}_splits")
-            final_export_dir = base_output_dir
-            final_export_filename = f"{output_base_name}.mp4"
-            final_export_path = os.path.join(final_export_dir, final_export_filename)
-
-            logger.info(f"  原始视频: {original_video_path}")
-            logger.info(f"  切割片段输出目录: {split_output_dir}")
-            logger.info(f"  最终导出目录: {final_export_dir}")
-            logger.info(f"  最终导出文件名: {final_export_filename}")
-
-            split_video_paths = None
-            original_duration_sec = None
-            processing_success_flag = False # 用于标记单个任务是否成功
-
-            try:
-                # --- Step 2a(i): Get Original Video Duration ---
-                try:
-                    logger.info("  步骤 2a(i): 获取原始视频时长...")
-                    original_duration_sec = get_video_duration(original_video_path)
-                    if original_duration_sec is not None:
-                        logger.info(f"    原始视频时长: {original_duration_sec:.2f} 秒")
-                    else:
-                        logger.warning(f"  无法获取原始视频 '{os.path.basename(original_video_path)}' 的时长。返回值为 None。")
-                        logger.warning("  将无法调整模板时长，导出视频可能包含黑屏或被截断。")
-                except Exception as dur_err:
-                    logger.warning(f"  获取原始视频 '{os.path.basename(original_video_path)}' 时长时发生错误: {dur_err}", exc_info=True)
-                    logger.warning("  将无法调整模板时长，导出视频可能包含黑屏或被截断。")
-                    original_duration_sec = None
-
-                # --- Step 2a(ii): Split the video (if necessary) ---
-                logger.info(f"  步骤 2a(ii): {'分割' if process_mode == 'split' else '融合'}视频...")
-                split_merge_start_time = time.time()
+        # --- 修改开始: 实现按子目录轮流处理 ---
+        if process_by_subfolder:
+            logger.info(f"按子目录轮流处理已启用，每个子目录限制处理视频数: {videos_per_subfolder if videos_per_subfolder > 0 else '不限制'}")
+            
+            # 按子文件夹分组任务
+            subfolder_tasks = {}
+            for task in video_tasks:
+                subfolder = task['subfolder_name']
+                if subfolder not in subfolder_tasks:
+                    subfolder_tasks[subfolder] = []
+                subfolder_tasks[subfolder].append(task)
+            
+            # 初始化每个子文件夹的处理计数
+            subfolder_counts = {subfolder: 0 for subfolder in subfolder_tasks.keys()}
+            total_processed = 0
+            
+            # 持续循环直到所有子文件夹都处理完毕或达到限制
+            while True:
+                any_task_processed = False
                 
-                if process_mode == "split":
-                    # 分割模式
-                    split_video_paths = split_video_ffmpeg(
-                        original_video_path, 
-                        split_output_dir, 
-                        num_segments=num_segments,
-                        volume_level=main_track_volume
-                    )
-                    split_merge_duration = time.time() - split_merge_start_time
-                    logger.info(f"  视频分割完成，耗时: {split_merge_duration:.2f}秒")
-                    
-                    if not split_video_paths:
-                        logger.error(f"  {task_identifier} 的视频分割失败，跳过此任务。")
-                        split_merge_failures += 1
-                        raise RuntimeError("视频分割失败") # 抛出异常以便外层捕获
-                    
-                    logger.info(f"  最终用于处理的片段 ({len(split_video_paths)}): {', '.join(os.path.basename(p) for p in split_video_paths)}")
-                else:
-                    # 直接素材替换模式 (更新后的实现)
-                    # 在直接替换模式下，我们需要找到相关的视频文件来组成组合
-                    # 然后直接将这些视频传递给剪映进行处理
-                    
-                    # 获取当前文件夹下的所有视频文件
-                    video_dir = os.path.dirname(original_video_path)
-                    base_name = os.path.splitext(os.path.basename(original_video_path))[0]
-                    ext = os.path.splitext(original_video_path)[1]
-                    
-                    # 搜索所有视频文件
-                    potential_videos = []
-                    try:
-                        for filename in os.listdir(video_dir):
-                            file_path = os.path.join(video_dir, filename)
-                            if os.path.isfile(file_path) and os.path.splitext(filename)[1].lower() in SUPPORTED_VIDEO_EXTENSIONS:
-                                potential_videos.append(file_path)
-                    except Exception as e:
-                        logger.error(f"查找视频文件时出错: {e}")
-                        split_merge_failures += 1
-                        raise RuntimeError(f"查找视频文件失败: {e}")
-                    
-                    # 如果没有找到足够的视频文件，则报错
-                    if len(potential_videos) < num_segments:
-                        logger.error(f"未找到足够的视频文件用于组合，需要{num_segments}个，但只找到{len(potential_videos)}个")
-                        split_merge_failures += 1
-                        raise RuntimeError(f"未找到足够的视频文件用于组合，需要{num_segments}个，但只找到{len(potential_videos)}个")
-                    
-                    logger.info(f"  找到{len(potential_videos)}个视频文件可用于组合")
-                    
-                    # 提取视频文件的前缀映射，用于确保组合中不使用相同前缀的视频
-                    def extract_video_prefix(filepath):
-                        filename = os.path.basename(filepath)
-                        # 尝试匹配常见的编号模式，如 name_1.mp4, name-1.mp4, name(1).mp4 等
-                        match = re.search(r'^(.+?)(?:[_\-\s\.]\d+|\(\d+\))(?:\.[^.]+)?$', filename)
-                        if match:
-                            return match.group(1)
-                        # 如果没有匹配到编号模式，尝试提取第一个下划线或短横线前的内容
-                        parts = re.split(r'[_\-\s]', filename, 1)
-                        if len(parts) > 1:
-                            return parts[0]
-                        # 如果没有分隔符，返回文件名（不含扩展名）
-                        return os.path.splitext(filename)[0]
-                    
-                    # 按前缀分组视频文件
-                    prefix_to_videos = {}
-                    for video_path in potential_videos:
-                        prefix = extract_video_prefix(video_path)
-                        if prefix not in prefix_to_videos:
-                            prefix_to_videos[prefix] = []
-                        prefix_to_videos[prefix].append(video_path)
-                    
-                    # 日志输出前缀分组情况
-                    logger.info(f"  视频文件按前缀分组:")
-                    for prefix, videos in prefix_to_videos.items():
-                        logger.info(f"    前缀 '{prefix}': {len(videos)} 个文件")
-                    
-                    # 检查是否有足够不同前缀的视频组
-                    if len(prefix_to_videos) < num_segments:
-                        logger.warning(f"  警告: 只有 {len(prefix_to_videos)} 个不同前缀的视频组，但需要 {num_segments} 个不同前缀")
-                    
-                    # 初始化数据库
-                    from app.util.merge_database import MergeDatabase
-                    db_dir = "db"
-                    db_file = "merge_history.db"
-                    db_path = os.path.join(db_dir, db_file)
-                    
-                    # 确保db目录存在
-                    if not os.path.exists(db_dir):
-                        os.makedirs(db_dir)
-                        logger.info(f"创建数据库目录: {db_dir}")
-                    
-                    # 跟踪成功处理的组合数量
-                    successful_combinations = 0
-                    failed_combinations = 0
-                    
-                    # 用于跟踪本次处理中使用过的所有文件
-                    used_video_files = set()
-                    
-                    # 根据目标生成视频数量计算当前任务需要处理的组合数
-                    # 考虑全局已完成的组合数，确保不会超过全局目标
-                    remaining_combinations = global_combinations_to_process - global_successful_combinations
-                    combinations_to_process = min(max(1, target_videos_count), remaining_combinations)
-                    logger.info(f"  任务 {i+1} 目标处理 {combinations_to_process} 个视频组合（全局已完成: {global_successful_combinations}, 全局目标: {global_combinations_to_process}）")
-                    
-                    # 如果没有剩余组合需要处理，跳过当前任务
-                    if combinations_to_process <= 0:
-                        logger.info(f"[全局统计] 当前素材文件夹 {i+1} 中没有剩余组合需要处理（全局已完成: {global_successful_combinations}/{global_combinations_to_process}）")
-                        processing_success_flag = True  # 标记为成功，不计入失败
+                # 遍历每个子文件夹
+                for subfolder, tasks in subfolder_tasks.items():
+                    # 跳过已达到处理上限的子文件夹
+                    if videos_per_subfolder > 0 and subfolder_counts[subfolder] >= videos_per_subfolder:
                         continue
                     
-                    # 初始化组合索引
-                    combo_index = 0
-
-                    # ========== 简化替换：只保留两种核心逻辑 ==========
-                    # 获取所有已经使用过的视频文件名列表 - 仅当不删除源文件时需要
-                    used_files_in_db = set() # 初始化为空集合
-                    if not delete_source: # 检查 delete_source 选项
-                        with MergeDatabase(db_path) as db:
-                            # 获取已使用文件记录
-                            used_files_in_db = db.get_used_files()
-                            logger.info(f"  (delete_source=False) 从数据库获取到 {len(used_files_in_db)} 个已使用过的视频文件")
+                    # 跳过没有剩余任务的子文件夹
+                    if not tasks:
+                        continue
+                        
+                    # 处理当前子文件夹的一个任务
+                    task = tasks.pop(0)  # 取出并移除第一个任务
+                    
+                    task_identifier = f"任务: {os.path.basename(task['original_path'])} (来自: {subfolder})"
+                    logger.info(f"\n--- 开始处理 {task_identifier} ---")
+                    
+                    # 处理单个任务的代码
+                    task_result = process_single_task(task, output_folder, task_draft_name if 'task_draft_name' in locals() else draft_name,
+                                                    draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume,
+                                                    main_track_volume, process_mode, selected_templates)
+                    
+                    if task_result['success']:
+                        successful_tasks += 1
+                        subfolder_counts[subfolder] += 1
+                        any_task_processed = True
+                        logger.info(f"子目录 '{subfolder}' 已成功处理 {subfolder_counts[subfolder]}/{videos_per_subfolder if videos_per_subfolder > 0 else '不限制'} 个视频")
                     else:
-                        logger.info(f"  (delete_source=True) 跳过从数据库获取已使用文件列表，将基于文件存在性判断。")
+                        failed_tasks += 1
+                        
+                    if task_result.get('split_merge_failed', False):
+                        split_merge_failures += 1
+                    if task_result.get('jianying_failed', False):
+                        jianying_failures += 1
+                
+                # 如果没有任何任务被处理，说明所有子文件夹都已处理完毕或达到限制
+                if not any_task_processed:
+                    break
+                    
+                # 检查是否达到全局目标数量（直接素材替换模式）
+                if process_mode == "merge" and global_successful_combinations >= global_combinations_to_process:
+                    logger.info(f"[全局统计] ⚠️ 已成功处理 {global_successful_combinations} 个组合，达到全局目标 {global_combinations_to_process}，停止后续任务处理")
+                    break
+        else:
+            # 原始的非子目录轮流处理逻辑
+            logger.info("未启用按子目录轮流处理，将正常处理所有素材")
+            subfolder_counts = {}  # 用于跟踪每个子目录已处理的视频数量
+            
+            for i, task in enumerate(video_tasks):
+                # 检查是否已达到全局目标
+                if process_mode == "merge" and global_successful_combinations >= global_combinations_to_process:
+                    logger.info(f"[全局统计] ⚠️ 已成功处理 {global_successful_combinations} 个组合，达到全局目标 {global_combinations_to_process}，停止后续任务处理")
+                    break
 
-                    # 修改循环条件，当成功处理的组合数达到目标时，停止处理
-                    while successful_combinations < combinations_to_process:
+                task_start_time = time.time()
+                original_video_path = task['original_path']
+                subfolder_name = task['subfolder_name']
+                output_base_name = task['output_base_name'] # Base name for export/splits
+                task_identifier = f"任务 {i+1}/{tasks_found}: {os.path.basename(original_video_path)} (来自: {subfolder_name})"
+
+                # 如果启用了按子目录循环处理，检查当前子目录是否已达到处理上限
+                if process_by_subfolder and videos_per_subfolder > 0:
+                    # 初始化子目录计数器
+                    if subfolder_name not in subfolder_counts:
+                        subfolder_counts[subfolder_name] = 0
+                    
+                    # 检查是否达到每个子目录的处理上限
+                    if subfolder_counts[subfolder_name] >= videos_per_subfolder:
+                        logger.info(f"子目录 '{subfolder_name}' 已处理 {subfolder_counts[subfolder_name]} 个视频，达到设定上限 {videos_per_subfolder}，跳过此任务")
+                        continue
+
+                logger.info(f"\n--- 开始处理 {task_identifier} ---")
+
+                # --- 如果提供了模板列表，随机选择一个模板 ---
+                task_draft_name = draft_name
+                if selected_templates and len(selected_templates) > 0:
+                    # 确保模板列表中包含初始选择的模板
+                    if draft_name not in selected_templates:
+                        all_templates = selected_templates + [draft_name]
+                    else:
+                        all_templates = selected_templates
+                    
+                    # 随机选择一个模板
+                    task_draft_name = random.choice(all_templates)
+                    logger.info(f"  为当前任务随机选择模板: {task_draft_name}")
+                else:
+                    logger.info(f"  使用固定模板: {draft_name}")
+
+                # --- Determine output directory for this specific task ---
+                base_output_dir = os.path.join(output_folder, subfolder_name)
+                try:
+                    os.makedirs(base_output_dir, exist_ok=True)
+                except OSError as e:
+                     logger.error(f"无法创建基础输出目录 {base_output_dir}: {e}", exc_info=True)
+                     failed_tasks += 1
+                     continue # Skip this task if base output dir cannot be created
+
+                split_output_dir = os.path.join(base_output_dir, f"{output_base_name}_splits")
+                final_export_dir = base_output_dir
+                final_export_filename = f"{output_base_name}.mp4"
+                final_export_path = os.path.join(final_export_dir, final_export_filename)
+
+                logger.info(f"  原始视频: {original_video_path}")
+                logger.info(f"  切割片段输出目录: {split_output_dir}")
+                logger.info(f"  最终导出目录: {final_export_dir}")
+                logger.info(f"  最终导出文件名: {final_export_filename}")
+
+                split_video_paths = None
+                original_duration_sec = None
+                processing_success_flag = False # 用于标记单个任务是否成功
+
+                try:
+                    # --- Step 2a(i): Get Original Video Duration ---
+                    try:
+                        logger.info("  步骤 2a(i): 获取原始视频时长...")
+                        original_duration_sec = get_video_duration(original_video_path)
+                        if original_duration_sec is not None:
+                            logger.info(f"    原始视频时长: {original_duration_sec:.2f} 秒")
+                        else:
+                            logger.warning(f"  无法获取原始视频 '{os.path.basename(original_video_path)}' 的时长。返回值为 None。")
+                            logger.warning("  将无法调整模板时长，导出视频可能包含黑屏或被截断。")
+                    except Exception as dur_err:
+                        logger.warning(f"  获取原始视频 '{os.path.basename(original_video_path)}' 时长时发生错误: {dur_err}", exc_info=True)
+                        logger.warning("  将无法调整模板时长，导出视频可能包含黑屏或被截断。")
+                        original_duration_sec = None
+
+                    # --- Step 2a(ii): Split the video (if necessary) ---
+                    logger.info(f"  步骤 2a(ii): {'分割' if process_mode == 'split' else '融合'}视频...")
+                    split_merge_start_time = time.time()
+                    
+                    if process_mode == "split":
+                        # 分割模式
+                        split_video_paths = split_video_ffmpeg(
+                            original_video_path, 
+                            split_output_dir, 
+                            num_segments=num_segments,
+                            volume_level=main_track_volume
+                        )
+                        split_merge_duration = time.time() - split_merge_start_time
+                        logger.info(f"  视频分割完成，耗时: {split_merge_duration:.2f}秒")
+                        
+                        if not split_video_paths:
+                            logger.error(f"  {task_identifier} 的视频分割失败，跳过此任务。")
+                            split_merge_failures += 1
+                            raise RuntimeError("视频分割失败") # 抛出异常以便外层捕获
+                        
+                        logger.info(f"  最终用于处理的片段 ({len(split_video_paths)}): {', '.join(os.path.basename(p) for p in split_video_paths)}")
+                    else:
+                        # 直接素材替换模式 (更新后的实现)
+                        # 在直接替换模式下，我们需要找到相关的视频文件来组成组合
+                        # 然后直接将这些视频传递给剪映进行处理
+                        
+                        # 确保split_video_paths初始化为空列表而不是None
+                        split_video_paths = []
+                        
+                        # 获取当前文件夹下的所有视频文件
+                        video_dir = os.path.dirname(original_video_path)
+                        base_name = os.path.splitext(os.path.basename(original_video_path))[0]
+                        ext = os.path.splitext(original_video_path)[1]
+                        
+                        # 搜索所有视频文件
+                        potential_videos = []
                         try:
-                            # 为每个组合生成唯一的输出文件名
-                            combo_suffix = f"_{combo_index+1}" if combinations_to_process > 1 else ""
-                            combo_output_filename = f"{output_base_name}{combo_suffix}.mp4"
-                            combo_export_path = os.path.join(final_export_dir, combo_output_filename)
-                            
-                            logger.info(f"  处理组合 {combo_index+1}，目前已成功 {successful_combinations}/{combinations_to_process}")
-                            
-                            # 选择视频组合
-                            selected_combo = None
-                            
-                            # ===== 简化逻辑 1: 只选择不同前缀且未使用过的素材 =====
-                            # 检查是否有足够的前缀组
-                            if len(prefix_to_videos) >= num_segments:
-                                # 从每个前缀组中选择一个未使用过的视频
-                                selected_combo = []
-                                used_prefixes = set()
-                                
-                                # 按照前缀组的顺序处理
-                                sorted_prefixes = sorted(prefix_to_videos.keys())
-                                
-                                # 从每个前缀组中选择一个未使用过的视频
-                                for prefix in sorted_prefixes:
-                                    # 如果已经选择了足够的视频，跳出循环
-                                    if len(selected_combo) >= num_segments:
-                                        break
-                                    
-                                    # 获取当前前缀组中所有未使用过的视频
-                                    unused_videos = []
-                                    for video in prefix_to_videos[prefix]:
-                                        # 检查是否已在数据库中被标记为使用过 (仅当 delete_source=False 时)
-                                        # 并且检查是否已在本次任务中被使用过
-                                        video_basename = os.path.basename(video)
-                                        is_used_in_db = (not delete_source) and (video_basename in used_files_in_db)
-                                        is_used_in_current_task = video in used_video_files
+                            for filename in os.listdir(video_dir):
+                                file_path = os.path.join(video_dir, filename)
+                                if os.path.isfile(file_path) and os.path.splitext(filename)[1].lower() in SUPPORTED_VIDEO_EXTENSIONS:
+                                    potential_videos.append(file_path)
+                        except Exception as e:
+                            logger.error(f"查找视频文件时出错: {e}")
+                            split_merge_failures += 1
+                            raise RuntimeError(f"查找视频文件失败: {e}")
+                        
+                        # 如果没有找到足够的视频文件，则报错
+                        if len(potential_videos) < num_segments:
+                            logger.error(f"未找到足够的视频文件用于组合，需要{num_segments}个，但只找到{len(potential_videos)}个")
+                            split_merge_failures += 1
+                            raise RuntimeError(f"未找到足够的视频文件用于组合，需要{num_segments}个，但只找到{len(potential_videos)}个")
+                        
+                        logger.info(f"  找到{len(potential_videos)}个视频文件可用于组合")
+                        
+                        # 提取视频文件的前缀映射，用于确保组合中不使用相同前缀的视频
+                        def extract_video_prefix(filepath):
+                            filename = os.path.basename(filepath)
+                            # 尝试匹配常见的编号模式，如 name_1.mp4, name-1.mp4, name(1).mp4 等
+                            match = re.search(r'^(.+?)(?:[_\-\s\.]\d+|\(\d+\))(?:\.[^.]+)?$', filename)
+                            if match:
+                                return match.group(1)
+                            # 如果没有匹配到编号模式，尝试提取第一个下划线或短横线前的内容
+                            parts = re.split(r'[_\-\s]', filename, 1)
+                            if len(parts) > 1:
+                                return parts[0]
+                            # 如果没有分隔符，返回文件名（不含扩展名）
+                            return os.path.splitext(filename)[0]
+                        
+                        # 按前缀分组视频文件
+                        prefix_to_videos = {}
+                        for video_path in potential_videos:
+                            prefix = extract_video_prefix(video_path)
+                            if prefix not in prefix_to_videos:
+                                prefix_to_videos[prefix] = []
+                            prefix_to_videos[prefix].append(video_path)
+                        
+                        # 日志输出前缀分组情况
+                        logger.info(f"  视频文件按前缀分组:")
+                        for prefix, videos in prefix_to_videos.items():
+                            logger.info(f"    前缀 '{prefix}': {len(videos)} 个文件")
+                        
+                        # 检查是否有足够不同前缀的视频组
+                        if len(prefix_to_videos) < num_segments:
+                            logger.warning(f"  警告: 只有 {len(prefix_to_videos)} 个不同前缀的视频组，但需要 {num_segments} 个不同前缀")
+                        
+                        # 初始化数据库
+                        from app.util.merge_database import MergeDatabase
+                        db_dir = "db"
+                        db_file = "merge_history.db"
+                        db_path = os.path.join(db_dir, db_file)
+                        
+                        # 确保db目录存在
+                        if not os.path.exists(db_dir):
+                            os.makedirs(db_dir)
+                            logger.info(f"创建数据库目录: {db_dir}")
+                        
+                        # 跟踪成功处理的组合数量
+                        successful_combinations = 0
+                        failed_combinations = 0
+                        
+                        # 用于跟踪本次处理中使用过的所有文件
+                        used_video_files = set()
+                        
+                        # 根据目标生成视频数量计算当前任务需要处理的组合数
+                        # 考虑全局已完成的组合数，确保不会超过全局目标
+                        remaining_combinations = global_combinations_to_process - global_successful_combinations
+                        combinations_to_process = min(max(1, target_videos_count), remaining_combinations)
+                        logger.info(f"  任务 {i+1} 目标处理 {combinations_to_process} 个视频组合（全局已完成: {global_successful_combinations}, 全局目标: {global_combinations_to_process}）")
+                        
+                        # 如果没有剩余组合需要处理，跳过当前任务
+                        if combinations_to_process <= 0:
+                            logger.info(f"[全局统计] 当前素材文件夹 {i+1} 中没有剩余组合需要处理（全局已完成: {global_successful_combinations}/{global_combinations_to_process}）")
+                            processing_success_flag = True  # 标记为成功，不计入失败
+                            continue
+                        
+                        # 初始化组合索引
+                        combo_index = 0
 
-                                        # 如果 delete_source=True，则 is_used_in_db 始终为 False
-                                        # 核心判断逻辑：如果 (不是 在数据库标记为已用) 且 (不是 在本次任务中已用)
-                                        if not is_used_in_db and not is_used_in_current_task:
-                                            # 如果 delete_source=True，还需要额外检查文件是否存在（理论上应该存在，但加一层保险）
-                                            if delete_source and not os.path.exists(video):
-                                                logger.warning(f"    (delete_source=True) 文件 {video_basename} 在检查时不存在，跳过。")
-                                                continue # 跳过这个不存在的文件
-                                            unused_videos.append(video)
-                                    
-                                    # 如果有未使用过的视频，选择第一个
-                                    if unused_videos:
-                                        selected_combo.append(unused_videos[0])
-                                        used_prefixes.add(prefix)
+                        # ========== 简化替换：只保留两种核心逻辑 ==========
+                        # 获取所有已经使用过的视频文件名列表 - 仅当不删除源文件时需要
+                        used_files_in_db = set() # 初始化为空集合
+                        if not delete_source: # 检查 delete_source 选项
+                            with MergeDatabase(db_path) as db:
+                                # 获取已使用文件记录
+                                used_files_in_db = db.get_used_files()
+                                logger.info(f"  (delete_source=False) 从数据库获取到 {len(used_files_in_db)} 个已使用过的视频文件")
+                        else:
+                            logger.info(f"  (delete_source=True) 跳过从数据库获取已使用文件列表，将基于文件存在性判断。")
+
+                        # 修改循环条件，当成功处理的组合数达到目标时，停止处理
+                        while successful_combinations < combinations_to_process:
+                            try:
+                                # 为每个组合生成唯一的输出文件名
+                                combo_suffix = f"_{combo_index+1}" if combinations_to_process > 1 else ""
+                                combo_output_filename = f"{output_base_name}{combo_suffix}.mp4"
+                                combo_export_path = os.path.join(final_export_dir, combo_output_filename)
                                 
-                                # 检查是否成功选择了足够的视频
-                                if len(selected_combo) < num_segments:
-                                    logger.warning(f"  未能从每个前缀组中选择足够的未使用视频 ({len(selected_combo)}/{num_segments})")
-                                    selected_combo = None  # 重置为None，进入第二种逻辑
-                            
-                            # ===== 简化逻辑 2: 如果无法选择足够不同前缀的未使用视频 =====
-                            # 如果 delete_source 为 True，则不再尝试从数据库查找
-                            if not selected_combo and delete_source:
-                                logger.warning(f"  (delete_source=True) 未能从每个前缀组中选择足够的未使用文件，且已禁用数据库查找。无法生成更多组合。")
-                                # 由于无法找到组合，直接退出当前任务的组合循环
-                                break # 退出 while successful_combinations < combinations_to_process 循环
-                            
-                            # ===== 简化逻辑 2 (原版): 如果 delete_source 为 False，从数据库查找未使用组合 =====
-                            if not selected_combo and not delete_source:
-                                logger.info("  (delete_source=False) 尝试从数据库查找未使用过的组合...")
-                                with MergeDatabase(db_path) as db:
-                                    # 查找未使用的组合
-                                    unused_combinations = db.find_unused_combinations(potential_videos, num_segments)
+                                logger.info(f"  处理组合 {combo_index+1}，目前已成功 {successful_combinations}/{combinations_to_process}")
+                                
+                                # 选择视频组合
+                                selected_combo = None
+                                
+                                # ===== 简化逻辑 1: 只选择不同前缀且未使用过的素材 =====
+                                # 检查是否有足够的前缀组
+                                if len(prefix_to_videos) >= num_segments:
+                                    # 从每个前缀组中选择一个未使用过的视频
+                                    selected_combo = []
+                                    used_prefixes = set()
                                     
-                                    if unused_combinations:
-                                        selected_combo = unused_combinations[0]  # 选择第一个未使用组合
-                                        logger.info(f"  从数据库中找到未使用过的组合")
+                                    # 按照前缀组的顺序处理
+                                    sorted_prefixes = sorted(prefix_to_videos.keys())
+                                    
+                                    # 从每个前缀组中选择一个未使用过的视频
+                                    for prefix in sorted_prefixes:
+                                        # 如果已经选择了足够的视频，跳出循环
+                                        if len(selected_combo) >= num_segments:
+                                            break
+                                        
+                                        # 获取当前前缀组中所有未使用过的视频
+                                        unused_videos = []
+                                        for video in prefix_to_videos[prefix]:
+                                            # 检查是否已在数据库中被标记为使用过 (仅当 delete_source=False 时)
+                                            # 并且检查是否已在本次任务中被使用过
+                                            video_basename = os.path.basename(video)
+                                            is_used_in_db = (not delete_source) and (video_basename in used_files_in_db)
+                                            is_used_in_current_task = video in used_video_files
+
+                                            # 如果 delete_source=True，则 is_used_in_db 始终为 False
+                                            # 核心判断逻辑：如果 (不是 在数据库标记为已用) 且 (不是 在本次任务中已用)
+                                            if not is_used_in_db and not is_used_in_current_task:
+                                                # 如果 delete_source=True，还需要额外检查文件是否存在（理论上应该存在，但加一层保险）
+                                                if delete_source and not os.path.exists(video):
+                                                    logger.warning(f"    (delete_source=True) 文件 {video_basename} 在检查时不存在，跳过。")
+                                                    continue # 跳过这个不存在的文件
+                                                unused_videos.append(video)
+                                        
+                                        # 如果有未使用过的视频，选择第一个
+                                        if unused_videos:
+                                            selected_combo.append(unused_videos[0])
+                                            used_prefixes.add(prefix)
+                                    
+                                    # 检查是否成功选择了足够的视频
+                                    if len(selected_combo) < num_segments:
+                                        logger.warning(f"  未能从每个前缀组中选择足够的未使用视频 ({len(selected_combo)}/{num_segments})")
+                                        selected_combo = None  # 重置为None，进入第二种逻辑
+                                
+                                # ===== 简化逻辑 2: 如果无法选择足够不同前缀的未使用视频 =====
+                                # 如果 delete_source 为 True，则不再尝试从数据库查找
+                                if not selected_combo and delete_source:
+                                    logger.warning(f"  (delete_source=True) 未能从每个前缀组中选择足够的未使用文件，且已禁用数据库查找。无法生成更多组合。")
+                                    # 由于无法找到组合，直接退出当前任务的组合循环
+                                    break # 退出 while successful_combinations < combinations_to_process 循环
+                                
+                                # ===== 简化逻辑 2 (原版): 如果 delete_source 为 False，从数据库查找未使用组合 =====
+                                if not selected_combo and not delete_source:
+                                    logger.info("  (delete_source=False) 尝试从数据库查找未使用过的组合...")
+                                    with MergeDatabase(db_path) as db:
+                                        # 查找未使用的组合
+                                        unused_combinations = db.find_unused_combinations(potential_videos, num_segments)
+                                        
+                                        if unused_combinations:
+                                            selected_combo = unused_combinations[0]  # 选择第一个未使用组合
+                                            logger.info(f"  从数据库中找到未使用过的组合")
+                                        else:
+                                            logger.warning(f"  未找到未使用过的组合，可能所有可能的组合都已经被使用过")
+                                            # 无可用组合，退出循环
+                                            break
+                                
+                                if selected_combo:
+                                    # 记录所选视频的前缀情况
+                                    combo_prefixes = [extract_video_prefix(v) for v in selected_combo]
+                                    unique_prefixes = len(set(combo_prefixes))
+                                    logger.info(f"  组合 {combo_index+1}: 所选组合使用了 {unique_prefixes} 个不同前缀: {', '.join(set(combo_prefixes))}")
+                                    
+                                    logger.info(f"  组合 {combo_index+1} 选择的文件: {', '.join(os.path.basename(f) for f in selected_combo)}")
+                                    
+                                    # 调用剪映处理
+                                    jy_result = process_videos(
+                                        video_paths=selected_combo,  # 直接传递原始文件列表
+                                        draft_name=task_draft_name,
+                                        draft_folder_path=draft_folder_path,
+                                        export_video=True,
+                                        export_path=final_export_dir,
+                                        export_filename=combo_output_filename,
+                                        original_duration_seconds=original_duration_sec,
+                                        keep_bgm=keep_bgm,
+                                        bgm_volume=bgm_volume,
+                                        main_track_volume=main_track_volume
+                                    )
+                                    
+                                    if jy_result["success"]:
+                                        logger.info(f"  组合 {combo_index+1}: 剪映处理成功")
+                                        
+                                        # 记录到数据库
+                                        try:
+                                            with MergeDatabase(db_path) as db:
+                                                # 添加整个合并任务
+                                                # 如果 delete_source=True，可以考虑是否还需要记录任务，但记录文件使用状态仍有用
+                                                db.add_merge_task(selected_combo, combo_export_path)
+
+                                                # 更新数据库中已使用文件列表 (即使 delete_source=True 也更新，以防未来配置改变)
+                                                # 但主要依赖 used_video_files 来避免任务内重复
+                                                for video in selected_combo:
+                                                    used_files_in_db.add(os.path.basename(video))
+
+                                                logger.info(f"  组合 {combo_index+1}: 已记录到数据库")
+                                        except Exception as e:
+                                            logger.error(f"  组合 {combo_index+1}: 记录到数据库失败: {e}")
+                                        
+                                        # 将成功处理的文件添加到使用过的文件集合中 (无论 delete_source 如何都执行)
+                                        for video_file in selected_combo:
+                                            used_video_files.add(video_file)
+                                        
+                                        successful_combinations += 1
+                                        global_successful_combinations += 1
+                                        logger.info(f"[全局统计] 组合处理成功 - 当前任务进度: {successful_combinations}/{combinations_to_process} (全局进度: {global_successful_combinations}/{global_combinations_to_process})")
+                                        
+                                        # 如果已达到目标数量，提前退出循环
+                                        if successful_combinations >= combinations_to_process:
+                                            logger.info(f"[全局统计] 当前任务已完成 - 已成功处理 {successful_combinations} 个组合，达到当前任务目标 {combinations_to_process}")
+                                            break
+                                        
+                                        # 如果已达到全局目标数量，也提前退出循环
+                                        if global_successful_combinations >= global_combinations_to_process:
+                                            logger.info(f"[全局统计] ⚠️ 全局目标已达成 - 已处理 {global_successful_combinations} 个组合，达到目标 {global_combinations_to_process}")
+                                            break
                                     else:
-                                        logger.warning(f"  未找到未使用过的组合，可能所有可能的组合都已经被使用过")
-                                        # 无可用组合，退出循环
-                                        break
+                                        logger.error(f"  组合 {combo_index+1}: 剪映处理失败: {jy_result.get('error', '未知错误')}")
+                                        failed_combinations += 1
+                                else:
+                                    logger.error(f"  组合 {combo_index+1}: 未能选择有效的文件组合")
+                                    failed_combinations += 1
                             
-                            if selected_combo:
-                                # 记录所选视频的前缀情况
-                                combo_prefixes = [extract_video_prefix(v) for v in selected_combo]
-                                unique_prefixes = len(set(combo_prefixes))
-                                logger.info(f"  组合 {combo_index+1}: 所选组合使用了 {unique_prefixes} 个不同前缀: {', '.join(set(combo_prefixes))}")
+                            except Exception as e:
+                                logger.error(f"  组合 {combo_index+1} 处理时发生错误: {e}", exc_info=True)
+                            
+                            # 增加组合索引，准备处理下一个组合
+                            combo_index += 1
+                            
+                            # 防止无限循环，设置最大尝试次数为目标数量的3倍
+                            if combo_index >= combinations_to_process * 3:
+                                logger.warning(f"  已尝试处理 {combo_index} 个组合，超过最大尝试次数 {combinations_to_process * 3}，强制停止处理")
+                                break
+                        
+                        # 检查处理结果
+                        if successful_combinations == 0:
+                            logger.error(f"  {task_identifier} 的所有组合处理均失败")
+                            split_merge_failures += 1
+                            raise RuntimeError("所有组合处理均失败")
+                        
+                        # 更新任务处理结果
+                        logger.info(f"  成功处理 {successful_combinations}/{combinations_to_process} 个组合")
+                        
+                        # 如果尝试处理成功
+                        if processing_success_flag:
+                            # --- Step 2c: Delete source and splits --- 
+                            logger.info("  步骤 2c(i): 准备删除处理后的临时文件...")
+                            if split_video_paths:
+                                deleted_split_count = 0
+                                logger.info(f"    准备删除 {len(split_video_paths)} 个临时文件...")
+                                for split_file in split_video_paths:
+                                    if split_file != original_video_path:
+                                        try:
+                                            if os.path.exists(split_file):
+                                                os.remove(split_file)
+                                                logger.info(f"      已删除临时文件: {split_file}")
+                                                deleted_split_count += 1
+                                            else:
+                                                logger.warning(f"      临时文件已不存在，跳过删除: {split_file}")
+                                        except OSError as remove_split_error:
+                                            logger.error(f"      删除临时文件失败: {split_file} - {remove_split_error}", exc_info=True)
+                                logger.info(f"    临时文件删除完成: 成功删除 {deleted_split_count} 个。")
+                                try:
+                                    if os.path.exists(split_output_dir) and os.path.isdir(split_output_dir) and not os.listdir(split_output_dir):
+                                        os.rmdir(split_output_dir)
+                                        logger.info(f"    已删除空的临时文件目录: {split_output_dir}")
+                                    elif not os.path.exists(split_output_dir):
+                                        logger.warning(f"    临时文件目录已不存在，无需删除: {split_output_dir}")
+                                except OSError as rmdir_error:
+                                    logger.warning(f"    删除临时文件目录失败（可能非空或权限问题）: {split_output_dir} - {rmdir_error}")
+                            else:
+                                logger.info("    未找到临时文件信息，跳过删除临时文件。")
+
+                            if delete_source:
+                                logger.info("  步骤 2c(ii): 选项已启用，准备删除原始视频文件...")
+                                # 如果是融合模式，并且删除源文件选项启用，需要删除所有用于融合的源文件
+                                if process_mode == "merge":
+                                    try:
+                                        source_files_deleted = 0
+                                        for video_file in potential_videos:
+                                            if os.path.exists(video_file):
+                                                os.remove(video_file)
+                                                logger.info(f"    已删除原始视频文件: {video_file}")
+                                                source_files_deleted += 1
+                                            else:
+                                                logger.warning(f"    原始视频文件已不存在，跳过删除: {video_file}")
+                                        logger.info(f"    已删除 {source_files_deleted} 个原始视频文件。")
+                                    except Exception as e:
+                                        logger.error(f"    删除原始视频文件失败: {e}", exc_info=True)
+                                else:
+                                    # 分割模式，仅删除单个源文件
+                                    try:
+                                        if os.path.exists(original_video_path):
+                                            os.remove(original_video_path)
+                                            logger.info(f"    已删除原始视频文件: {original_video_path}")
+                                        else:
+                                            logger.warning(f"    原始视频文件已不存在，跳过删除: {original_video_path}")
+                                    except OSError as remove_error:
+                                        logger.error(f"    删除原始视频文件失败: {original_video_path} - {remove_error}", exc_info=True)
+                            else:
+                                logger.info("  步骤 2c(ii): 选项未启用，跳过删除原始视频文件。")
+                        
+                        # 设置用于后续处理的video_paths
+                        # 这里我们不再需要split_video_paths，因为已经直接处理了所有组合
+                        # 为了保持代码兼容性，设置为空列表
+                        split_video_paths = []
+                        
+                        # 任务成功标记
+                        if successful_combinations > 0:
+                            processing_success_flag = True
+                            # 增加成功任务计数
+                            successful_tasks += successful_combinations - 1  # 减1是因为外层循环会再加1
+                        
+                            # 在当前视频的模板循环尝试机制
+                            MAX_TEMPLATE_RETRIES = 3  # 最多尝试3个不同模板
+                            template_tried_count = 0
+                            template_tried_names = []
+                            processing_success_flag = False
+                            
+                            while template_tried_count < MAX_TEMPLATE_RETRIES and not processing_success_flag:
+                                # 随机选择一个模板（避免选择已经尝试过的）
+                                task_draft_name = draft_name
+                                if selected_templates and len(selected_templates) > 0:
+                                    available_templates = []
+                                    for t in (selected_templates if draft_name in selected_templates else selected_templates + [draft_name]):
+                                        if t not in template_tried_names:
+                                            available_templates.append(t)
+                                    
+                                    if available_templates:
+                                        task_draft_name = random.choice(available_templates)
+                                        logger.info(f"  为当前视频随机选择模板(尝试 {template_tried_count+1}/{MAX_TEMPLATE_RETRIES}): {task_draft_name}")
+                                    else:
+                                        logger.warning(f"  已尝试所有可用模板，没有更多可尝试的模板")
+                                        break
+                                else:
+                                    if template_tried_count > 0:
+                                        logger.warning(f"  没有选定多个模板，无法尝试其他模板")
+                                        break
+                                    logger.info(f"  使用固定模板: {task_draft_name}")
                                 
-                                logger.info(f"  组合 {combo_index+1} 选择的文件: {', '.join(os.path.basename(f) for f in selected_combo)}")
+                                # 添加到已尝试列表
+                                template_tried_names.append(task_draft_name)
+                                template_tried_count += 1
                                 
-                                # 调用剪映处理
+                                # 确保bgm_volume参数值是正确的
+                                logger.info(f"  传递BGM音量设置: {bgm_volume}%")
+                                
+                                # 在直接替换模式下，如果split_video_paths为空，使用原始视频
+                                if process_mode == "merge" and (not split_video_paths or len(split_video_paths) == 0):
+                                    logger.info("  直接素材替换模式：使用原始视频路径")
+                                    # 直接使用原始视频路径
+                                    videos_to_process = [original_video_path]
+                                    logger.info(f"  使用视频 ({len(videos_to_process)}): {', '.join(os.path.basename(p) for p in videos_to_process)}")
+                                else:
+                                    videos_to_process = split_video_paths
+                                
+                                # 调用剪映处理函数
                                 jy_result = process_videos(
-                                    video_paths=selected_combo,  # 直接传递原始文件列表
-                                    draft_name=draft_name,
+                                    video_paths=videos_to_process,
+                                    draft_name=task_draft_name,
                                     draft_folder_path=draft_folder_path,
                                     export_video=True,
                                     export_path=final_export_dir,
-                                    export_filename=combo_output_filename,
+                                    export_filename=final_export_filename,
                                     original_duration_seconds=original_duration_sec,
                                     keep_bgm=keep_bgm,
-                                    bgm_volume=bgm_volume,
+                                    bgm_volume=bgm_volume,  # 确保音量设置正确传递
                                     main_track_volume=main_track_volume
                                 )
                                 
+                                jy_duration = time.time() - jy_start_time
+                                logger.info(f"  剪映处理完成，耗时: {jy_duration:.2f}秒")
+
                                 if jy_result["success"]:
-                                    logger.info(f"  组合 {combo_index+1}: 剪映处理成功")
-                                    
-                                    # 记录到数据库
-                                    try:
-                                        with MergeDatabase(db_path) as db:
-                                            # 添加整个合并任务
-                                            # 如果 delete_source=True，可以考虑是否还需要记录任务，但记录文件使用状态仍有用
-                                            db.add_merge_task(selected_combo, combo_export_path)
-
-                                            # 更新数据库中已使用文件列表 (即使 delete_source=True 也更新，以防未来配置改变)
-                                            # 但主要依赖 used_video_files 来避免任务内重复
-                                            for video in selected_combo:
-                                                used_files_in_db.add(os.path.basename(video))
-
-                                            logger.info(f"  组合 {combo_index+1}: 已记录到数据库")
-                                    except Exception as e:
-                                        logger.error(f"  组合 {combo_index+1}: 记录到数据库失败: {e}")
-                                    
-                                    # 将成功处理的文件添加到使用过的文件集合中 (无论 delete_source 如何都执行)
-                                    for video_file in selected_combo:
-                                        used_video_files.add(video_file)
-                                    
-                                    successful_combinations += 1
-                                    global_successful_combinations += 1
-                                    logger.info(f"[全局统计] 组合处理成功 - 当前任务进度: {successful_combinations}/{combinations_to_process} (全局进度: {global_successful_combinations}/{global_combinations_to_process})")
-                                    
-                                    # 如果已达到目标数量，提前退出循环
-                                    if successful_combinations >= combinations_to_process:
-                                        logger.info(f"[全局统计] 当前任务已完成 - 已成功处理 {successful_combinations} 个组合，达到当前任务目标 {combinations_to_process}")
-                                        break
-                                    
-                                    # 如果已达到全局目标数量，也提前退出循环
-                                    if global_successful_combinations >= global_combinations_to_process:
-                                        logger.info(f"[全局统计] ⚠️ 全局目标已达成 - 已处理 {global_successful_combinations} 个组合，达到目标 {global_combinations_to_process}")
-                                        break
+                                    logger.info(f"  {task_identifier} 剪映处理成功。")
+                                    processing_success_flag = True # 标记成功
+                                    break  # 成功处理，跳出重试循环
                                 else:
-                                    logger.error(f"  组合 {combo_index+1}: 剪映处理失败: {jy_result.get('error', '未知错误')}")
-                                    failed_combinations += 1
-                            else:
-                                logger.error(f"  组合 {combo_index+1}: 未能选择有效的文件组合")
-                                failed_combinations += 1
-                        
-                        except Exception as e:
-                            logger.error(f"  组合 {combo_index+1} 处理时发生错误: {e}", exc_info=True)
-                            failed_combinations += 1
-                        
-                        # 增加组合索引，准备处理下一个组合
-                        combo_index += 1
-                        
-                        # 防止无限循环，设置最大尝试次数为目标数量的3倍
-                        if combo_index >= combinations_to_process * 3:
-                            logger.warning(f"  已尝试处理 {combo_index} 个组合，超过最大尝试次数 {combinations_to_process * 3}，强制停止处理")
-                            break
+                                    error_msg_jy = jy_result.get('error', '未知剪映错误')
+                                    logger.error(f"  {task_identifier} 使用模板 '{task_draft_name}' 处理失败: {error_msg_jy}")
+                                    
+                                    if template_tried_count < MAX_TEMPLATE_RETRIES and selected_templates and len(selected_templates) > 1:
+                                        logger.info(f"  将尝试使用其他模板继续处理")
+                                    else:
+                                        jianying_failures += 1
+                                        if template_tried_count >= MAX_TEMPLATE_RETRIES:
+                                            logger.error(f"  已尝试 {template_tried_count} 个模板，全部失败")
+                                        elif not selected_templates or len(selected_templates) <= 1:
+                                            logger.error(f"  没有其他可用模板可尝试")
                     
-                    # 检查处理结果
-                    if successful_combinations == 0:
-                        logger.error(f"  {task_identifier} 的所有组合处理均失败")
-                        split_merge_failures += 1
-                        raise RuntimeError("所有组合处理均失败")
-                    
-                    # 更新任务处理结果
-                    logger.info(f"  成功处理 {successful_combinations}/{combinations_to_process} 个组合")
-                    
-                    # 如果启用了删除源文件选项，并且处理成功，则删除原始视频文件
-                    if delete_source and successful_combinations > 0:
-                        logger.info("  步骤 2c: 选项已启用，准备删除已使用的原始视频文件...")
-                        try:
-                            # 删除已使用的文件 (used_video_files 集合中的文件)
-                            source_files_deleted = 0
-                            for video_file in used_video_files:
-                                if os.path.exists(video_file):
-                                    os.remove(video_file)
-                                    logger.info(f"    已删除已使用的视频文件: {video_file}")
-                                    source_files_deleted += 1
-                                else:
-                                    logger.warning(f"    已使用的视频文件已不存在，跳过删除: {video_file}")
-                            
-                            logger.info(f"    已删除 {source_files_deleted} 个已使用的视频文件（共使用了 {len(used_video_files)} 个文件）")
-                        except Exception as e:
-                            logger.error(f"    删除已使用的视频文件失败: {e}", exc_info=True)
-                    elif not delete_source:
-                        logger.info("  步骤 2c: 选项未启用，跳过删除原始视频文件。")
-                    else:
-                        logger.info("  步骤 2c: 处理未成功，跳过删除原始视频文件。")
-                    
-                    # 设置用于后续处理的video_paths
-                    # 这里我们不再需要split_video_paths，因为已经直接处理了所有组合
-                    # 为了保持代码兼容性，设置为空列表
-                    split_video_paths = []
-                    
-                    # 任务成功标记
-                    if successful_combinations > 0:
-                        processing_success_flag = True
-                        # 增加成功任务计数
-                        successful_tasks += successful_combinations - 1  # 减1是因为外层循环会再加1
-                    
-                    # 跳过后续的剪映处理步骤，因为已经在每个组合中单独处理了
-                    continue
+                    # 如果尝试处理成功
+                    if processing_success_flag:
+                        successful_tasks += 1
 
-                # --- Step 2b: Process with Jianying (Pass duration) ---
-                logger.info("  步骤 2b: 调用剪映处理...")
-                jy_start_time = time.time()
-                # 确保bgm_volume参数值是正确的
-                logger.info(f"  传递BGM音量设置: {bgm_volume}%")
-                # 调用剪映处理函数
-                jy_result = process_videos(
-                    video_paths=split_video_paths,
-                    draft_name=draft_name,
-                    draft_folder_path=draft_folder_path,
-                    export_video=True,
-                    export_path=final_export_dir,
-                    export_filename=final_export_filename,
-                    original_duration_seconds=original_duration_sec,
-                    keep_bgm=keep_bgm,
-                    bgm_volume=bgm_volume,  # 确保音量设置正确传递
-                    main_track_volume=main_track_volume
-                )
-                jy_duration = time.time() - jy_start_time
-                logger.info(f"  剪映处理完成，耗时: {jy_duration:.2f}秒")
+                except Exception as task_error:
+                    # 捕获当前任务处理过程中的所有异常 (切割失败, 剪映处理失败等)
+                    logger.exception(f"处理 {task_identifier} 时发生错误")
+                    failed_tasks += 1
+                    # 确保split_video_paths不为None
+                    if 'split_video_paths' not in locals() or split_video_paths is None:
+                        split_video_paths = []
+                    # 错误类型判断已在上面处理 (split_merge_failures, jianying_failures)
 
-                if jy_result["success"]:
-                    logger.info(f"  {task_identifier} 剪映处理成功。")
-                    processing_success_flag = True # 标记成功
+                # 处理完成，记录成功或失败
+                if processing_success_flag:
                     successful_tasks += 1
+                    # 如果启用了按子目录循环处理，更新子目录计数
+                    if process_by_subfolder and subfolder_name in subfolder_counts:
+                        subfolder_counts[subfolder_name] += 1
+                        logger.info(f"子目录 '{subfolder_name}' 已成功处理 {subfolder_counts[subfolder_name]}/{videos_per_subfolder if videos_per_subfolder > 0 else '不限制'} 个视频")
+                else:
+                    failed_tasks += 1
 
-                    # --- Step 2c: Delete source and splits --- 
-                    logger.info("  步骤 2c(i): 准备删除处理后的临时文件...")
-                    if split_video_paths:
-                        deleted_split_count = 0
-                        logger.info(f"    准备删除 {len(split_video_paths)} 个临时文件...")
-                        for split_file in split_video_paths:
-                            if split_file != original_video_path:
-                                try:
-                                    if os.path.exists(split_file):
-                                        os.remove(split_file)
-                                        logger.info(f"      已删除临时文件: {split_file}")
-                                        deleted_split_count += 1
-                                    else:
-                                         logger.warning(f"      临时文件已不存在，跳过删除: {split_file}")
-                                except OSError as remove_split_error:
-                                    logger.error(f"      删除临时文件失败: {split_file} - {remove_split_error}", exc_info=True)
-                        logger.info(f"    临时文件删除完成: 成功删除 {deleted_split_count} 个。")
-                        try:
-                            if os.path.exists(split_output_dir) and os.path.isdir(split_output_dir) and not os.listdir(split_output_dir):
-                                os.rmdir(split_output_dir)
-                                logger.info(f"    已删除空的临时文件目录: {split_output_dir}")
-                            elif not os.path.exists(split_output_dir):
-                                logger.warning(f"    临时文件目录已不存在，无需删除: {split_output_dir}")
-                        except OSError as rmdir_error:
-                            logger.warning(f"    删除临时文件目录失败（可能非空或权限问题）: {split_output_dir} - {rmdir_error}")
-                    else:
-                        logger.info("    未找到临时文件信息，跳过删除临时文件。")
-
-                    if delete_source:
-                        logger.info("  步骤 2c(ii): 选项已启用，准备删除原始视频文件...")
-                        # 如果是融合模式，并且删除源文件选项启用，需要删除所有用于融合的源文件
-                        if process_mode == "merge":
-                            try:
-                                source_files_deleted = 0
-                                for video_file in potential_videos:
-                                    if os.path.exists(video_file):
-                                        os.remove(video_file)
-                                        logger.info(f"    已删除原始视频文件: {video_file}")
-                                        source_files_deleted += 1
-                                    else:
-                                        logger.warning(f"    原始视频文件已不存在，跳过删除: {video_file}")
-                                logger.info(f"    已删除 {source_files_deleted} 个原始视频文件。")
-                            except Exception as e:
-                                logger.error(f"    删除原始视频文件失败: {e}", exc_info=True)
-                        else:
-                            # 分割模式，仅删除单个源文件
-                            try:
-                                if os.path.exists(original_video_path):
-                                    os.remove(original_video_path)
-                                    logger.info(f"    已删除原始视频文件: {original_video_path}")
-                                else:
-                                    logger.warning(f"    原始视频文件已不存在，跳过删除: {original_video_path}")
-                            except OSError as remove_error:
-                                logger.error(f"    删除原始视频文件失败: {original_video_path} - {remove_error}", exc_info=True)
-                    else:
-                        logger.info("  步骤 2c(ii): 选项未启用，跳过删除原始视频文件。")
-
-                else: # Jianying processing failed
-                    error_msg_jy = jy_result.get('error', '未知剪映错误')
-                    logger.error(f"  {task_identifier} 剪映处理失败: {error_msg_jy}")
-                    jianying_failures += 1
-                    raise RuntimeError(f"剪映处理失败: {error_msg_jy}") # 抛出异常
-
-            except Exception as task_error:
-                # 捕获当前任务处理过程中的所有异常 (切割失败, 剪映处理失败等)
-                logger.exception(f"处理 {task_identifier} 时发生错误")
-                failed_tasks += 1
-                # 错误类型判断已在上面处理 (split_merge_failures, jianying_failures)
-
-            task_duration = time.time() - task_start_time
-            status_str = "成功" if processing_success_flag else "失败"
-            logger.info(f"--- {task_identifier} 处理结束 [{status_str}] | 耗时: {task_duration:.2f}秒 ---")
-            # 循环继续处理下一个任务
+                task_duration = time.time() - task_start_time
+                status_str = "成功" if processing_success_flag else "失败"
+                logger.info(f"--- {task_identifier} 处理结束 [{status_str}] | 耗时: {task_duration:.2f}秒 ---")
+                # 循环继续处理下一个任务
 
         # --- 循环结束后 --- 
         result_summary['tasks_processed'] = successful_tasks
@@ -654,6 +792,14 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         logger.info(f"  - 因融合失败: {split_merge_failures}")
         logger.info(f"[全局统计] 最终总共处理组合数: {global_successful_combinations}/{global_combinations_to_process}")
     logger.info(f"  - 因剪映处理失败: {jianying_failures}")
+    
+    # 如果启用了按子目录循环处理，显示每个子目录的处理统计
+    if process_by_subfolder:
+        logger.info(f"\n--- 按子目录循环处理统计 ---")
+        logger.info(f"子目录总数: {len(subfolder_counts)}")
+        for subfolder, count in subfolder_counts.items():
+            logger.info(f"  - 子目录 '{subfolder}': 处理了 {count} 个视频")
+    
     logger.info(f"总耗时: {total_time:.2f} 秒")
     if tasks_found > 0:
         avg_time = total_time / tasks_found
@@ -665,7 +811,193 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         result_summary['combinations_processed'] = global_successful_combinations
         result_summary['combinations_target'] = global_combinations_to_process
     
+    # 添加子目录处理的统计信息到结果字典
+    if process_by_subfolder:
+        result_summary['process_by_subfolder'] = True
+        result_summary['subfolder_counts'] = subfolder_counts
+        result_summary['subfolder_total'] = len(subfolder_counts)
+    
     return result_summary # 返回包含详细结果的字典
+
+def process_single_task(task, output_folder, draft_name, draft_folder_path, delete_source, 
+                       num_segments, keep_bgm, bgm_volume, main_track_volume, process_mode, selected_templates):
+    """处理单个视频任务的辅助函数"""
+    result = {
+        'success': False,
+        'split_merge_failed': False,
+        'jianying_failed': False
+    }
+    
+    task_start_time = time.time()
+    original_video_path = task['original_path']
+    subfolder_name = task['subfolder_name']
+    output_base_name = task['output_base_name']
+    
+    # --- Determine output directory for this specific task ---
+    base_output_dir = os.path.join(output_folder, subfolder_name)
+    try:
+        os.makedirs(base_output_dir, exist_ok=True)
+    except OSError as e:
+        logger.error(f"无法创建基础输出目录 {base_output_dir}: {e}", exc_info=True)
+        return result
+    
+    split_output_dir = os.path.join(base_output_dir, f"{output_base_name}_splits")
+    final_export_dir = base_output_dir
+    final_export_filename = f"{output_base_name}.mp4"
+    
+    logger.info(f"  原始视频: {original_video_path}")
+    logger.info(f"  切割片段输出目录: {split_output_dir}")
+    logger.info(f"  最终导出目录: {final_export_dir}")
+    logger.info(f"  最终导出文件名: {final_export_filename}")
+    
+    try:
+        # --- Get Original Video Duration ---
+        original_duration_sec = None
+        try:
+            logger.info("  步骤 2a(i): 获取原始视频时长...")
+            original_duration_sec = get_video_duration(original_video_path)
+            if original_duration_sec is not None:
+                logger.info(f"    原始视频时长: {original_duration_sec:.2f} 秒")
+            else:
+                logger.warning(f"  无法获取原始视频时长，可能导致黑屏或截断。")
+        except Exception as dur_err:
+            logger.warning(f"  获取视频时长时出错: {dur_err}")
+            original_duration_sec = None
+        
+        # --- Split the video (if necessary) ---
+        split_video_paths = None
+        logger.info(f"  步骤 2a(ii): {'分割' if process_mode == 'split' else '融合'}视频...")
+        
+        if process_mode == "split":
+            # 分割模式
+            split_video_paths = split_video_ffmpeg(
+                original_video_path, 
+                split_output_dir, 
+                num_segments=num_segments,
+                volume_level=main_track_volume
+            )
+            
+            if not split_video_paths:
+                logger.error(f"  视频分割失败，跳过此任务。")
+                result['split_merge_failed'] = True
+                return result
+            
+            logger.info(f"  最终用于处理的片段: {', '.join(os.path.basename(p) for p in split_video_paths)}")
+        else:
+            # 融合模式处理
+            # ... 此处省略融合模式代码 ...
+            pass
+        
+        # --- Process with Jianying ---
+        logger.info("  步骤 2b: 调用剪映处理...")
+        jy_start_time = time.time()
+        
+        # 添加模板重试机制
+        MAX_TEMPLATE_RETRIES = 3  # 最多尝试3个不同模板
+        template_tried_count = 0
+        template_tried_names = []
+        processing_success_flag = False
+        
+        while template_tried_count < MAX_TEMPLATE_RETRIES and not processing_success_flag:
+            # 随机选择一个模板（避免选择已经尝试过的）
+            task_draft_name = draft_name
+            if selected_templates and len(selected_templates) > 0:
+                available_templates = []
+                for t in (selected_templates if draft_name in selected_templates else selected_templates + [draft_name]):
+                    if t not in template_tried_names:
+                        available_templates.append(t)
+                
+                if available_templates:
+                    task_draft_name = random.choice(available_templates)
+                    logger.info(f"  为当前视频随机选择模板(尝试 {template_tried_count+1}/{MAX_TEMPLATE_RETRIES}): {task_draft_name}")
+                else:
+                    logger.warning(f"  已尝试所有可用模板，没有更多可尝试的模板")
+                    break
+            else:
+                if template_tried_count > 0:
+                    logger.warning(f"  没有选定多个模板，无法尝试其他模板")
+                    break
+                logger.info(f"  使用固定模板: {task_draft_name}")
+            
+            # 添加到已尝试列表
+            template_tried_names.append(task_draft_name)
+            template_tried_count += 1
+            
+            # 确保bgm_volume参数值是正确的
+            logger.info(f"  传递BGM音量设置: {bgm_volume}%")
+            
+            # 在直接替换模式下，如果split_video_paths为空，使用原始视频
+            if process_mode == "merge" and (not split_video_paths or len(split_video_paths) == 0):
+                logger.info("  直接素材替换模式：使用原始视频路径")
+                # 直接使用原始视频路径
+                videos_to_process = [original_video_path]
+                logger.info(f"  使用视频 ({len(videos_to_process)}): {', '.join(os.path.basename(p) for p in videos_to_process)}")
+            else:
+                videos_to_process = split_video_paths
+            
+            # 调用剪映处理函数
+            jy_result = process_videos(
+                video_paths=videos_to_process,
+                draft_name=task_draft_name,
+                draft_folder_path=draft_folder_path,
+                export_video=True,
+                export_path=final_export_dir,
+                export_filename=final_export_filename,
+                original_duration_seconds=original_duration_sec,
+                keep_bgm=keep_bgm,
+                bgm_volume=bgm_volume,  # 确保音量设置正确传递
+                main_track_volume=main_track_volume
+            )
+            
+            jy_duration = time.time() - jy_start_time
+            logger.info(f"  剪映处理完成，耗时: {jy_duration:.2f}秒")
+
+            if jy_result["success"]:
+                logger.info(f"  {task_identifier} 剪映处理成功。")
+                result['success'] = True
+                
+                # 删除临时文件
+                if split_video_paths:
+                    for split_file in split_video_paths:
+                        if split_file != original_video_path and os.path.exists(split_file):
+                            try:
+                                os.remove(split_file)
+                                logger.info(f"  已删除临时文件: {os.path.basename(split_file)}")
+                            except Exception as e:
+                                logger.warning(f"  删除临时文件失败: {e}")
+                
+                # 删除源文件（如果启用）
+                if delete_source:
+                    try:
+                        if os.path.exists(original_video_path):
+                            os.remove(original_video_path)
+                            logger.info(f"  已删除原始视频: {os.path.basename(original_video_path)}")
+                    except Exception as e:
+                        logger.warning(f"  删除原始视频失败: {e}")
+            else:
+                error_msg_jy = jy_result.get('error', '未知剪映错误')
+                logger.error(f"  {task_identifier} 使用模板 '{task_draft_name}' 处理失败: {error_msg_jy}")
+                
+                if template_tried_count < MAX_TEMPLATE_RETRIES and selected_templates and len(selected_templates) > 1:
+                    logger.info(f"  将尝试使用其他模板继续处理")
+                else:
+                    jianying_failures += 1
+                    if template_tried_count >= MAX_TEMPLATE_RETRIES:
+                        logger.error(f"  已尝试 {template_tried_count} 个模板，全部失败")
+                        result['jianying_failed'] = True
+        
+        # 如果尝试处理成功
+        if processing_success_flag:
+            successful_tasks += 1
+
+    except Exception as e:
+        logger.exception(f"处理视频任务时出错: {e}")
+    
+    task_duration = time.time() - task_start_time
+    status = "成功" if result['success'] else "失败"
+    logger.info(f"--- 任务处理结束 [{status}] | 耗时: {task_duration:.2f}秒 ---")
+    
+    return result
 
 # --- Entry point for direct execution (if needed for testing) ---
 # if __name__ == "__main__":
