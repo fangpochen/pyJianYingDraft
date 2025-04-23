@@ -149,8 +149,8 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
 
         # --- 修改开始: 实现按子目录轮流处理 ---
         if process_by_subfolder:
-            logger.info(f"按子目录轮流处理已启用，每个子目录限制处理视频数: {videos_per_subfolder if videos_per_subfolder > 0 else '不限制'}")
-            
+            logger.info(f"按子目录处理已启用，每个子目录基础限制: {videos_per_subfolder if videos_per_subfolder > 0 else '不限制'}，总目标数量: {global_combinations_to_process}")
+
             # 按子文件夹分组任务
             subfolder_tasks = {}
             for task in video_tasks:
@@ -158,75 +158,70 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                 if subfolder not in subfolder_tasks:
                     subfolder_tasks[subfolder] = []
                 subfolder_tasks[subfolder].append(task)
-            
+
             # 初始化每个子文件夹的处理计数
             subfolder_counts = {subfolder: 0 for subfolder in subfolder_tasks.keys()}
             total_processed = 0
-            
-            # 计算总目标视频数
-            total_target = target_videos_count if process_mode == "merge" else min(tasks_found, target_videos_count)
-            logger.info(f"按子目录轮流处理已启用，每个子目录基础限制: {videos_per_subfolder}，总目标数量: {total_target}")
-            
-            # 持续循环直到达到总目标数量或所有子文件夹都处理完毕
-            while total_processed < total_target:
-                any_task_processed = False
-                
-                # 遍历每个子文件夹
-                for subfolder, tasks in subfolder_tasks.items():
-                    # 如果已达到总目标，退出循环
-                    if total_processed >= total_target:
-                        break
-                        
-                    # 跳过已达到处理上限的子文件夹，除非是第二轮分配
+
+            # 计算总目标视频数 (保持之前的逻辑，确保 total_target 正确)
+            # total_target = target_videos_count if process_mode == "merge" else min(tasks_found, target_videos_count if target_videos_count > 0 else tasks_found) # 之前的 total_target 计算可能更复杂，这里简化为使用已有的 total_target
+
+            # --- 修改后的逻辑：逐个子目录处理 ---
+            subfolder_list = list(subfolder_tasks.keys()) # 获取子目录列表
+            logger.info(f"将按以下顺序处理子目录: {', '.join(subfolder_list)}")
+
+            for subfolder in subfolder_list:
+                logger.info(f"\n--- 开始处理子目录: {subfolder} ---")
+                tasks_in_current_subfolder = subfolder_tasks[subfolder] # 获取当前子目录的任务列表
+
+                # 内层循环：处理当前子目录的任务
+                while tasks_in_current_subfolder:
+                    # 检查1：是否已达到全局总目标
+                    if total_processed >= global_combinations_to_process:
+                        logger.info(f"已达到全局目标视频数量 ({global_combinations_to_process})，停止处理子目录 '{subfolder}' 的剩余任务。")
+                        break # 跳出内层 while 循环
+
+                    # 检查2：是否已达到当前子目录的处理上限 (如果 videos_per_subfolder > 0)
                     if videos_per_subfolder > 0 and subfolder_counts[subfolder] >= videos_per_subfolder:
-                        # 当总处理数小于总子目录数时，严格按每个子目录限制处理
-                        if total_processed < len(subfolder_tasks):
-                            continue
-                        # 当进入第二轮分配，优先分配给还有剩余任务的子目录
-                        # 此时每个子目录至少处理了一个视频，可以继续处理剩余的目标视频
-                    
-                    # 跳过没有剩余任务的子文件夹
-                    if not tasks:
-                        continue
-                        
+                        logger.info(f"子目录 '{subfolder}' 已达到处理上限 ({videos_per_subfolder})，跳过剩余任务。")
+                        break # 跳出内层 while 循环
+
                     # 处理当前子文件夹的一个任务
-                    task = tasks.pop(0)  # 取出并移除第一个任务
-                    
+                    task = tasks_in_current_subfolder.pop(0)  # 取出并移除第一个任务
+
                     task_identifier = f"任务: {os.path.basename(task['original_path'])} (来自: {subfolder})"
-                    logger.info(f"\n--- 开始处理 {task_identifier} ---")
-                    
-                    # 处理单个任务的代码
+                    logger.info(f"  -- 开始处理 {task_identifier} --")
+
+                    # 处理单个任务的代码 (调用 process_single_task)
                     task_result = process_single_task(task, output_folder, draft_name,
                                                     draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume,
                                                     main_track_volume, process_mode, selected_templates)
-                    
+
                     if task_result['success']:
                         successful_tasks += 1
-                        subfolder_counts[subfolder] += 1
-                        total_processed += 1
-                        any_task_processed = True
-                        logger.info(f"子目录 '{subfolder}' 已成功处理 {subfolder_counts[subfolder]} 个视频 (总进度: {total_processed}/{total_target})")
+                        subfolder_counts[subfolder] += 1 # 更新当前子目录计数
+                        total_processed += 1 # 更新全局计数
+                        logger.info(f"    子目录 '{subfolder}' 已成功处理 {subfolder_counts[subfolder]} 个视频 (总进度: {total_processed}/{global_combinations_to_process})")
                     else:
                         failed_tasks += 1
-                        logger.error(f"处理任务失败: {task_identifier}")
+                        logger.error(f"    处理任务失败: {task_identifier}")
+                        # 记录具体失败类型
+                        if task_result.get('split_merge_failed', False):
+                            split_merge_failures += 1
+                        if task_result.get('jianying_failed', False):
+                            jianying_failures += 1
 
-                    if task_result.get('split_merge_failed', False):
-                        split_merge_failures += 1
-                    if task_result.get('jianying_failed', False):
-                        jianying_failures += 1
-                
-                # 如果没有任何任务被处理，说明所有子文件夹都已处理完毕或达到限制
-                if not any_task_processed:
-                    logger.info(f"所有可处理的任务都已完成，总共处理了 {total_processed}/{total_target} 个视频")
-                    break
-                    
-                # 检查是否达到全局目标数量（直接素材替换模式）
-                if process_mode == "merge" and global_successful_combinations >= global_combinations_to_process:
-                    logger.info(f"[全局统计] ⚠️ 已成功处理 {global_successful_combinations} 个组合，达到全局目标 {global_combinations_to_process}，停止后续任务处理")
-                    break
+                # 内层 while 循环结束后，检查是否因达到全局目标而跳出
+                if total_processed >= global_combinations_to_process:
+                    logger.info(f"已达到全局目标视频数量 ({global_combinations_to_process})，停止处理后续子目录。")
+                    break # 跳出外层 for 循环，不再处理其他子目录
+
+            logger.info(f"--- 子目录处理完成 --- 总共处理了 {total_processed}/{global_combinations_to_process} 个视频")
+            # --- 修改结束 ---
+
         else:
             # 原始的非子目录轮流处理逻辑
-            logger.info("未启用按子目录轮流处理，将正常处理所有素材")
+            logger.info("未启用按子目录处理，将正常处理所有素材")
             subfolder_counts = {}  # 用于跟踪每个子目录已处理的视频数量
             
             for i, task in enumerate(video_tasks):
