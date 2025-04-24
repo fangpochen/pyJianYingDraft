@@ -230,11 +230,16 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                             # --- Logic for MERGE mode ---
                             if process_mode == "merge":
                                  if len(materials_in_sf) >= num_segments:
-                                     # Consume materials from the START of the list for simplicity
-                                     task_materials_to_use = materials_in_sf[:num_segments]
-                                     # *** REMOVE consumed materials from memory ***
-                                     available_materials[current_subfolder] = materials_in_sf[num_segments:]
-                                     logger.info(f"({task_identifier_base}) 从内存中为下一个合并任务选取了 {num_segments} 个素材。剩余 {len(available_materials[current_subfolder])} 个。")
+                                     # *** Randomly sample materials ***
+                                     task_materials_to_use = random.sample(materials_in_sf, num_segments)
+                                     # *** REMOVE consumed materials from memory (by value) ***
+                                     for item in task_materials_to_use:
+                                         try:
+                                             available_materials[current_subfolder].remove(item)
+                                         except ValueError:
+                                             # This should ideally not happen if sampling from the list
+                                             logger.warning(f"({task_identifier_base}) 尝试从内存移除素材 {item} 时未找到，可能已被消耗？")
+                                     logger.info(f"({task_identifier_base}) 从内存中为下一个合并任务随机选取了 {num_segments} 个素材。剩余 {len(available_materials[current_subfolder])} 个。")
                                      task_identifier = f"{task_identifier_base} - 合并任务 {total_processed + 1}"
                                  else:
                                      # Not enough materials in this subfolder for a merge task
@@ -242,12 +247,16 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                             # --- Logic for SPLIT mode ---
                             elif process_mode == "split":
                                  if len(materials_in_sf) >= 1:
-                                     # Consume ONE material from the start of the list
-                                     task_materials_to_use = [materials_in_sf[0]] # Split processes one source video
-                                     # *** REMOVE consumed material from memory ***
-                                     available_materials[current_subfolder] = materials_in_sf[1:]
+                                     # *** Randomly choose ONE material ***
+                                     chosen_material = random.choice(materials_in_sf)
+                                     task_materials_to_use = [chosen_material]
+                                     # *** REMOVE consumed material from memory (by value) ***
+                                     try:
+                                         available_materials[current_subfolder].remove(chosen_material)
+                                     except ValueError:
+                                         logger.warning(f"({task_identifier_base}) 尝试从内存移除素材 {chosen_material} 时未找到，可能已被消耗？")
                                      task_identifier = f"{task_identifier_base} - 分割任务: {os.path.basename(task_materials_to_use[0])}"
-                                     logger.info(f"({task_identifier_base}) 从内存中为下一个分割任务选取了素材 '{os.path.basename(task_materials_to_use[0])}'。剩余 {len(available_materials[current_subfolder])} 个。")
+                                     logger.info(f"({task_identifier_base}) 从内存中为下一个分割任务随机选取了素材 '{os.path.basename(task_materials_to_use[0])}'。剩余 {len(available_materials[current_subfolder])} 个。")
                                  else:
                                      # No materials left in this subfolder for a split task
                                      continue # Try next subfolder
