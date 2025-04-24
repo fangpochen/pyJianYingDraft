@@ -7,6 +7,10 @@ import logging
 import traceback
 import re
 import random
+import uuid
+import datetime
+# Added copy for deep copying material list
+import copy
 
 # --- Import necessary functions from other modules ---
 try:
@@ -30,10 +34,27 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
+# Helper function to delete source files safely
+def _delete_source_files(files_to_delete, task_identifier="任务"):
+    """Safely delete a list of source files."""
+    deleted_count = 0
+    for file_path in files_to_delete:
+        try:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                logger.info(f"({task_identifier}) 已删除源素材: {file_path}")
+                deleted_count += 1
+            else:
+                logger.warning(f"({task_identifier}) 尝试删除源素材时未找到文件: {file_path}")
+        except Exception as e:
+            logger.warning(f"({task_identifier}) 删除源素材失败: {file_path} - {e}")
+    return deleted_count
+
 def run_individual_video_processing(input_folder, output_folder, draft_name, draft_folder_path, delete_source, num_segments, keep_bgm=True, bgm_volume=100, main_track_volume=100, process_mode="split", target_videos_count=1, process_by_subfolder=False, videos_per_subfolder=0, selected_templates=None):
     """
     Main function to process each video file individually.
     Orchestrates finding tasks, splitting, processing via Jianying, and cleanup.
+    ***MODIFIED: Scans materials once; implements per-cycle subfolder limit.***
 
     Args:
         input_folder (str): Root input directory with subfolders containing videos.
@@ -41,9 +62,9 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                              (organized by subfolder).
         draft_name (str): Name of the Jianying draft template to use.
         draft_folder_path (str): Path to the Jianying draft library.
-        delete_source (bool): Whether to delete the original video after successful processing.
-                              Split segments are always deleted on success.
-        num_segments (int): The number of segments to logically split or merge the video into.
+        delete_source (bool): Whether to delete the original video(s) after successful processing.
+        num_segments (int): The number of segments to split into (split mode) OR
+                             the number of material videos to use per output video (merge mode).
         keep_bgm (bool): Whether to keep the background music from the draft template. Defaults to True.
         bgm_volume (int): BGM音量，取值范围0-100，默认为100（原始音量）。
         main_track_volume (int): 主轨道音量，取值范围0-100，默认为100（原始音量）。
@@ -51,18 +72,19 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         target_videos_count (int): 目标生成视频数量，用于排列组合，默认为1（不组合）。
         process_by_subfolder (bool): 是否按子目录循环处理，默认为False。
         videos_per_subfolder (int): 每个子目录处理视频数量，默认为0（不限制）。
+        ***MODIFIED INTERPRETATION: This limit is now applied PER CYCLE through subfolders.***
         selected_templates (list): 选中的模板列表，如果提供且包含多个模板，将为每个视频任务随机选择一个模板。
 
     Returns:
         dict: A dictionary containing processing results:
-              {'success': bool, 'message': str, 'tasks_found': int, 'tasks_processed': int, 'tasks_failed': int}
+              {'success': bool, 'message': str, 'materials_found': int, 'tasks_processed': int, 'tasks_failed': int}
     """
     # --- 结果统计初始化 ---
     result_summary = {
-        'success': False, 
-        'message': '处理未开始', 
-        'tasks_found': 0, 
-        'tasks_processed': 0, 
+        'success': False,
+        'message': '处理未开始',
+        'materials_found': 0, # Renamed from tasks_found for clarity
+        'tasks_processed': 0,
         'tasks_failed': 0
     }
 
@@ -91,846 +113,681 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
         result_summary['message'] = err_msg
         return result_summary # 返回失败
 
-    logger.info(f"========= 开始逐个视频{process_mode == 'split' and '分割' or '融合'}处理 =========")
+    logger.info(f"========= 开始视频{'分割' if process_mode == 'split' else '融合'}处理 (内存管理模式) =========")
     start_time = time.time()
     successful_tasks = 0
     failed_tasks = 0
     split_merge_failures = 0
     jianying_failures = 0
-    
-    # 跟踪全局成功处理的组合数量（在直接素材替换模式下使用）
-    global_successful_combinations = 0
-    
+    materials_not_found_failures = 0 # New counter for when materials run out
+
     try:
-        # 1. Find all individual video tasks
-        logger.info("\n--- 阶段 1: 扫描并准备素材 ---")
-        
-        # 获取所有视频任务
+        # --- MODIFICATION START: Scan materials once ---
+        logger.info("\n--- 阶段 1: 扫描并加载所有素材到内存 ---")
+        available_materials = {} # Dictionary: subfolder_name -> list of material paths
+        total_materials_found = 0
         try:
-            video_tasks = find_video_tasks(input_folder)
-            tasks_found = len(video_tasks)
-            logger.info(f"找到 {tasks_found} 个素材文件夹")
-            
-            # 明确目标生成视频数量 - 移到这里，确保tasks_found已定义
-            global_target_count = target_videos_count if process_mode == "merge" else tasks_found
-            logger.info(f"[全局统计] 处理模式: {process_mode}，目标视频数量: {global_target_count}")
-            
-            if tasks_found == 0:
-                logger.warning("未找到任何视频素材文件夹，任务完成")
-                result_summary = {
-                    'success': True,  # 虽然没有任务，但不算错误
-                    'message': "未找到任何视频素材文件夹，请检查输入路径。",
-                    'tasks_found': 0,
+            # Use find_video_tasks to get the initial structure
+            # Note: find_video_tasks returns a list of dicts, one per *video file* found
+            all_found_videos = find_video_tasks(input_folder)
+            if not all_found_videos:
+                 logger.warning("未找到任何视频素材文件，任务完成")
+                 result_summary = {
+                    'success': True,
+                    'message': "未找到任何视频素材文件，请检查输入路径。",
+                    'materials_found': 0,
                     'tasks_processed': 0,
                     'tasks_failed': 0
-                }
-                return result_summary
-                
+                 }
+                 return result_summary
+
+            # Group materials by subfolder
+            for video_info in all_found_videos:
+                subfolder = video_info['subfolder_name']
+                material_path = video_info['original_path']
+                if subfolder not in available_materials:
+                    available_materials[subfolder] = []
+                available_materials[subfolder].append(material_path)
+                total_materials_found += 1
+
+            logger.info(f"扫描完成，共加载 {total_materials_found} 个视频素材分布在 {len(available_materials)} 个子目录中。")
+            # Log initial counts per subfolder
+            for sf, mats in available_materials.items():
+                 logger.info(f"  - 子目录 '{sf}': {len(mats)} 个素材")
+
+            # Determine the total number of videos to generate/tasks to run
+            # In merge mode, it's target_videos_count.
+            # In split mode, it's the total number of unique video files found.
+            global_target_count = target_videos_count if process_mode == "merge" else total_materials_found
+            logger.info(f"[全局统计] 处理模式: {process_mode}，目标视频/任务数量: {global_target_count}")
+
         except Exception as e:
-            # 捕获查找任务时的错误
-            logger.exception(f"查找素材文件夹时出错: {e}")
-            error_msg = f"视频素材查找阶段错误: {e}"
+            logger.exception(f"扫描或加载素材时出错: {e}")
+            error_msg = f"视频素材扫描/加载阶段错误: {e}"
             result_summary = {
                 'success': False,
                 'message': error_msg,
-                'tasks_found': 0,
+                'materials_found': 0,
                 'tasks_processed': 0,
                 'tasks_failed': 0
             }
             return result_summary
+        # --- MODIFICATION END: Scan materials once ---
 
-        # 2. Process each task individually
-        logger.info("\n--- 阶段 2: 逐个处理视频素材 ---")
+        # --- 阶段 2: 逐个处理视频素材 (从内存中取用) ---
+        logger.info("\n--- 阶段 2: 按需处理视频素材 (从内存中取用) ---")
+        if not process_videos: # Double check dependency after logging start
+             # This check might be redundant if done earlier, but safer
+             raise RuntimeError("核心依赖 (jianying.py) 未加载。")
         logger.warning("请确保剪映专业版已打开并处于主界面，否则后续导出可能会失败！")
 
-        # 设置目标生成视频数量（全局范围）
-        global_combinations_to_process = target_videos_count if process_mode == "merge" else tasks_found
-        logger.info(f"[全局统计] 目标总视频数量: {global_combinations_to_process}（{'按组合数' if process_mode == 'merge' else '按素材文件夹数'}）")
+        # Global count for generated videos/processed tasks
+        total_processed = 0
 
-        # --- 修改开始: 实现按子目录轮流处理 ---
+        # --- MODIFICATION START: Rework processing loops to use available_materials ---
         if process_by_subfolder:
-            logger.info(f"按子目录处理已启用，每个子目录基础限制: {videos_per_subfolder if videos_per_subfolder > 0 else '不限制'}，总目标数量: {global_combinations_to_process}")
+            subfolder_list = list(available_materials.keys())
+            if not subfolder_list:
+                logger.warning("未找到任何包含素材的子目录（内存列表为空），无法处理。")
+                result_summary['message'] = "未找到任何包含素材的子目录。"
+                result_summary['materials_found'] = 0
+                result_summary['tasks_processed'] = 0
+                result_summary['tasks_failed'] = 0
+                result_summary['success'] = True
+                # The function will return result_summary later
+            else:
+                # Remove total count tracking per subfolder, limit is now per cycle
+                # current_subfolder_index = 0 # Not needed for cycle-based iteration
+                processed_any_task_overall = False # Track if we ever processed anything
 
-            # 按子文件夹分组任务
-            subfolder_tasks = {}
-            for task in video_tasks:
-                subfolder = task['subfolder_name']
-                if subfolder not in subfolder_tasks:
-                    subfolder_tasks[subfolder] = []
-                subfolder_tasks[subfolder].append(task)
+                logger.info(f"按子目录处理已启用，将按顺序尝试以下子目录: {', '.join(subfolder_list)}")
+                logger.info(f"每个子目录在每一轮循环中最多处理 {videos_per_subfolder if videos_per_subfolder > 0 else '不限制'} 个任务。")
 
-            # 初始化每个子文件夹的处理计数
-            subfolder_counts = {subfolder: 0 for subfolder in subfolder_tasks.keys()}
-            total_processed = 0
+                # Outer loop: continue until global target is met or no progress can be made
+                while total_processed < global_target_count:
+                    logger.info(f"\n--- 开始新一轮子目录处理循环 (当前进度: {total_processed}/{global_target_count}) ---")
 
-            # 计算总目标视频数 (保持之前的逻辑，确保 total_target 正确)
-            # total_target = target_videos_count if process_mode == "merge" else min(tasks_found, target_videos_count if target_videos_count > 0 else tasks_found) # 之前的 total_target 计算可能更复杂，这里简化为使用已有的 total_target
+                    # Inner loop: iterate through each subfolder for this cycle
+                    for current_subfolder in subfolder_list:
+                        # Check if global target is already met within this cycle
+                        if total_processed >= global_target_count:
+                            break
 
-            # --- 修改后的逻辑：逐个子目录处理 ---
-            subfolder_list = list(subfolder_tasks.keys()) # 获取子目录列表
-            logger.info(f"将按以下顺序处理子目录: {', '.join(subfolder_list)}")
+                        # Process up to `videos_per_subfolder` tasks for this subfolder IN THIS CYCLE
+                        processed_count_this_subfolder_this_cycle = 0
+                        while (videos_per_subfolder <= 0 or processed_count_this_subfolder_this_cycle < videos_per_subfolder):
 
-            for subfolder in subfolder_list:
-                logger.info(f"\n--- 开始处理子目录: {subfolder} ---")
-                tasks_in_current_subfolder = subfolder_tasks[subfolder] # 获取当前子目录的任务列表
-
-                # 内层循环：处理当前子目录的任务
-                while tasks_in_current_subfolder:
-                    # 检查1：是否已达到全局总目标
-                    if total_processed >= global_combinations_to_process:
-                        logger.info(f"已达到全局目标视频数量 ({global_combinations_to_process})，停止处理子目录 '{subfolder}' 的剩余任务。")
-                        break # 跳出内层 while 循环
-
-                    # 检查2：是否已达到当前子目录的处理上限 (如果 videos_per_subfolder > 0)
-                    if videos_per_subfolder > 0 and subfolder_counts[subfolder] >= videos_per_subfolder:
-                        logger.info(f"子目录 '{subfolder}' 已达到处理上限 ({videos_per_subfolder})，跳过剩余任务。")
-                        break # 跳出内层 while 循环
-
-                    # 处理当前子文件夹的一个任务
-                    task = tasks_in_current_subfolder.pop(0)  # 取出并移除第一个任务
-
-                    task_identifier = f"任务: {os.path.basename(task['original_path'])} (来自: {subfolder})"
-                    logger.info(f"  -- 开始处理 {task_identifier} --")
-
-                    # 处理单个任务的代码 (调用 process_single_task)
-                    task_result = process_single_task(task, output_folder, draft_name,
-                                                    draft_folder_path, delete_source, num_segments, keep_bgm, bgm_volume,
-                                                    main_track_volume, process_mode, selected_templates)
-
-                    if task_result['success']:
-                        successful_tasks += 1
-                        subfolder_counts[subfolder] += 1 # 更新当前子目录计数
-                        total_processed += 1 # 更新全局计数
-                        logger.info(f"    子目录 '{subfolder}' 已成功处理 {subfolder_counts[subfolder]} 个视频 (总进度: {total_processed}/{global_combinations_to_process})")
-                    else:
-                        failed_tasks += 1
-                        logger.error(f"    处理任务失败: {task_identifier}")
-                        # 记录具体失败类型
-                        if task_result.get('split_merge_failed', False):
-                            split_merge_failures += 1
-                        if task_result.get('jianying_failed', False):
-                            jianying_failures += 1
-
-                # 内层 while 循环结束后，检查是否因达到全局目标而跳出
-                if total_processed >= global_combinations_to_process:
-                    logger.info(f"已达到全局目标视频数量 ({global_combinations_to_process})，停止处理后续子目录。")
-                    break # 跳出外层 for 循环，不再处理其他子目录
-
-            logger.info(f"--- 子目录处理完成 --- 总共处理了 {total_processed}/{global_combinations_to_process} 个视频")
-            # --- 修改结束 ---
-
-        else:
-            # 原始的非子目录轮流处理逻辑
-            logger.info("未启用按子目录处理，将正常处理所有素材")
-            subfolder_counts = {}  # 用于跟踪每个子目录已处理的视频数量
-            
-            for i, task in enumerate(video_tasks):
-                # 检查是否已达到全局目标
-                if process_mode == "merge" and global_successful_combinations >= global_combinations_to_process:
-                    logger.info(f"[全局统计] ⚠️ 已成功处理 {global_successful_combinations} 个组合，达到全局目标 {global_combinations_to_process}，停止后续任务处理")
-                    break
-
-                task_start_time = time.time()
-                original_video_path = task['original_path']
-                subfolder_name = task['subfolder_name']
-                output_base_name = task['output_base_name'] # Base name for export/splits
-                task_identifier = f"任务 {i+1}/{tasks_found}: {os.path.basename(original_video_path)} (来自: {subfolder_name})"
-
-                # 如果启用了按子目录循环处理，检查当前子目录是否已达到处理上限
-                if process_by_subfolder and videos_per_subfolder > 0:
-                    # 初始化子目录计数器
-                    if subfolder_name not in subfolder_counts:
-                        subfolder_counts[subfolder_name] = 0
-                    
-                    # 检查是否达到每个子目录的处理上限
-                    if subfolder_counts[subfolder_name] >= videos_per_subfolder:
-                        logger.info(f"子目录 '{subfolder_name}' 已处理 {subfolder_counts[subfolder_name]} 个视频，达到设定上限 {videos_per_subfolder}，跳过此任务")
-                        continue
-
-                logger.info(f"\n--- 开始处理 {task_identifier} ---")
-
-                # --- 如果提供了模板列表，随机选择一个模板 ---
-                task_draft_name = draft_name
-                if selected_templates and len(selected_templates) > 0:
-                    # 确保模板列表中包含初始选择的模板
-                    if draft_name not in selected_templates:
-                        all_templates = selected_templates + [draft_name]
-                    else:
-                        all_templates = selected_templates
-                    
-                    # 随机选择一个模板
-                    task_draft_name = random.choice(all_templates)
-                    logger.info(f"  为当前任务随机选择模板: {task_draft_name}")
-                else:
-                    logger.info(f"  使用固定模板: {draft_name}")
-
-                # --- Determine output directory for this specific task ---
-                base_output_dir = os.path.join(output_folder, subfolder_name)
-                try:
-                    os.makedirs(base_output_dir, exist_ok=True)
-                except OSError as e:
-                     logger.error(f"无法创建基础输出目录 {base_output_dir}: {e}", exc_info=True)
-                     failed_tasks += 1
-                     continue # Skip this task if base output dir cannot be created
-
-                split_output_dir = os.path.join(base_output_dir, f"{output_base_name}_splits")
-                final_export_dir = base_output_dir
-                final_export_filename = f"{output_base_name}.mp4"
-                final_export_path = os.path.join(final_export_dir, final_export_filename)
-
-                logger.info(f"  原始视频: {original_video_path}")
-                logger.info(f"  切割片段输出目录: {split_output_dir}")
-                logger.info(f"  最终导出目录: {final_export_dir}")
-                logger.info(f"  最终导出文件名: {final_export_filename}")
-
-                split_video_paths = None
-                original_duration_sec = None
-                processing_success_flag = False # 用于标记单个任务是否成功
-
-                try:
-                    # --- Step 2a(i): Get Original Video Duration ---
-                    try:
-                        logger.info("  步骤 2a(i): 获取原始视频时长...")
-                        original_duration_sec = get_video_duration(original_video_path)
-                        if original_duration_sec is not None:
-                            logger.info(f"    原始视频时长: {original_duration_sec:.2f} 秒")
-                        else:
-                            logger.warning(f"  无法获取原始视频 '{os.path.basename(original_video_path)}' 的时长。返回值为 None。")
-                            logger.warning("  将无法调整模板时长，导出视频可能包含黑屏或被截断。")
-                    except Exception as dur_err:
-                        logger.warning(f"  获取原始视频 '{os.path.basename(original_video_path)}' 时长时发生错误: {dur_err}", exc_info=True)
-                        logger.warning("  将无法调整模板时长，导出视频可能包含黑屏或被截断。")
-                        original_duration_sec = None
-
-                    # --- Step 2a(ii): Split the video (if necessary) ---
-                    logger.info(f"  步骤 2a(ii): {'分割' if process_mode == 'split' else '融合'}视频...")
-                    split_merge_start_time = time.time()
-                    
-                    if process_mode == "split":
-                        # 分割模式
-                        split_video_paths = split_video_ffmpeg(
-                            original_video_path, 
-                            split_output_dir, 
-                            num_segments=num_segments,
-                            volume_level=main_track_volume
-                        )
-                        split_merge_duration = time.time() - split_merge_start_time
-                        logger.info(f"  视频分割完成，耗时: {split_merge_duration:.2f}秒")
-                        
-                        if not split_video_paths:
-                            logger.error(f"  {task_identifier} 的视频分割失败，跳过此任务。")
-                            split_merge_failures += 1
-                            raise RuntimeError("视频分割失败") # 抛出异常以便外层捕获
-                        
-                        logger.info(f"  最终用于处理的片段 ({len(split_video_paths)}): {', '.join(os.path.basename(p) for p in split_video_paths)}")
-                    else:
-                        # 直接素材替换模式 (更新后的实现)
-                        # 在直接替换模式下，我们需要找到相关的视频文件来组成组合
-                        # 然后直接将这些视频传递给剪映进行处理
-                        
-                        # 确保split_video_paths初始化为空列表而不是None
-                        split_video_paths = []
-                        
-                        # 获取当前文件夹下的所有视频文件
-                        video_dir = os.path.dirname(original_video_path)
-                        base_name = os.path.splitext(os.path.basename(original_video_path))[0]
-                        ext = os.path.splitext(original_video_path)[1]
-                        
-                        # 搜索所有视频文件
-                        potential_videos = []
-                        try:
-                            for filename in os.listdir(video_dir):
-                                file_path = os.path.join(video_dir, filename)
-                                if os.path.isfile(file_path) and os.path.splitext(filename)[1].lower() in SUPPORTED_VIDEO_EXTENSIONS:
-                                    potential_videos.append(file_path)
-                        except Exception as e:
-                            logger.error(f"查找视频文件时出错: {e}")
-                            split_merge_failures += 1
-                            raise RuntimeError(f"查找视频文件失败: {e}")
-                        
-                        # 如果没有找到足够的视频文件，则报错
-                        if len(potential_videos) < num_segments:
-                            logger.error(f"未找到足够的视频文件用于组合，需要{num_segments}个，但只找到{len(potential_videos)}个")
-                            split_merge_failures += 1
-                            raise RuntimeError(f"未找到足够的视频文件用于组合，需要{num_segments}个，但只找到{len(potential_videos)}个")
-                        
-                        logger.info(f"  找到{len(potential_videos)}个视频文件可用于组合")
-                        
-                        # 提取视频文件的前缀映射，用于确保组合中不使用相同前缀的视频
-                        def extract_video_prefix(filepath):
-                            filename = os.path.basename(filepath)
-                            # 尝试匹配常见的编号模式，如 name_1.mp4, name-1.mp4, name(1).mp4 等
-                            match = re.search(r'^(.+?)(?:[_\-\s\.]\d+|\(\d+\))(?:\.[^.]+)?$', filename)
-                            if match:
-                                return match.group(1)
-                            # 如果没有匹配到编号模式，尝试提取第一个下划线或短横线前的内容
-                            parts = re.split(r'[_\-\s]', filename, 1)
-                            if len(parts) > 1:
-                                return parts[0]
-                            # 如果没有分隔符，返回文件名（不含扩展名）
-                            return os.path.splitext(filename)[0]
-                        
-                        # 按前缀分组视频文件
-                        prefix_to_videos = {}
-                        for video_path in potential_videos:
-                            prefix = extract_video_prefix(video_path)
-                            if prefix not in prefix_to_videos:
-                                prefix_to_videos[prefix] = []
-                            prefix_to_videos[prefix].append(video_path)
-                        
-                        # 日志输出前缀分组情况
-                        logger.info(f"  视频文件按前缀分组:")
-                        for prefix, videos in prefix_to_videos.items():
-                            logger.info(f"    前缀 '{prefix}': {len(videos)} 个文件")
-                        
-                        # 检查是否有足够不同前缀的视频组
-                        if len(prefix_to_videos) < num_segments:
-                            logger.warning(f"  警告: 只有 {len(prefix_to_videos)} 个不同前缀的视频组，但需要 {num_segments} 个不同前缀")
-                        
-                        # 初始化数据库
-                        from app.util.merge_database import MergeDatabase
-                        db_dir = "db"
-                        db_file = "merge_history.db"
-                        db_path = os.path.join(db_dir, db_file)
-                        
-                        # 确保db目录存在
-                        if not os.path.exists(db_dir):
-                            os.makedirs(db_dir)
-                            logger.info(f"创建数据库目录: {db_dir}")
-                        
-                        # 跟踪成功处理的组合数量
-                        successful_combinations = 0
-                        failed_combinations = 0
-                        
-                        # 用于跟踪本次处理中使用过的所有文件
-                        used_video_files = set()
-                        
-                        # 根据目标生成视频数量计算当前任务需要处理的组合数
-                        # 考虑全局已完成的组合数，确保不会超过全局目标
-                        remaining_combinations = global_combinations_to_process - global_successful_combinations
-                        combinations_to_process = min(max(1, target_videos_count), remaining_combinations)
-                        logger.info(f"  任务 {i+1} 目标处理 {combinations_to_process} 个视频组合（全局已完成: {global_successful_combinations}, 全局目标: {global_combinations_to_process}）")
-                        
-                        # 如果没有剩余组合需要处理，跳过当前任务
-                        if combinations_to_process <= 0:
-                            logger.info(f"[全局统计] 当前素材文件夹 {i+1} 中没有剩余组合需要处理（全局已完成: {global_successful_combinations}/{global_combinations_to_process}）")
-                            processing_success_flag = True  # 标记为成功，不计入失败
-                            continue
-                        
-                        # 初始化组合索引
-                        combo_index = 0
-
-                        # ========== 简化替换：只保留两种核心逻辑 ==========
-                        # 获取所有已经使用过的视频文件名列表 - 仅当不删除源文件时需要
-                        used_files_in_db = set() # 初始化为空集合
-                        if not delete_source: # 检查 delete_source 选项
-                            with MergeDatabase(db_path) as db:
-                                # 获取已使用文件记录
-                                used_files_in_db = db.get_used_files()
-                                logger.info(f"  (delete_source=False) 从数据库获取到 {len(used_files_in_db)} 个已使用过的视频文件")
-                        else:
-                            logger.info(f"  (delete_source=True) 跳过从数据库获取已使用文件列表，将基于文件存在性判断。")
-
-                        # 修改循环条件，当成功处理的组合数达到目标时，停止处理
-                        while successful_combinations < combinations_to_process:
-                            try:
-                                # 为每个组合生成唯一的输出文件名
-                                combo_suffix = f"_{combo_index+1}" if combinations_to_process > 1 else ""
-                                combo_output_filename = f"{output_base_name}{combo_suffix}.mp4"
-                                combo_export_path = os.path.join(final_export_dir, combo_output_filename)
-                                
-                                logger.info(f"  处理组合 {combo_index+1}，目前已成功 {successful_combinations}/{combinations_to_process}")
-                                
-                                # 选择视频组合
-                                selected_combo = None
-                                
-                                # ===== 简化逻辑 1: 只选择不同前缀且未使用过的素材 =====
-                                # 检查是否有足够的前缀组
-                                if len(prefix_to_videos) >= num_segments:
-                                    # 从每个前缀组中选择一个未使用过的视频
-                                    selected_combo = []
-                                    used_prefixes = set()
-                                    
-                                    # 按照前缀组的顺序处理
-                                    sorted_prefixes = sorted(prefix_to_videos.keys())
-                                    
-                                    # 从每个前缀组中选择一个未使用过的视频
-                                    for prefix in sorted_prefixes:
-                                        # 如果已经选择了足够的视频，跳出循环
-                                        if len(selected_combo) >= num_segments:
-                                            break
-                                        
-                                        # 获取当前前缀组中所有未使用过的视频
-                                        unused_videos = []
-                                        for video in prefix_to_videos[prefix]:
-                                            # 检查是否已在数据库中被标记为使用过 (仅当 delete_source=False 时)
-                                            # 并且检查是否已在本次任务中被使用过
-                                            video_basename = os.path.basename(video)
-                                            is_used_in_db = (not delete_source) and (video_basename in used_files_in_db)
-                                            is_used_in_current_task = video in used_video_files
-
-                                            # 如果 delete_source=True，则 is_used_in_db 始终为 False
-                                            # 核心判断逻辑：如果 (不是 在数据库标记为已用) 且 (不是 在本次任务中已用)
-                                            if not is_used_in_db and not is_used_in_current_task:
-                                                # 如果 delete_source=True，还需要额外检查文件是否存在（理论上应该存在，但加一层保险）
-                                                if delete_source and not os.path.exists(video):
-                                                    logger.warning(f"    (delete_source=True) 文件 {video_basename} 在检查时不存在，跳过。")
-                                                    continue # 跳过这个不存在的文件
-                                                unused_videos.append(video)
-                                        
-                                        # 如果有未使用过的视频，选择第一个
-                                        if unused_videos:
-                                            selected_combo.append(unused_videos[0])
-                                            used_prefixes.add(prefix)
-                                    
-                                    # 检查是否成功选择了足够的视频
-                                    if len(selected_combo) < num_segments:
-                                        logger.warning(f"  未能从每个前缀组中选择足够的未使用视频 ({len(selected_combo)}/{num_segments})")
-                                        selected_combo = None  # 重置为None，进入第二种逻辑
-                                
-                                # ===== 简化逻辑 2: 如果无法选择足够不同前缀的未使用视频 =====
-                                # 如果 delete_source 为 True，则不再尝试从数据库查找
-                                if not selected_combo and delete_source:
-                                    logger.warning(f"  (delete_source=True) 未能从每个前缀组中选择足够的未使用文件，且已禁用数据库查找。无法生成更多组合。")
-                                    # 由于无法找到组合，直接退出当前任务的组合循环
-                                    break # 退出 while successful_combinations < combinations_to_process 循环
-                                
-                                # ===== 简化逻辑 2 (原版): 如果 delete_source 为 False，从数据库查找未使用组合 =====
-                                if not selected_combo and not delete_source:
-                                    logger.info("  (delete_source=False) 尝试从数据库查找未使用过的组合...")
-                                    with MergeDatabase(db_path) as db:
-                                        # 查找未使用的组合
-                                        unused_combinations = db.find_unused_combinations(potential_videos, num_segments)
-                                        
-                                        if unused_combinations:
-                                            selected_combo = unused_combinations[0]  # 选择第一个未使用组合
-                                            logger.info(f"  从数据库中找到未使用过的组合")
-                                        else:
-                                            logger.warning(f"  未找到未使用过的组合，可能所有可能的组合都已经被使用过")
-                                            # 无可用组合，退出循环
-                                            break
-                                
-                                if selected_combo:
-                                    # 记录所选视频的前缀情况
-                                    combo_prefixes = [extract_video_prefix(v) for v in selected_combo]
-                                    unique_prefixes = len(set(combo_prefixes))
-                                    logger.info(f"  组合 {combo_index+1}: 所选组合使用了 {unique_prefixes} 个不同前缀: {', '.join(set(combo_prefixes))}")
-                                    
-                                    logger.info(f"  组合 {combo_index+1} 选择的文件: {', '.join(os.path.basename(f) for f in selected_combo)}")
-                                    
-                                    # 调用剪映处理
-                                    jy_result = process_videos(
-                                        video_paths=selected_combo,  # 直接传递原始文件列表
-                                        draft_name=task_draft_name,
-                                        draft_folder_path=draft_folder_path,
-                                        export_video=True,
-                                        export_path=final_export_dir,
-                                        export_filename=combo_output_filename,
-                                        original_duration_seconds=original_duration_sec,
-                                        keep_bgm=keep_bgm,
-                                        bgm_volume=bgm_volume,
-                                        main_track_volume=main_track_volume
-                                    )
-                                    
-                                    if jy_result["success"]:
-                                        logger.info(f"  组合 {combo_index+1}: 剪映处理成功")
-                                        
-                                        # 记录到数据库
-                                        try:
-                                            with MergeDatabase(db_path) as db:
-                                                # 添加整个合并任务
-                                                # 如果 delete_source=True，可以考虑是否还需要记录任务，但记录文件使用状态仍有用
-                                                db.add_merge_task(selected_combo, combo_export_path)
-
-                                                # 更新数据库中已使用文件列表 (即使 delete_source=True 也更新，以防未来配置改变)
-                                                # 但主要依赖 used_video_files 来避免任务内重复
-                                                for video in selected_combo:
-                                                    used_files_in_db.add(os.path.basename(video))
-
-                                                logger.info(f"  组合 {combo_index+1}: 已记录到数据库")
-                                        except Exception as e:
-                                            logger.error(f"  组合 {combo_index+1}: 记录到数据库失败: {e}")
-                                        
-                                        # 将成功处理的文件添加到使用过的文件集合中 (无论 delete_source 如何都执行)
-                                        for video_file in selected_combo:
-                                            used_video_files.add(video_file)
-                                        
-                                        successful_combinations += 1
-                                        global_successful_combinations += 1
-                                        logger.info(f"[全局统计] 组合处理成功 - 当前任务进度: {successful_combinations}/{combinations_to_process} (全局进度: {global_successful_combinations}/{global_combinations_to_process})")
-                                        
-                                        # 如果已达到目标数量，提前退出循环
-                                        if successful_combinations >= combinations_to_process:
-                                            logger.info(f"[全局统计] 当前任务已完成 - 已成功处理 {successful_combinations} 个组合，达到当前任务目标 {combinations_to_process}")
-                                            break
-                                        
-                                        # 如果已达到全局目标数量，也提前退出循环
-                                        if global_successful_combinations >= global_combinations_to_process:
-                                            logger.info(f"[全局统计] ⚠️ 全局目标已达成 - 已处理 {global_successful_combinations} 个组合，达到目标 {global_combinations_to_process}")
-                                            break
-                                    else:
-                                        logger.error(f"  组合 {combo_index+1}: 剪映处理失败: {jy_result.get('error', '未知错误')}")
-                                        failed_combinations += 1
-                                else:
-                                    logger.error(f"  组合 {combo_index+1}: 未能选择有效的文件组合")
-                                    failed_combinations += 1
-                            
-                            except Exception as e:
-                                logger.error(f"  组合 {combo_index+1} 处理时发生错误: {e}", exc_info=True)
-                            
-                            # 增加组合索引，准备处理下一个组合
-                            combo_index += 1
-                            
-                            # 防止无限循环，设置最大尝试次数为目标数量的3倍
-                            if combo_index >= combinations_to_process * 3:
-                                logger.warning(f"  已尝试处理 {combo_index} 个组合，超过最大尝试次数 {combinations_to_process * 3}，强制停止处理")
+                            # Check again if global target met after processing within the same subfolder
+                            if total_processed >= global_target_count:
                                 break
-                        
-                        # 检查处理结果
-                        if successful_combinations == 0:
-                            logger.error(f"  {task_identifier} 的所有组合处理均失败")
-                            split_merge_failures += 1
-                            raise RuntimeError("所有组合处理均失败")
-                        
-                        # 更新任务处理结果
-                        logger.info(f"  成功处理 {successful_combinations}/{combinations_to_process} 个组合")
-                        
-                        # 如果尝试处理成功
-                        if processing_success_flag:
-                            # --- Step 2c: Delete source and splits --- 
-                            logger.info("  步骤 2c(i): 准备删除处理后的临时文件...")
-                            if split_video_paths:
-                                deleted_split_count = 0
-                                logger.info(f"    准备删除 {len(split_video_paths)} 个临时文件...")
-                                for split_file in split_video_paths:
-                                    if split_file != original_video_path:
-                                        try:
-                                            if os.path.exists(split_file):
-                                                os.remove(split_file)
-                                                logger.info(f"      已删除临时文件: {split_file}")
-                                                deleted_split_count += 1
-                                            else:
-                                                logger.warning(f"      临时文件已不存在，跳过删除: {split_file}")
-                                        except OSError as remove_split_error:
-                                            logger.error(f"      删除临时文件失败: {split_file} - {remove_split_error}", exc_info=True)
-                                logger.info(f"    临时文件删除完成: 成功删除 {deleted_split_count} 个。")
-                                try:
-                                    if os.path.exists(split_output_dir) and os.path.isdir(split_output_dir) and not os.listdir(split_output_dir):
-                                        os.rmdir(split_output_dir)
-                                        logger.info(f"    已删除空的临时文件目录: {split_output_dir}")
-                                    elif not os.path.exists(split_output_dir):
-                                        logger.warning(f"    临时文件目录已不存在，无需删除: {split_output_dir}")
-                                except OSError as rmdir_error:
-                                    logger.warning(f"    删除临时文件目录失败（可能非空或权限问题）: {split_output_dir} - {rmdir_error}")
+
+                            # Check if materials are available IN THIS SUBFOLDER
+                            materials_in_sf = available_materials.get(current_subfolder, [])
+
+                            task_materials_to_use = []
+                            task_identifier_base = f"子目录: {current_subfolder}" # Base identifier
+
+                            # --- Logic for MERGE mode ---
+                            if process_mode == "merge":
+                                 if len(materials_in_sf) >= num_segments:
+                                     # Consume materials from the START of the list for simplicity
+                                     task_materials_to_use = materials_in_sf[:num_segments]
+                                     # *** REMOVE consumed materials from memory ***
+                                     available_materials[current_subfolder] = materials_in_sf[num_segments:]
+                                     logger.info(f"({task_identifier_base}) 从内存中为下一个合并任务选取了 {num_segments} 个素材。剩余 {len(available_materials[current_subfolder])} 个。")
+                                     task_identifier = f"{task_identifier_base} - 合并任务 {total_processed + 1}"
+                                 else:
+                                     # Not enough materials in this subfolder for a merge task
+                                     continue # Try next subfolder
+                            # --- Logic for SPLIT mode ---
+                            elif process_mode == "split":
+                                 if len(materials_in_sf) >= 1:
+                                     # Consume ONE material from the start of the list
+                                     task_materials_to_use = [materials_in_sf[0]] # Split processes one source video
+                                     # *** REMOVE consumed material from memory ***
+                                     available_materials[current_subfolder] = materials_in_sf[1:]
+                                     task_identifier = f"{task_identifier_base} - 分割任务: {os.path.basename(task_materials_to_use[0])}"
+                                     logger.info(f"({task_identifier_base}) 从内存中为下一个分割任务选取了素材 '{os.path.basename(task_materials_to_use[0])}'。剩余 {len(available_materials[current_subfolder])} 个。")
+                                 else:
+                                     # No materials left in this subfolder for a split task
+                                     continue # Try next subfolder
+                            # --- Logic for other modes (if any) ---
                             else:
-                                logger.info("    未找到临时文件信息，跳过删除临时文件。")
+                                 logger.error(f"未知的处理模式: {process_mode}")
+                                 failed_tasks += 1
+                                 continue # Skip to next subfolder or cycle
 
-                            if delete_source:
-                                logger.info("  步骤 2c(ii): 选项已启用，准备删除原始视频文件...")
-                                # 如果是融合模式，并且删除源文件选项启用，需要删除所有用于融合的源文件
-                                if process_mode == "merge":
-                                    try:
-                                        source_files_deleted = 0
-                                        for video_file in potential_videos:
-                                            if os.path.exists(video_file):
-                                                os.remove(video_file)
-                                                logger.info(f"    已删除原始视频文件: {video_file}")
-                                                source_files_deleted += 1
-                                            else:
-                                                logger.warning(f"    原始视频文件已不存在，跳过删除: {video_file}")
-                                        logger.info(f"    已删除 {source_files_deleted} 个原始视频文件。")
-                                    except Exception as e:
-                                        logger.error(f"    删除原始视频文件失败: {e}", exc_info=True)
-                                else:
-                                    # 分割模式，仅删除单个源文件
-                                    try:
-                                        if os.path.exists(original_video_path):
-                                            os.remove(original_video_path)
-                                            logger.info(f"    已删除原始视频文件: {original_video_path}")
-                                        else:
-                                            logger.warning(f"    原始视频文件已不存在，跳过删除: {original_video_path}")
-                                    except OSError as remove_error:
-                                        logger.error(f"    删除原始视频文件失败: {original_video_path} - {remove_error}", exc_info=True)
-                            else:
-                                logger.info("  步骤 2c(ii): 选项未启用，跳过删除原始视频文件。")
-                        
-                        # 设置用于后续处理的video_paths
-                        # 这里我们不再需要split_video_paths，因为已经直接处理了所有组合
-                        # 为了保持代码兼容性，设置为空列表
-                        split_video_paths = []
-                        
-                        # 任务成功标记
-                        if successful_combinations > 0:
-                            processing_success_flag = True
-                    
-                except Exception as task_error:
-                    # 捕获当前任务处理过程中的所有异常 (切割失败, 剪映处理失败等)
-                    logger.exception(f"处理 {task_identifier} 时发生错误")
-                    failed_tasks += 1
-                    # 确保split_video_paths不为None
-                    if 'split_video_paths' not in locals() or split_video_paths is None:
-                        split_video_paths = []
-                    # 错误类型判断已在上面处理 (split_merge_failures, jianying_failures)
+                            # --- If we got materials, process the task ---
+                            if task_materials_to_use:
+                                 task_start_time = time.time()
+                                 logger.info(f"开始处理 {task_identifier}")
 
-                # 处理完成，记录成功或失败
-                if processing_success_flag:
-                    # 如果启用了按子目录循环处理，更新子目录计数
-                    if process_by_subfolder and subfolder_name in subfolder_counts:
-                        subfolder_counts[subfolder_name] += 1
-                        logger.info(f"子目录 '{subfolder_name}' 已成功处理 {subfolder_counts[subfolder_name]}/{videos_per_subfolder if videos_per_subfolder > 0 else '不限制'} 个视频")
-                else:
-                    failed_tasks += 1
+                                 # Prepare task dictionary (simpler for merge, specific for split)
+                                 task_info = {'subfolder_name': current_subfolder}
+                                 if process_mode == 'split':
+                                     task_info['original_path'] = task_materials_to_use[0] # Only one path needed for split
+                                 # 'original_path' isn't strictly needed for merge in process_single_task anymore
 
-                task_duration = time.time() - task_start_time
-                status_str = "成功" if processing_success_flag else "失败"
-                logger.info(f"--- {task_identifier} 处理结束 [{status_str}] | 耗时: {task_duration:.2f}秒 ---")
-                # 循环继续处理下一个任务
+                                 result = process_single_task(
+                                     task_info,
+                                     output_folder,
+                                     draft_name,
+                                     draft_folder_path,
+                                     delete_source,
+                                     num_segments,
+                                     keep_bgm,
+                                     bgm_volume,
+                                     main_track_volume,
+                                     process_mode,
+                                     selected_templates,
+                                     # Pass the specific materials for this task (critical for merge)
+                                     material_paths_for_task=task_materials_to_use
+                                 )
 
-        # --- 循环结束后 --- 
-        result_summary['tasks_processed'] = successful_tasks
+                                 task_end_time = time.time()
+                                 task_duration = task_end_time - task_start_time
+
+                                 # Increment the total processed count HERE
+                                 total_processed += 1
+
+                                 processed_in_this_cycle = True
+                                 processed_any_task_overall = True
+                                 processed_count_this_subfolder_this_cycle += 1 # Increment count for this subfolder *in this cycle*
+
+                                 if result['success']:
+                                     successful_tasks += 1
+                                     # Deletion is now handled inside process_single_task if successful
+                                 else:
+                                     failed_tasks += 1
+                                     # Increment specific failure counters if available in result
+                                     if result.get('failure_type') == 'split_merge':
+                                         split_merge_failures += 1
+                                     elif result.get('failure_type') == 'jianying':
+                                         jianying_failures += 1
+                                     elif result.get('failure_type') == 'materials_not_found': # Should not happen here if logic is correct
+                                         materials_not_found_failures += 1
+
+                                 logger.info(f"完成处理 {task_identifier} - 耗时: {task_duration:.2f}秒")
+                                 logger.info(f"子目录 '{current_subfolder}' 内存剩余: {len(available_materials.get(current_subfolder, []))} (本轮已处理: {processed_count_this_subfolder_this_cycle}/{videos_per_subfolder if videos_per_subfolder > 0 else '∞'}) (总进度: {total_processed}/{global_target_count})")
+
+                                 # If target reached, break the inner loop
+                                 if total_processed >= global_target_count:
+                                     break
+
+                        # End of inner *while* loop (processing multiple times for one subfolder in a cycle if limit > 1)
+                        # If global target met, break the subfolder iteration for this cycle
+                        if total_processed >= global_target_count:
+                            break
+
+                    # --- End of inner for loop (iterating through subfolders in a cycle) ---
+
+                    # If target reached, break the outer loop
+                    if total_processed >= global_target_count:
+                         logger.info(f"已达到全局目标数量 ({global_target_count})，处理完成。")
+                         break
+
+                    # If we checked all subfolders in a cycle and didn't process anything,
+                    # it means no subfolder met the criteria (limit reached or no materials).
+                    if not processed_in_this_cycle and total_processed < global_target_count:
+                        logger.warning(f"完整轮询所有子目录后未能处理任何新任务。可能原因：所有子目录均无足够素材用于下一个任务。")
+                        materials_not_found_failures += (global_target_count - total_processed) # Mark unmet target as failure
+                        failed_tasks += (global_target_count - total_processed)
+                        break # Exit the main outer loop as no further progress is possible
+                    elif not processed_in_this_cycle:
+                        # This case should technically not be reachable if target met check is done right after inner loop
+                        logger.info("完整轮询后未处理任务，但目标已满足或超过，正常结束。")
+                        break
+
+                # Log if processing stopped early due to lack of materials
+                if total_processed < global_target_count and not processed_any_task_overall:
+                     logger.warning(f"按子目录处理提前终止，未能完成所有目标任务 ({total_processed}/{global_target_count})。")
+                elif total_processed < global_target_count:
+                     logger.warning(f"按子目录处理完成，但未能达到目标任务数量 ({total_processed}/{global_target_count})，可能是因为素材不足或子目录限制。")
+
+        else: # Original sequential processing (NOT by subfolder), adapted for memory management
+            logger.info("按素材顺序处理 (非按子目录循环)...")
+            # Flatten the available materials into a single list of (subfolder, path) tuples
+            # Order might be arbitrary depending on initial dict iteration
+            all_materials_flat = []
+            # Iterate through a *copy* of keys if modifying dict, but here we consume list
+            subfolders_in_order = list(available_materials.keys()) # Get a fixed order
+            for sf in subfolders_in_order:
+                # We need to iterate through materials *within* each subfolder sequentially
+                # This requires consuming from available_materials[sf] list
+                 pass # This simple sequential logic needs rethinking for memory management
+
+            # --- REVISED Sequential Logic ---
+            logger.info("按素材顺序处理 (非按子目录循环) - 从内存中消耗...")
+            # We need to decide how to handle 'merge' vs 'split' sequentially from memory
+            processed_tasks_sequential = 0
+
+            if process_mode == 'split':
+                 # Process each material file found sequentially as a split task
+                 logger.info("顺序分割模式：将处理内存中的每个素材文件。")
+                 # Need a stable order to iterate through subfolders and then materials
+                 subfolders_seq = list(available_materials.keys())
+                 for subfolder in subfolders_seq:
+                     materials_in_sf = available_materials.get(subfolder, [])
+                     # Process all materials originally found in this subfolder
+                     # Use a copy of the list to iterate while modifying the original
+                     mats_to_process_in_sf = list(materials_in_sf) # Copy for iteration
+                     for material_path in mats_to_process_in_sf:
+                         if processed_tasks_sequential >= global_target_count: break
+
+                         # Check if this material still exists in the live list (it should, initially)
+                         if material_path in available_materials.get(subfolder, []):
+                              # Consume it
+                              available_materials[subfolder].remove(material_path)
+                              task_identifier = f"顺序分割任务: {os.path.basename(material_path)} (来自: {subfolder})"
+                              logger.info(f"开始处理 {task_identifier}")
+                              task_start_time = time.time()
+
+                              task_info = {'subfolder_name': subfolder, 'original_path': material_path}
+
+                              result = process_single_task(
+                                  task_info, output_folder, draft_name, draft_folder_path, delete_source,
+                                  num_segments, keep_bgm, bgm_volume, main_track_volume, process_mode,
+                                  selected_templates, material_paths_for_task=[material_path] # Pass single path
+                              )
+                              task_end_time = time.time()
+                              task_duration = task_end_time - task_start_time
+                              processed_tasks_sequential += 1
+
+                              if result['success']: successful_tasks += 1
+                              else: failed_tasks += 1 # Add failure type counts later if needed
+
+                              logger.info(f"完成处理 {task_identifier} - 耗时: {task_duration:.2f}秒 (进度: {processed_tasks_sequential}/{global_target_count})")
+                         else:
+                              # Should not happen if logic is correct
+                              logger.warning(f"尝试处理素材 {material_path} 时发现其已从内存列表中移除，跳过。")
+
+                     if processed_tasks_sequential >= global_target_count: break
+                 total_processed = processed_tasks_sequential
+
+            elif process_mode == 'merge':
+                 # Sequentially create merge combinations until target is met
+                 logger.info(f"顺序合并模式：将尝试从内存中创建 {global_target_count} 个组合，每个组合需要 {num_segments} 个素材。")
+                 combinations_created = 0
+                 # We need a strategy to pick materials sequentially across subfolders
+                 # Simple approach: flatten all available, then consume chunks
+                 all_available_flat = []
+                 subfolders_seq = list(available_materials.keys())
+                 for sf in subfolders_seq:
+                      all_available_flat.extend([(sf, path) for path in available_materials.get(sf, [])])
+
+                 if len(all_available_flat) < num_segments * global_target_count:
+                      needed = num_segments * global_target_count
+                      logger.warning(f"内存中总素材数量 ({len(all_available_flat)}) 不足以生成目标 {global_target_count} 个视频 (每个需 {num_segments} 个，共需 {needed} 个)。将生成尽可能多的视频。")
+                      global_target_count = len(all_available_flat) // num_segments # Adjust target
+
+                 current_material_index = 0
+                 while combinations_created < global_target_count:
+                     # Check if enough materials remain *overall*
+                     if (len(all_available_flat) - current_material_index) < num_segments:
+                         logger.warning(f"剩余素材 ({len(all_available_flat) - current_material_index}) 不足以创建下一个视频组合 (需要 {num_segments} 个)。")
+                         materials_not_found_failures += 1
+                         failed_tasks += 1
+                         break # Stop processing combinations
+
+                     # Select next chunk of materials
+                     materials_for_this_combo_tuples = all_available_flat[current_material_index : current_material_index + num_segments]
+                     materials_for_this_combo_paths = [path for sf, path in materials_for_this_combo_tuples]
+                     # Represent the source subfolder (e.g., from the first material)
+                     source_subfolder_repr = materials_for_this_combo_tuples[0][0] if materials_for_this_combo_tuples else "未知"
+
+                     task_identifier = f"顺序合并任务 {combinations_created + 1} (源自: {source_subfolder_repr} 等)"
+                     logger.info(f"开始处理 {task_identifier}")
+                     logger.info(f"  使用素材: {', '.join(os.path.basename(p) for p in materials_for_this_combo_paths)}")
+                     task_start_time = time.time()
+
+                     # We need to remove these used materials from the original `available_materials` dict
+                     consumed_this_task = []
+                     for sf, path in materials_for_this_combo_tuples:
+                         if path in available_materials.get(sf, []):
+                             available_materials[sf].remove(path)
+                             consumed_this_task.append(path)
+                         else:
+                             logger.error(f"严重错误：尝试从内存中移除素材 {path} (来自 {sf}) 时未找到！")
+                             # Decide how to handle this - fail the task?
+                     if len(consumed_this_task) != num_segments:
+                          logger.error(f"未能成功从内存中消耗所有所需素材用于任务 {combinations_created + 1}。")
+                          failed_tasks += 1
+                          # Skip processing this combination? Or proceed with what was consumed?
+                          # For safety, skip:
+                          current_material_index += num_segments # Still advance index past attempted chunk
+                          continue
+
+
+                     # Prepare task_info (subfolder_name is less critical here)
+                     task_info = {'subfolder_name': source_subfolder_repr}
+
+                     result = process_single_task(
+                         task_info, output_folder, draft_name, draft_folder_path, delete_source,
+                         num_segments, keep_bgm, bgm_volume, main_track_volume, process_mode,
+                         selected_templates, material_paths_for_task=consumed_this_task # Pass the consumed paths
+                     )
+                     task_end_time = time.time()
+                     task_duration = task_end_time - task_start_time
+                     combinations_created += 1
+                     total_processed += 1 # Increment overall processed count
+
+                     if result['success']: successful_tasks += 1
+                     else: failed_tasks += 1 # Add failure type counts later if needed
+
+                     logger.info(f"完成处理 {task_identifier} - 耗时: {task_duration:.2f}秒 (进度: {combinations_created}/{global_target_count})")
+
+                     current_material_index += num_segments # Move index for next chunk
+
+                 # End while loop for sequential merge
+
+            else: # Unknown mode sequentially
+                 logger.error(f"顺序处理中遇到未知模式: {process_mode}")
+
+
+        # --- MODIFICATION END: Rework processing loops ---
+
+
+        # --- 阶段 3: 总结与清理 ---
+        logger.info("\n--- 阶段 3: 处理总结 ---")
+        end_time = time.time()
+        total_duration = end_time - start_time
+
+        result_summary['materials_found'] = total_materials_found # Total initially found
+        result_summary['tasks_processed'] = total_processed # Actual videos generated / tasks run
         result_summary['tasks_failed'] = failed_tasks
-        result_summary['success'] = (failed_tasks == 0) # 只有所有任务都成功才算整体成功
-        
-        if failed_tasks == 0:
-            final_message = f"处理完成: 共找到 {tasks_found} 个素材文件夹, 成功处理 {successful_tasks} 个，所有任务处理成功！" 
-        else:
-            final_message = f"处理完成: 共找到 {tasks_found} 个素材文件夹, 成功处理 {successful_tasks} 个, 失败 {failed_tasks} 个 (融合失败: {split_merge_failures}, 剪映失败: {jianying_failures})。共生成 {global_successful_combinations} 个视频组合。请检查日志获取失败详情。"
-        result_summary['message'] = final_message
-        logger.info(final_message)
+        # Report remaining materials
+        remaining_materials_count = sum(len(mats) for mats in available_materials.values())
+        logger.info(f"处理结束后，内存中剩余素材总数: {remaining_materials_count}")
+        result_summary['materials_remaining'] = remaining_materials_count
 
-    except Exception as main_loop_error:
-        # 捕获查找任务或循环本身之外的错误
-        logger.exception("处理主循环发生意外错误")
+        # Adjust summary messages
+        if failed_tasks == 0 and total_processed >= global_target_count:
+            result_summary['success'] = True
+            mode_desc = "分割" if process_mode == 'split' else "融合"
+            by_subfolder_desc = "按子目录" if process_by_subfolder else "按顺序"
+            result_summary['message'] = f"{by_subfolder_desc}{mode_desc}处理完成: 共找到 {total_materials_found} 个素材, 成功完成 {total_processed}/{global_target_count} 个目标视频/任务！"
+        elif failed_tasks == 0 and total_processed < global_target_count:
+             result_summary['success'] = True # Considered success if no errors, but target not met
+             mode_desc = "分割" if process_mode == 'split' else "融合"
+             by_subfolder_desc = "按子目录" if process_by_subfolder else "按顺序"
+             result_summary['message'] = f"{by_subfolder_desc}{mode_desc}处理完成，但素材不足: 共找到 {total_materials_found} 个素材, 成功完成 {total_processed}/{global_target_count} 个目标视频/任务。"
+
+        else: # Some tasks failed
+            result_summary['success'] = False
+            fail_details = []
+            if split_merge_failures > 0: fail_details.append(f"{split_merge_failures} 个素材准备/分割失败")
+            if jianying_failures > 0: fail_details.append(f"{jianying_failures} 个剪映处理/导出失败")
+            if materials_not_found_failures > 0: fail_details.append(f"{materials_not_found_failures} 个因素材不足失败")
+            other_failures = failed_tasks - split_merge_failures - jianying_failures - materials_not_found_failures
+            if other_failures > 0: fail_details.append(f"{other_failures} 个其他/未知错误")
+            fail_reason_str = ", ".join(fail_details) if fail_details else f"{failed_tasks} 个任务失败"
+
+            mode_desc = "分割" if process_mode == 'split' else "融合"
+            by_subfolder_desc = "按子目录" if process_by_subfolder else "按顺序"
+            result_summary['message'] = f"{by_subfolder_desc}{mode_desc}处理部分失败: 目标 {global_target_count} 个视频/任务, 实际处理 {total_processed} 个, 其中 {fail_reason_str}。"
+
+
+        logger.info(f"\n========= 视频{'分割' if process_mode == 'split' else '融合'}处理完成 (内存管理模式) =========")
+        logger.info(f"总素材文件数 (扫描到): {total_materials_found}")
+        logger.info(f"目标视频/任务数: {global_target_count}")
+        logger.info(f"实际处理视频/任务数: {total_processed}")
+        logger.info(f"  - 成功: {successful_tasks}")
+        logger.info(f"  - 失败: {failed_tasks}")
+
+        # Log specific failure counts if any occurred
+        if failed_tasks > 0:
+            if split_merge_failures > 0: logger.info(f"    - 因分割/融合失败: {split_merge_failures}")
+            if jianying_failures > 0: logger.info(f"    - 因剪映处理失败: {jianying_failures}")
+            if materials_not_found_failures > 0: logger.info(f"    - 因素材不足失败: {materials_not_found_failures}")
+            if other_failures > 0: logger.info(f"    - 因其他/未知错误: {other_failures}")
+
+        # Log subfolder details if processed that way
+        if process_by_subfolder:
+             logger.info("\n--- 按子目录循环处理统计 ---")
+             # Log initial counts vs remaining counts
+             remaining_counts = {sf: len(mats) for sf, mats in available_materials.items()} # Get remaining counts
+             logger.info(f"处理后各子目录剩余素材数:")
+             for sf, remaining_count in remaining_counts.items():
+                 logger.info(f"  - 子目录 '{sf}': 剩余 {remaining_count} 个素材")
+
+
+        logger.info(f"总耗时: {total_duration:.2f} 秒")
+        if total_processed > 0:
+            avg_task_time = total_duration / total_processed
+            logger.info(f"平均任务处理耗时: {avg_task_time:.2f} 秒/任务")
+        logger.info("====================================")
+
+        return result_summary
+
+    except Exception as e:
+        logger.error(f"处理过程中发生未预料的严重错误: {traceback.format_exc()}")
         result_summary['success'] = False
-        result_summary['message'] = f"发生意外错误: {main_loop_error}"
-        # 更新失败计数 (如果适用)
-        result_summary['tasks_failed'] = tasks_found - successful_tasks # 估算值
+        result_summary['message'] = f"发生严重错误: {e}"
+        # Update counts based on what happened before the crash
+        result_summary['tasks_processed'] = total_processed # Total attempted
+        result_summary['tasks_failed'] = failed_tasks + 1 # Count the crash as a failure
+        # Add subfolder info if applicable (might be incomplete if crash early)
+        if process_by_subfolder:
+             result_summary['process_by_subfolder'] = True
 
-    # --- 3. Final Summary Log --- 
-    end_time = time.time()
-    total_time = end_time - start_time
-    logger.info(f"\n========= 逐个视频{'分割' if process_mode == 'split' else '融合'}处理完成 =========")
-    logger.info(f"总素材文件夹数 (扫描到): {tasks_found}")
-    logger.info(f"成功处理素材文件夹数: {successful_tasks}")
-    logger.info(f"失败处理素材文件夹数: {failed_tasks}")
-    if process_mode == "split":
-        logger.info(f"  - 因分割失败: {split_merge_failures}")
-    else:
-        logger.info(f"  - 因融合失败: {split_merge_failures}")
-        logger.info(f"[全局统计] 最终总共处理组合数: {global_successful_combinations}/{global_combinations_to_process}")
-    logger.info(f"  - 因剪映处理失败: {jianying_failures}")
-    
-    # 如果启用了按子目录循环处理，显示每个子目录的处理统计
-    if process_by_subfolder:
-        logger.info(f"\n--- 按子目录循环处理统计 ---")
-        logger.info(f"子目录总数: {len(subfolder_counts)}")
-        for subfolder, count in subfolder_counts.items():
-            logger.info(f"  - 子目录 '{subfolder}': 处理了 {count} 个视频")
-    
-    logger.info(f"总耗时: {total_time:.2f} 秒")
-    if tasks_found > 0:
-        avg_time = total_time / tasks_found
-        logger.info(f"平均素材文件夹处理耗时: {avg_time:.2f} 秒/文件夹")
-    logger.info("====================================")
+        return result_summary
 
-    # 添加最终统计信息到结果字典
-    if process_mode == "merge":
-        result_summary['combinations_processed'] = global_successful_combinations
-        result_summary['combinations_target'] = global_combinations_to_process
-    
-    # 添加子目录处理的统计信息到结果字典
-    if process_by_subfolder:
-        result_summary['process_by_subfolder'] = True
-        result_summary['subfolder_counts'] = subfolder_counts
-        result_summary['subfolder_total'] = len(subfolder_counts)
-    
-    return result_summary # 返回包含详细结果的字典
+# MODIFIED process_single_task to accept material_paths_for_task
+def process_single_task(task, output_folder, draft_name, draft_folder_path, delete_source=False,
+                       num_segments=1, keep_bgm=True, bgm_volume=100, main_track_volume=100,
+                       process_mode="split", selected_templates=None, material_paths_for_task=None):
+    """处理单个任务（一个目标视频）。
+       在'split'模式下处理单个源视频。
+       在'merge'模式下处理从内存传入的一组素材。
 
-def process_single_task(task, output_folder, draft_name, draft_folder_path, delete_source, 
-                       num_segments, keep_bgm, bgm_volume, main_track_volume, process_mode, selected_templates):
-    """处理单个视频任务的辅助函数"""
+    Args:
+        task (dict): 包含任务信息的字典，至少包含 subfolder_name。
+                     在'split'模式下，还必须包含 original_path。
+        output_folder (str): 输出文件夹根目录。
+        draft_name (str): 剪映草稿名称。
+        draft_folder_path (str): 剪映草稿库路径。
+        delete_source (bool, optional): 是否在处理后删除源文件(组)。
+        num_segments (int, optional): 'split'模式下切割片段数，'merge'模式下预期素材数。
+        keep_bgm (bool, optional): 是否保留BGM。
+        bgm_volume (int, optional): BGM音量(0-100)。
+        main_track_volume (int, optional): 主轨道音量(0-100)。
+        process_mode (str, optional): 处理模式 'split' 或 'merge'。
+        selected_templates (list, optional): 选定的模板列表。
+        material_paths_for_task (list, optional): 【新增】在'merge'模式下，明确传入此次任务使用的素材路径列表。
+                                                  在'split'模式下，通常只包含一个路径（即task['original_path']）。
+
+    Returns:
+        dict: 包含处理结果的字典 {'success': bool, 'failure_type': str or None}
+    """
+    task_subfolder = task.get('subfolder_name', '未知子目录')
+    # Determine a base identifier for logging, using the first material if available
+    log_identifier_base = os.path.basename(material_paths_for_task[0]) if material_paths_for_task else "未知素材"
+    if process_mode == 'split' and 'original_path' in task:
+         log_identifier_base = os.path.basename(task['original_path'])
+
+    logger.info(f"开始处理单个任务 ({process_mode}模式): {log_identifier_base} (来自子目录: {task_subfolder})")
     result = {
         'success': False,
-        'split_merge_failed': False,
-        'jianying_failed': False
+        'failure_type': None # 'split_merge', 'jianying', 'materials_not_found'
     }
-    
-    task_start_time = time.time()
-    original_video_path = task['original_path']
-    subfolder_name = task['subfolder_name']
-    output_base_name = task['output_base_name']
-    
-    # 添加任务标识符，用于日志输出
-    task_identifier = f"视频任务: {os.path.basename(original_video_path)} (来自: {subfolder_name})"
-    
-    # --- Determine output directory for this specific task ---
-    base_output_dir = os.path.join(output_folder, subfolder_name)
+    created_split_files = [] # Track files created by split
+    files_to_delete_on_success = [] # Track source files to delete if successful
+
     try:
-        os.makedirs(base_output_dir, exist_ok=True)
-    except OSError as e:
-        logger.error(f"无法创建基础输出目录 {base_output_dir}: {e}", exc_info=True)
-        return result
-    
-    split_output_dir = os.path.join(base_output_dir, f"{output_base_name}_splits")
-    final_export_dir = base_output_dir
-    final_export_filename = f"{output_base_name}.mp4"
-    
-    logger.info(f"  原始视频: {original_video_path}")
-    logger.info(f"  切割片段输出目录: {split_output_dir}")
-    logger.info(f"  最终导出目录: {final_export_dir}")
-    logger.info(f"  最终导出文件名: {final_export_filename}")
-    
-    try:
-        # --- Get Original Video Duration ---
-        original_duration_sec = None
-        try:
-            logger.info("  步骤 2a(i): 获取原始视频时长...")
-            original_duration_sec = get_video_duration(original_video_path)
-            if original_duration_sec is not None:
-                logger.info(f"    原始视频时长: {original_duration_sec:.2f} 秒")
-            else:
-                logger.warning(f"  无法获取原始视频时长，可能导致黑屏或截断。")
-        except Exception as dur_err:
-            logger.warning(f"  获取视频时长时出错: {dur_err}")
-            original_duration_sec = None
-        
-        # --- Split the video (if necessary) ---
-        split_video_paths = None
-        logger.info(f"  步骤 2a(ii): {'分割' if process_mode == 'split' else '融合'}视频...")
-        
+        # --- SPLIT Mode Logic ---
         if process_mode == "split":
-            # 分割模式
-            split_video_paths = split_video_ffmpeg(
-                original_video_path, 
-                split_output_dir, 
+            source_video_path = task.get('original_path')
+            if not source_video_path or not os.path.exists(source_video_path):
+                 logger.error(f"分割模式错误：任务信息缺少有效源视频路径 'original_path' 或文件不存在: {source_video_path}")
+                 result['failure_type'] = 'materials_not_found'
+                 return result
+
+            files_to_delete_on_success.append(source_video_path) # Mark original for deletion on success
+
+            filename_without_ext = os.path.splitext(os.path.basename(source_video_path))[0]
+            # Use a timestamp/UUID for split dir to avoid collisions if same filename is processed twice? Unlikely needed now.
+            split_output_dir = os.path.join(output_folder, task_subfolder, f"{filename_without_ext}_splits_{uuid.uuid4().hex[:8]}")
+            final_export_dir = os.path.join(output_folder, task_subfolder)
+            # Make export filename unique to prevent overwrites if source names clash across runs
+            export_filename = f"{filename_without_ext}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.mp4"
+            target_export_path = os.path.join(final_export_dir, export_filename)
+
+            os.makedirs(split_output_dir, exist_ok=True)
+            os.makedirs(final_export_dir, exist_ok=True)
+
+            original_duration_sec = None
+            try:
+                original_duration_sec = get_video_duration(source_video_path)
+                if original_duration_sec is not None: logger.info(f"原始视频时长: {original_duration_sec:.2f}秒")
+            except Exception as e:
+                logger.warning(f"获取视频 '{source_video_path}' 时长时出错: {e}")
+
+            logger.info(f"分割视频为 {num_segments} 个片段: {os.path.basename(source_video_path)}")
+            created_split_files = split_video_ffmpeg(
+                source_video_path,
+                split_output_dir,
                 num_segments=num_segments,
-                volume_level=main_track_volume
+                volume_level=main_track_volume # Apply main track volume during split? Or let jianying handle? Assuming here.
             )
-            
-            if not split_video_paths:
-                logger.error(f"  视频分割失败，跳过此任务。")
-                result['split_merge_failed'] = True
+
+            if not created_split_files:
+                logger.error("视频分割失败")
+                result['failure_type'] = 'split_merge'
+                # Cleanup potentially empty split dir?
+                try: os.rmdir(split_output_dir)
+                except OSError: pass
                 return result
-            
-            logger.info(f"  最终用于处理的片段: {', '.join(os.path.basename(p) for p in split_video_paths)}")
-        else:
-            # 融合模式处理
-            # ... 此处省略融合模式代码 ...
-            pass
-        
-        # --- Process with Jianying ---
-        logger.info("  步骤 2b: 调用剪映处理...")
-        jy_start_time = time.time()
-        
-        # 添加模板重试机制
-        MAX_TEMPLATE_RETRIES = 3  # 最多尝试3个不同模板
-        template_tried_count = 0
-        template_tried_names = []
-        processing_success_flag = False
-        
-        # 提前准备好可用模板列表，并打印用于调试
-        available_templates = []
-        if selected_templates and len(selected_templates) > 0:
-            # 确保模板列表中包含初始选择的模板
-            if draft_name not in selected_templates:
-                available_templates = selected_templates + [draft_name]
-            else:
-                available_templates = selected_templates
-            
-            # 记录所有可用模板，增强可见性
-            logger.info(f"  可用模板列表 ({len(available_templates)}): {', '.join(available_templates)}")
-            
-            # 直接随机选择一个模板供首次尝试使用
-            initial_template = random.choice(available_templates)
-            logger.info(f"\n  ▶▶▶▶▶ 强制随机选择模板: 【{initial_template}】 ◀◀◀◀◀\n")
-            # 将随机选择的模板放在已尝试列表的第一位
-            template_tried_names = [initial_template]
-            task_draft_name = initial_template
-            template_tried_count = 1
-        else:
-            available_templates = [draft_name]
-            logger.info(f"  仅有一个可用模板: {draft_name}")
-            template_tried_names = []
+
+            logger.info(f"分割后的片段: {', '.join(os.path.basename(p) for p in created_split_files)}")
+
+            # Random template selection (same as before)
             task_draft_name = draft_name
-            
-        # 继续现有的重试逻辑
-        while template_tried_count < MAX_TEMPLATE_RETRIES and not processing_success_flag:
-            # 从剩余可用模板中随机选择一个
-            unused_templates = [t for t in available_templates if t not in template_tried_names]
-            
-            if unused_templates:
-                # 真正的随机选择并高亮显示
-                task_draft_name = random.choice(unused_templates)
-                logger.info(f"  ★★★ 为视频随机选择模板 (尝试 {template_tried_count+1}/{MAX_TEMPLATE_RETRIES}): 【{task_draft_name}】 ★★★")
-            else:
-                task_draft_name = draft_name
-                logger.warning(f"  没有未尝试的模板可用，使用默认模板: {draft_name}")
-            
-            # 添加到已尝试列表
-            template_tried_names.append(task_draft_name)
-            template_tried_count += 1
-            
-            # 确保bgm_volume参数值是正确的
-            logger.info(f"  传递BGM音量设置: {bgm_volume}%")
-            
-            # 在直接替换模式下，如果split_video_paths为空，使用原始视频
-            if process_mode == "merge" and (not split_video_paths or len(split_video_paths) == 0):
-                logger.info("  直接素材替换模式：使用原始视频路径")
-                # 直接使用原始视频路径
-                videos_to_process = [original_video_path]
-                logger.info(f"  使用视频 ({len(videos_to_process)}): {', '.join(os.path.basename(p) for p in videos_to_process)}")
-            else:
-                videos_to_process = split_video_paths
-            
-            # 调用剪映处理函数
+            if selected_templates and len(selected_templates) > 0:
+                 # Ensure draft_name is in the pool if not already
+                 template_pool = list(set(selected_templates + ([draft_name] if draft_name not in selected_templates else [])))
+                 task_draft_name = random.choice(template_pool)
+                 logger.info(f"随机选择模板: {task_draft_name}")
+
+            # Call Jianying processing
+            logger.info(f"开始剪映处理 (使用模板: {task_draft_name})...")
             jy_result = process_videos(
-                video_paths=videos_to_process,
+                video_paths=created_split_files, # Use the generated splits
                 draft_name=task_draft_name,
                 draft_folder_path=draft_folder_path,
                 export_video=True,
-                export_path=final_export_dir,
-                export_filename=final_export_filename,
-                original_duration_seconds=original_duration_sec,
+                export_path=os.path.dirname(target_export_path),
+                export_filename=os.path.basename(target_export_path),
+                original_duration_seconds=original_duration_sec, # Pass original duration if available
                 keep_bgm=keep_bgm,
                 bgm_volume=bgm_volume,
-                main_track_volume=main_track_volume
+                main_track_volume=main_track_volume # Let Jianying apply main volume to combined track
             )
-            
-            jy_duration = time.time() - jy_start_time
-            logger.info(f"  剪映处理完成，耗时: {jy_duration:.2f}秒")
 
             if jy_result["success"]:
-                logger.info(f"  {task_identifier} 剪映处理成功。")
-                processing_success_flag = True # 标记成功
-                result['success'] = True  # 确保结果字典也被标记为成功
+                logger.info(f"剪映处理成功: {target_export_path}")
+                result['success'] = True
             else:
-                error_msg_jy = jy_result.get('error', '未知剪映错误')
-                logger.error(f"  {task_identifier} 使用模板 '{task_draft_name}' 处理失败: {error_msg_jy}")
-                
-                if template_tried_count < MAX_TEMPLATE_RETRIES and selected_templates and len(selected_templates) > 1:
-                    logger.info(f"  将尝试使用其他模板继续处理")
+                error_msg = jy_result.get('error', '未知错误')
+                logger.error(f"剪映处理失败: {error_msg}")
+                result['failure_type'] = 'jianying'
+
+        # --- MERGE Mode Logic ---
+        elif process_mode == "merge":
+            if not material_paths_for_task:
+                 logger.error("合并模式错误：未提供素材路径列表 (material_paths_for_task)")
+                 result['failure_type'] = 'materials_not_found'
+                 return result
+            if len(material_paths_for_task) < num_segments:
+                 logger.error(f"合并模式错误：提供的素材数量 ({len(material_paths_for_task)}) 少于需要的数量 ({num_segments})")
+                 result['failure_type'] = 'materials_not_found'
+                 # Mark these insufficient materials for deletion? Or leave them? Assume leave them.
+                 return result
+            if len(material_paths_for_task) > num_segments:
+                 logger.warning(f"合并模式注意：提供的素材数量 ({len(material_paths_for_task)}) 多于需要的数量 ({num_segments})，将只使用前 {num_segments} 个。")
+                 material_paths_for_task = material_paths_for_task[:num_segments] # Use only the required number
+
+            # Mark these specific materials for deletion on success
+            files_to_delete_on_success.extend(material_paths_for_task)
+
+            # Create unique export filename based on the first material and timestamp
+            first_material_name = os.path.splitext(os.path.basename(material_paths_for_task[0]))[0] if material_paths_for_task else "merged"
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+            unique_filename = f"{first_material_name}_{timestamp}.mp4" # Assuming mp4 output
+            export_subfolder_path = os.path.join(output_folder, task_subfolder)
+            target_export_path = os.path.join(export_subfolder_path, unique_filename)
+
+            os.makedirs(export_subfolder_path, exist_ok=True)
+
+            logger.info(f"开始直接素材替换处理，使用 {len(material_paths_for_task)} 个指定素材。")
+
+            # Random template selection (same as split)
+            task_draft_name = draft_name
+            if selected_templates and len(selected_templates) > 0:
+                 template_pool = list(set(selected_templates + ([draft_name] if draft_name not in selected_templates else [])))
+                 task_draft_name = random.choice(template_pool)
+                 logger.info(f"随机选择模板: {task_draft_name}")
+
+            try:
+                # Call Jianying processing with the provided list of materials
+                jy_result = process_videos(
+                    video_paths=material_paths_for_task, # Use the provided list
+                    draft_name=task_draft_name,
+                    draft_folder_path=draft_folder_path,
+                    export_video=True,
+                    export_path=os.path.dirname(target_export_path),
+                    export_filename=os.path.basename(target_export_path),
+                    keep_bgm=keep_bgm,
+                    bgm_volume=bgm_volume,
+                    main_track_volume=main_track_volume,
+                    segments_to_replace=num_segments # Confirm this param name matches jianying.py
+                )
+
+                if jy_result['success']:
+                    logger.info(f"模板素材直接替换成功: {target_export_path}")
+                    result['success'] = True
                 else:
-                    jianying_failures += 1
-                    if template_tried_count >= MAX_TEMPLATE_RETRIES:
-                        logger.error(f"  已尝试 {template_tried_count} 个模板，全部失败")
-                        result['jianying_failed'] = True
-        
-        # 明确记录最终处理状态
-        status = "成功" if result['success'] else "失败"
-        
-        # 确保计算任务持续时间
-        task_duration = time.time() - task_start_time
-        logger.info(f"--- {task_identifier} 处理结束 [{status}] | 耗时: {task_duration:.2f}秒 ---")
-        
-        return result
+                    error_msg = jy_result.get('error', '未知错误')
+                    logger.error(f"模板素材直接替换失败: {error_msg}")
+                    result['failure_type'] = 'jianying'
+            except ValueError as ve:
+                logger.error(f"素材处理验证失败: {str(ve)}")
+                result['error'] = str(ve) # Pass specific error message back if needed
+                result['failure_type'] = 'jianying' # Or maybe 'split_merge' if it's a pre-check? Assume jianying for now.
+            except Exception as e:
+                logger.exception(f"直接素材替换过程中发生未预期的错误: {e}")
+                result['failure_type'] = 'jianying'
+
+        # --- Unknown Mode ---
+        else:
+             logger.error(f"未知的处理模式: {process_mode}")
+             result['failure_type'] = 'split_merge' # Assign a generic failure type
 
     except Exception as e:
-        logger.exception(f"处理视频任务时出错: {e}")
-    
-    task_duration = time.time() - task_start_time
-    status = "成功" if result['success'] else "失败"
-    logger.info(f"--- {task_identifier} 处理结束 [{status}] | 耗时: {task_duration:.2f}秒 ---")
-    
+         logger.exception(f"处理任务 {log_identifier_base} 时发生严重错误: {e}")
+         result['success'] = False
+         # Try to determine failure type based on stage? Hard here. Assign generic.
+         result['failure_type'] = result.get('failure_type') or 'split_merge' # Keep existing type if set, else generic
+
+    finally:
+        # --- Cleanup: Delete source files if requested AND successful ---
+        if delete_source and result['success']:
+            _delete_source_files(files_to_delete_on_success, log_identifier_base)
+
+        # --- Cleanup: Delete temporary split files (always on success or failure for split mode) ---
+        if process_mode == "split" and created_split_files:
+            logger.debug(f"清理临时分割文件...")
+            deleted_splits = _delete_source_files(created_split_files, f"{log_identifier_base}-splits")
+            logger.debug(f"清理完成，删除了 {deleted_splits} 个临时分割文件。")
+            # Try removing the split directory if it exists and is empty
+            split_dir = os.path.dirname(created_split_files[0]) if created_split_files else None
+            if split_dir and os.path.exists(split_dir):
+                 try:
+                     if not os.listdir(split_dir): # Check if empty
+                         os.rmdir(split_dir)
+                         logger.debug(f"已删除空的临时分割目录: {split_dir}")
+                 except Exception as e:
+                     logger.warning(f"删除临时分割目录失败: {split_dir} - {e}")
+
     return result
 
 # --- Entry point for direct execution (if needed for testing) ---

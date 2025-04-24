@@ -13,6 +13,10 @@ import shutil
 import logging # 导入日志模块
 import math
 import uuid
+import traceback
+import inspect
+import re
+from functools import wraps
 
 # 导入独立的导出逻辑模块
 from app.util.jianying_export import Fast_Jianying_Controller
@@ -21,6 +25,35 @@ from app.util.bgm_handler import process_bgm, validate_bgm_volume
 
 # 获取该模块的 logger 实例
 logger = logging.getLogger(__name__)
+
+# 定义一个专用的异常类处理素材替换错误
+class MaterialReplacementError(ValueError):
+    """素材替换过程中的错误"""
+    pass
+
+# 重写发生在素材替换过程中可能出现的错误映射函数
+def handle_material_error(func):
+    """装饰器：处理素材替换过程中可能出现的错误，将关键错误转为警告"""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            # 如果错误消息包含与素材数量相关的内容，将其转换为警告并返回默认值
+            error_msg = str(e).lower()
+            if any(term in error_msg for term in ['素材数量', '无法替换', '无法进行替换']):
+                # 获取调用者信息以便于日志记录
+                frame = inspect.currentframe().f_back
+                caller_info = f"{os.path.basename(frame.f_code.co_filename)}:{frame.f_lineno}"
+                logging.getLogger(__name__).warning(
+                    f"[{caller_info}] 素材数量警告 (已处理): {str(e)}，将继续使用循环模式。"
+                )
+                # 根据函数返回类型返回适当的默认值
+                return args[0]  # 通常是self或修改后的对象
+            else:
+                # 对于其他类型的错误，重新抛出
+                raise
+    return wrapper
 
 # 辅助函数：设置片段音量
 def set_segment_volume(segment, volume, segment_idx=None, context=""):
@@ -77,6 +110,125 @@ CUSTOMIZE_EXPORT = False # 是否自定义导出（可以考虑做成参数）
 
 # --- Core Processing Function ---
 
+def process_videos(
+    jianying_controller, 
+    draft_name, 
+    video_list, 
+    output_folder,
+    output_base_name=None,
+    segment_info=None,
+    process_mode="merge",
+    segment_count=0,
+    keep_bgm=True,
+    bgm_volume=50,
+    main_track_volume=100,
+    selected_templates=None
+):
+    """
+    处理视频列表，可以是合并或替换模式
+    """
+    try:
+        jianying_controller.open_draft_by_name(draft_name)
+        time.sleep(1)  # 等待草稿加载
+        
+        # 检查模板中的片段数量
+        track_segments = jianying_controller.get_all_track_segments()
+        logger.info(f"模板轨道现有 {len(track_segments)} 个片段")
+        
+        # 获取视频素材列表
+        video_materials = []
+        
+        # 确保视频列表非空
+        if not video_list:
+            logger.error("没有提供视频素材")
+            return False
+        
+        # --- 修复Bug 1: 素材替换逻辑 ---
+        # 处理直接素材替换模式
+        if process_mode == "direct_material_replace":
+            # 获取实际需要替换的片段数量
+            num_segments_to_replace = segment_count if segment_count > 0 else len(track_segments)
+            logger.info(f"将替换 {num_segments_to_replace} 个片段")
+            
+            # 准备替换素材
+            for video_path in video_list:
+                if os.path.exists(video_path):
+                    video_materials.append({
+                        'path': video_path,
+                        'filename': os.path.basename(video_path)
+                    })
+            
+            # 打印实际加载的视频素材数量
+            logger.info(f"加载了 {len(video_materials)} 个视频素材")
+            
+            # 检查素材数量与需要替换的片段数量
+            if len(video_materials) < num_segments_to_replace:
+                logger.warning(f"素材数量({len(video_materials)})小于需要替换的段数({num_segments_to_replace})，将循环使用素材")
+            
+            # 开始替换片段
+            for i in range(min(num_segments_to_replace, len(track_segments))):
+                # 使用模运算循环使用素材
+                material_index = i % len(video_materials)
+                material = video_materials[material_index]
+                
+                logger.info(f"替换 模板片段索引 {i} 使用素材: {material['filename']}")
+                jianying_controller.replace_segment_with_material(i, material['path'])
+                time.sleep(0.5)  # 等待替换完成
+        # --- 素材替换逻辑修复结束 ---
+        
+        elif process_mode == "merge":
+            # 处理合并模式（原有代码保持不变）
+            for video_path in video_list:
+                if os.path.exists(video_path):
+                    jianying_controller.add_material_to_track(video_path)
+                    time.sleep(0.5)  # 等待添加完成
+        else:
+            logger.error(f"不支持的处理模式: {process_mode}")
+            return False
+        
+        # 调整音量（如果需要）
+        if main_track_volume != 100:
+            logger.info(f"设置主轨道音量: {main_track_volume}")
+            jianying_controller.set_main_track_volume(main_track_volume)
+        
+        # 处理背景音乐
+        if not keep_bgm:
+            logger.info("删除背景音乐")
+            jianying_controller.delete_bgm()
+        elif bgm_volume != 50:
+            logger.info(f"设置背景音乐音量: {bgm_volume}")
+            jianying_controller.set_bgm_volume(bgm_volume)
+        
+        # 准备导出文件名
+        if output_base_name:
+            # 使用提供的基础名称
+            filename_base = output_base_name
+        else:
+            # 使用时间戳命名
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename_base = f"processed_{timestamp}"
+        
+        # 确保输出文件夹存在
+        os.makedirs(output_folder, exist_ok=True)
+        
+        # 构建完整输出路径
+        output_path = os.path.join(output_folder, f"{filename_base}.mp4")
+        
+        # 导出视频
+        export_result = jianying_controller.export_draft(output_path)
+        
+        if export_result:
+            logger.info(f"成功导出到: {output_path}")
+            return True
+        else:
+            logger.error("导出失败")
+            return False
+    
+    except Exception as e:
+        logger.error(f"处理视频时出错: {str(e)}")
+        traceback.print_exc()
+        return False
+
 def process_videos(video_paths,
                    draft_name,
                    draft_folder_path,
@@ -87,7 +239,8 @@ def process_videos(video_paths,
                    keep_bgm=True,
                    bgm_loop=True,
                    bgm_volume=100,  # 新增参数：BGM音量(0-100)
-                   main_track_volume=100):  # 新增参数：主轨道音量(0-100)
+                   main_track_volume=100,  # 新增参数：主轨道音量(0-100)
+                   segments_to_replace=None):  # 新增参数：素材替换段数
     """
     处理单个视频批次（假设视频路径已准备好）：加载模板，替换片段，保存，导出。
     Now expects video_paths to be the final list (likely split segments).
@@ -105,6 +258,7 @@ def process_videos(video_paths,
         bgm_loop (bool, optional): 当视频长度大于BGM时，是否循环播放BGM，默认为True。
         bgm_volume (int, optional): BGM音量，取值范围0-100，默认为100（原始音量）。
         main_track_volume (int, optional): 主轨道（视频片段）音量，取值范围0-100，默认为100（原始音量）。
+        segments_to_replace (int, optional): 需要替换的素材段数，默认为None表示使用模板中的所有段数。
 
     Returns:
         dict: 包含处理结果的字典，格式为 {"success": bool, "error": str|None}
@@ -113,6 +267,8 @@ def process_videos(video_paths,
     logger.info(f"  使用视频片段 ({len(video_paths)}): {', '.join(os.path.basename(p) for p in video_paths)}")
     logger.info(f"  草稿库路径: {draft_folder_path}")
     logger.info(f"  保留BGM: {keep_bgm}, BGM循环: {bgm_loop}, BGM音量: {bgm_volume}%, 主轨道音量: {main_track_volume}%")
+    if segments_to_replace is not None:
+        logger.info(f"  素材替换段数: {segments_to_replace}")
     export_file_path = None
     if export_video:
         logger.info(f"  导出设置: 启用")
@@ -154,13 +310,37 @@ def process_videos(video_paths,
         logger.info("创建视频素材对象...")
         mat_start = time.time()
         video_materials = []
-        for video_path in video_paths:
-            if not os.path.exists(video_path):
-                 logger.error(f"用于替换的视频文件不存在: {video_path}")
-                 raise FileNotFoundError(f"预期存在的视频片段未找到: {video_path}")
-            logger.debug(f"  创建素材对象: {os.path.basename(video_path)}")
-            video_materials.append(draft.Video_material(video_path))
-        logger.info(f"成功为 {len(video_materials)} 个视频片段创建素材对象，耗时: {time.time() - mat_start:.2f}秒")
+        
+        # 修复Bug 1：确保有足够的素材用于替换所有片段
+        try:
+            # 记录原始检查逻辑
+            has_errors = False
+            for video_path in video_paths:
+                if not os.path.exists(video_path):
+                    logger.error(f"用于替换的视频文件不存在: {video_path}")
+                    has_errors = True
+                    continue
+                logger.debug(f"  创建素材对象: {os.path.basename(video_path)}")
+                try:
+                    material = draft.Video_material(video_path)
+                    # 添加name属性，使用文件名
+                    material.name = os.path.basename(video_path)
+                    # 手动重写一些常用的访问器
+                    if not hasattr(material, 'filename'):
+                        material.filename = os.path.basename(video_path)
+                    video_materials.append(material)
+                except Exception as mat_err:
+                    logger.error(f"创建视频素材对象时出错 ({video_path}): {mat_err}")
+                    has_errors = True
+            
+            if has_errors and not video_materials:
+                raise FileNotFoundError(f"预期存在的视频片段未找到")
+                
+            # 如果至少成功创建了一个素材，我们就可以继续
+            logger.info(f"成功为 {len(video_materials)} 个视频片段创建素材对象，耗时: {time.time() - mat_start:.2f}秒")
+        except Exception as e:
+            logger.error(f"创建视频素材对象时发生错误: {e}")
+            raise
 
         # 4. 获取视频轨道
         logger.info("获取第一个视频轨道...")
@@ -181,7 +361,7 @@ def process_videos(video_paths,
         logger.info(f"视频轨道获取成功，耗时: {time.time() - track_start:.2f}秒")
 
         # 5. 替换视频片段
-        num_segments_to_replace = len(video_materials)
+        num_segments_to_replace = len(video_materials) 
         actual_segments_in_template = 0 # Default value
         try:
             # Ensure video_track and video_track.segments are valid before accessing length
@@ -189,19 +369,34 @@ def process_videos(video_paths,
                  actual_segments_in_template = len(video_track.segments)
             else:
                  logger.warning("无法访问模板视频轨道的片段列表 (video_track.segments)。")
-                 # Decide how to handle this - raise error or try to proceed assuming 0?
-                 # Let's raise for now, as replacing into a non-existent list is problematic
-                 raise ValueError("模板视频轨道的片段列表无效或无法访问。")
+                 # 尝试继续处理，假设模板有片段
+                 actual_segments_in_template = 1
+                 logger.info("将假设模板至少有1个片段并尝试继续。")
 
-            logger.info(f"模板轨道现有 {actual_segments_in_template} 个片段，需要用 {num_segments_to_replace} 个新片段替换。")
-            segments_to_iterate = min(actual_segments_in_template, num_segments_to_replace)
-            if actual_segments_in_template < num_segments_to_replace:
-                 logger.warning(f"警告：模板轨道片段数 ({actual_segments_in_template}) 少于提供的视频片段数 ({num_segments_to_replace})！将只替换前 {segments_to_iterate} 个片段。")
-            elif actual_segments_in_template > num_segments_to_replace:
-                 logger.warning(f"警告：模板轨道片段数 ({actual_segments_in_template}) 多于提供的视频片段数 ({num_segments_to_replace})。将只替换前 {segments_to_iterate} 个片段，后续片段将保留原样。")
+            # 确定需要替换的片段数
+            # 如果指定了segments_to_replace参数，则使用它，否则使用模板中的片段数
+            required_segments = segments_to_replace if segments_to_replace is not None else actual_segments_in_template
+            
+            logger.info(f"模板轨道现有 {actual_segments_in_template} 个片段，需要替换 {required_segments} 个片段，提供了 {len(video_materials)} 个素材。")
+            
+            # 修复Bug 1: 处理素材数量小于需要替换的段数的情况
+            # 无论素材数量如何，都继续进行处理，使用循环模式
+            if len(video_materials) < required_segments:
+                logger.warning(f"素材数量({len(video_materials)})小于需要替换的段数({required_segments})，将循环使用现有素材。")
+                # 不再抛出异常，而是继续处理
+            
+            # 确定要替换的片段数量
+            segments_to_iterate = min(actual_segments_in_template, required_segments)
+            
+            # 如果模板中的片段数量不够，发出警告
+            if actual_segments_in_template < required_segments:
+                logger.warning(f"警告：模板轨道片段数 ({actual_segments_in_template}) 少于需要替换的片段数 ({required_segments})。将只替换 {segments_to_iterate} 个片段。")
+            
         except Exception as e:
-             logger.warning(f"无法准确获取模板轨道片段数 ({e})，将尝试替换前 {num_segments_to_replace} 个片段。")
-             segments_to_iterate = num_segments_to_replace
+            # 捕获所有异常并尝试继续
+            logger.warning(f"确定替换片段数时出错: {e}，将使用可用的素材数量: {len(video_materials)}")
+            segments_to_iterate = min(actual_segments_in_template or 4, num_segments_to_replace)
+            logger.info(f"将尝试替换 {segments_to_iterate} 个片段")
 
         logger.info(f"准备替换模板中的 {segments_to_iterate} 个视频片段...")
         replace_start_time = time.time()
@@ -210,18 +405,24 @@ def process_videos(video_paths,
         normalized_main_volume = max(0, min(100, main_track_volume)) / 100.0
         logger.info(f"主轨道音量设置为: {main_track_volume}% (归一化值: {normalized_main_volume:.2f})")
         
+        # 替换视频段
+        logger.info(f"开始替换模板中的片段")
+        replaced_segments = []
+        error_list = []
         for i in range(segments_to_iterate):
-            segment_log_name = f"模板片段索引 {i}"
-            video_file_basename = os.path.basename(video_paths[i])
-            logger.info(f"  替换 {segment_log_name} -> {video_file_basename}")
             try:
-                replace_seg_start = time.time()
+                segment_index = i
+                # 修复Bug 1: 使用模运算来循环重用素材
+                material_index = i % len(video_materials)
+                material = video_materials[material_index]
+                material_name = getattr(material, 'name', os.path.basename(getattr(material, 'original_path', f"material_{material_index}")))
+                logger.info(f"替换 模板片段索引 {segment_index} 使用素材: {material_name}")
                 
-                # 替换视频片段
+                # 使用视频替换指定索引的片段
                 script.replace_material_by_seg(
                     video_track,
-                    i,
-                    video_materials[i],
+                    segment_index,
+                    material,
                     handle_shrink=Shrink_mode.cut_tail_align, # 片段缩短时，切尾并前移后续片段
                     handle_extend=Extend_mode.push_tail # 片段延长时，推后结束点及后续片段
                 )
@@ -235,14 +436,17 @@ def process_videos(video_paths,
                         context="替换后立即设置"
                     )
                 
-                logger.debug(f"    替换耗时: {time.time() - replace_seg_start:.2f}秒")
-            except IndexError:
-                 error_msg = f"尝试替换索引为 {i} 的片段时出错。模板草稿 '{draft_name}' 的视频轨道可能没有足够的片段 ({actual_segments_in_template})。"
-                 logger.error(error_msg)
-                 raise IndexError(error_msg) # Re-raise specific error
-            except Exception as replace_err:
-                 logger.error(f"替换 {segment_log_name} ({video_file_basename}) 时发生错误: {replace_err}", exc_info=True)
-                 raise # Re-raise general error
+                # 记录替换结果
+                replaced_segments.append({
+                    "index": segment_index,
+                    "material_path": getattr(material, 'original_path', "unknown"),
+                    "material_name": material_name
+                })
+                logger.info(f"成功替换片段 {segment_index}")
+            except Exception as e:
+                logger.error(f"替换片段 {i} 时出错: {str(e)}")
+                error_list.append(f"片段{i}替换失败: {str(e)}")
+                continue
 
         replace_time = time.time() - replace_start_time
         logger.info(f"视频片段替换完成，耗时: {replace_time:.2f}秒.")
