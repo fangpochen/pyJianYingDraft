@@ -197,32 +197,46 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                 # The function will return result_summary later
             else:
                 # Remove total count tracking per subfolder, limit is now per cycle
-                # current_subfolder_index = 0 # Not needed for cycle-based iteration
                 processed_any_task_overall = False # Track if we ever processed anything
 
                 logger.info(f"按子目录处理已启用，将按顺序尝试以下子目录: {', '.join(subfolder_list)}")
                 logger.info(f"每个子目录在每一轮循环中最多处理 {videos_per_subfolder if videos_per_subfolder > 0 else '不限制'} 个任务。")
 
-                # Outer loop: continue until global target is met or no progress can be made
+                # Outer loop: continue until global target is met
                 while total_processed < global_target_count:
                     logger.info(f"\n--- 开始新一轮子目录处理循环 (当前进度: {total_processed}/{global_target_count}) ---")
-
+                    
+                    # 重要修复：每轮循环重置此标志
+                    processed_in_this_cycle = False
+                    
                     # Inner loop: iterate through each subfolder for this cycle
                     for current_subfolder in subfolder_list:
                         # Check if global target is already met within this cycle
                         if total_processed >= global_target_count:
                             break
 
+                        # 检查子目录是否有足够素材
+                        materials_in_sf = available_materials.get(current_subfolder, [])
+                        if (process_mode == "merge" and len(materials_in_sf) < num_segments) or \
+                           (process_mode == "split" and len(materials_in_sf) < 1):
+                            logger.info(f"子目录 '{current_subfolder}' 素材不足 ({len(materials_in_sf)}个)，跳过此子目录。")
+                            continue
+                            
                         # Process up to `videos_per_subfolder` tasks for this subfolder IN THIS CYCLE
                         processed_count_this_subfolder_this_cycle = 0
+                        logger.info(f"开始处理子目录 '{current_subfolder}' (剩余素材: {len(materials_in_sf)})")
+                        
                         while (videos_per_subfolder <= 0 or processed_count_this_subfolder_this_cycle < videos_per_subfolder):
+                            # 再次检查素材是否足够
+                            materials_in_sf = available_materials.get(current_subfolder, [])
+                            if (process_mode == "merge" and len(materials_in_sf) < num_segments) or \
+                               (process_mode == "split" and len(materials_in_sf) < 1):
+                                logger.info(f"  子目录 '{current_subfolder}' 素材已不足，处理了 {processed_count_this_subfolder_this_cycle} 个视频后切换下一个子目录。")
+                                break
 
                             # Check again if global target met after processing within the same subfolder
                             if total_processed >= global_target_count:
                                 break
-
-                            # Check if materials are available IN THIS SUBFOLDER
-                            materials_in_sf = available_materials.get(current_subfolder, [])
 
                             task_materials_to_use = []
                             task_identifier_base = f"子目录: {current_subfolder}" # Base identifier
@@ -243,7 +257,8 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                      task_identifier = f"{task_identifier_base} - 合并任务 {total_processed + 1}"
                                  else:
                                      # Not enough materials in this subfolder for a merge task
-                                     continue # Try next subfolder
+                                     logger.info(f"({task_identifier_base}) 素材不足，跳过此子目录。")
+                                     break # 跳出当前子目录的处理循环
                             # --- Logic for SPLIT mode ---
                             elif process_mode == "split":
                                  if len(materials_in_sf) >= 1:
@@ -259,12 +274,13 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                      logger.info(f"({task_identifier_base}) 从内存中为下一个分割任务随机选取了素材 '{os.path.basename(task_materials_to_use[0])}'。剩余 {len(available_materials[current_subfolder])} 个。")
                                  else:
                                      # No materials left in this subfolder for a split task
-                                     continue # Try next subfolder
+                                     logger.info(f"({task_identifier_base}) 素材不足，跳过此子目录。")
+                                     break # 跳出当前子目录的处理循环
                             # --- Logic for other modes (if any) ---
                             else:
                                  logger.error(f"未知的处理模式: {process_mode}")
                                  failed_tasks += 1
-                                 continue # Skip to next subfolder or cycle
+                                 break # 跳出当前子目录的处理循环
 
                             # --- If we got materials, process the task ---
                             if task_materials_to_use:
@@ -299,6 +315,7 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                  # Increment the total processed count HERE
                                  total_processed += 1
 
+                                 # 重要修复：标记已处理任务
                                  processed_in_this_cycle = True
                                  processed_any_task_overall = True
                                  processed_count_this_subfolder_this_cycle += 1 # Increment count for this subfolder *in this cycle*
@@ -322,8 +339,14 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                                  # If target reached, break the inner loop
                                  if total_processed >= global_target_count:
                                      break
+                            else:
+                                 # 没有获取到素材，跳出当前子目录的处理循环
+                                 logger.warning(f"({task_identifier_base}) 未能获取素材，跳过此子目录。")
+                                 break
 
-                        # End of inner *while* loop (processing multiple times for one subfolder in a cycle if limit > 1)
+                        # 达到此子目录配额或素材用尽，输出日志并继续下一个子目录
+                        if processed_count_this_subfolder_this_cycle > 0:
+                            logger.info(f"子目录 '{current_subfolder}' 已处理 {processed_count_this_subfolder_this_cycle} 个视频，达到配额或素材已用尽，切换到下一个子目录。")
                         # If global target met, break the subfolder iteration for this cycle
                         if total_processed >= global_target_count:
                             break
@@ -335,17 +358,27 @@ def run_individual_video_processing(input_folder, output_folder, draft_name, dra
                          logger.info(f"已达到全局目标数量 ({global_target_count})，处理完成。")
                          break
 
-                    # If we checked all subfolders in a cycle and didn't process anything,
-                    # it means no subfolder met the criteria (limit reached or no materials).
-                    if not processed_in_this_cycle and total_processed < global_target_count:
-                        logger.warning(f"完整轮询所有子目录后未能处理任何新任务。可能原因：所有子目录均无足够素材用于下一个任务。")
-                        materials_not_found_failures += (global_target_count - total_processed) # Mark unmet target as failure
-                        failed_tasks += (global_target_count - total_processed)
-                        break # Exit the main outer loop as no further progress is possible
-                    elif not processed_in_this_cycle:
-                        # This case should technically not be reachable if target met check is done right after inner loop
-                        logger.info("完整轮询后未处理任务，但目标已满足或超过，正常结束。")
-                        break
+                    # 重要修复：检查这一轮是否有任何进展
+                    if not processed_in_this_cycle:
+                        logger.warning("本轮循环未处理任何新视频。检查所有子目录均没有足够素材用于处理。")
+                        # 检查是否还有任何子目录有足够素材
+                        any_subfolder_has_materials = False
+                        for sf in subfolder_list:
+                            sf_materials = available_materials.get(sf, [])
+                            if (process_mode == "merge" and len(sf_materials) >= num_segments) or \
+                               (process_mode == "split" and len(sf_materials) >= 1):
+                                any_subfolder_has_materials = True
+                                break
+                        
+                        if not any_subfolder_has_materials:
+                            logger.warning("所有子目录均无足够素材，无法继续处理。提前结束处理。")
+                            materials_not_found_failures += (global_target_count - total_processed)
+                            failed_tasks += (global_target_count - total_processed)
+                            break
+                        
+                        # 如果仍有子目录有素材，但本轮没有处理任何视频，可能是其他原因导致的
+                        # 这里不退出，给下一轮循环一次机会
+                        logger.info("尽管本轮未处理视频，但检测到仍有子目录有足够素材，将尝试下一轮循环。")
 
                 # Log if processing stopped early due to lack of materials
                 if total_processed < global_target_count and not processed_any_task_overall:
